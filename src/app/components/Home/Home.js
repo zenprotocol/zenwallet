@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react'
 import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
+import DevTools from 'mobx-react-devtools';
 
 import Container from '../UI/Container/Container'
 import Main from '../UI/Main/Main'
@@ -29,8 +30,7 @@ class Home extends Component {
         const balances = balance.assets.map(asset => {
             return (
                 <Flexbox key={asset.asset}>
-                    <div>{asset.asset}</div>
-                    <div>|</div>
+                    <div>{asset.asset}: </div>
                     <div>{asset.balance}</div>
                 </Flexbox>
             )
@@ -45,6 +45,7 @@ class Home extends Component {
                     <Link to="/activate-contract">Activate Contract</Link>
                 </Main>
                 <Footer/>
+                <DevTools />
             </Container>
         )
     }
