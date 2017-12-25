@@ -11,7 +11,10 @@ app.on('ready', () => {
         title: app.getName()
     }
 
+
     let mainWindow = new BrowserWindow(windowOptions)
+
+    mainWindow.maximize()
 
     if (process.platform === 'darwin') {
         Menu.setApplicationMenu(Menu.buildFromTemplate([
