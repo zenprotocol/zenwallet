@@ -1,0 +1,6 @@
+@import url(../../node_modules/normalize.css/normalize.css);
+.container {
+  min-height: 100vh; }
+
+.main {
+  flex: 1; }
