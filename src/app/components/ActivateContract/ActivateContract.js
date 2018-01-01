@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 
 import Container from '../UI/Container/Container'
 import Main from '../UI/Main/Main'
-import Header from '../UI/Header/Header'
+import Topbar from '../UI/Topbar/Topbar'
 import Footer from '../UI/Footer/Footer'
 
 @inject('history')
@@ -24,7 +24,7 @@ class ActivateContract extends Component {
     render() {
         return (
             <Container className="activate-contract">
-                <Header/>
+                <Topbar/>
                 <Main>
                     <h2>Activate Contract</h2>
                     <a href="#" onClick={this.onBackClicked}>Back</a>

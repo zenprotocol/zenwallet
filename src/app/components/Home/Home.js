@@ -7,7 +7,8 @@ import DevTools from 'mobx-react-devtools';
 
 import Container from '../UI/Container/Container'
 import Main from '../UI/Main/Main'
-import Header from '../UI/Header/Header'
+import Topbar from '../UI/Topbar/Topbar'
+import Sidebar from '../UI/Sidebar/Sidebar'
 import Footer from '../UI/Footer/Footer'
 
 @inject('balance')
@@ -38,14 +39,15 @@ class Home extends Component {
 
         return (
             <Container className="home">
-                <Header title="Home" />
-                <Main>
-                    {balances}
-
-                    <Link to="/activate-contract">Activate Contract</Link>
-                </Main>
-                <Footer/>
-                <DevTools />
+                <Sidebar title="Zen Protocol" />
+                  <Main>
+                    <Topbar />
+                      <Flexbox flexGrow={1}>
+                        {balances}
+                      </Flexbox>
+                    <Footer/>
+                  </Main>
+                {/* <DevTools /> */}
             </Container>
         )
     }

@@ -1,3 +1,6 @@
+@import "Shared";
+
 .container {
-  min-height: 100vh;
+  min-height: 100%;
+  background: $bg-color;
 }

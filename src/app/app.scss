@@ -1,11 +1,17 @@
 @import "../../node_modules/normalize.css/normalize.css";
 
+@import "reset";
 @import "Shared";
 
 @import "components/UI/Container/Container";
 @import "components/UI/Main/Main";
-@import "components/UI/Header/Header";
+@import "components/UI/Topbar/Topbar";
 @import "components/UI/Footer/Footer";
+@import "components/UI/Sidebar/Sidebar";
 
 @import "components/Home/Home";
 @import "components/ActivateContract/ActivateContract";
+
+div#app {
+  height: 100%;
+}

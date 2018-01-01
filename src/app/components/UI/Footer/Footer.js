@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Flexbox from 'flexbox-react'
 
 class Footer extends Component {
     constructor() {
@@ -17,9 +18,9 @@ class Footer extends Component {
         const className = classnames('footer', this.props.className)
 
         return (
-            <footer className={className}>
+            <Flexbox justifyContent='flex-end' element="footer" height="30px" className={className}>
                 0 Peers
-            </footer>
+            </Flexbox>
         )
     }
 }

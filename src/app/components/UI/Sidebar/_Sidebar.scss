@@ -1,0 +1,86 @@
+@import "Shared";
+
+ul { list-style: none; }
+
+nav {
+  width: 200px;
+  background: $bg-color;
+  border-right: 1px solid $dark-grey;
+
+  header {
+    position: relative;
+    height: 80px;
+    padding: 20px 0 0 15px;
+    font-size: 16px;
+    color: #fff;
+    background: $bg-color-d;
+  }
+
+  span {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+    border: 1px solid #fff;
+    &:before {
+      content: '\f007';
+      font: normal 20px fontawesome;
+      top: 7px;
+      left: 9px;
+    }
+  }
+
+  a:before {
+    content: '\f08b';
+    font: normal 20px fontawesome;
+    top: 28px;
+    right: 15px;
+  }
+
+  ul {
+
+    span {
+      display: block;
+      padding: 15px;
+      color: rgba(255,255,255,.5);
+      text-transform: uppercase;
+      border-bottom: 1px solid $bg-color-d;
+    }
+
+    a {
+      position: relative;
+      display: block;
+      padding: 15px 15px 17px 50px;
+      color: #fff;
+      border-bottom: 1px solid $bg-color-d;
+      text-transform: uppercase;
+    }
+
+    a:hover,
+    a.active {
+      background: $bg-color-l;
+    }
+
+    a:before {
+      font: normal 16px fontawesome;
+      top: 15px;
+      left: 18px;
+    }
+
+    li:nth-child(1) a:before { content: '\f0e4'; }
+    li:nth-child(2) a:before { content: '\f09d'; }
+    li:nth-child(3) a:before { content: '\f15c'; }
+    li:nth-child(4) a:before { content: '\f024'; }
+    li:nth-child(5) a:before { content: '\f002'; }
+    li:last-child   a:before { content: '\f013'; }
+
+    li:last-child {
+      bottom: 0;
+      position: absolute;
+      width: 200px;
+    }
+  }
+
+}

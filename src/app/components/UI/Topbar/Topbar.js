@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Flexbox from 'flexbox-react'
 
 class Header extends Component {
     constructor() {
@@ -24,9 +25,13 @@ class Header extends Component {
         const className = classnames('header', this.props.className)
 
         return (
-            <header className={className}>
+            <Flexbox justifyContent='flex-end' className={className} element="header" height="60px" >
                 <h1>{title}</h1>
-            </header>
+                <div className="balance">
+                  <div>Balance</div>
+                  <div>500,000 ZP</div>
+                </div>
+            </Flexbox>
         )
     }
 }

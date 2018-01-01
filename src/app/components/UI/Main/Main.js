@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Flexbox from 'flexbox-react'
 
 class Main extends Component {
     constructor() {
@@ -17,9 +18,9 @@ class Main extends Component {
         const className = classnames('main', this.props.className)
 
         return (
-            <main className={className}>
+            <Flexbox element="main" flexDirection="column" minHeight="100vh" className={className}>
                 {this.props.children}
-            </main>
+            </Flexbox>
         )
     }
 }

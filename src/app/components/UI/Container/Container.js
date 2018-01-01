@@ -18,8 +18,7 @@ class Container extends Component {
         const className = classnames('container', this.props.className)
 
         return (
-            <Flexbox className={className}
-                     flexDirection="column">
+            <Flexbox className={className} >
                 {this.props.children}
             </Flexbox>
         )

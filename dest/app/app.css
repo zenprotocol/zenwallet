@@ -1,6 +1,107 @@
 @import url(../../node_modules/normalize.css/normalize.css);
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+*:before, *:after {
+  content: '';
+  display: block;
+  position: absolute; }
+
+html, body, ul, ol {
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  height: 100%; }
+
+body {
+  font: 15px/1 'Open Sans', sans-serif;
+  color: #777; }
+
+a {
+  cursor: pointer; }
+
 .container {
-  min-height: 100vh; }
+  min-height: 100%;
+  background: #1c1b33; }
 
 .main {
-  flex: 1; }
+  flex: 1;
+  background: #1c1b33; }
+
+.header {
+  border-bottom: 1px solid #444444; }
+
+ul {
+  list-style: none; }
+
+nav {
+  width: 200px;
+  background: #1c1b33;
+  border-right: 1px solid #444444; }
+  nav header {
+    position: relative;
+    height: 80px;
+    padding: 20px 0 0 15px;
+    font-size: 16px;
+    color: #fff;
+    background: #131222; }
+  nav span {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+    border: 1px solid #fff; }
+    nav span:before {
+      content: '\f007';
+      font: normal 20px fontawesome;
+      top: 7px;
+      left: 9px; }
+  nav a:before {
+    content: '\f08b';
+    font: normal 20px fontawesome;
+    top: 28px;
+    right: 15px; }
+  nav ul span {
+    display: block;
+    padding: 15px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    border-bottom: 1px solid #131222; }
+  nav ul a {
+    position: relative;
+    display: block;
+    padding: 15px 15px 17px 50px;
+    color: #fff;
+    border-bottom: 1px solid #131222;
+    text-transform: uppercase; }
+  nav ul a:hover,
+  nav ul a.active {
+    background: #2a284c; }
+  nav ul a:before {
+    font: normal 16px fontawesome;
+    top: 15px;
+    left: 18px; }
+  nav ul li:nth-child(1) a:before {
+    content: '\f0e4'; }
+  nav ul li:nth-child(2) a:before {
+    content: '\f09d'; }
+  nav ul li:nth-child(3) a:before {
+    content: '\f15c'; }
+  nav ul li:nth-child(4) a:before {
+    content: '\f024'; }
+  nav ul li:nth-child(5) a:before {
+    content: '\f002'; }
+  nav ul li:last-child a:before {
+    content: '\f013'; }
+  nav ul li:last-child {
+    bottom: 0;
+    position: absolute;
+    width: 200px; }
+
+div#app {
+  height: 100%; }
