@@ -35,8 +35,9 @@ class Sidebar extends Component {
               </header>
 
               <ul>
-                <li><a className="active">Dashboard</a></li>
-                <li><a>Wallet</a></li>
+                <li><Link to="/">Home</Link></li>
+                <li><a className="active">Wallet</a></li>
+                <li><Link to="/receive">Receive Funds</Link></li>
                 <li><Link to="/activate-contract">Contract</Link></li>
                 <li><a>Transactions</a></li>
                 <li><a>Explorer</a></li>
