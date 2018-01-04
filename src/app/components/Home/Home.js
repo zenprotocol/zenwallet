@@ -3,7 +3,6 @@ import {inject, observer} from 'mobx-react'
 import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import DevTools from 'mobx-react-devtools';
 
 import Container from '../UI/Container/Container'
 import Main from '../UI/Main/Main'
@@ -47,7 +46,6 @@ class Home extends Component {
                       </Flexbox>
                     <Footer/>
                   </Main>
-                {/* <DevTools /> */}
             </Container>
         )
     }
