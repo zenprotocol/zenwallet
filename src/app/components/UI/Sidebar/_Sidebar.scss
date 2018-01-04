@@ -3,40 +3,13 @@
 ul { list-style: none; }
 
 nav {
-  width: 200px;
-  background: $bg-color;
-  border-right: 1px solid $dark-grey;
+  width: 251px;
+  background: $dark-black;
 
   header {
-    position: relative;
-    height: 80px;
-    padding: 20px 0 0 15px;
-    font-size: 16px;
-    color: #fff;
-    background: $bg-color-d;
-  }
-
-  span {
-    position: relative;
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    margin: 0 10px 0 0;
-    vertical-align: middle;
-    border: 1px solid #fff;
-    &:before {
-      content: '\f007';
-      font: normal 20px fontawesome;
-      top: 7px;
-      left: 9px;
-    }
-  }
-
-  a:before {
-    content: '\f08b';
-    font: normal 20px fontawesome;
-    top: 28px;
-    right: 15px;
+    height: $topbar-height;
+    padding: 29px 36px;
+    img { height: 42px; }
   }
 
   ul {
@@ -53,28 +26,35 @@ nav {
       position: relative;
       display: block;
       padding: 15px 15px 17px 50px;
-      color: #fff;
-      border-bottom: 1px solid $bg-color-d;
-      text-transform: uppercase;
+      color: $light-grey;
+      text-decoration: none;
+      height: 54px;
+      line-height: 1.5rem;
+      font-weight: 400;
     }
 
-    a:hover,
+    a:hover {
+      background: $dark-grey-d;
+    }
     a.active {
-      background: $bg-color-l;
+      background: $dark-grey;
+      color: $light-blue;
+      font-weight: 600;
+      border-left: 4px solid $light-blue;
+      padding: 15px 15px 17px 46px;
     }
 
     a:before {
-      font: normal 16px fontawesome;
       top: 15px;
       left: 18px;
     }
 
-    li:nth-child(1) a:before { content: '\f0e4'; }
-    li:nth-child(2) a:before { content: '\f09d'; }
-    li:nth-child(3) a:before { content: '\f15c'; }
-    li:nth-child(4) a:before { content: '\f024'; }
-    li:nth-child(5) a:before { content: '\f002'; }
-    li:last-child   a:before { content: '\f013'; }
+    li:nth-child(1) a:before { background-image: url('../../../assets/img/nav/wallet.png'); }
+    // li:nth-child(2) a:before { content: '\f09d'; }
+    // li:nth-child(3) a:before { content: '\f15c'; }
+    // li:nth-child(4) a:before { content: '\f024'; }
+    // li:nth-child(5) a:before { content: '\f002'; }
+    // li:last-child   a:before { content: '\f013'; }
 
     li:last-child {
       bottom: 0;

@@ -1,5 +1,6 @@
 @import "Shared";
 
 .header {
-    border-bottom: 1px solid $dark-grey;
+    height: $topbar-height;
+    background: $dark-grey;
 }

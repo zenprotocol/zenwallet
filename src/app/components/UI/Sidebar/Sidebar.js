@@ -1,6 +1,7 @@
+const path = require('path')
 import React,{Component} from 'react'
 import autobind from 'class-autobind'
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
@@ -22,22 +23,24 @@ class Sidebar extends Component {
     render() {
         const {title} = this.props
 
+        const logoSrc = path.join(__dirname, '../../../assets/img/logo.png')
+
         const className = classnames('sidebar', this.props.className)
 
         return (
           <nav className={className}>
 
               <header>
-                <span></span>
-                {title}
-                <a></a>
+                <Link to="/">
+                  <img src={logoSrc} alt="Zen Protocol Logo"/>
+                </Link>
               </header>
 
               <ul>
-                <li><Link activeClassName='active' to="/">Home</Link></li>
-                <li><Link activeClassName='active' to="/receive">Receive Funds</Link></li>
-                <li><Link activeClassName='active' to="/send-tx">Send Tx</Link></li>
-                <li><Link activeClassName='active' to="/activate-contract">Contract</Link></li>
+                <li><NavLink activeClassName={'active'} to="/">Home</NavLink></li>
+                <li><NavLink activeClassName={'active'} to="/receive">Receive Funds</NavLink></li>
+                <li><NavLink activeClassName={'active'} to="/send-tx">Send Tx</NavLink></li>
+                <li><NavLink activeClassName={'active'} to="/activate-contract">Contract</NavLink></li>
                 <li><a>Settings</a></li>
               </ul>
 

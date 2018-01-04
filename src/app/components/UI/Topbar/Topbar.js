@@ -25,11 +25,16 @@ class Header extends Component {
         const className = classnames('header', this.props.className)
 
         return (
-            <Flexbox justifyContent='flex-end' className={className} element="header" height="60px" >
-                <h1>{title}</h1>
+            <Flexbox justifyContent='flex-end' className={className} element="header" >
+                <div className='back-buttons'>
+
+                </div>
                 <div className="balance">
-                  <div>Balance</div>
-                  <div>500,000 ZP</div>
+                  <div>
+                    <span>Total Balance</span>
+                    <span className='zen-symbol'>ZENP</span>
+                  </div>
+                  <div className='accountBalance'>1,500,000</div>
                 </div>
             </Flexbox>
         )

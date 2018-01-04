@@ -24,7 +24,7 @@ class Layout extends Component {
                       </Flexbox>
                     <Footer/>
                   </Main>
-                <DevTools />
+                {/* <DevTools /> */}
             </Container>
         )
 
