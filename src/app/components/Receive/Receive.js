@@ -25,10 +25,14 @@ class Receive extends Component {
         const {publicAddress} = this.props
         clipboard.writeText(publicAddress.address)
         event.target.select()
+        event.target.focus()
     }
 
     onCopyClicked() {
         const {publicAddress} = this.props
+
+        this.refs.publicAddressInput.focus()
+        this.refs.publicAddressInput.select()
 
         clipboard.writeText(publicAddress.address)
     }
@@ -47,7 +51,7 @@ class Receive extends Component {
                 <div className='address-div'>
                   <h3>Your Address</h3>
                   <Flexbox flexDirection="row" className='address-input'>
-                    <input onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readonly />
+                    <input ref='publicAddressInput' onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readonly />
                     <button className="button copy-button button-on-right" onClick={this.onCopyClicked}>Copy</button>
                   </Flexbox>
 
