@@ -5,6 +5,7 @@
 @import "reset";
 @import "Shared";
 
+@import "components/UI/Layout/Layout";
 @import "components/UI/Container/Container";
 @import "components/UI/Main/Main";
 @import "components/UI/Topbar/Topbar";
@@ -12,8 +13,7 @@
 @import "components/UI/Sidebar/Sidebar";
 
 @import "components/Home/Home";
+@import "components/Receive/Receive";
 @import "components/ActivateContract/ActivateContract";
 
-div#app {
-  height: 100%;
-}
+div#app { height: 100%; }

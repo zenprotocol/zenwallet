@@ -1,0 +1,19 @@
+@import "Shared";
+
+.content-container {
+  padding-top: 51px;
+}
+
+.page-title {
+  padding: 0px 34px 41px 34px;
+  h1 {
+    font-size: 1.7rem;
+    color: $light-white;
+    font-weight: 600;
+    margin: 0;
+  }
+  h3 {
+    margin-bottom: 15px;
+    font-weight: 400;
+  }
+}

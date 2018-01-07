@@ -1,0 +1,19 @@
+@import "Shared";
+
+.address-div {
+  padding: 23px 34px 41px 34px;
+  background: #1b1c1d;
+  border-bottom: 1px solid #303841;
+
+  h3 {
+    margin-bottom: 15px;
+  }
+
+  .address-input {
+    button.copy-button {
+        padding: 12px 40px;
+    }
+  }
+
+  .copied-to-clipboard-message { display: none; }
+}
