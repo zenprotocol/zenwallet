@@ -1,0 +1,17 @@
+@import "Shared";
+
+.send-tx-container {
+  width: 100%;
+}
+
+.destination-address-div {
+  input#to { width: 88%; }
+  button { padding: 0px 40px; }
+}
+
+.select-asset {
+  width: 240px;
+  margin-right: 22px;
+}
+
+input#amount { width: 240px; }

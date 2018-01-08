@@ -24,7 +24,7 @@ class ActivateContract extends Component {
     render() {
         return (
             <Container className="activate-contract">
-                <Topbar/>
+                <Topbar />
                 <Main>
                     <h2>Activate Contract</h2>
                     <a href="#" onClick={this.onBackClicked}>Back</a>

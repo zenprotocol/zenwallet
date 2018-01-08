@@ -49,14 +49,14 @@ class Receive extends Component {
                 </Flexbox>
 
                 <div className='address-div'>
-                  <h3>Your Address</h3>
+                  <label onClick={this.handleFocus} for="public-address">Your Address</label>
                   <Flexbox flexDirection="row" className='address-input'>
-                    <input ref='publicAddressInput' onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readonly />
+                    <input id='public-address' ref='publicAddressInput' onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readOnly />
                     <button className="button copy-button button-on-right" onClick={this.onCopyClicked}>Copy</button>
                   </Flexbox>
 
                   <Flexbox>
-                    <button className='secondary'>QR code</button>
+                    {/* <button className='secondary'>QR code</button> */}
                     <span className='light-blue copied-to-clipboard-message'>Public address copied to clipboard</span>
                   </Flexbox>
 

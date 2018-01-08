@@ -38,7 +38,7 @@ class Home extends Component {
 
         return (
             <Container className="home">
-                <Sidebar title="Zen Protocol" />
+                <Sidebar />
                   <Main>
                     <Topbar />
                       <Flexbox flexGrow={1}>

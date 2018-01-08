@@ -1,11 +1,14 @@
 @import "Shared";
 
 .content-container {
-  padding-top: 51px;
+  padding: 51px 47px 34px 34px;
+  max-width: 800px;
+  width: 100%;
 }
 
 .page-title {
-  padding: 0px 34px 41px 34px;
+  padding-bottom: 41px;
+
   h1 {
     font-size: 1.7rem;
     color: $light-white;

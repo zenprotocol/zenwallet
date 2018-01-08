@@ -11,9 +11,15 @@
 
   .address-input {
     button.copy-button {
-        padding: 12px 40px;
+      padding: 12px 40px;
     }
   }
 
+
   .copied-to-clipboard-message { display: none; }
+}
+
+.receive-container {
+  width: 100%;
+  input#public-address { width: 100%; }
 }

@@ -3,6 +3,7 @@ $bg-color-d: darken($bg-color, 5%);
 $bg-color-l: lighten($bg-color, 7.5%);
 $dark-grey: #1b1c1d;
 $dark-grey-d: darken($dark-grey, 2.5%);
+$grey: #343638;
 $dark-black: #0a0a0a;
 $light-grey: #8f9aa9;
 $blue: #3cafd7;
@@ -11,13 +12,14 @@ $light-white: #f9f9f9;
 $topbar-height: 100px;
 $off-white: #dfdfe0;
 $border-color: #303841;
+$input-border-color: #404b59;
 
 $border-radius: 2px;
 
 .light-blue { color: $light-grey; }
 
 button, .button {
-  padding: 12px;
+  padding: 12px 40px;
   border-radius: 2px;
   background: $blue;
   color: white;
@@ -28,7 +30,7 @@ button, .button {
 
   &:focus { outline: none; }
 
-  &.secondary { background-color: #343638; }
+  &.secondary { background-color: #5b6b81; }
   &.success {}
   &.alert {}
   &.info {}
@@ -48,12 +50,69 @@ input {
   background: $bg-color;
   padding: 10px;
   color: $off-white;
-  border: solid 1px #404b59;
+  border: solid 1px $input-border-color;
   outline: none;
   border-radius: $border-radius;
   font-size: 13px;
   margin-bottom: 15px;
-  width: 645px;
+}
+
+label {
+  line-height: 2.5rem;
+  color: $light-grey;
+  font-size: 1rem;
+}
+select::-ms-expand { display: none; }
+
+select {
+  padding: 11px;
+  font-size: 12px;
+  background: $grey;
+  outline: none;
+  border-radius: $border-radius;
+  border: $input-border-color;
+  color: white;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 2.5em) 0.5em;
+  background-size:
+    5px 5px,
+    5px 5px,
+    1px 1.5em;
+  background-repeat: no-repeat;
+
+  &:focus {
+    background-image:
+    linear-gradient(45deg, gray 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, gray 50%);
+    background-position:
+    calc(100% - 15px) 1em,
+    calc(100% - 20px) 1em,
+    calc(100% - 2.5em) 0.5em;
+    background-size:
+    5px 5px,
+    5px 5px,
+    1px 1.5em;
+    background-repeat: no-repeat;
+    outline: 0;
+  }
+
 }
 
 .button-on-right { margin-left: 17px; }
+
+.devider {
+  width: 100%;
+  margin: 21px 0;
+  border: none;
+  border-bottom: 1px solid $border-color;
+}
