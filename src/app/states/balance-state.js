@@ -1,16 +1,14 @@
 import {observable} from 'mobx'
-import {get} from 'axios'
-
-import serverAddress from '../config/server-address'
+import {getBalances} from '../services/api-service'
 
 class BalanceState {
     assets = observable.array([])
 
     async fetch() {
-        let result = await get(`${serverAddress}/wallet/balance`)
-
-        this.assets.replace(result.data)
+        let result = await getBalances()
+        this.assets.replace(result)
     }
+
 }
 
 export default BalanceState
