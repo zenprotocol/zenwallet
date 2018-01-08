@@ -37,7 +37,7 @@ class Sidebar extends Component {
               </header>
 
               <ul>
-                <li><NavLink activeClassName={'active'} to="/">Home</NavLink></li>
+                <li><NavLink exact activeClassName={'active'} to="/">Home</NavLink></li>
                 <li><NavLink activeClassName={'active'} to="/receive">Receive Funds</NavLink></li>
                 <li><NavLink activeClassName={'active'} to="/send-tx">Send Tx</NavLink></li>
                 <li><NavLink activeClassName={'active'} to="/activate-contract">Contract</NavLink></li>
