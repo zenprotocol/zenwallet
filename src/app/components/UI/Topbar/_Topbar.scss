@@ -3,4 +3,21 @@
 .header {
     height: $topbar-height;
     background: $dark-grey;
+
+    .balance {
+        width: 200px;
+        padding: 37px 47px 22px 0;
+        text-align: right;
+
+        .balance-and-ticker {
+          margin-bottom: 5px;
+
+          .total-balance, .zen-symbol { font-size: 14px; }
+          .total-balance { color: $light-grey; margin: 7px; }
+          .zen-symbol { color: $blue; font-weight: 600; }
+        }
+
+    }
+    .account-balance { color: white; font-size: 22px; }
+
 }
