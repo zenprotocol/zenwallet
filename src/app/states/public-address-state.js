@@ -1,17 +1,13 @@
 import {observable, action, runInAction} from 'mobx'
-import {get} from 'axios'
-
-import serverAddress from '../config/server-address'
+import {getPublicAddress} from '../services/api-service'
 
 class PublicAddressState {
     @observable address = ''
 
     @action
     async fetch() {
-        let result = await get(`${serverAddress}/wallet/address`)
-        console.log('result', result)
-
-        runInAction(() => this.address = result.data.address)
+        let address = await getPublicAddress()
+        runInAction(() => this.address = address)
     }
 }
 
