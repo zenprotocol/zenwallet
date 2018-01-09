@@ -11,6 +11,7 @@ import {toInteger} from 'lodash'
 import Layout from '../UI/Layout/Layout'
 
 @inject('transaction')
+@inject('balance')
 @observer
 class SendTx extends Component {
 
@@ -35,7 +36,7 @@ class SendTx extends Component {
     }
 
     onSendTransactionClicked() {
-        const {transaction} = this.props
+        const {transaction, balance} = this.props
         transaction.createTransaction(transaction)
     }
 
@@ -56,7 +57,7 @@ class SendTx extends Component {
               </Flexbox>
 
               <div className='destination-address-div'>
-                  <label for='to'>Destination Address</label>
+                  <label htmlFor='to'>Destination Address</label>
                   <Flexbox flexDirection="row" className='destination-address-input'>
                     <input
                       id='to'
@@ -70,7 +71,7 @@ class SendTx extends Component {
               <Flexbox flexDirection="row">
 
                 <Flexbox flexDirection="column" className="select-asset">
-                    <label for="asset">Select Asset</label>
+                    <label htmlFor="asset">Select Asset</label>
                     <select>
                         <option value="0000000000000000000000000000000000000000000000000000000000000000">ZENP</option>
                         <option value="0000000USDZ">USDZ</option>
