@@ -10,8 +10,9 @@ import Layout from '../UI/Layout/Layout'
 @inject('publicAddress')
 @observer
 class Receive extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
+        this.state = { showCopyMessage: false }
         autobind(this)
     }
 
@@ -26,6 +27,7 @@ class Receive extends Component {
         clipboard.writeText(publicAddress.address)
         event.target.select()
         event.target.focus()
+        this.showHideCopyMessage()
     }
 
     onCopyClicked() {
@@ -35,6 +37,24 @@ class Receive extends Component {
         this.refs.publicAddressInput.select()
 
         clipboard.writeText(publicAddress.address)
+        this.showHideCopyMessage()
+    }
+
+    showHideCopyMessage() {
+      this.setState({showCopyMessage: true})
+      setTimeout(() => {
+        this.setState({showCopyMessage: false})
+      }, 3000);
+    }
+
+    renderCopiedMessage() {
+      console.log('this.state', this.state)
+      const {showCopyMessage} = this.state
+      if (showCopyMessage === true) {
+        return (
+          <div className='light-blue copied-to-clipboard-message'>Public address copied to clipboard</div>
+        )
+      }
     }
 
     render() {
@@ -57,7 +77,8 @@ class Receive extends Component {
 
                   <Flexbox>
                     {/* <button className='secondary'>QR code</button> */}
-                    <span className='light-blue copied-to-clipboard-message'>Public address copied to clipboard</span>
+
+                    { this.renderCopiedMessage() }
                   </Flexbox>
 
                 </div>
