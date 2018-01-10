@@ -4,6 +4,11 @@
     height: $topbar-height;
     background: $dark-grey;
 
+		.back-buttons {
+			padding: 30px; 
+			a { font-size: 3rem; }
+		}
+
     .balance {
         width: 200px;
         padding: 37px 47px 22px 0;

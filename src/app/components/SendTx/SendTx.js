@@ -11,99 +11,97 @@ import {toInteger} from 'lodash'
 import Layout from '../UI/Layout/Layout'
 
 @inject('transaction')
-@inject('balance')
 @observer
 class SendTx extends Component {
 
-    constructor() {
-        super()
-        autobind(this)
-    }
+	constructor() {
+		super()
+		autobind(this)
+	}
 
-    onDestinationAddressChanged(event) {
-        const {transaction} = this.props
+	onDestinationAddressChanged(event) {
+		const {transaction} = this.props
+		transaction.to = event.target.value
+	}
 
-        transaction.to = event.target.value
-    }
+	onAmountChanged(event) {
+		const {transaction} = this.props
 
-    onAmountChanged(event) {
-        const {transaction} = this.props
+		if (event.target.value)
+		transaction.amount = toInteger(event.target.value)
+		else
+		transaction.amount = undefined
+	}
 
-        if (event.target.value)
-            transaction.amount = toInteger(event.target.value)
-        else
-            transaction.amount = undefined
-    }
+	onSendTransactionClicked() {
+		const {transaction} = this.props
+		transaction.createTransaction(transaction)
+	}
 
-    onSendTransactionClicked() {
-        const {transaction, balance} = this.props
-        transaction.createTransaction(transaction)
-    }
+	onPasteClicked() {
+		const {transaction} = this.props
+		transaction.to = clipboard.readText()
+	}
 
-    onPasteClicked() {
-      const {transaction} = this.props
-      transaction.to = clipboard.readText()
-    }
+	render() {
+		const {transaction} = this.props
 
-    render() {
-      const {transaction} = this.props
+		return (
+			<Layout className="send-tx">
+				<Flexbox flexDirection="column" className="send-tx-container">
 
-        return (
-          <Layout className="send-tx">
-            <Flexbox flexDirection="column" className="send-tx-container">
+					<Flexbox className='page-title'>
+						<h1>Send</h1>
+					</Flexbox>
 
-              <Flexbox className='page-title'>
-                <h1>Send</h1>
-              </Flexbox>
+					<div className='destination-address-div'>
+						<label htmlFor='to'>Destination Address</label>
+						<Flexbox flexDirection="row" className='destination-address-input'>
+							<input
+								id='to'
+								name="to"
+								type="text"
+								onChange={this.onDestinationAddressChanged} value={transaction.to} />
+								<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
+							</Flexbox>
+						</div>
 
-              <div className='destination-address-div'>
-                  <label htmlFor='to'>Destination Address</label>
-                  <Flexbox flexDirection="row" className='destination-address-input'>
-                    <input
-                      id='to'
-                      name="to"
-                      type="text"
-                      onChange={this.onDestinationAddressChanged} value={transaction.to} />
-                    <button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
-                  </Flexbox>
-              </div>
+						<Flexbox flexDirection="row">
 
-              <Flexbox flexDirection="row">
+							<Flexbox flexDirection="column" className="select-asset">
+								<label htmlFor="asset">Select Asset</label>
+								<select>
+									<option value="0000000000000000000000000000000000000000000000000000000000000000">ZENP</option>
+									<option value="0000000USDZ">USDZ</option>
+									<option value="BITZEN">BITZEN</option>
+									<option value="BITGOLD">BITGOLD</option>
+								</select>
+							</Flexbox>
 
-                <Flexbox flexDirection="column" className="select-asset">
-                    <label htmlFor="asset">Select Asset</label>
-                    <select>
-                        <option value="0000000000000000000000000000000000000000000000000000000000000000">ZENP</option>
-                        <option value="0000000USDZ">USDZ</option>
-                        <option value="BITZEN">BITZEN</option>
-                        <option value="BITGOLD">BITGOLD</option>
-                    </select>
-                </Flexbox>
+							<Flexbox flexDirection="column" className="amount">
+								<label htmlFor="amount">Amount</label>
+								<input
+									id="amount"
+									name="amount"
+									type="number"
+									placeholder="Enter amount of Zens"
+									value={transaction.amount}
+									onChange={this.onAmountChanged} />
+								</Flexbox>
 
-                <Flexbox flexDirection="column" className="amount">
-                    <label htmlFor="amount">Amount</label>
-                    <input
-                      id="amount"
-                      name="amount"
-                      type="number"
-                      placeholder="Enter amount of Zens"
-                      value={transaction.amount}
-                      onChange={this.onAmountChanged} />
-                </Flexbox>
+							</Flexbox>
 
-              </Flexbox>
+							<div className='devider' />
 
-              <div className='devider' />
+							<Flexbox justifyContent='flex-end' flexDirection="row">
+								<button onClick={this.onSendTransactionClicked}>Send</button>
+							</Flexbox>
 
-              <Flexbox justifyContent='flex-end' flexDirection="row">
-                <button onClick={this.onSendTransactionClicked}>Send</button>
-              </Flexbox>
+						</Flexbox>
+					</Layout>
+				)
 
-            </Flexbox>
-          </Layout>
-        )
+			}
+		}
 
-    }
-}
-
-export default SendTx
+		export default SendTx

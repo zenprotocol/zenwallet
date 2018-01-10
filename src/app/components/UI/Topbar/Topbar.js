@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
 
 @inject('balance')
+@inject('history')
 @observer
 class Header extends Component {
     constructor() {
@@ -22,6 +23,11 @@ class Header extends Component {
         balance.begin()
     }
 
+    onBackClicked(event) {
+        this.props.history.goBack()
+        event.preventDefault()
+    }
+
     render() {
         const {balance} = this.props
 
@@ -30,7 +36,7 @@ class Header extends Component {
         return (
             <Flexbox className={className} element="header" >
                 <Flexbox className='back-buttons' width="100px">
-                    {/* <button>Back</button> */}
+                    <a onClick={this.onBackClicked}>&lsaquo;</a>
                 </Flexbox>
                 <Flexbox flexGrow={1}></Flexbox>
                 <div className='balance'>
