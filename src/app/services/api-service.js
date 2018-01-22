@@ -15,12 +15,14 @@ export async function getPublicAddress() {
 export async function postTransaction(asset, to, amount) {
 
 	const data = {
-		"asset" : asset,
-		"to" : to,
-		"amount" : amount
+		"address" : to,
+		"spend" : {
+			"asset" : asset,
+			"amount" : amount
+		}
 	}
 
-	const response = await post(`${serverAddress}/wallet/transaction/send`, data, {
+	const response = await post(`${serverAddress}/wallet/spend`, data, {
 		headers: { 'Content-Type': 'application/json' }
 	})
 
@@ -41,11 +43,15 @@ export async function postActivateContract(code) {
 export async function postExecuteContractMessage(asset, to, amount, command, data) {
 
 	const finaldata = {
-		"asset" : asset,
-		"to" : to,
-		"amount" : amount,
-		"command" : command,
-		"data" : data
+		"address" : to,
+		"spends" : [
+			{
+				"asset" : asset,
+				"amount" : amount
+				// "command" : command,
+				// "data" : data
+			}
+		]
 	}
 
 	const response = await post(`${serverAddress}/wallet/contract/send`, finaldata, {
