@@ -30,6 +30,8 @@ class BalanceState {
         let result = find(this.assets, asset => asset.asset === zenAsset)
         if (result !== undefined) {
           result = result.balance
+        } else {
+          result = 0
         }
         return result
     }
