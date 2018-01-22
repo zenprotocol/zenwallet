@@ -15,8 +15,17 @@ Post "/wallet/transaction/send" (from_address, amount, to_address)
 Post "/wallet/contract/activate"
 
 
-# Building
 
+# Building the Node
+
+./paket restore
+
+sudo apt install liblmdb0
+
+cd Zulib
+./build.sh
+
+cd ..
 cd src
 msbuild
 
@@ -42,18 +51,17 @@ Check Address:
 ./zen-cli -l1 address
 
 
-Building Client
+
+# Building Client
 
 ```
-1. yarn install
-2. yarn build ; yarn start
-3. yarn start
+yarn install
+yarn build ; yarn start
+yarn build ; yarn dev-l1
+yarn start
 ```
 
-build
 
-cd src
-msbuild
 
 Update node
 
