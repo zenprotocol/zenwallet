@@ -1,20 +1,41 @@
 import {app, BrowserWindow, Menu} from 'electron'
 import contextMenu from 'electron-context-menu'
 
+import path from 'path'
+import Store from './app/services/store'
+
+let mainWindow
+
+const store = new Store({
+  // We'll call our data file 'user-preferences'
+  configName: 'user-preferences',
+  defaults: {
+    // 800x600 is the default size of our window
+    windowBounds: { width: 1200, height: 800 }
+  }
+})
+
 contextMenu()
 
 app.on('ready', () => {
+
+    let { width, height } = store.get('windowBounds')
+
     const windowOptions = {
-        width: 1080,
-        minWidth: 680,
-        height: 840,
+        width: width,
+        height: height,
         title: app.getName()
     }
 
+    mainWindow = new BrowserWindow(windowOptions)
 
-    let mainWindow = new BrowserWindow(windowOptions)
-
-    mainWindow.maximize()
+    mainWindow.on('resize', () => {
+      // The event doesn't pass us the window size, so we call the `getBounds` method which returns an object with
+      // the height, width, and x and y coordinates.
+      let { width, height } = mainWindow.getBounds()
+      // Now that we have them, save them using the `set` method.
+      store.set('windowBounds', { width, height })
+    });
 
     if (process.platform === 'darwin') {
         Menu.setApplicationMenu(Menu.buildFromTemplate([
