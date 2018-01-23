@@ -15,7 +15,7 @@ class ActivateContract extends Component {
 		this.state = {
       accepted: [],
       rejected: [],
-			dropText: 'Drag and drop your contract file here. Only *.fs files will be accepted.'
+			dropText: 'Drag and drop your contract file here. Only *.txt files will be accepted.'
     }
 		autobind(this)
 	}
