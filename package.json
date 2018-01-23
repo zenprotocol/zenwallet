@@ -29,6 +29,7 @@
     "flexbox-react": "^4.4.0",
     "history": "^4.7.2",
     "lodash": "^4.17.4",
+    "lowdb": "^1.0.0",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "prop-types": "^15.6.0",
