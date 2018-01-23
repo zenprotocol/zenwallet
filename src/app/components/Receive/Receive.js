@@ -48,7 +48,6 @@ class Receive extends Component {
     }
 
     renderCopiedMessage() {
-      console.log('this.state', this.state)
       const {showCopyMessage} = this.state
       if (showCopyMessage === true) {
         return (
