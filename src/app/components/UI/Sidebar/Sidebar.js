@@ -40,8 +40,9 @@ class Sidebar extends Component {
                 <li><NavLink exact activeClassName={'active'} to="/">Home</NavLink></li>
                 <li><NavLink activeClassName={'active'} to="/receive">Receive Funds</NavLink></li>
                 <li><NavLink activeClassName={'active'} to="/send-tx">Send Tx</NavLink></li>
-                <li><NavLink activeClassName={'active'} to="/activate-contract">Contract</NavLink></li>
+                <li><NavLink activeClassName={'active'} to="/activate-contract">Activate Contract</NavLink></li>
                 <li><NavLink activeClassName={'active'} to="/execute-contract">Execute Contract</NavLink></li>
+                <li><NavLink activeClassName={'active'} to="/saved-contracts">My Saved Contracts</NavLink></li>
                 <li><a>Settings</a></li>
               </ul>
 

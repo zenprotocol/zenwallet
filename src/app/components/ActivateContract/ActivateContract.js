@@ -7,6 +7,10 @@ import {head} from 'lodash'
 
 import Layout from '../UI/Layout/Layout'
 
+import db from '../../services/store'
+
+const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.txt files will be accepted.'
+
 @inject('contract')
 @observer
 class ActivateContract extends Component {
@@ -15,7 +19,7 @@ class ActivateContract extends Component {
 		this.state = {
       accepted: [],
       rejected: [],
-			dropText: 'Drag and drop your contract file here. Only *.txt files will be accepted.'
+			dropText: dropTextPlaceholder
     }
 		autobind(this)
 	}
@@ -38,7 +42,7 @@ class ActivateContract extends Component {
 		console.log('acceptedFiles', acceptedFiles.length)
 
 		if (acceptedFiles.length > 0) {
-			contract.name = head(acceptedFiles).name
+			contract.fileName = head(acceptedFiles).name
 			this.setState({dropText: head(acceptedFiles).name});
 		}
 
@@ -51,10 +55,32 @@ class ActivateContract extends Component {
 	onActivateContractClicked() {
 		const {contract} = this.props
 		const result = contract.activateContract(contract.code)
+
+		// todo - save contract name, hash, address to saved contracts
+
+		db.get('savedContracts')
+  		.push({
+				name: contract.name
+			})
+  		.write()
+
+			// hash: result.hash,
+			// address: result.address
+
+		contract.name = ''
+		this.setState({dropText: dropTextPlaceholder});
+
 		console.log('onActivateContractClicked result', result)
 	}
 
+	onContractNameChanged(event) {
+		const {contract} = this.props
+		contract.name = event.target.value
+	}
+
 	render() {
+		const {contract} = this.props
+
 		let dropzoneRef;
 
 		const {dropText} = this.state
@@ -67,34 +93,46 @@ class ActivateContract extends Component {
 						<h1>Contract Activation</h1>
 					</Flexbox>
 
-					<div className='destination-address-div'>
+					<Flexbox flexDirection="column" className="contract-name input-container">
+						<label htmlFor='to'>Contract Name (Optional)</label>
+						<input
+							className='full-width'
+							id='contract-name'
+							name='contract-name'
+							type='text'
+							onChange={this.onContractNameChanged}
+							value={contract.name}
+						/>
+					</Flexbox>
+
+					<Flexbox flexDirection="column" className='destination-address-input input-container'>
 						<label htmlFor='to'>Upload a contract from your computer</label>
-						<Flexbox flexDirection="column" className='destination-address-input'>
+						<Flexbox flexDirection="row" className='upload-contract-dropzone '>
+		          <Dropzone
+								ref={(node) => { dropzoneRef = node; }}
+								className='dropzone'
+								activeClassName='active'
+								multiple={false}
+		            accept="text/plain"
+		            onDrop={this.onDrop.bind(this)}
+							>
+		           	<p>{dropText}</p>
+		          </Dropzone>
+							<button className='button secondary button-on-right' onClick={() => { dropzoneRef.open() }} >Upload</button>
+		        </Flexbox>
+					</Flexbox>
 
-							<Flexbox flexDirection="row" className='upload-contract-dropzone'>
-			          <Dropzone
-									ref={(node) => { dropzoneRef = node; }}
-									className='dropzone'
-									activeClassName='active'
-									multiple={false}
-			            accept="text/plain"
-			            onDrop={this.onDrop.bind(this)}
-			          >
-			           	<p>{dropText}</p>
-			          </Dropzone>
-								<button className='button secondary button-on-right' onClick={() => { dropzoneRef.open() }} >Upload</button>
-			        </Flexbox>
+					<div className="devider"></div>
 
-							<div className="devider"></div>
+					<Flexbox justifyContent='flex-end' flexDirection="row">
+						<button className='button secondary' >Cancel</button>
+						<button className='button-on-right' onClick={this.onActivateContractClicked}>Activate</button>
+					</Flexbox>
 
-							<Flexbox justifyContent='flex-end' flexDirection="row">
-								<button className='button secondary' >Cancel</button>
-								<button className='button-on-right' onClick={this.onActivateContractClicked}>Activate</button>
-							</Flexbox>
+					<br/>
+					<br/>
+					<br/>
 
-							<br/>
-							<br/>
-							<br/>
 {/*
 			        <aside>
 			          <h2>Accepted files</h2>
@@ -112,8 +150,6 @@ class ActivateContract extends Component {
 			        </aside>
 */}
 
-						</Flexbox>
-					</div>
 
 				</Flexbox>
 			</Layout>

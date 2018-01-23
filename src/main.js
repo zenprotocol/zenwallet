@@ -1,11 +1,7 @@
 import {app, BrowserWindow, Menu} from 'electron'
 import contextMenu from 'electron-context-menu'
 
-import low from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
-
-const adapter = new FileSync('zen-wallet-db.json')
-const db = low(adapter)
+import db from './app/services/store'
 
 db.defaults({
   userPreferences: {
