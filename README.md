@@ -2,38 +2,35 @@
 
 Start by installing the (Zen Node)[https://gitlab.com/zenprotocol/zenprotocol]
 
-
 Node Apis
 https://gitlab.com/zenprotocol/zenprotocol/blob/master/src/Api/Server.fs
 
 Get "/wallet/balance"
-
 Get "/wallet/address"
-
 Post "/wallet/transaction/send" (from_address, amount, to_address)
-
 Post "/wallet/contract/activate"
-
 
 
 # Building the Node
 
+sudo apt install liblmdb0
+
 ./paket restore
 
-sudo apt install liblmdb0
+  cd src
 
 cd Zulib
 ./build.sh
 
 cd ..
-cd src
 msbuild
+
 
 # Running nodes
 
-
 cd /zenprotocol/src/Node/bin/Debug
 ./zen-node --localhost
+
 
 # run another node from the same computer:
 
