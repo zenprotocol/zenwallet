@@ -1,11 +1,11 @@
-@import "Shared";
+@import "Variables";
 
 .header {
     height: $topbar-height;
     background: $dark-grey;
 
 		.back-buttons {
-			padding: 30px; 
+			padding: 30px;
 			a { font-size: 3rem; }
 		}
 

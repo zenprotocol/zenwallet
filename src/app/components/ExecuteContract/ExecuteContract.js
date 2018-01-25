@@ -55,7 +55,7 @@ class ExecuteContract extends Component {
 				<Flexbox flexDirection="column" className="send-tx-container">
 
 					<Flexbox flexDirection="column" className='page-title'>
-						<h1>Send Message to Contract</h1>
+						<h1>Execute Contract</h1>
 						<p>Lorem ipsum - this is a form to send a message to a zen contract.</p>
 					</Flexbox>
 

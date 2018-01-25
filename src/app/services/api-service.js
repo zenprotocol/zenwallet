@@ -54,7 +54,7 @@ export async function postExecuteContractMessage(asset, to, amount, command, dat
 		]
 	}
 
-	const response = await post(`${serverAddress}/wallet/contract/send`, finaldata, {
+	const response = await post(`${serverAddress}/wallet/contract/execute`, finaldata, {
 		headers: { 'Content-Type': 'application/json' }
 	})
 

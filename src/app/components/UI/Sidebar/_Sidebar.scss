@@ -1,4 +1,4 @@
-@import "Shared";
+@import "Variables";
 
 ul { list-style: none; }
 
@@ -28,7 +28,6 @@ nav {
       padding: 15px 15px 17px 50px;
       color: $bright-grey;
       text-decoration: none;
-      height: 54px;
       line-height: 1.5rem;
       font-weight: 400;
     }

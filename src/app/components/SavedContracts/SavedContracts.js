@@ -15,21 +15,31 @@ db.defaults({
   ]
 }).write()
 
+const contractList = db.get('savedContracts')
+
 class SavedContracts extends Component {
   constructor(props) {
     super(props)
     autobind(this)
   }
 
-  render() {
-    const contractList = db.get('savedContracts').value()
+  onRemoveContractClicked() {
+    const {contractMessage} = this.props
+    contractMessage.sendContractMessage(contractMessage)
+  }
 
-    const savedContracts = contractList.map((contract, index) => {
+  render() {
+
+    const listOfContracts = contractList.value()
+
+    const savedContracts = listOfContracts.map((contract, index) => {
       return (
         <tr key={contract.name}>
           <td>{index}</td>
           <td>{contract.name}</td>
-          <td>{contract.path}</td>
+          <td>{contract.address}</td>
+          <td>{contract.hash}</td>
+          <td></td>
         </tr>
       )
     })
@@ -48,7 +58,8 @@ class SavedContracts extends Component {
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
-                  <th>Path</th>
+                  <th>Address</th>
+                  <th>Hash</th>
                 </tr>
               </thead>
               <tbody>

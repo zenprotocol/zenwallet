@@ -3,7 +3,9 @@
 @import "../../node_modules/normalize.css/normalize.css";
 
 @import "reset";
+@import "Variables";
 @import "Shared";
+@import "Table";
 
 @import "components/UI/Layout/Layout";
 @import "components/UI/Container/Container";
@@ -12,7 +14,7 @@
 @import "components/UI/Footer/Footer";
 @import "components/UI/Sidebar/Sidebar";
 
-@import "components/Home/Home";
+@import "components/Balances/Balances";
 @import "components/Receive/Receive";
 @import "components/SendTx/SendTx";
 @import "components/ActivateContract/ActivateContract";

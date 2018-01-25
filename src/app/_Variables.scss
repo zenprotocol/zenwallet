@@ -1,0 +1,28 @@
+$bg-color: #1b1b1f;
+$bg-color-d: darken($bg-color, 5%);
+$bg-color-l: lighten($bg-color, 7.5%);
+
+$grey: #232228;
+$dark-grey: #19191b;
+$dark-grey-d: darken($dark-grey, 2.5%);
+$dark-black: #121214;
+$light-grey: #828290;
+$bright-grey: #9f9bad;
+
+$secondary-grey: #404b59;
+
+$blue: #2f8be6;
+$bright-blue: #2cb1df;
+$blue-hover: #246bb3;
+
+$light-blue: #83d6f3;
+$light-white: #f9f9f9;
+$topbar-height: 100px;
+$off-white: #f0f0f0;
+$border-color: #303841;
+$input-border-color: #313241;
+
+$border-radius: 2px;
+
+
+.bright-blue { color: $bright-blue}

@@ -67,7 +67,7 @@ class Receive extends Component {
                   <h1>Receive</h1>
                 </Flexbox>
 
-                <div className='address-div'>
+                <div className='input-container'>
                   <label onClick={this.handleFocus} htmlFor="public-address">Your Address</label>
                   <Flexbox flexDirection="row" className='address-input'>
                     <input id='public-address' ref='publicAddressInput' onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readOnly />

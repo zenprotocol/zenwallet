@@ -1,0 +1,12 @@
+@import "Variables";
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 3px;
+  color: $off-white;
+
+  th { color: $light-grey; }
+  td { background: $grey; }
+  th, td { padding: 16px 19px; }
+}

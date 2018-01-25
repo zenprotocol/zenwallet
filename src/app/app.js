@@ -4,7 +4,7 @@ import {Provider} from 'mobx-react'
 import {Router, Route, Switch} from 'react-router-dom'
 import {createMemoryHistory} from 'history'
 
-import Home from './components/Home/Home'
+import Balances from './components/Balances/Balances'
 import SendTx from './components/SendTx/SendTx'
 import Receive from './components/Receive/Receive'
 import ActivateContract from './components/ActivateContract/ActivateContract'
@@ -27,7 +27,7 @@ ReactDOM.render(
         <Route exact path="/activate-contract" component={ActivateContract} />
         <Route exact path="/execute-contract" component={ExecuteContract} />
         <Route exact path="/saved-contracts" component={SavedContracts} />
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Balances} />
       </Switch>
     </Router>
   </Provider>, document.getElementById('app')

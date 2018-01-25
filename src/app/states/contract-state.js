@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx'
+import {observable, action, runInAction} from 'mobx'
 import {postActivateContract} from '../services/api-service'
 
 class ContractState {
@@ -7,6 +7,9 @@ class ContractState {
   @observable code
   @observable hash
   @observable address
+  @observable status
+  @observable inprogress = false
+  @observable errorMessage = ''
 
   @action
   init() {
@@ -15,13 +18,41 @@ class ContractState {
     this.code = ''
     this.hash = ''
     this.address = ''
+    this.status = ''
+    this.inprogress = false
+    this.errorMessage = ''
   }
 
   @action
   async activateContract(code) {
-    const response = await postActivateContract(code)
-    // DOTO - set contract hash and address
-    return response
+
+    try {
+      this.inprogress = true
+      this.status = 'inprogress'
+
+      const response = await postActivateContract(code)
+
+      runInAction(() => {
+          this.hash = response.hash
+          this.address = response.address
+          this.status = 'success'
+          this.inprogress = false
+      })
+
+    } catch (error) {
+      this.inprogress = false
+
+      if (error.response && error.response.status === 429) {
+          this.rejectTotalAmount = error.response.data.amount
+          this.status = 'failed'
+
+      } else {
+          console.log('activateContract error', error)
+          runInAction(() => {
+              this.errorMessage = error
+          })
+      }
+    }
   }
 
 }

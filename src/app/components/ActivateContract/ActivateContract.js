@@ -56,6 +56,8 @@ class ActivateContract extends Component {
 		const {contract} = this.props
 		const result = contract.activateContract(contract.code)
 
+		console.log('activateContract result', result)
+
 		// todo - save contract name, hash, address to saved contracts
 
 		db.get('savedContracts')
@@ -96,7 +98,6 @@ class ActivateContract extends Component {
 					<Flexbox flexDirection="column" className="contract-name input-container">
 						<label htmlFor='to'>Contract Name (Optional)</label>
 						<input
-							className='full-width'
 							id='contract-name'
 							name='contract-name'
 							type='text'
@@ -113,7 +114,7 @@ class ActivateContract extends Component {
 								className='dropzone'
 								activeClassName='active'
 								multiple={false}
-		            accept="text/plain"
+		            // accept="text/plain"
 		            onDrop={this.onDrop.bind(this)}
 							>
 		           	<p>{dropText}</p>
@@ -128,6 +129,15 @@ class ActivateContract extends Component {
 						<button className='button secondary' >Cancel</button>
 						<button className='button-on-right' onClick={this.onActivateContractClicked}>Activate</button>
 					</Flexbox>
+
+					<div>
+
+						Order hash: {contract.hash}
+						Order address: {contract.address}
+						Order Status: {contract.status}
+						InProgress: {contract.inprogress}
+
+					</div>
 
 					<br/>
 					<br/>

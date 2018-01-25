@@ -54,7 +54,7 @@ class SendTx extends Component {
 						<h1>Send</h1>
 					</Flexbox>
 
-					<div className='destination-address-div'>
+					<div className='destination-address-div input-container'>
 						<label htmlFor='to'>Destination Address</label>
 						<Flexbox flexDirection="row" className='destination-address-input'>
 							<input
@@ -66,7 +66,7 @@ class SendTx extends Component {
 							</Flexbox>
 						</div>
 
-						<Flexbox flexDirection="row">
+						<Flexbox flexDirection="row" className='input-container'>
 
 							<Flexbox flexDirection="column" className="select-asset">
 								<label htmlFor="asset">Select Asset</label>
