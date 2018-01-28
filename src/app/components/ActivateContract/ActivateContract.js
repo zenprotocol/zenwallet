@@ -7,8 +7,6 @@ import {head} from 'lodash'
 
 import Layout from '../UI/Layout/Layout'
 
-import db from '../../services/store'
-
 @inject('contract')
 @observer
 class ActivateContract extends Component {
@@ -36,31 +34,17 @@ class ActivateContract extends Component {
 			reader.readAsBinaryString(file);
 		});
 
-		console.log('acceptedFiles', acceptedFiles.length)
-
 		if (acceptedFiles.length > 0) {
 			contract.fileName = head(acceptedFiles).name
 			contract.dragDropText = head(acceptedFiles).name
 		}
 
-		this.setState({
-			accepted: acceptedFiles,
-			rejected: rejectedFiles
-		});
+		this.setState({ accepted: acceptedFiles, rejected: rejectedFiles });
 	}
 
 	onActivateContractClicked() {
 		const {contract} = this.props
 		const result = contract.activateContract(contract.code)
-
-		console.log('activateContract result', result)
-
-		db.get('savedContracts').push({ name: contract.name }).write()
-
-		// hash: result.hash,
-		// address: result.address
-
-		console.log('onActivateContractClicked result', result)
 	}
 
 	onContractNameChanged(event) {
@@ -91,8 +75,6 @@ class ActivateContract extends Component {
 		const {inprogress} = this.props.contract
 		const {accepted} = this.state
 
-		console.log('accepted files length', accepted.length)
-
 		if (accepted.length == 1 && inprogress) { return true }
 		if (accepted.length == 1) { return false }
 		if (accepted.length == 0) { return true }
@@ -100,7 +82,6 @@ class ActivateContract extends Component {
 
 	renderActivateButtonText() {
 		const {inprogress} = this.props.contract
-		console.log('inprogress', inprogress)
 		return (inprogress ? "Proccessing" : "Activate")
 	}
 
@@ -141,7 +122,11 @@ class ActivateContract extends Component {
 							>
 		           	<p>{contract.dragDropText}</p>
 		          </Dropzone>
-							<button className='button secondary button-on-right' onClick={() => { dropzoneRef.open() }} >Upload</button>
+							<button
+								className='button secondary button-on-right'
+								onClick={() => { dropzoneRef.open() }} >
+								Upload
+							</button>
 		        </Flexbox>
 					</Flexbox>
 

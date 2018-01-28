@@ -1,5 +1,6 @@
 import {observable, action, runInAction} from 'mobx'
 import {postActivateContract} from '../services/api-service'
+import db from '../services/store'
 
 const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.txt files will be accepted.'
 
@@ -30,6 +31,12 @@ class ContractState {
       const response = await postActivateContract(code)
 
       runInAction(() => {
+          db.get('savedContracts').push({
+            name: this.name,
+            hash: response.hash,
+            address: response.address
+          }).write()
+
           this.name = ''
           this.dragDropText = dropTextPlaceholder
           this.hash = response.hash
