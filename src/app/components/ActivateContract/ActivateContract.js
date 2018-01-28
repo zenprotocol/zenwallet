@@ -9,8 +9,6 @@ import Layout from '../UI/Layout/Layout'
 
 import db from '../../services/store'
 
-const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.txt files will be accepted.'
-
 @inject('contract')
 @observer
 class ActivateContract extends Component {
@@ -18,8 +16,7 @@ class ActivateContract extends Component {
 		super()
 		this.state = {
       accepted: [],
-      rejected: [],
-			dropText: dropTextPlaceholder
+      rejected: []
     }
 		autobind(this)
 	}
@@ -43,7 +40,7 @@ class ActivateContract extends Component {
 
 		if (acceptedFiles.length > 0) {
 			contract.fileName = head(acceptedFiles).name
-			this.setState({dropText: head(acceptedFiles).name});
+			contract.dragDropText = head(acceptedFiles).name
 		}
 
 		this.setState({
@@ -58,19 +55,10 @@ class ActivateContract extends Component {
 
 		console.log('activateContract result', result)
 
-		// todo - save contract name, hash, address to saved contracts
+		db.get('savedContracts').push({ name: contract.name }).write()
 
-		db.get('savedContracts')
-  		.push({
-				name: contract.name
-			})
-  		.write()
-
-			// hash: result.hash,
-			// address: result.address
-
-		contract.name = ''
-		this.setState({dropText: dropTextPlaceholder});
+		// hash: result.hash,
+		// address: result.address
 
 		console.log('onActivateContractClicked result', result)
 	}
@@ -80,12 +68,46 @@ class ActivateContract extends Component {
 		contract.name = event.target.value
 	}
 
+	renderServerResponse() {
+		const {contract} = this.props
+
+		if (contract.address && contract.hash) {
+			return(
+				<div>
+					Order hash: {contract.hash}
+					<br/>
+					Order address: {contract.address}
+					<br/>
+					Order Status: {contract.status}
+					<br/>
+					InProgress: {contract.inprogress}
+					<br/>
+				</div>
+			)
+		}
+	}
+
+	isActivateButtonDisabled() {
+		const {inprogress} = this.props.contract
+		const {accepted} = this.state
+
+		console.log('accepted files length', accepted.length)
+
+		if (accepted.length == 1 && inprogress) { return true }
+		if (accepted.length == 1) { return false }
+		if (accepted.length == 0) { return true }
+	}
+
+	renderActivateButtonText() {
+		const {inprogress} = this.props.contract
+		console.log('inprogress', inprogress)
+		return (inprogress ? "Proccessing" : "Activate")
+	}
+
 	render() {
 		const {contract} = this.props
 
-		let dropzoneRef;
-
-		const {dropText} = this.state
+		let dropzoneRef
 
 		return (
 			<Layout className="activate-contract">
@@ -117,27 +139,25 @@ class ActivateContract extends Component {
 		            // accept="text/plain"
 		            onDrop={this.onDrop.bind(this)}
 							>
-		           	<p>{dropText}</p>
+		           	<p>{contract.dragDropText}</p>
 		          </Dropzone>
 							<button className='button secondary button-on-right' onClick={() => { dropzoneRef.open() }} >Upload</button>
 		        </Flexbox>
 					</Flexbox>
 
+					{ this.renderServerResponse() }
+
 					<div className="devider"></div>
 
 					<Flexbox justifyContent='flex-end' flexDirection="row">
-						<button className='button secondary' >Cancel</button>
-						<button className='button-on-right' onClick={this.onActivateContractClicked}>Activate</button>
+						<button className='button secondary'>Cancel</button>
+						<button
+							className='button-on-right'
+							disabled={this.isActivateButtonDisabled()}
+							onClick={this.onActivateContractClicked}>{this.renderActivateButtonText()}
+						</button>
 					</Flexbox>
 
-					<div>
-
-						Order hash: {contract.hash}
-						Order address: {contract.address}
-						Order Status: {contract.status}
-						InProgress: {contract.inprogress}
-
-					</div>
 
 					<br/>
 					<br/>

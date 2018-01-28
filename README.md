@@ -17,7 +17,7 @@ sudo apt install liblmdb0
 
 ./paket restore
 
-  cd src
+cd src
 
 cd Zulib
 ./build.sh
@@ -29,7 +29,7 @@ msbuild
 # Running nodes
 
 cd /zenprotocol/src/Node/bin/Debug
-./zen-node --localhost
+./zen-node --localhost --wipe
 
 
 # run another node from the same computer:
@@ -64,3 +64,11 @@ Update node
 
 1) go to zenprotocol/zenprotocol dir
 2) git pull upstream master
+3) build nodes
+
+
+
+Running a contracts:
+
+1) activate contract - use contracts/full-example.fst
+2) copy the contract address

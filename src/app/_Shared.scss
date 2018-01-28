@@ -23,13 +23,13 @@ button, .button {
   cursor: pointer;
 
   &:focus { outline: none; }
+  &:disabled { background-color: $blue-l; cursor: default;; }
 
-  &.secondary {
-		background-color: $secondary-grey;
-	}
+  &.secondary { background-color: $secondary-grey; }
   &.success {}
   &.alert {}
   &.info {}
+
 }
 
 h1, h2, h3, h4, h5, h6, input, button {

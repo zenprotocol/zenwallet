@@ -1,8 +1,11 @@
 import {observable, action, runInAction} from 'mobx'
 import {postActivateContract} from '../services/api-service'
 
+const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.txt files will be accepted.'
+
 class ContractState {
   @observable fileName
+  @observable dragDropText = dropTextPlaceholder
   @observable name
   @observable code
   @observable hash
@@ -12,15 +15,9 @@ class ContractState {
   @observable errorMessage = ''
 
   @action
-  init() {
-    this.fileName = ''
-    this.name = ''
-    this.code = ''
-    this.hash = ''
-    this.address = ''
-    this.status = ''
+  init(dropTextPlaceholder) {
+    this.dragDropText = dropTextPlaceholder
     this.inprogress = false
-    this.errorMessage = ''
   }
 
   @action
@@ -33,6 +30,8 @@ class ContractState {
       const response = await postActivateContract(code)
 
       runInAction(() => {
+          this.name = ''
+          this.dragDropText = dropTextPlaceholder
           this.hash = response.hash
           this.address = response.address
           this.status = 'success'
