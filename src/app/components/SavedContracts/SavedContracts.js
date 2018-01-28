@@ -7,6 +7,7 @@ import Flexbox from 'flexbox-react'
 import Layout from '../UI/Layout/Layout'
 
 import db from '../../services/store'
+import {truncateString} from '../../../utils/helpers'
 
 db.defaults({
   savedContracts: [
@@ -33,12 +34,16 @@ class SavedContracts extends Component {
     const listOfContracts = contractList.value()
 
     const savedContracts = listOfContracts.map((contract, index) => {
+
+      let address = truncateString(contract.address)
+      let hash = truncateString(contract.hash)
+
       return (
         <tr key={contract.name}>
           <td>{index}</td>
           <td>{contract.name}</td>
-          <td>{contract.address}</td>
-          <td>{contract.hash}</td>
+          <td><span title={contract.address} >{address}</span></td>
+          <td><span title={contract.hash} >{hash}</span></td>
           <td></td>
         </tr>
       )
