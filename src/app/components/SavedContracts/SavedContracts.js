@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react'
 import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
+import swal from 'sweetalert'
 
 import Layout from '../UI/Layout/Layout'
 
@@ -29,6 +30,21 @@ class SavedContracts extends Component {
     contractMessage.sendContractMessage(contractMessage)
   }
 
+  onDeleteClicked = (hash) => {
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to delete this contract?",
+      icon: "warning",
+      dangerMode: true,
+    })
+    .then(willDelete => {
+      if (willDelete) {
+        db.get('savedContracts').remove({ hash: hash }).write()
+        swal("Deleted!", `Your contract has been deleted!`, "success")
+      }
+    })
+  }
+
   render() {
 
     const listOfContracts = contractList.value()
@@ -39,12 +55,12 @@ class SavedContracts extends Component {
       let hash = truncateString(contract.hash)
 
       return (
-        <tr key={contract.name}>
+        <tr key={contract.hash}>
           <td>{index}</td>
           <td>{contract.name}</td>
           <td><span title={contract.address} >{address}</span></td>
           <td><span title={contract.hash} >{hash}</span></td>
-          <td></td>
+          <td><button onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button></td>
         </tr>
       )
     })

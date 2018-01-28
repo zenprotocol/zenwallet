@@ -85,6 +85,11 @@ class ActivateContract extends Component {
 		return (inprogress ? "Proccessing" : "Activate")
 	}
 
+	renderClassNames() {
+		const {inprogress} = this.props.contract
+		return (inprogress ? "button-on-right loading" : "button-on-right")
+	}
+
 	render() {
 		const {contract} = this.props
 
@@ -137,7 +142,7 @@ class ActivateContract extends Component {
 					<Flexbox justifyContent='flex-end' flexDirection="row">
 						<button className='button secondary'>Cancel</button>
 						<button
-							className='button-on-right'
+							className={this.renderClassNames()}
 							disabled={this.isActivateButtonDisabled()}
 							onClick={this.onActivateContractClicked}>{this.renderActivateButtonText()}
 						</button>
