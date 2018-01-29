@@ -71,6 +71,7 @@ class ActivateContract extends Component {
 			return(
 				<div>
 					Contract Activated Successfully
+					<br/>
 					Order hash: {contract.hash}
 					<br/>
 					Order address: {contract.address}

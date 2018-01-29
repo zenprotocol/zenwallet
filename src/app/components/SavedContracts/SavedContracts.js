@@ -41,6 +41,7 @@ class SavedContracts extends Component {
       if (willDelete) {
         db.get('savedContracts').remove({ hash: hash }).write()
         swal("Deleted!", `Your contract has been deleted!`, "success")
+        this.forceUpdate()
       }
     })
   }
