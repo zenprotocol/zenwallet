@@ -30,7 +30,7 @@ class Home extends Component {
             return (
                 <Flexbox key={asset.asset}>
                     <div>{asset.asset}: </div>
-                    <div>{asset.balance}</div>
+                    <div>{asset.balance.toLocaleString()}</div>
                 </Flexbox>
             )
         })

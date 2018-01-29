@@ -12,26 +12,6 @@ body {
 
 a { cursor: pointer; }
 
-button, .button {
-  padding: 12px 40px;
-  border-radius: 2px;
-  background: $blue;
-  color: white;
-  height: 35px;
-  font-size: 13px;
-  border: none;
-  cursor: pointer;
-
-  &:focus { outline: none; }
-  &:disabled { background-color: $blue-l; cursor: default;; }
-
-  &.secondary { background-color: $secondary-grey; }
-  &.success {}
-  &.alert {}
-  &.info {}
-
-}
-
 h1, h2, h3, h4, h5, h6, input, button {
   font-family: 'Source Sans Pro', sans-serif;
 }
@@ -43,7 +23,7 @@ h3 {
 }
 
 input, div.dropzone  {
-  background: $bg-color;
+  background: $dark-grey;
   padding: 10px;
   color: $off-white;
   border: solid 1px $input-border-color;

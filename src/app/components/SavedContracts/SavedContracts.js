@@ -57,11 +57,10 @@ class SavedContracts extends Component {
 
       return (
         <tr key={contract.hash}>
-          <td>{index}</td>
           <td>{contract.name}</td>
-          <td><span title={contract.address} >{address}</span></td>
           <td><span title={contract.hash} >{hash}</span></td>
-          <td><button onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button></td>
+          <td><span title={contract.address} >{address}</span></td>
+          <td><button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button></td>
         </tr>
       )
     })
@@ -78,10 +77,9 @@ class SavedContracts extends Component {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Address</th>
+                  <th>Contract Name</th>
                   <th>Hash</th>
+                  <th>Address</th>
                 </tr>
               </thead>
               <tbody>

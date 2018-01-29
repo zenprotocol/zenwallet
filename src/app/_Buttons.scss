@@ -1,0 +1,32 @@
+@import "Variables";
+
+button, .button {
+  padding: 12px 40px;
+  border-radius: 2px;
+  background: $blue;
+  color: white;
+  text-transform: uppercase;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+
+  &:focus { outline: none; }
+  &:disabled {
+    background-color: $blue-l;
+    cursor: default;
+    color: rgba(255, 255, 255, 0.1);
+  }
+
+  &.secondary { background-color: $secondary-grey; }
+  &.success {}
+  &.alert {
+    background: $red;
+    color: $off-white;
+    &:hover { background: $red-hover; }
+    &:focus { background: $red-focus; }
+    &:disabled { background: $red-disabled; }
+  }
+  &.info {}
+
+  &.small { padding: 7px 14px; }
+}

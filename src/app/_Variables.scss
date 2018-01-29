@@ -1,29 +1,48 @@
-$bg-color: #1b1b1f;
-$bg-color-d: darken($bg-color, 5%);
-$bg-color-l: lighten($bg-color, 7.5%);
-
-$grey: #232228;
-$dark-grey: #19191b;
+$grey: #181818;
+$dark-grey: #121212;
+$dark-grey-2: #191919;
 $dark-grey-d: darken($dark-grey, 2.5%);
-$dark-black: #121214;
-$light-grey: #828290;
-$bright-grey: #9f9bad;
+$light-grey: #1c1c1c;
+$bright-grey: #808080;
 
 $secondary-grey: #404b59;
 
+$dark-black: #121214;
+
 $blue: #2f8be6;
+$blue-hover: #3296fa;
+$blue-focus: #297acc;
+$blue-disabled: #1b446c;
+
 $blue-l: lighten($blue, 10%);
 $bright-blue: #2cb1df;
-$blue-hover: #246bb3;
 
 $light-blue: #83d6f3;
-$light-white: #f9f9f9;
+$light-white: #e6e6e6;
 $topbar-height: 100px;
-$off-white: #f0f0f0;
+$off-white: #f2f2f2;
 $border-color: #303841;
 $input-border-color: #313241;
 
 $border-radius: 2px;
 
+$red: #fd3a3a;
+$red-hover: #ff4d4d;
+$red-focus: #e33434;
+$red-disabled: #6b1919;
 
 .bright-blue { color: $bright-blue}
+
+
+// Buttons
+
+$button-grey: #333333;
+$button-grey-hover: #424242;
+$button-grey-focus: #292929;
+$button-grey-disabled: #1f1f1f;
+
+
+
+$bg-color: $dark-grey;
+$bg-color-d: darken($bg-color, 5%);
+$bg-color-l: lighten($bg-color, 7.5%);

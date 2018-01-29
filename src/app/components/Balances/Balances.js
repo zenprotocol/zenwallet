@@ -35,7 +35,7 @@ class Balances extends Component {
       <Layout className="balances">
 
         <Flexbox className='page-title'>
-          <h1>Balances</h1>
+          <h1>Portfolio</h1>
         </Flexbox>
 
         <Flexbox className="balance-list">

@@ -4,10 +4,12 @@ ul { list-style: none; }
 
 nav {
   width: 251px;
-  background: $dark-black;
+  background: $grey;
+  border-right: 1px solid black;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
 
   header {
-    height: $topbar-height;
     padding: 29px 36px;
     img { height: 42px; }
   }
@@ -29,18 +31,21 @@ nav {
       color: $bright-grey;
       text-decoration: none;
       line-height: 1.5rem;
-      font-weight: 400;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.7px;
     }
 
-    a:hover {
-      background: $dark-grey-d;
-    }
+    a:hover { background: $button-grey-disabled; }
+    a:focus { background: $button-grey-focus; }
+
     a.active {
-      background: $dark-grey;
-      color: $light-blue;
+      background: $light-grey;
+      color: $off-white;
       font-weight: 600;
       border-left: 4px solid $light-blue;
       padding: 15px 15px 17px 46px;
+      box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.2);
     }
 
     a:before {

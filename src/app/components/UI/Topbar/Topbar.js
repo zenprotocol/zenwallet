@@ -44,7 +44,7 @@ class Header extends Component {
                       <span className="total-balance">Total Balance</span>
                       <span className='zen-symbol'>ZENP</span>
                   </div>
-                  <div className='account-balance'>{balance.zen}</div>
+                  <div className='account-balance'>{balance.zen.toLocaleString()}</div>
                 </div>
             </Flexbox>
         )
