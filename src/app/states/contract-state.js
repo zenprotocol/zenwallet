@@ -1,6 +1,7 @@
 import {observable, action, runInAction} from 'mobx'
 import {postActivateContract} from '../services/api-service'
 import db from '../services/store'
+import {some} from 'lodash'
 
 const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.txt files will be accepted.'
 
@@ -31,11 +32,16 @@ class ContractState {
       const response = await postActivateContract(code)
 
       runInAction(() => {
+        const savedContracts = db.get('savedContracts').value()
+        const isInSavedContracts = some(savedContracts, {hash: response.hash})
+
+        if (!isInSavedContracts) {
           db.get('savedContracts').push({
             name: this.name,
             hash: response.hash,
             address: response.address
           }).write()
+        }
 
           this.name = ''
           this.dragDropText = dropTextPlaceholder

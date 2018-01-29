@@ -14,7 +14,7 @@ class BalanceState {
     @action
     begin() {
       this.fetch()
-      setInterval(this.fetch, 5000);
+      setInterval(this.fetch, 10000);
     }
 
     @action

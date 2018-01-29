@@ -37,9 +37,21 @@ class ActivateContract extends Component {
 		if (acceptedFiles.length > 0) {
 			contract.fileName = head(acceptedFiles).name
 			contract.dragDropText = head(acceptedFiles).name
+
+			this.clearForm()
 		}
 
 		this.setState({ accepted: acceptedFiles, rejected: rejectedFiles });
+	}
+
+	clearForm = () => {
+		const {contract} = this.props
+		console.log('clearing form')
+		contract.name = ''
+		contract.hash = ''
+		contract.address = ''
+		contract.inprogress = false
+		contract.errorMessage = ''
 	}
 
 	onActivateContractClicked() {
@@ -52,12 +64,13 @@ class ActivateContract extends Component {
 		contract.name = event.target.value
 	}
 
-	renderServerResponse() {
+	renderSuccessResponse() {
 		const {contract} = this.props
 
 		if (contract.address && contract.hash) {
 			return(
 				<div>
+					Contract Activated Successfully
 					Order hash: {contract.hash}
 					<br/>
 					Order address: {contract.address}
@@ -135,7 +148,7 @@ class ActivateContract extends Component {
 		        </Flexbox>
 					</Flexbox>
 
-					{ this.renderServerResponse() }
+					{ this.renderSuccessResponse() }
 
 					<div className="devider"></div>
 
