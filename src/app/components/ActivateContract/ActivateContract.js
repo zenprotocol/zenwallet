@@ -19,39 +19,41 @@ class ActivateContract extends Component {
 		autobind(this)
 	}
 
+	componentWillUnmount() {
+		this.clearForm()
+	}
+
 	onDrop(acceptedFiles, rejectedFiles) {
 		const {contract} = this.props
 
 		acceptedFiles.forEach(file => {
-			const reader = new FileReader();
+			const reader = new FileReader()
 			reader.onload = () => {
-				const fileAsBinaryString = reader.result;
+				const fileAsBinaryString = reader.result
 				contract.code = fileAsBinaryString
 			};
-			reader.onabort = () => console.log('file reading was aborted');
-			reader.onerror = () => console.log('file reading has failed');
+			reader.onabort = () => console.log('file reading was aborted')
+			reader.onerror = () => console.log('file reading has failed')
 
-			reader.readAsBinaryString(file);
+			reader.readAsBinaryString(file)
 		});
 
 		if (acceptedFiles.length > 0) {
 			contract.fileName = head(acceptedFiles).name
 			contract.dragDropText = head(acceptedFiles).name
 
-			this.clearForm()
+			// this.clearForm()
+
 		}
 
-		this.setState({ accepted: acceptedFiles, rejected: rejectedFiles });
+		this.setState({ accepted: acceptedFiles, rejected: rejectedFiles })
 	}
 
 	clearForm = () => {
 		const {contract} = this.props
 		console.log('clearing form')
-		contract.name = ''
-		contract.hash = ''
-		contract.address = ''
-		contract.inprogress = false
-		contract.errorMessage = ''
+		contract.clearForm()
+		this.setState({ accepted: '', rejected: '' })
 	}
 
 	onActivateContractClicked() {
@@ -104,6 +106,7 @@ class ActivateContract extends Component {
 		return (inprogress ? "button-on-right loading" : "button-on-right")
 	}
 
+
 	render() {
 		const {contract} = this.props
 
@@ -114,39 +117,43 @@ class ActivateContract extends Component {
 				<Flexbox flexDirection="column" className="send-tx-container">
 
 					<Flexbox className='page-title'>
-						<h1>Contract Activation</h1>
+						<h1>Activate Contract</h1>
 					</Flexbox>
 
-					<Flexbox flexDirection="column" className="contract-name input-container">
-						<label htmlFor='to'>Contract Name (Optional)</label>
-						<input
-							id='contract-name'
-							name='contract-name'
-							type='text'
-							onChange={this.onContractNameChanged}
-							value={contract.name}
-						/>
-					</Flexbox>
+					<Flexbox flexDirection="column" className="form-container">
 
-					<Flexbox flexDirection="column" className='destination-address-input input-container'>
-						<label htmlFor='to'>Upload a contract from your computer</label>
-						<Flexbox flexDirection="row" className='upload-contract-dropzone '>
-		          <Dropzone
-								ref={(node) => { dropzoneRef = node; }}
-								className='dropzone'
-								activeClassName='active'
-								multiple={false}
-		            // accept="text/plain"
-		            onDrop={this.onDrop.bind(this)}
-							>
-		           	<p>{contract.dragDropText}</p>
-		          </Dropzone>
-							<button
-								className='button secondary button-on-right'
-								onClick={() => { dropzoneRef.open() }} >
-								Upload
-							</button>
-		        </Flexbox>
+						<Flexbox flexDirection="column" className="contract-name form-row">
+							<label htmlFor='to'>Name Your Contract (Optional)</label>
+							<input
+								id='contract-name'
+								name='contract-name'
+								type='text'
+								onChange={this.onContractNameChanged}
+								value={contract.name}
+							/>
+						</Flexbox>
+
+						<Flexbox flexDirection="column" className='destination-address-input form-row'>
+							<label htmlFor='to'>Upload a contract from your computer</label>
+							<Flexbox flexDirection="row" className='upload-contract-dropzone '>
+								<Dropzone
+									ref={(node) => { dropzoneRef = node; }}
+									className='dropzone'
+									activeClassName='active'
+									multiple={false}
+									// accept="text/plain"
+									onDrop={this.onDrop.bind(this)}
+									>
+										<p>{contract.dragDropText}</p>
+									</Dropzone>
+									<button
+										className='button secondary button-on-right'
+										onClick={() => { dropzoneRef.open() }} >
+										Upload
+									</button>
+								</Flexbox>
+							</Flexbox>
+
 					</Flexbox>
 
 					{ this.renderSuccessResponse() }

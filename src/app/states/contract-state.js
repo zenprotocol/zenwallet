@@ -23,6 +23,18 @@ class ContractState {
   }
 
   @action
+  clearForm() {
+    this.name = ''
+    this.dragDropText = dropTextPlaceholder
+    this.code = ''
+    this.hash = ''
+    this.address = ''
+    this.status = ''
+    this.inprogress = false
+    this.errorMessage = ''
+  }
+
+  @action
   async activateContract(code) {
 
     try {
