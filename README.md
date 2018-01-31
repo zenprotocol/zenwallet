@@ -17,9 +17,7 @@ sudo apt install liblmdb0
 
 ./paket restore
 
-cd src
-
-cd Zulib
+cd src/Zulib
 ./build.sh
 
 cd ..
