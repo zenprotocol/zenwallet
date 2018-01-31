@@ -44,12 +44,11 @@ export async function postExecuteContractMessage(asset, to, amount, command, dat
 
 	const finaldata = {
 		"address" : to,
+		"command" : command,
 		"spends" : [
 			{
 				"asset" : asset,
 				"amount" : amount
-				// "command" : command,
-				// "data" : data
 			}
 		]
 	}

@@ -8,6 +8,7 @@ button, .button {
   text-transform: uppercase;
   font-size: 13px;
   border: none;
+  letter-spacing: 0.5px;
   cursor: pointer;
 
   &:focus { outline: none; }
@@ -29,4 +30,5 @@ button, .button {
   &.info {}
 
   &.small { padding: 7px 14px; }
+&.button-on-right { margin-left: 17px; }
 }

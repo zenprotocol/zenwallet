@@ -37,6 +37,16 @@ class ExecuteContract extends Component {
 			contractMessage.amount = undefined
 	}
 
+	onCommandChanged(event) {
+		const {contractMessage} = this.props
+		contractMessage.command = event.target.value
+	}
+
+	onAssetChanged(event) {
+		const {contractMessage} = this.props
+		contractMessage.asset = event.target.value
+	}
+
 	onPasteClicked() {
 		const {contractMessage} = this.props
 		contractMessage.to = clipboard.readText()
@@ -59,72 +69,79 @@ class ExecuteContract extends Component {
 						<p>Lorem ipsum - this is a form to send a message to a zen contract.</p>
 					</Flexbox>
 
-					<Flexbox flexDirection="column" className="contract-address input-container">
 
-						<label htmlFor='to'>Contract Address</label>
-						<Flexbox flexDirection="row" className='destination-address-input'>
-							<input
-								className='full-width'
-								id='to'
-								name='to'
-								type='text'
-								onChange={this.onContractAddressChanged}
-								value={contractMessage.to}
-							/>
-							<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
-						</Flexbox>
+					<Flexbox flexDirection="column" className="form-container">
 
-					</Flexbox>
+						<Flexbox flexDirection="column" className="contract-address form-row">
 
-					<Flexbox flexDirection="row" className="contract-message-details">
-
-						<Flexbox flexGrow={1} flexDirection="column" className="choose-command input-container">
-							<label htmlFor="asset">Choose command</label>
-							<select>
-								<option value="collateralize">Collateralize</option>
-								<option value="buy">Buy</option>
-								<option value="excersize">Excersize</option>
-								<option value="close">Close</option>
-							</select>
-						</Flexbox>
-
-						<Flexbox flexGrow={0} flexDirection="row" className="amount-fields input-container container-on-right">
-
-							<Flexbox flexDirection="column" className="select-asset">
-								<label htmlFor="asset">Select Asset</label>
-								<select>
-									<option value="0000000000000000000000000000000000000000000000000000000000000000">ZENP</option>
-									<option value="0000000USDZ">USDZ</option>
-									<option value="BITZEN">BITZEN</option>
-									<option value="BITGOLD">BITGOLD</option>
-								</select>
-							</Flexbox>
-
-							<Flexbox flexDirection="column" className="choose-amount">
-								<label htmlFor="amount">Amount</label>
+							<label htmlFor='to'>Contract Address</label>
+							<Flexbox flexDirection="row" className='destination-address-input'>
 								<input
-									id="amount"
-									name="amount"
-									type="number"
-									placeholder="Enter amount of Zens"
-									value={contractMessage.amount}
-									onChange={this.onAmountChanged} />
+									className='full-width'
+									id='to'
+									name='to'
+									type='text'
+									onChange={this.onContractAddressChanged}
+									value={contractMessage.to}
+								/>
+								<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
 							</Flexbox>
 
 						</Flexbox>
 
-					</Flexbox>
+						<Flexbox flexDirection="column" className="choose-command form-row">
+							<label htmlFor="asset">Choose command</label>
+							<Flexbox flexDirection="row" className='command-input'>
+								<input
+									id="command"
+									className="full-width"
+									name="command"
+									type="text"
+									placeholder="Enter Command"
+									value={contractMessage.command}
+									onChange={this.onCommandChanged} />
+							</Flexbox>
+						</Flexbox>
 
-					<Flexbox flexDirection="column" className="message-data input-container">
-						<label htmlFor="data">Data</label>
-						<textarea rows='4' cols='50'
-							className='full-width'
-							id="data"	name="data"	type="text"
-							placeholder="Paste message data here"
-							value={contractMessage.data}
-							onChange={this.onDataChanged} >
-							Lorem Ipsum
-						</textarea>
+						<Flexbox flexDirection="row" className="contract-message-details form-row">
+
+								<Flexbox flexGrow={1} flexDirection="column" className="select-asset">
+									<label htmlFor="asset">Asset</label>
+
+									<input
+										id="asset"
+										name="asset"
+										type="text"
+										placeholder="Enter Asset"
+										value={contractMessage.asset}
+										onChange={this.onAssetChanged} />
+
+								</Flexbox>
+
+								<Flexbox flexGrow={0} flexDirection="column" className="choose-amount">
+									<label htmlFor="amount">Amount</label>
+									<input
+										id="amount"
+										name="amount"
+										type="number"
+										placeholder="Enter amount of Zens"
+										value={contractMessage.amount}
+										onChange={this.onAmountChanged} />
+								</Flexbox>
+
+						</Flexbox>
+
+						<Flexbox flexDirection="column" className="message-data">
+							<label htmlFor="data">Data</label>
+							<textarea rows='4' cols='50'
+								id="data"	name="data"	type="text"
+								placeholder="Paste message data here"
+								value={contractMessage.data}
+								onChange={this.onDataChanged} >
+								Lorem Ipsum
+							</textarea>
+						</Flexbox>
+
 					</Flexbox>
 
 					<Flexbox justifyContent='flex-end' flexDirection="row">
