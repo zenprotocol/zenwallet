@@ -13,7 +13,7 @@ button, .button {
 
   &:focus { outline: none; }
   &:disabled {
-    background-color: $blue-l;
+    background-color: $blue-disabled;
     cursor: default;
     color: rgba(255, 255, 255, 0.1);
   }
