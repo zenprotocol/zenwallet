@@ -26,11 +26,16 @@ class SendTx extends Component {
 
 	onAmountChanged(event) {
 		const {transaction} = this.props
+		if (event.target.value) {
+			transaction.amount = toInteger(event.target.value)
+		}	else {
+			transaction.amount = undefined
+		}
+	}
 
-		if (event.target.value)
-		transaction.amount = toInteger(event.target.value)
-		else
-		transaction.amount = undefined
+	onAssetChanged(event) {
+		const {transaction} = this.props
+		transaction.asset = event.target.value
 	}
 
 	onSendTransactionClicked() {
@@ -54,44 +59,49 @@ class SendTx extends Component {
 						<h1>Send</h1>
 					</Flexbox>
 
-					<div className='destination-address-div input-container'>
-						<label htmlFor='to'>Destination Address</label>
-						<Flexbox flexDirection="row" className='destination-address-input'>
-							<input
-								id='to'
-								name="to"
-								type="text"
-								onChange={this.onDestinationAddressChanged} value={transaction.to} />
-								<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
-							</Flexbox>
-						</div>
+					<Flexbox flexDirection="column" className="form-container">
 
-						<Flexbox flexDirection="row" className='input-container'>
-
-							<Flexbox flexDirection="column" className="select-asset">
-								<label htmlFor="asset">Select Asset</label>
-								<select>
-									<option value="0000000000000000000000000000000000000000000000000000000000000000">ZENP</option>
-									<option value="0000000USDZ">USDZ</option>
-									<option value="BITZEN">BITZEN</option>
-									<option value="BITGOLD">BITGOLD</option>
-								</select>
-							</Flexbox>
-
-							<Flexbox flexDirection="column" className="amount">
-								<label htmlFor="amount">Amount</label>
+						<div className='destination-address-div'>
+							<label htmlFor='to'>Destination Address</label>
+							<Flexbox flexDirection="row" className='destination-address-input'>
 								<input
-									id="amount"
-									name="amount"
-									type="number"
-									placeholder="Enter amount of Zens"
-									value={transaction.amount}
-									onChange={this.onAmountChanged} />
+									id='to'
+									name="to"
+									type="text"
+									onChange={this.onDestinationAddressChanged} value={transaction.to} />
+									<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
+								</Flexbox>
+							</div>
+
+							<Flexbox flexDirection="row">
+
+								<Flexbox flexGrow={1} flexDirection="column" className="select-asset">
+									<label htmlFor="asset">Asset</label>
+
+									<input
+										id="asset"
+										name="asset"
+										type="text"
+										placeholder="Enter Asset"
+										value={transaction.asset}
+										onChange={this.onAssetChanged} />
+
+								</Flexbox>
+
+								<Flexbox flexGrow={0} flexDirection="column" className="amount">
+									<label htmlFor="amount">Amount</label>
+									<input
+										id="amount"
+										name="amount"
+										type="number"
+										placeholder="Enter amount of Zens"
+										value={transaction.amount}
+										onChange={this.onAmountChanged} />
+									</Flexbox>
+
 								</Flexbox>
 
 							</Flexbox>
-
-							<div className='devider' />
 
 							<Flexbox justifyContent='flex-end' flexDirection="row">
 								<button onClick={this.onSendTransactionClicked}>Send</button>
