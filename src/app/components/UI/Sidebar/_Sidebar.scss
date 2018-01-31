@@ -36,8 +36,8 @@ nav {
       letter-spacing: 0.7px;
     }
 
-    a:hover { background: $button-grey-disabled; }
-    a:focus { background: $button-grey-focus; }
+    a:hover { color: $light-white; }
+    a:focus { background: $light-grey; }
 
     a.active {
       background: $light-grey;

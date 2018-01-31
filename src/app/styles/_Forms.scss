@@ -10,7 +10,7 @@
 
 .form-row { margin-bottom: 10px; }
 
-input, div.dropzone  {
+input, .dropzone  {
   background: $dark-grey;
   padding: 10px;
   color: $off-white;
@@ -18,6 +18,24 @@ input, div.dropzone  {
   outline: none;
   border-radius: $border-radius;
   font-size: 13px;
+}
+
+.upload-contract-dropzone {
+	position: relative;
+
+	.dropzone  {
+		p { display: inline; }
+		&.active { border: 1px solid $blue; }
+		&.file-chosen { background-color: $dark-grey-2;}
+	}
+
+	a.cancel-button {
+		position: absolute;
+		right: 121px;
+		padding: 12px;
+		img { height: 12px; }
+	}
+
 }
 
 textarea {
@@ -30,6 +48,7 @@ label {
   line-height: 2.5rem;
   color: $bright-grey;
   font-size: 1rem;
+	text-transform: uppercase;
 }
 select::-ms-expand { display: none; }
 

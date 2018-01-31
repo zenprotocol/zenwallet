@@ -15,6 +15,8 @@ class ContractState {
   @observable status
   @observable inprogress = false
   @observable errorMessage = ''
+  @observable acceptedFiles = []
+  @observable rejectedFiles = []
 
   @action
   init(dropTextPlaceholder) {
@@ -23,7 +25,7 @@ class ContractState {
   }
 
   @action
-  clearForm() {
+  resetForm() {
     this.name = ''
     this.dragDropText = dropTextPlaceholder
     this.code = ''
@@ -32,6 +34,13 @@ class ContractState {
     this.status = ''
     this.inprogress = false
     this.errorMessage = ''
+    this.acceptedFiles = []
+    this.rejectedFiles = []
+  }
+
+  @action
+  resetDragDropText() {
+    this.dragDropText = dropTextPlaceholder
   }
 
   @action
@@ -55,12 +64,14 @@ class ContractState {
           }).write()
         }
 
-          this.name = ''
-          this.dragDropText = dropTextPlaceholder
-          this.hash = response.hash
-          this.address = response.address
-          this.status = 'success'
-          this.inprogress = false
+        this.name = ''
+        this.dragDropText = dropTextPlaceholder
+        this.hash = response.hash
+        this.address = response.address
+        this.status = 'success'
+        this.inprogress = false
+        this.acceptedFiles = []
+        this.rejectedFiles = []
       })
 
     } catch (error) {

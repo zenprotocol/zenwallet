@@ -1,7 +1,9 @@
 @import "Variables";
 
 button, .button {
-  padding: 12px 40px;
+  padding: 12px 0;
+  width: 125px;
+  text-align: center;
   border-radius: 2px;
   background: $blue;
   color: white;

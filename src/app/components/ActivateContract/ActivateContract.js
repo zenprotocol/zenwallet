@@ -1,3 +1,4 @@
+const path = require('path')
 import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
 import autobind from 'class-autobind'
@@ -12,15 +13,11 @@ import Layout from '../UI/Layout/Layout'
 class ActivateContract extends Component {
 	constructor() {
 		super()
-		this.state = {
-      accepted: [],
-      rejected: []
-    }
 		autobind(this)
 	}
 
 	componentWillUnmount() {
-		this.clearForm()
+		this.props.contract.resetForm()
 	}
 
 	onDrop(acceptedFiles, rejectedFiles) {
@@ -31,29 +28,20 @@ class ActivateContract extends Component {
 			reader.onload = () => {
 				const fileAsBinaryString = reader.result
 				contract.code = fileAsBinaryString
-			};
+			}
 			reader.onabort = () => console.log('file reading was aborted')
 			reader.onerror = () => console.log('file reading has failed')
 
 			reader.readAsBinaryString(file)
-		});
+		})
+
+		contract.acceptedFiles = acceptedFiles
+		contract.rejectedFiles = rejectedFiles
 
 		if (acceptedFiles.length > 0) {
 			contract.fileName = head(acceptedFiles).name
 			contract.dragDropText = head(acceptedFiles).name
-
-			// this.clearForm()
-
 		}
-
-		this.setState({ accepted: acceptedFiles, rejected: rejectedFiles })
-	}
-
-	clearForm = () => {
-		const {contract} = this.props
-		console.log('clearing form')
-		contract.clearForm()
-		this.setState({ accepted: '', rejected: '' })
 	}
 
 	onActivateContractClicked() {
@@ -88,12 +76,11 @@ class ActivateContract extends Component {
 	}
 
 	isActivateButtonDisabled() {
-		const {inprogress} = this.props.contract
-		const {accepted} = this.state
+		const {inprogress, acceptedFiles} = this.props.contract
 
-		if (accepted.length == 1 && inprogress) { return true }
-		if (accepted.length == 1) { return false }
-		if (accepted.length == 0) { return true }
+		if (acceptedFiles.length == 1 && inprogress) { return true }
+		if (acceptedFiles.length == 1) { return false }
+		if (acceptedFiles.length == 0) { return true }
 	}
 
 	renderActivateButtonText() {
@@ -106,6 +93,28 @@ class ActivateContract extends Component {
 		return (inprogress ? "button-on-right loading" : "button-on-right")
 	}
 
+	renderCancelIcon() {
+		const {acceptedFiles} = this.props.contract
+		const cancelIconSource = path.join(__dirname, '../../assets/img/cancel-icon.png')
+		if (acceptedFiles.length == 1) {
+			return (
+				<a className='cancel-button' onClick={this.onCancelChosenFiledClicked}>
+					<img src={cancelIconSource} alt="Cancel chosen file"/>
+				</a>
+			)
+		}
+	}
+
+	onCancelChosenFiledClicked() {
+		const {contract} = this.props
+		contract.acceptedFiles = []
+		contract.resetDragDropText()
+	}
+
+	renderDropZoneClassName() {
+		const isFileChosen = this.props.contract.acceptedFiles.length == 1
+		return (isFileChosen ? 'dropzone full-width file-chosen' : 'dropzone full-width')
+	}
 
 	render() {
 		const {contract} = this.props
@@ -135,30 +144,29 @@ class ActivateContract extends Component {
 
 						<Flexbox flexDirection="column" className='destination-address-input form-row'>
 							<label htmlFor='to'>Upload a contract from your computer</label>
-							<Flexbox flexDirection="row" className='upload-contract-dropzone '>
+							<Flexbox flexDirection="row" className='upload-contract-dropzone'>
 								<Dropzone
 									ref={(node) => { dropzoneRef = node; }}
-									className='dropzone'
+									className={ this.renderDropZoneClassName() }
 									activeClassName='active'
 									multiple={false}
 									// accept="text/plain"
 									onDrop={this.onDrop.bind(this)}
 									>
-										<p>{contract.dragDropText}</p>
-									</Dropzone>
-									<button
-										className='button secondary button-on-right'
-										onClick={() => { dropzoneRef.open() }} >
-										Upload
-									</button>
-								</Flexbox>
+									<p>{contract.dragDropText}</p>
+								</Dropzone>
+								{this.renderCancelIcon()}
+								<button
+									className='button secondary button-on-right'
+									onClick={() => { dropzoneRef.open() }} >
+									Upload
+								</button>
 							</Flexbox>
+						</Flexbox>
 
 					</Flexbox>
 
 					{ this.renderSuccessResponse() }
-
-					<div className="devider"></div>
 
 					<Flexbox justifyContent='flex-end' flexDirection="row">
 						<button className='button secondary'>Cancel</button>
@@ -168,29 +176,6 @@ class ActivateContract extends Component {
 							onClick={this.onActivateContractClicked}>{this.renderActivateButtonText()}
 						</button>
 					</Flexbox>
-
-
-					<br/>
-					<br/>
-					<br/>
-
-{/*
-			        <aside>
-			          <h2>Accepted files</h2>
-			          <ul>
-			            {
-			              this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-			            }
-			          </ul>
-			          <h2>Rejected files</h2>
-			          <ul>
-			            {
-			              this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-			            }
-			          </ul>
-			        </aside>
-*/}
-
 
 				</Flexbox>
 			</Layout>
