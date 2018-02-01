@@ -27,10 +27,9 @@ class Layout extends Component {
                 <Sidebar title="Zen Protocol" />
                   <Main>
                     <Topbar />
-                      <Flexbox flexDirection="column" flexGrow={1} className='content-container'>
-                          {this.props.children}
-                      </Flexbox>
-                    <Footer/>
+                    <Flexbox flexDirection="column" flexGrow={1} className='content-container'>
+                        {this.props.children}
+                    </Flexbox>
                   </Main>
                 {/* <DevTools /> */}
             </Container>

@@ -11,7 +11,9 @@ table {
   td {
     background: $dark-grey-2;
 
-    &:hover { background: #242424; }
+  }
+  tbody {
+    tr:hover { background: #242424; }
   }
   th, td { padding: 16px 19px; }
 

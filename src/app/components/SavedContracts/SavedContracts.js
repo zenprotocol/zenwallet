@@ -60,7 +60,10 @@ class SavedContracts extends Component {
           <td>{contract.name}</td>
           <td><span title={contract.hash} >{hash}</span></td>
           <td><span title={contract.address} >{address}</span></td>
-          <td><button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button></td>
+          <td>
+            <Link className='button small' to={`/run-contract/${contract.address}`} >Run</Link>
+            <button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button>
+          </td>
         </tr>
       )
     })
@@ -80,6 +83,7 @@ class SavedContracts extends Component {
                   <th>Contract Name</th>
                   <th>Hash</th>
                   <th>Address</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>

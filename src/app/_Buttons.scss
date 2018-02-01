@@ -1,7 +1,8 @@
 @import "Variables";
 
+
 button, .button {
-  padding: 12px 0;
+  height: 35px;
   width: 125px;
   text-align: center;
   border-radius: 2px;
@@ -12,12 +13,14 @@ button, .button {
   border: none;
   letter-spacing: 0.5px;
   cursor: pointer;
+  text-decoration: none;
+  margin: 0 5px;
 
   &:focus { outline: none; }
   &:disabled {
     background-color: $blue-disabled;
     cursor: default;
-    color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
   }
 
   &.secondary { background-color: $secondary-grey; }
@@ -31,6 +34,11 @@ button, .button {
   }
   &.info {}
 
-  &.small { padding: 7px 14px; }
-&.button-on-right { margin-left: 17px; }
+  &.small { padding: 7px 14px; width: initial; }
+  &.button-on-right { margin-left: 17px; }
+}
+
+
+a.button {
+  &.small { padding: 7px 14px 10px 14px; width: initial; }
 }
