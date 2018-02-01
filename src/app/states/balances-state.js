@@ -2,6 +2,7 @@ import {observable, computed, action, runInAction} from 'mobx'
 import {getBalances} from '../services/api-service'
 import {find} from 'lodash'
 import db from '../services/store'
+import {truncateString} from '../../utils/helpers'
 
 const savedContracts = db.get('savedContracts').value()
 const zenAsset = '0000000000000000000000000000000000000000000000000000000000000000'
@@ -33,12 +34,9 @@ class BalancesState {
         const isZenp = asset === zenAsset
 
         if (result !== undefined && result.name) {
-          console.log('savedContracts name', result.name)
           return `(${result.name}) ${asset}`
         } else {
-          if (isZenp) {
-            return `(ZENP) ${asset}` 
-          }
+          if (isZenp) { return `(ZENP) ${asset}` }
           return asset
         }
     }

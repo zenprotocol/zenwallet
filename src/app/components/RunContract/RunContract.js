@@ -80,9 +80,7 @@ class RunContract extends Component {
 
 					<Flexbox flexDirection="column" className='page-title'>
 						<h1>Run Contract</h1>
-						<p>Lorem ipsum - this is a form to send a message to a zen contract.</p>
 					</Flexbox>
-
 
 					<Flexbox flexDirection="column" className="form-container">
 

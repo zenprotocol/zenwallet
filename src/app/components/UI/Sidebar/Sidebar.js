@@ -23,7 +23,7 @@ class Sidebar extends Component {
     render() {
         const {title} = this.props
 
-        const logoSrc = path.join(__dirname, '../../../assets/img/logo.png')
+        const logoSrc = path.join(__dirname, '../../../assets/img/zen-logo.png')
 
         const className = classnames('sidebar', this.props.className)
 
