@@ -21,17 +21,16 @@ class RunContract extends Component {
 	componentWillMount() {
 		const {match, contractMessage} = this.props
 		const {contractAddress} = match.params
-		console.log('this.props.params contractAddress', contractAddress)
 		if (contractAddress) {
 			contractMessage.to = contractAddress
 			contractMessage.amount = null
 		}
 	}
 
-	componentWillUnmount() {
-		const {contractMessage} = this.props
-		contractMessage.resetForm()
-	}
+	// componentWillUnmount() {
+	// 	const {contractMessage} = this.props
+	// 	contractMessage.resetForm()
+	// }
 
 	onContractAddressChanged(event) {
 		const {contractMessage} = this.props
