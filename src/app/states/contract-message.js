@@ -1,5 +1,5 @@
 import {observable, action} from 'mobx'
-import {postExecuteContractMessage} from '../services/api-service'
+import {postRunContractMessage} from '../services/api-service'
 
 class ContractMessageState {
   @observable asset = '0000000000000000000000000000000000000000000000000000000000000000'
@@ -19,7 +19,7 @@ class ContractMessageState {
 
   @action
   async sendContractMessage(msg) {
-    const response = await postExecuteContractMessage(msg.asset, msg.to, msg.amount, msg.command, msg.data)
+    const response = await postRunContractMessage(msg.asset, msg.to, msg.amount, msg.command, msg.data)
     return response
   }
 

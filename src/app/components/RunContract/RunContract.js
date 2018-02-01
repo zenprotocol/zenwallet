@@ -11,11 +11,18 @@ import Layout from '../UI/Layout/Layout'
 
 @inject('contractMessage')
 @observer
-class ExecuteContract extends Component {
+class RunContract extends Component {
 
 	constructor() {
 		super()
 		autobind(this)
+	}
+
+	componentWillMount() {
+		const {match, contractMessage} = this.props
+		const {contractAddress} = match.params
+		console.log('this.props.params contractAddress', contractAddress)
+		if (contractAddress) { contractMessage.to = contractAddress	}
 	}
 
 	onContractAddressChanged(event) {
@@ -52,7 +59,7 @@ class ExecuteContract extends Component {
 		contractMessage.to = clipboard.readText()
 	}
 
-	onExecuteContractClicked() {
+	onRunContractClicked() {
 		const {contractMessage} = this.props
 		contractMessage.sendContractMessage(contractMessage)
 	}
@@ -61,11 +68,11 @@ class ExecuteContract extends Component {
 		const {contractMessage} = this.props
 
 		return (
-			<Layout className="execute-contract">
+			<Layout className="run-contract">
 				<Flexbox flexDirection="column" className="send-tx-container">
 
 					<Flexbox flexDirection="column" className='page-title'>
-						<h1>Execute Contract</h1>
+						<h1>Run Contract</h1>
 						<p>Lorem ipsum - this is a form to send a message to a zen contract.</p>
 					</Flexbox>
 
@@ -145,7 +152,7 @@ class ExecuteContract extends Component {
 					</Flexbox>
 
 					<Flexbox justifyContent='flex-end' flexDirection="row">
-						<button onClick={this.onExecuteContractClicked}>Execute</button>
+						<button onClick={this.onRunContractClicked}>Run</button>
 					</Flexbox>
 
 				</Flexbox>
@@ -154,4 +161,4 @@ class ExecuteContract extends Component {
 	}
 }
 
-export default ExecuteContract
+export default RunContract

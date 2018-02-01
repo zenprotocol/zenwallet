@@ -1,6 +1,7 @@
 const path = require('path')
 import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
+import {Link} from 'react-router-dom'
 import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import Dropzone from 'react-dropzone'
@@ -54,27 +55,6 @@ class ActivateContract extends Component {
 		contract.name = event.target.value
 	}
 
-	renderSuccessResponse() {
-		const {contract} = this.props
-
-		if (contract.address && contract.hash) {
-			return(
-				<div>
-					Contract Activated Successfully
-					<br/>
-					Order hash: {contract.hash}
-					<br/>
-					Order address: {contract.address}
-					<br/>
-					Order Status: {contract.status}
-					<br/>
-					InProgress: {contract.inprogress}
-					<br/>
-				</div>
-			)
-		}
-	}
-
 	isActivateButtonDisabled() {
 		const {inprogress, acceptedFiles} = this.props.contract
 
@@ -114,6 +94,27 @@ class ActivateContract extends Component {
 	renderDropZoneClassName() {
 		const isFileChosen = this.props.contract.acceptedFiles.length == 1
 		return (isFileChosen ? 'dropzone full-width file-chosen' : 'dropzone full-width')
+	}
+
+	renderSuccessResponse() {
+		const {contract} = this.props
+		const checkIconSource = path.join(__dirname, '../../assets/img/check-icon.png')
+
+		if (contract.address && contract.hash && contract.status == 'success') {
+			return(
+				<Flexbox flexGrow={1} flexDirection="row" className='success-message'>
+					<img src={checkIconSource} alt="Great Success" className='success-icon'/>
+					<Flexbox flexDirection="column">
+						<span>
+							Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
+						</span>
+						<div className="devider"></div>
+						<p>Contract Hash: {contract.hash}</p>
+						<p>Contract Address: {contract.address}</p>
+					</Flexbox>
+				</Flexbox>
+			)
+		}
 	}
 
 	render() {
@@ -166,16 +167,18 @@ class ActivateContract extends Component {
 
 					</Flexbox>
 
-					{ this.renderSuccessResponse() }
-
-					<Flexbox justifyContent='flex-end' flexDirection="row">
-						<button className='button secondary'>Cancel</button>
-						<button
-							className={this.renderClassNames()}
-							disabled={this.isActivateButtonDisabled()}
-							onClick={this.onActivateContractClicked}>{this.renderActivateButtonText()}
-						</button>
+					<Flexbox flexDirection="row">
+						{ this.renderSuccessResponse() }
+						<Flexbox flexGrow={2}></Flexbox>
+						<Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
+							<button
+								className={this.renderClassNames()}
+								disabled={this.isActivateButtonDisabled()}
+								onClick={this.onActivateContractClicked}>{this.renderActivateButtonText()}
+							</button>
+						</Flexbox>
 					</Flexbox>
+
 
 				</Flexbox>
 			</Layout>

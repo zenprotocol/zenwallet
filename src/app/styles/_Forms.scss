@@ -8,6 +8,14 @@
 	&.container-on-right { margin-left: 20px; }
 }
 
+.form-container {	margin-bottom: 35px; }
+
+.success-message {
+	a { text-decoration: none; }
+	p { margin-bottom: 10px; }
+	img.success-icon { height: 13px; padding: 0 13px; }
+}
+
 .form-row { margin-bottom: 10px; }
 
 input, .dropzone  {
@@ -37,6 +45,8 @@ input, .dropzone  {
 	}
 
 }
+
+.success-icon { height: 13px; }
 
 textarea {
 	background: $dark-grey;

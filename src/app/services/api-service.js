@@ -40,7 +40,7 @@ export async function postActivateContract(code) {
 	return response.data
 }
 
-export async function postExecuteContractMessage(asset, to, amount, command, data) {
+export async function postRunContractMessage(asset, to, amount, command, data) {
 
 	const finaldata = {
 		"address" : to,
