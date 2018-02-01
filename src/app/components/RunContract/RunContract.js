@@ -22,7 +22,15 @@ class RunContract extends Component {
 		const {match, contractMessage} = this.props
 		const {contractAddress} = match.params
 		console.log('this.props.params contractAddress', contractAddress)
-		if (contractAddress) { contractMessage.to = contractAddress	}
+		if (contractAddress) {
+			contractMessage.to = contractAddress
+			contractMessage.amount = null
+		}
+	}
+
+	componentWillUnmount() {
+		const {contractMessage} = this.props
+		contractMessage.resetForm()
 	}
 
 	onContractAddressChanged(event) {
@@ -144,9 +152,7 @@ class RunContract extends Component {
 								id="data"	name="data"	type="text"
 								placeholder="Paste message data here"
 								value={contractMessage.data}
-								onChange={this.onDataChanged} >
-								Lorem Ipsum
-							</textarea>
+								onChange={this.onDataChanged} />
 						</Flexbox>
 
 					</Flexbox>

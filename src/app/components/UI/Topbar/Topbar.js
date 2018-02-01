@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
 
-@inject('balance')
+@inject('balances')
 @inject('history')
 @observer
 class Header extends Component {
@@ -19,8 +19,8 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        const {balance} = this.props
-        balance.begin()
+        const {balances} = this.props
+        balances.begin()
     }
 
     onBackClicked(event) {
@@ -29,7 +29,7 @@ class Header extends Component {
     }
 
     render() {
-        const {balance} = this.props
+        const {balances} = this.props
 
         const className = classnames('header', this.props.className)
 
@@ -44,7 +44,7 @@ class Header extends Component {
                       <span className="total-balance">Total Balance</span>
                       <span className='zen-symbol'>ZENP</span>
                   </div>
-                  <div className='account-balance'>{balance.zen.toLocaleString()}</div>
+                  <div className='account-balance'>{balances.zen.toLocaleString()}</div>
                 </div>
             </Flexbox>
         )

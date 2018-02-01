@@ -3,10 +3,9 @@ import {inject, observer} from 'mobx-react'
 import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-
 import Layout from '../UI/Layout/Layout'
 
-@inject('balance')
+@inject('balances')
 @observer
 class Balances extends Component {
   constructor() {
@@ -15,18 +14,21 @@ class Balances extends Component {
   }
 
   componentDidMount() {
-    const {balance} = this.props
-    balance.fetch()
+    const {balances} = this.props
+    balances.fetch()
   }
 
   render() {
-    const {balance} = this.props
+    const {balances} = this.props
 
-    const balances = balance.assets.map(asset => {
+    const balancesRows = balances.assets.map(asset => {
+
+      const assetWithName = balances.getAssetWithName(asset.asset)
+
       return (
         <tr key={asset.asset}>
-          <td className='align-left' >{asset.asset}</td>
-          <td className='align-right bright-blue' >{asset.balance}</td>
+          <td className='align-left' >{assetWithName}</td>
+          <td className='align-right bright-blue' >{asset.balance.toLocaleString()}</td>
         </tr>
       )
     })
@@ -47,7 +49,7 @@ class Balances extends Component {
               </tr>
             </thead>
             <tbody>
-              {balances}
+              {balancesRows}
             </tbody>
           </table>
         </Flexbox>

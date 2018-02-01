@@ -1,10 +1,12 @@
 import {observable, computed, action, runInAction} from 'mobx'
 import {getBalances} from '../services/api-service'
 import {find} from 'lodash'
+import db from '../services/store'
 
+const savedContracts = db.get('savedContracts').value()
 const zenAsset = '0000000000000000000000000000000000000000000000000000000000000000'
 
-class BalanceState {
+class BalancesState {
     assets = observable.array([])
 
     constructor()  {
@@ -14,7 +16,7 @@ class BalanceState {
     @action
     begin() {
       this.fetch()
-      setInterval(this.fetch, 1000);
+      setInterval(this.fetch, 10000);
     }
 
     @action
@@ -23,6 +25,22 @@ class BalanceState {
 
         runInAction(() =>
           this.assets.replace(result))
+    }
+
+    @action
+    getAssetWithName(asset) {
+        const result = find(savedContracts, contract => contract.hash === asset)
+        const isZenp = asset === zenAsset
+
+        if (result !== undefined && result.name) {
+          console.log('savedContracts name', result.name)
+          return `(${result.name}) ${asset}`
+        } else {
+          if (isZenp) {
+            return `(ZENP) ${asset}` 
+          }
+          return asset
+        }
     }
 
     @computed
@@ -38,4 +56,4 @@ class BalanceState {
 
 }
 
-export default BalanceState
+export default BalancesState
