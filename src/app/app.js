@@ -23,7 +23,7 @@ ReactDOM.render(
     <Router history={history}>
       <Switch>
         <Route exact path="/receive" component={Receive} />
-        <Route exact path="/send-tx" component={SendTx} />
+        <Route exact path="/send-tx/:assetHash?" component={SendTx} />
         <Route exact path="/activate-contract" component={ActivateContract} />
         <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
         <Route exact path="/saved-contracts" component={SavedContracts} />
