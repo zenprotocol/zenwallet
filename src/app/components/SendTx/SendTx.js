@@ -19,6 +19,14 @@ class SendTx extends Component {
 		autobind(this)
 	}
 
+	componentWillMount() {
+		const {match, transaction} = this.props
+		const {assetHash} = match.params
+		if (assetHash) {
+			transaction.asset = assetHash
+		}
+	}
+
 	onDestinationAddressChanged(event) {
 		const {transaction} = this.props
 		transaction.to = event.target.value
@@ -61,57 +69,56 @@ class SendTx extends Component {
 
 					<Flexbox flexDirection="column" className="form-container">
 
-						<div className='destination-address-div'>
+						<Flexbox flexDirection="column" className='destination-address-input form-row'>
 							<label htmlFor='to'>Destination Address</label>
 							<Flexbox flexDirection="row" className='destination-address-input'>
 								<input
+									className='full-width'
 									id='to'
 									name="to"
 									type="text"
 									onChange={this.onDestinationAddressChanged} value={transaction.to} />
 									<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
-								</Flexbox>
-							</div>
+							</Flexbox>
+						</Flexbox>
 
-							<Flexbox flexDirection="row">
+						<Flexbox flexDirection="row">
 
-								<Flexbox flexGrow={1} flexDirection="column" className="select-asset">
-									<label htmlFor="asset">Asset</label>
-
-									<input
-										id="asset"
-										name="asset"
-										type="text"
-										placeholder="Enter Asset"
-										value={transaction.asset}
-										onChange={this.onAssetChanged} />
-
-								</Flexbox>
-
-								<Flexbox flexGrow={0} flexDirection="column" className="amount">
-									<label htmlFor="amount">Amount</label>
-									<input
-										id="amount"
-										name="amount"
-										type="number"
-										placeholder="Enter amount of Zens"
-										value={transaction.amount}
-										onChange={this.onAmountChanged} />
-									</Flexbox>
-
-								</Flexbox>
-
+							<Flexbox flexGrow={1} flexDirection="column" className="select-asset">
+								<label htmlFor="asset">Asset</label>
+								<input
+									id="asset"
+									name="asset"
+									type="text"
+									placeholder="Enter Asset"
+									value={transaction.asset}
+									onChange={this.onAssetChanged} />
 							</Flexbox>
 
-							<Flexbox justifyContent='flex-end' flexDirection="row">
-								<button onClick={this.onSendTransactionClicked}>Send</button>
+							<Flexbox flexGrow={0} flexDirection="column" className="amount">
+								<label htmlFor="amount">Amount</label>
+								<input
+									id="amount"
+									name="amount"
+									type="number"
+									placeholder="Enter amount of Zens"
+									value={transaction.amount}
+									onChange={this.onAmountChanged} />
 							</Flexbox>
 
 						</Flexbox>
-					</Layout>
-				)
 
-			}
-		}
+					</Flexbox>
 
-		export default SendTx
+					<Flexbox justifyContent='flex-end' flexDirection="row">
+						<button onClick={this.onSendTransactionClicked}>Send</button>
+					</Flexbox>
+
+				</Flexbox>
+			</Layout>
+		)
+
+	}
+}
+
+export default SendTx

@@ -34,11 +34,15 @@ button, .button {
   }
   &.info {}
 
-  &.small { padding: 7px 14px; width: initial; }
+  &.small {
+    padding: 7px 14px 6px 14px;
+    height: initial;
+    width: initial; 
+  }
   &.button-on-right { margin-left: 17px; }
 }
 
 
 a.button {
-  &.small { padding: 7px 14px 10px 14px; width: initial; }
+  &.small { padding: 4px 14px 5px 14px; width: initial; }
 }
