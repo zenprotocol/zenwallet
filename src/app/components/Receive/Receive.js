@@ -18,7 +18,6 @@ class Receive extends Component {
 
     componentDidMount() {
         const {publicAddress} = this.props
-
         publicAddress.fetch()
     }
 
@@ -32,10 +31,8 @@ class Receive extends Component {
 
     onCopyClicked() {
         const {publicAddress} = this.props
-
         this.refs.publicAddressInput.focus()
         this.refs.publicAddressInput.select()
-
         clipboard.writeText(publicAddress.address)
         this.showHideCopyMessage()
     }
@@ -51,7 +48,7 @@ class Receive extends Component {
       const {showCopyMessage} = this.state
       if (showCopyMessage === true) {
         return (
-          <div className='light-blue copied-to-clipboard-message'>Public address copied to clipboard</div>
+          <div className='bright-blue copied-to-clipboard-message'>Public address copied to clipboard</div>
         )
       }
     }
@@ -69,7 +66,7 @@ class Receive extends Component {
 
                 <div className='input-container'>
                   <label onClick={this.handleFocus} htmlFor="public-address">Your Address</label>
-                  <Flexbox flexDirection="row" className='address-input'>
+                  <Flexbox flexDirection="row" className='address-input form-row'>
                     <input id='public-address' ref='publicAddressInput' onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readOnly />
                     <button className="button copy-button button-on-right" onClick={this.onCopyClicked}>Copy</button>
                   </Flexbox>
