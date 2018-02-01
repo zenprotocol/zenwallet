@@ -17,9 +17,12 @@ class ActivateContract extends Component {
 		autobind(this)
 	}
 
-	// componentWillUnmount() {
-	// 	this.props.contract.resetForm()
-	// }
+	componentWillUnmount() {
+		const {contract} = this.props
+		if (contract.status == 'success') {
+			this.props.contract.resetForm()
+		}
+	}
 
 	onDrop(acceptedFiles, rejectedFiles) {
 		const {contract} = this.props
