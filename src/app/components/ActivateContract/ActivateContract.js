@@ -148,7 +148,7 @@ class ActivateContract extends Component {
 					<Flexbox flexDirection="column" className="form-container">
 
 						<Flexbox flexDirection="column" className="contract-name form-row">
-							<label htmlFor='to'>Name Your Contract (Optional)</label>
+							<label htmlFor='to'>Name Your Contract</label>
 							<input
 								id='contract-name'
 								name='contract-name'
