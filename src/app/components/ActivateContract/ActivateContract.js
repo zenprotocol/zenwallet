@@ -69,7 +69,7 @@ class ActivateContract extends Component {
 
 	renderActivateButtonText() {
 		const {inprogress} = this.props.contract
-		return (inprogress ? "Proccessing" : "Activate")
+		return (inprogress ? "Activating" : "Activate")
 	}
 
 	renderClassNames() {
@@ -112,6 +112,21 @@ class ActivateContract extends Component {
 					<div className="devider"></div>
 					<p>Contract Hash: {contract.hash}</p>
 					<p>Contract Address: {contract.address}</p>
+				</FormResponseMessage>
+			)
+		}
+	}
+
+	renderErrorResponse() {
+		const {contract} = this.props
+		if (contract.status == 'error') {
+			return(
+				<FormResponseMessage className='error'>
+					<span>
+						There seems to be a problem with your contract. Please contact your developer and direct them to use the ZEN-SDK to test the contract.
+						<br/>
+						SDK Link: <a target="_blank" href="https://github.com/zenprotocol/ZFS-SDK">https://github.com/zenprotocol/ZFS-SDK</a>
+					</span>
 				</FormResponseMessage>
 			)
 		}
@@ -169,6 +184,7 @@ class ActivateContract extends Component {
 
 					<Flexbox flexDirection="row">
 						{ this.renderSuccessResponse() }
+						{ this.renderErrorResponse() }
 						<Flexbox flexGrow={2}></Flexbox>
 						<Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
 							<button

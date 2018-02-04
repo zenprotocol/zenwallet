@@ -15,4 +15,10 @@
     border-top: 4px solid $blue;
     i { color: $blue; }
   }
+
+  &.error {
+    border-top: 4px solid $red;
+    i { color: $red; }
+  }
+  
 }

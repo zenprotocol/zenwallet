@@ -75,18 +75,11 @@ class ContractState {
       })
 
     } catch (error) {
+      this.status = 'error'
       this.inprogress = false
-
-      if (error.response && error.response.status === 429) {
-          this.rejectTotalAmount = error.response.data.amount
-          this.status = 'failed'
-
-      } else {
-          console.log('activateContract error', error)
-          runInAction(() => {
-              this.errorMessage = error
-          })
-      }
+      runInAction(() => {
+        this.errorMessage = error.response.data
+      })
     }
   }
 
