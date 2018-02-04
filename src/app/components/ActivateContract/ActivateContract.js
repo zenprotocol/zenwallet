@@ -166,7 +166,7 @@ class ActivateContract extends Component {
 									className={ this.renderDropZoneClassName() }
 									activeClassName='active'
 									multiple={false}
-									// accept="text/plain"
+									accept=".fst"
 									onDrop={this.onDrop.bind(this)}
 									>
 									<p>{contract.dragDropText}</p>
@@ -195,6 +195,24 @@ class ActivateContract extends Component {
 						</Flexbox>
 					</Flexbox>
 
+					{/* <br/>
+					<br/>
+					<br/>
+
+	        <aside>
+	          <h2>Accepted files</h2>
+	          <ul>
+	            {
+	              contract.acceptedFiles.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+	            }
+	          </ul>
+	          <h2>Rejected files</h2>
+	          <ul>
+	            {
+	              contract.rejectedFiles.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+	            }
+	          </ul>
+	        </aside> */}
 
 				</Flexbox>
 			</Layout>
