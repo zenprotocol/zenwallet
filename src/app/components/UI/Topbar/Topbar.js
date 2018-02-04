@@ -9,46 +9,75 @@ import Flexbox from 'flexbox-react'
 @inject('history')
 @observer
 class Header extends Component {
-    constructor() {
-        super()
-        autobind(this)
-    }
+  constructor() {
+    super()
+    autobind(this)
+  }
 
-    static propTypes = {
-        className: PropTypes.string
-    }
+  static propTypes = {
+    className: PropTypes.string
+  }
 
-    componentDidMount() {
-        const {balances} = this.props
-        balances.begin()
-    }
+  componentDidMount() {
+    const {balances} = this.props
+    balances.begin()
+  }
 
-    onBackClicked(event) {
-        this.props.history.goBack()
-        event.preventDefault()
-    }
+  onBackClicked(event) {
+    const history = this.props.history
+    history.goBack()
+    event.preventDefault()
+  }
 
-    render() {
-        const {balances} = this.props
+  onForwardClicked(event) {
+    const history = this.props.history
+    history.goForward()
+    event.preventDefault()
+  }
 
-        const className = classnames('header', this.props.className)
+  renderBackButton() {
+    const history = this.props.history
+    const canGoBack = (history.index != 0)
+    const className = (canGoBack ? 'back-button active' : 'back-button')
+    return (
+      <a onClick={this.onBackClicked} className={className} disabled={!canGoBack}>
+        <i className="fa fa-angle-left"></i>
+      </a>
+    )
+  }
 
-        return (
-            <Flexbox className={className} element="header" >
-                <Flexbox className='back-buttons' width="100px">
-                    <a onClick={this.onBackClicked}>&lsaquo;</a>
-                </Flexbox>
-                <Flexbox flexGrow={1}></Flexbox>
-                <div className='balance'>
-                  <div className='balance-and-ticker'>
-                      <span className="total-balance">Total Balance</span>
-                      <span className='zen-symbol'>ZENP</span>
-                  </div>
-                  <div className='account-balance'>{balances.zen.toLocaleString()}</div>
-                </div>
-            </Flexbox>
-        )
-    }
+  renderForwardButton() {
+    const history = this.props.history
+    const canGoForward = (history.length - history.index) != 1
+    const className = (canGoForward ? 'forward-button active' : 'forward-button')
+
+    return (
+      <a onClick={this.onForwardClicked} className={className} disabled={!canGoForward}>
+        <i className="fa fa-angle-right"></i>
+      </a>
+    )
+  }
+
+  render() {
+    const {balances} = this.props
+    const className = classnames('header', this.props.className)
+    return (
+      <Flexbox className={className} element="header" >
+        <Flexbox className='back-buttons' width="100px">
+          { this.renderBackButton() }
+          { this.renderForwardButton() }
+        </Flexbox>
+        <Flexbox flexGrow={1}></Flexbox>
+        <div className='balance'>
+          <div className='balance-and-ticker'>
+            <span className="total-balance">Total Balance</span>
+            <span className='zen-symbol'>ZENP</span>
+          </div>
+          <div className='account-balance'>{balances.zen.toLocaleString()}</div>
+        </div>
+      </Flexbox>
+    )
+  }
 }
 
 export default Header

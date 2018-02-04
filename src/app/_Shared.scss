@@ -1,4 +1,9 @@
+$fa-font-path:   "./assets/fonts/fontawesome/scss/fontawesome.scss";
+
 @import "Variables";
+
+@import "./assets/fonts/fontawesome/scss/fontawesome.scss";
+@import "./assets/fonts/fontawesome/scss/fa-light.scss";
 
 .light-blue { color: $light-grey; }
 

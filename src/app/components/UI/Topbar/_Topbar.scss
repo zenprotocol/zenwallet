@@ -5,8 +5,30 @@
     background: $dark-grey;
 
 		.back-buttons {
-			padding: 30px;
-			a { font-size: 3rem; }
+			padding: 34px 54px;
+			a {
+        padding: 5px;
+        border: 1px solid #2b2b2c;
+        border-radius: 2px 0 0 2px;
+        width: 34px;
+        height: 34px;
+        font-size: 2rem;
+        color: $bright-grey;
+        cursor: default;
+        text-align: center;
+
+        &.forward-button {
+          border-left: none;
+          border-radius: 0 2px 2px 0;
+        }
+
+        &.active {
+          color: $off-white;
+          background-color: $dark-grey-2;
+          cursor: pointer;
+        }
+
+      }
 		}
 
     .balance {
