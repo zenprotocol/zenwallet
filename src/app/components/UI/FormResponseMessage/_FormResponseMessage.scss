@@ -1,0 +1,18 @@
+@import "Variables";
+
+.form-response-message {
+  padding: 20px;
+  border-radius: 2px;
+  border: 1px solid $input-border-color;
+  line-height: 1.5;
+
+  i {
+    padding: 0 15px 0 0;
+    font-size: 30px;
+  }
+
+  &.success {
+    border-top: 4px solid $blue;
+    i { color: $blue; }
+  }
+}

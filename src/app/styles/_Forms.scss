@@ -7,8 +7,8 @@
 	min-width: 225px;
 	&.container-on-right { margin-left: 20px; }
 }
-
 .form-container {	margin-bottom: 35px; }
+
 
 .success-message {
 	a { text-decoration: none; }
@@ -33,8 +33,8 @@ input, .dropzone  {
 
 	.dropzone  {
 		p { display: inline; }
-		&.active { border: 1px solid $blue; }
 		&.file-chosen { background-color: $dark-grey-2;}
+		&.active { border: 1px solid $blue; }
 	}
 
 	a.cancel-button {

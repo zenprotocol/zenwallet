@@ -12,7 +12,7 @@ import Layout from '../UI/Layout/Layout'
 class Receive extends Component {
     constructor(props) {
         super(props)
-        this.state = { showCopyMessage: false }
+        this.state = {showCopyMessage: false}
         autobind(this)
     }
 
@@ -48,7 +48,9 @@ class Receive extends Component {
       const {showCopyMessage} = this.state
       if (showCopyMessage === true) {
         return (
-          <div className='bright-blue copied-to-clipboard-message'>Public address copied to clipboard</div>
+          <div className='bright-blue copied-to-clipboard-message'>
+            Public address copied to clipboard
+          </div>
         )
       }
     }

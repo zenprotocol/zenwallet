@@ -8,6 +8,7 @@ import Dropzone from 'react-dropzone'
 import {head} from 'lodash'
 
 import Layout from '../UI/Layout/Layout'
+import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
 @inject('contract')
 @observer
@@ -101,21 +102,17 @@ class ActivateContract extends Component {
 
 	renderSuccessResponse() {
 		const {contract} = this.props
-		const checkIconSource = path.join(__dirname, '../../assets/img/check-icon.png')
 
 		if (contract.address && contract.hash && contract.status == 'success') {
 			return(
-				<Flexbox flexGrow={1} flexDirection="row" className='success-message'>
-					<img src={checkIconSource} alt="Great Success" className='success-icon'/>
-					<Flexbox flexDirection="column">
-						<span>
-							Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
-						</span>
-						<div className="devider"></div>
-						<p>Contract Hash: {contract.hash}</p>
-						<p>Contract Address: {contract.address}</p>
-					</Flexbox>
-				</Flexbox>
+				<FormResponseMessage className='success'>
+					<span>
+						Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
+					</span>
+					<div className="devider"></div>
+					<p>Contract Hash: {contract.hash}</p>
+					<p>Contract Address: {contract.address}</p>
+				</FormResponseMessage>
 			)
 		}
 	}
