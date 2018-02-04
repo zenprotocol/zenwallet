@@ -70,3 +70,13 @@ Running a contracts:
 
 1) activate contract - use contracts/full-example.fst
 2) copy the contract address
+
+
+
+# Initializing the Faucet
+
+1. Activate the faucet contract - src/app/contracts/faucet.fst
+2. Run the 'faucet' contract with the following parameters:
+   - command: 'init'
+   - asset: '0000000000000000000000000000000000000000000000000000000000000000' (ZENP)
+   - amount: as much as you want to fill up the faucet with
