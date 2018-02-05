@@ -1,18 +1,55 @@
-import {observable, action} from 'mobx'
+import {observable, action, runInAction} from 'mobx'
 import {postTransaction} from '../services/api-service'
 
 class TransactionState {
   @observable asset
   @observable to
   @observable amount
+  @observable status
+  @observable inprogress
+  @observable errorMessage
 
   @action
   init() {}
 
   @action
   async createTransaction(tx) {
-    const response = await postTransaction(tx.asset, tx.to, tx.amount)
-    return response
+
+    try {
+      this.inprogress = true
+      const response = await postTransaction(tx.asset, tx.to, tx.amount)
+
+      runInAction(() => {
+        console.log('createTransaction response', response)
+        this.resetForm()
+        this.status = 'success'
+        setTimeout(() => {
+          this.status = ''
+        }, 15000);
+      })
+
+    } catch (error) {
+      runInAction(() => {
+        console.log('createTransaction error', error.response.data)
+        this.errorMessage = error.response.data
+      })
+      this.inprogress = false
+      this.status = 'error'
+      setTimeout(() => {
+        this.status = ''
+      }, 15000);
+    }
+
+  }
+
+  @action
+  resetForm() {
+    this.inprogress = false
+    this.asset = ''
+    this.to = ''
+    this.amount = ''
+    this.status = ''
+    this.errorMessage = ''
   }
 
 }

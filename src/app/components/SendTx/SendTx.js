@@ -9,6 +9,7 @@ import {clipboard} from 'electron'
 import {toInteger} from 'lodash'
 
 import Layout from '../UI/Layout/Layout'
+import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
 @inject('transaction')
 @observer
@@ -46,11 +47,6 @@ class SendTx extends Component {
 		transaction.asset = event.target.value
 	}
 
-	onSendTransactionClicked() {
-		const {transaction} = this.props
-		transaction.createTransaction(transaction)
-	}
-
 	onPasteClicked() {
 		const {transaction} = this.props
 		transaction.to = clipboard.readText()
@@ -77,6 +73,7 @@ class SendTx extends Component {
 									id='to'
 									name="to"
 									type="text"
+									placeholder="Destination address"
 									onChange={this.onDestinationAddressChanged} value={transaction.to} />
 									<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
 							</Flexbox>
@@ -110,15 +107,78 @@ class SendTx extends Component {
 
 					</Flexbox>
 
-					<Flexbox justifyContent='flex-end' flexDirection="row">
-						<button onClick={this.onSendTransactionClicked}>Send</button>
+					<Flexbox flexDirection="row">
+						{ this.renderSuccessResponse() }
+						{ this.renderErrorResponse() }
+						<Flexbox flexGrow={2}></Flexbox>
+						<Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
+							<button
+								className={this.submitButtonClassNames()}
+								disabled={this.isSubmitButtonDisabled()}
+								onClick={this.onSubmitButtonClicked}
+							>
+								{this.renderSubmitButtonText()}
+							</button>
+						</Flexbox>
 					</Flexbox>
 
 				</Flexbox>
 			</Layout>
 		)
-
 	}
+
+
+	renderSuccessResponse() {
+		const {transaction} = this.props
+		if (transaction.status == 'success') {
+			return(
+				<FormResponseMessage className='success'>
+					<span>Transaction sent successfully.</span>
+				</FormResponseMessage>
+			)
+		}
+	}
+
+	renderErrorResponse() {
+		const {transaction} = this.props
+		if (transaction.status == 'error') {
+			return(
+				<FormResponseMessage className='error'>
+					<span>There was a problem with sending the transaction.</span>
+					<span className="devider"></span>
+					<p>Error message: {transaction.errorMessage}</p>
+				</FormResponseMessage>
+			)
+		}
+	}
+
+	onSubmitButtonClicked() {
+		const {transaction} = this.props
+		transaction.createTransaction(transaction)
+	}
+
+	submitButtonClassNames() {
+		const {inprogress} = this.props.transaction
+		return (inprogress ? "button-on-right loading" : "button-on-right")
+	}
+
+	renderSubmitButtonText() {
+		const {inprogress} = this.props.transaction
+		return (inprogress ? "Sending" : "Send")
+	}
+
+	validateAllFields() {
+		const {asset,to,amount,inprogress} = this.props.transaction
+		return !!(asset && to && amount)
+	}
+
+	isSubmitButtonDisabled() {
+		const allFieldsPresent = this.validateAllFields()
+		if (allFieldsPresent) { return false }
+		if (allFieldsPresent && inprogress) { return true }
+		if (!allFieldsPresent) { return true }
+	}
+
 }
 
 export default SendTx
