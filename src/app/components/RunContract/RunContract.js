@@ -8,6 +8,7 @@ import {clipboard} from 'electron'
 import {toInteger} from 'lodash'
 
 import Layout from '../UI/Layout/Layout'
+import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
 @inject('contractMessage')
 @observer
@@ -27,10 +28,12 @@ class RunContract extends Component {
 		}
 	}
 
-	// componentWillUnmount() {
-	// 	const {contractMessage} = this.props
-	// 	contractMessage.resetForm()
-	// }
+	componentWillUnmount() {
+		const {contractMessage} = this.props
+		if (contractMessage.status != '') {
+			contractMessage.resetForm()
+		}
+	}
 
 	onContractAddressChanged(event) {
 		const {contractMessage} = this.props
@@ -71,6 +74,40 @@ class RunContract extends Component {
 		contractMessage.sendContractMessage(contractMessage)
 	}
 
+	renderSuccessResponse() {
+		const {contractMessage} = this.props
+
+		if (contractMessage.status == 'success') {
+			return(
+				<FormResponseMessage className='success'>
+					<span>
+						Contract has been run successfully
+					</span>
+				</FormResponseMessage>
+			)
+		}
+	}
+
+	renderErrorResponse() {
+		const {contractMessage} = this.props
+		if (contractMessage.status == 'error') {
+			return(
+				<FormResponseMessage className='error'>
+					<span>
+						Couldn't run the contract with the parameters you entered.
+					</span>
+					<div className="devider"></div>
+					<p>Error message: {contractMessage.errorMessage}</p>
+				</FormResponseMessage>
+			)
+		}
+	}
+
+	renderButtonText() {
+		const {inprogress} = this.props.contractMessage
+		return (inprogress ? "Running" : "Run")
+	}
+
 	render() {
 		const {contractMessage} = this.props
 
@@ -93,6 +130,7 @@ class RunContract extends Component {
 									id='to'
 									name='to'
 									type='text'
+									placeholder="Enter contract address"
 									onChange={this.onContractAddressChanged}
 									value={contractMessage.to}
 								/>
@@ -154,8 +192,17 @@ class RunContract extends Component {
 
 					</Flexbox>
 
-					<Flexbox justifyContent='flex-end' flexDirection="row">
-						<button onClick={this.onRunContractClicked}>Run</button>
+					<Flexbox flexDirection="row">
+						{ this.renderSuccessResponse() }
+						{ this.renderErrorResponse() }
+						<Flexbox flexGrow={2}></Flexbox>
+						<Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
+							<button
+								disabled={contractMessage.inprogress}
+								onClick={this.onRunContractClicked}>
+								{(contractMessage.inprogress ? "Running" : "Run")}
+							</button>
+						</Flexbox>
 					</Flexbox>
 
 				</Flexbox>

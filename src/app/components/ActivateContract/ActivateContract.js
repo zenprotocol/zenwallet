@@ -21,7 +21,7 @@ class ActivateContract extends Component {
 	componentWillUnmount() {
 		const {contract} = this.props
 		if (contract.status == 'success') {
-			this.props.contract.resetForm()
+			contract.resetForm()
 		}
 	}
 

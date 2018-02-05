@@ -42,10 +42,10 @@ export async function postActivateContract(code) {
 
 export async function postRunContractMessage(asset, to, amount, command, data) {
 
-	const finaldata = {
-		"address" : to,
-		"command" : command,
-		"spends" : [
+	let finaldata = {	"address" : to }
+	if (command) { finaldata['command'] = command	}
+	if (asset && amount) {
+		finaldata['spends'] = [
 			{
 				"asset" : asset,
 				"amount" : amount

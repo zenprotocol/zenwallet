@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx'
+import {observable, action, runInAction} from 'mobx'
 import {postRunContractMessage} from '../services/api-service'
 
 class ContractMessageState {
@@ -7,23 +7,49 @@ class ContractMessageState {
   @observable amount
   @observable command
   @observable data
+  @observable status
+  @observable inprogress
 
   @action
   init() {}
 
   @action
   async sendContractMessage(msg) {
-    const response = await postRunContractMessage(msg.asset, msg.to, msg.amount, msg.command, msg.data)
-    return response
+
+    try {
+      this.inprogress = true
+      const response = await postRunContractMessage(msg.asset, msg.to, msg.amount, msg.command, msg.data)
+
+      runInAction(() => {
+        console.log('sendContractMessage response', response)
+        this.resetForm()
+        this.status = 'success'
+      })
+
+    } catch (error) {
+      runInAction(() => {
+        console.log('sendContractMessage error', error.response.data)
+        this.errorMessage = error.response.data
+      })
+      this.inprogress = false
+      this.status = 'error'
+      setTimeout(() => {
+        this.status = ''
+      }, 15000);
+    }
+
   }
 
   @action
   resetForm() {
-    this.asset = null
-    this.to = null
-    this.amount = null
-    this.command = null
-    this.data = null
+    this.inprogress = false
+    this.asset = ''
+    this.to = ''
+    this.amount = ''
+    this.command = ''
+    this.data = ''
+    this.errorMessage = ''
+    this.status = ''
   }
 
 }
