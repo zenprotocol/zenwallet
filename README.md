@@ -80,6 +80,7 @@ Update node
 Running a contracts:
 
 1) activate contract - use contracts/full-example.fst
+
 2) copy the contract address
 
 
