@@ -70,7 +70,9 @@ yarn start
 Update node
 
 1) go to zenprotocol/zenprotocol dir
-2) git pull upstream master
+
+2) `git pull upstream master`
+
 3) build nodes
 
 
