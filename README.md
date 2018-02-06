@@ -21,7 +21,7 @@ npm install @zen/zen-wallet -g
 Run `zen-wallet`
 
 # Building the Node
-
+```
 sudo apt install liblmdb0
 
 ./paket restore
@@ -31,16 +31,16 @@ cd src/Zulib
 
 cd ..
 msbuild
-
+```
 
 # Running nodes
-
+```
 cd /zenprotocol/src/Node/bin/Debug
 ./zen-node --localhost --wipe
-
+```
 
 # run another node from the same computer:
-
+```
 ./zen-node -l1
 
 Check balance
@@ -53,7 +53,7 @@ Send transaction:
 
 Check Address:
 ./zen-cli -l1 address
-
+```
 
 
 # Building Client
