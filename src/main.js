@@ -1,5 +1,6 @@
 import {app, BrowserWindow, Menu} from 'electron'
 import contextMenu from 'electron-context-menu'
+import zenNode from '@zen/zen-node'
 
 import db from './app/services/store'
 
@@ -13,6 +14,16 @@ let mainWindow
 contextMenu()
 
 app.on('ready', () => {
+  let args = []
+
+  if (process.env.ZEN_LOCAL === 'L1')
+    args.push('-l1')
+  else if (process.env.ZEN_LOCAL === 'localhost')
+    args.push('--localhost')
+
+  const node = zenNode(args)
+  node.stderr.pipe(process.stderr)
+  node.stdout.pipe(process.stdout)
 
   let { width, height } = db.get('userPreferences').value()
 
@@ -65,5 +76,6 @@ app.on('ready', () => {
 
     mainWindow.on('closed', () => {
       mainWindow = null
+      node.kill()
     })
   })
