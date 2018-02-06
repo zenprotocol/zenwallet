@@ -22,12 +22,13 @@ class Balances extends Component {
     const {balances} = this.props
 
     const balancesRows = balances.assets.map(asset => {
-      const assetWithName = balances.getAssetWithName(asset.asset)
+      const assetName = balances.getAssetWithName(asset.asset)
       return (
         <tr key={asset.asset}>
-          <td className='align-left' >{assetWithName}</td>
+          <td className='align-left' >{assetName}</td>
+          <td className='align-left' >{asset.asset}</td>
           <td className='bright-blue' >{asset.balance.toLocaleString()}</td>
-          <td className='align-left' >
+          <td className='align-right' >
             <Link className='button small' to={`/send-tx/${asset.asset}`} >Send</Link>
           </td>
         </tr>
@@ -45,9 +46,10 @@ class Balances extends Component {
           <table>
             <thead>
               <tr>
-                <th className='align-left'>Asset Name / Hash</th>
+                <th className='align-left'>Asset Name</th>
+                <th className='align-left'>Hash</th>
                 <th className='align-left'>Balance</th>
-                <th className='align-left'>Actions</th>
+                <th className='align-right'>Actions</th>
               </tr>
             </thead>
             <tbody>

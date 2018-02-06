@@ -34,9 +34,9 @@ class BalancesState {
         const isZenp = asset === zenAsset
 
         if (result !== undefined && result.name) {
-          return `${asset} (${result.name})`
+          return result.name
         } else {
-          if (isZenp) { return `${asset} (ZENP)` }
+          if (isZenp) { return 'ZENP' }
           return asset
         }
     }

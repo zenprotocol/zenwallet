@@ -26,6 +26,8 @@
           color: $off-white;
           background-color: $dark-grey-2;
           cursor: pointer;
+          &:hover { background-color: $light-grey; }
+          &:active { background-color: $grey; }
         }
 
       }
