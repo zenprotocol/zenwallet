@@ -198,7 +198,7 @@ class RunContract extends Component {
 						<Flexbox flexGrow={2}></Flexbox>
 						<Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
 							<button
-								disabled={contractMessage.inprogress}
+								disabled={this.isSubmitButtonDisabled()}
 								onClick={this.onRunContractClicked}>
 								{(contractMessage.inprogress ? "Running" : "Run")}
 							</button>
@@ -208,6 +208,20 @@ class RunContract extends Component {
 				</Flexbox>
 			</Layout>
 		)
+	}
+
+	validateForm() {
+		const {to, inprogress} = this.props.contractMessage
+		return (!!to)
+	}
+
+	isSubmitButtonDisabled() {
+		const {to, inprogress} = this.props.contractMessage
+		const formIsValid = this.validateForm()
+
+		if (formIsValid && inprogress) { return true }
+		if (!formIsValid) { return true }
+		if (formIsValid) { return false }
 	}
 }
 
