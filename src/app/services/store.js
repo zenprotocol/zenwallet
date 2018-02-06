@@ -8,7 +8,7 @@ const electronApp = (electron.app || electron.remote.app)
 const fileName = 'zen-wallet-db.json'
 const userDataPath = electronApp.getPath('userData')
 
-if (!fs.existsSync(userDataPath)) { fs.mkdir(userDataPath) }
+if (!fs.existsSync(userDataPath)) { fs.mkdirSync(userDataPath) }
 
 const zenDataPath = path.join(userDataPath, fileName)
 
