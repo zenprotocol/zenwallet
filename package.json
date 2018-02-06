@@ -1,8 +1,11 @@
 {
-  "name": "zenwallet",
-  "version": "0.0.1",
+  "name": "@zen/zen-wallet",
+  "version": "0.0.4",
   "description": "Zen Wallet",
   "main": "dest/main.js",
+  "bin": {
+    "zen-wallet":"./bin/zen-wallet.js"
+  },
   "scripts": {
     "build": "gulp build",
     "watch": "gulp watch",
@@ -56,5 +59,9 @@
     "mobx-react-devtools": "^4.2.15",
     "node-sass": "^4.7.2",
     "normalize.css": "^7.0.0"
-  }
+  },
+  "files":[
+    "bin/zen-wallet.js",
+    "dest/**/*.*"
+  ]
 }

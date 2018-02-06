@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import DevTools from 'mobx-react-devtools';
 
 import Container from '../Container/Container'
 import Main from '../Main/Main'

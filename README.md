@@ -10,6 +10,15 @@ Get "/wallet/address"
 Post "/wallet/transaction/send" (from_address, amount, to_address)
 Post "/wallet/contract/activate"
 
+# Installing
+
+Install NodeJS (Version >= 6) and run the following
+```
+npm config set @zen:registry https://www.myget.org/F/zenprotocol/npm/
+npm install @zen/zen-wallet -g
+```
+
+Run `zen-wallet`
 
 # Building the Node
 

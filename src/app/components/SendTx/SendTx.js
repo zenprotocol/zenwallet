@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import DevTools from 'mobx-react-devtools'
 import {inject, observer} from 'mobx-react'
 
 import {clipboard} from 'electron'
