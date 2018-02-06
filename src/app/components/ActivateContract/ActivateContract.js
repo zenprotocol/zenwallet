@@ -59,12 +59,18 @@ class ActivateContract extends Component {
 		contract.name = event.target.value
 	}
 
-	isActivateButtonDisabled() {
-		const {inprogress, acceptedFiles} = this.props.contract
+	validateForm() {
+		const {name, acceptedFiles} = this.props.contract
+		return (acceptedFiles.length == 1 && !!name)
+	}
 
-		if (acceptedFiles.length == 1 && inprogress) { return true }
-		if (acceptedFiles.length == 1) { return false }
-		if (acceptedFiles.length == 0) { return true }
+	isSubmitButtonDisabled() {
+		const {inprogress, acceptedFiles} = this.props.contract
+		const formIsValid = this.validateForm()
+
+		if (formIsValid && inprogress) { return true }
+		if (!formIsValid) { return true }
+		if (formIsValid) { return false }
 	}
 
 	renderActivateButtonText() {
@@ -189,7 +195,7 @@ class ActivateContract extends Component {
 						<Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
 							<button
 								className={this.renderClassNames()}
-								disabled={this.isActivateButtonDisabled()}
+								disabled={this.isSubmitButtonDisabled()}
 								onClick={this.onActivateContractClicked}>{this.renderActivateButtonText()}
 							</button>
 						</Flexbox>
