@@ -15,7 +15,7 @@ Post "/wallet/contract/activate"
 Install NodeJS (Version >= 6) and run the following
 ```
 npm config set @zen:registry https://www.myget.org/F/zenprotocol/npm/
-npm install @zen/zen-wallet -g
+npm install electron @zen/zen-wallet -g
 ```
 
 Run `zen-wallet`
