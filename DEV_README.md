@@ -1,3 +1,8 @@
+# Running locally
+ - `yarn build ; yarn dev-localhost`
+
+
+
 # Releasing a new Version
 1) Update the 'zen-node' version in package.json
 2) Increase the version # of the zen-wallet at the top of the package.json file
