@@ -2,15 +2,17 @@ import {observable, action, runInAction} from 'mobx'
 import {postTransaction} from '../services/api-service'
 
 class TransactionState {
-  @observable asset
-  @observable to
+  @observable asset = ''
+  @observable to = ''
   @observable amount
   @observable status
   @observable inprogress
   @observable errorMessage
 
   @action
-  init() {}
+  init() {
+    this.asset = ''
+  }
 
   @action
   async createTransaction(tx) {

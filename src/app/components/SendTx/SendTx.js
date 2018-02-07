@@ -3,29 +3,42 @@ import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import {inject, observer} from 'mobx-react'
+import Autosuggest from 'react-autosuggest'
+import {truncateString} from '../../../utils/helpers'
 
 import {clipboard} from 'electron'
 import {toInteger} from 'lodash'
 
+
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
+@inject('balances')
 @inject('transaction')
 @observer
 class SendTx extends Component {
 
 	constructor() {
 		super()
+
+		this.state = {
+			value: '',
+			suggestions: []
+		}
+
 		autobind(this)
 	}
 
 	componentWillMount() {
 		const {match, transaction} = this.props
 		const {assetHash} = match.params
-		if (assetHash) {
-			transaction.asset = assetHash
-		}
+		if (assetHash) { transaction.asset = assetHash }
 	}
+
+	componentDidMount() {
+    const {balances} = this.props
+    balances.fetch()
+  }
 
 	onDestinationAddressChanged(event) {
 		const {transaction} = this.props
@@ -51,8 +64,52 @@ class SendTx extends Component {
 		transaction.to = clipboard.readText().trim()
 	}
 
+	getSuggestions = value => {
+		const {balances} = this.props
+		const assetsWithNames = balances.assetsWithNames
+
+	  const inputValue = value.trim().toLowerCase()
+	  const inputLength = inputValue.length
+
+	  return inputLength === 0 ? [] : assetsWithNames.filter(asset =>
+	    asset.name.toLowerCase().slice(0, inputLength) === inputValue
+	  )
+	}
+
+	getSuggestionValue = suggestion => suggestion.asset
+
+	renderSuggestion = suggestion => (
+	  <div className='suggestionItem'>
+			{suggestion.name} ({truncateString(suggestion.asset)})
+		</div>
+	)
+
+	onChange = (event, { newValue }) => {
+		const {transaction} = this.props
+		this.setState({value: newValue.trim()})
+		transaction.asset = newValue.trim()
+	}
+
+	onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: this.getSuggestions(value)
+    })
+  }
+
+	onSuggestionsClearRequested = () => {
+		this.setState({suggestions: []})
+	}
+
 	render() {
 		const {transaction} = this.props
+		const {value, suggestions} = this.state
+
+		const inputProps = {
+      placeholder: 'Start typing the asset name',
+      value: transaction.asset,
+			className: 'full-width',
+      onChange: this.onChange
+    }
 
 		return (
 			<Layout className="send-tx">
@@ -82,13 +139,24 @@ class SendTx extends Component {
 
 							<Flexbox flexGrow={1} flexDirection="column" className="select-asset">
 								<label htmlFor="asset">Asset</label>
-								<input
+
+								<Autosuggest
+					        suggestions={suggestions}
+					        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+					        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+					        getSuggestionValue={this.getSuggestionValue}
+					        renderSuggestion={this.renderSuggestion}
+					        inputProps={inputProps}
+					      />
+
+								{/* <input
 									id="asset"
 									name="asset"
 									type="text"
 									placeholder="Enter Asset"
 									value={transaction.asset}
-									onChange={this.onAssetChanged} />
+									onChange={this.onAssetChanged} /> */}
+
 							</Flexbox>
 
 							<Flexbox flexGrow={0} flexDirection="column" className="amount">

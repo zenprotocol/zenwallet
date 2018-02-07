@@ -29,7 +29,7 @@ class BalancesState {
     }
 
     @action
-    getAssetWithName(asset) {
+    getAssetName(asset) {
         const result = find(savedContracts, contract => contract.hash === asset)
         const isZenp = asset === zenAsset
 
@@ -37,8 +37,22 @@ class BalancesState {
           return result.name
         } else {
           if (isZenp) { return 'ZENP' }
-          return asset
+          return ''
         }
+    }
+
+    @computed
+    get assetsWithNames() {
+      const assetsWithNamesResult = this.assets.map(asset => {
+        const result = find(savedContracts, contract => contract.hash === asset.asset)
+        const isZenp = asset.asset === zenAsset
+
+        if (result !== undefined && result.name) { asset['name'] = result.name }
+        if (isZenp) { asset['name'] = 'ZENP' }
+
+        return asset
+      })
+      return assetsWithNamesResult
     }
 
     @computed

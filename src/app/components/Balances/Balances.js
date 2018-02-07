@@ -4,6 +4,7 @@ import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Layout from '../UI/Layout/Layout'
+import {truncateString} from '../../../utils/helpers'
 
 @inject('balances')
 @observer
@@ -22,11 +23,11 @@ class Balances extends Component {
     const {balances} = this.props
 
     const balancesRows = balances.assets.map(asset => {
-      const assetName = balances.getAssetWithName(asset.asset)
+      const assetName = balances.getAssetName(asset.asset)
       return (
         <tr key={asset.asset}>
-          <td className='align-left' >{assetName}</td>
-          <td className='align-left' >{asset.asset}</td>
+          <td className='align-left' title={assetName} >{assetName}</td>
+          <td className='align-left' title={asset.asset} >{truncateString(asset.asset)}</td>
           <td className='bright-blue' >{asset.balance.toLocaleString()}</td>
           <td className='align-right' >
             <Link className='button small' to={`/send-tx/${asset.asset}`} >Send</Link>

@@ -30,7 +30,7 @@ class RunContract extends Component {
 
 	componentWillUnmount() {
 		const {contractMessage} = this.props
-		if (contractMessage.status != '') {
+		if (contractMessage.status == 'success' || contractMessage.status == 'error') {
 			contractMessage.resetForm()
 		}
 	}
