@@ -1,10 +1,10 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Zen Wallet",
   "main": "dest/main.js",
   "bin": {
-    "zen-wallet":"./bin/zen-wallet.js"
+    "zen-wallet": "./bin/zen-wallet.js"
   },
   "scripts": {
     "build": "gulp build",
@@ -26,7 +26,7 @@
   },
   "homepage": "https://gitlab.com/zenprotocol/zenwallet#README",
   "dependencies": {
-    "@zen/zen-node": "0.1.13",
+    "@zen/zen-node": "^0.1.15",
     "axios": "^0.17.1",
     "class-autobind": "^0.1.4",
     "classnames": "^2.2.5",
@@ -39,6 +39,7 @@
     "mobx-react": "^4.3.5",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
+    "react-autosuggest": "^9.3.3",
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.3",
     "react-router-dom": "^4.2.2",
@@ -52,15 +53,15 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "del": "^3.0.0",
+    "electron": "^1.7.10",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-sass": "^3.1.0",
     "mobx-react-devtools": "^4.2.15",
     "node-sass": "^4.7.2",
-    "normalize.css": "^7.0.0",
-    "electron": "^1.7.10"
+    "normalize.css": "^7.0.0"
   },
-  "files":[
+  "files": [
     "bin/zen-wallet.js",
     "dest/**/*.*"
   ]
