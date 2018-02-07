@@ -37,31 +37,31 @@ class RunContract extends Component {
 
 	onContractAddressChanged(event) {
 		const {contractMessage} = this.props
-		contractMessage.to = event.target.value
+		contractMessage.to = event.target.value.trim()
 	}
 
 	onDataChanged(event) {
 		const {contractMessage} = this.props
-		contractMessage.data = event.target.value
+		contractMessage.data = event.target.value.trim()
 	}
 
 	onAmountChanged(event) {
 		const {contractMessage} = this.props
 
 		if (event.target.value)
-			contractMessage.amount = toInteger(event.target.value)
+			contractMessage.amount = toInteger(event.target.value.trim())
 		else
 			contractMessage.amount = undefined
 	}
 
 	onCommandChanged(event) {
 		const {contractMessage} = this.props
-		contractMessage.command = event.target.value
+		contractMessage.command = event.target.value.trim()
 	}
 
 	onAssetChanged(event) {
 		const {contractMessage} = this.props
-		contractMessage.asset = event.target.value
+		contractMessage.asset = event.target.value.trim()
 	}
 
 	onPasteClicked() {
@@ -80,9 +80,7 @@ class RunContract extends Component {
 		if (contractMessage.status == 'success') {
 			return(
 				<FormResponseMessage className='success'>
-					<span>
-						Contract has been run successfully
-					</span>
+					<span>Contract has been run successfully</span>
 				</FormResponseMessage>
 			)
 		}
@@ -93,9 +91,7 @@ class RunContract extends Component {
 		if (contractMessage.status == 'error') {
 			return(
 				<FormResponseMessage className='error'>
-					<span>
-						Couldn't run the contract with the parameters you entered.
-					</span>
+					<span>Couldn't run the contract with the parameters you entered.</span>
 					<div className="devider"></div>
 					<p>Error message: {contractMessage.errorMessage}</p>
 				</FormResponseMessage>

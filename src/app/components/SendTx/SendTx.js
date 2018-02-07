@@ -29,13 +29,13 @@ class SendTx extends Component {
 
 	onDestinationAddressChanged(event) {
 		const {transaction} = this.props
-		transaction.to = event.target.value
+		transaction.to = event.target.value.trim()
 	}
 
 	onAmountChanged(event) {
 		const {transaction} = this.props
 		if (event.target.value) {
-			transaction.amount = toInteger(event.target.value)
+			transaction.amount = toInteger(event.target.value.trim())
 		}	else {
 			transaction.amount = undefined
 		}
@@ -43,12 +43,12 @@ class SendTx extends Component {
 
 	onAssetChanged(event) {
 		const {transaction} = this.props
-		transaction.asset = event.target.value
+		transaction.asset = event.target.value.trim()
 	}
 
 	onPasteClicked() {
 		const {transaction} = this.props
-		transaction.to = clipboard.readText()
+		transaction.to = clipboard.readText().trim()
 	}
 
 	render() {
