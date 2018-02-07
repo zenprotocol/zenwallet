@@ -6,9 +6,13 @@ import FileSync from 'lowdb/adapters/FileSync'
 
 const electronApp = (electron.app || electron.remote.app)
 const fileName = 'zen-wallet-db.json'
-const userDataPath = electronApp.getPath('userData')
 
-if (!fs.existsSync(userDataPath)) { fs.mkdirSync(userDataPath) }
+const appDataPath = electronApp.getPath('appData')
+const userDataPath = path.join(appDataPath, 'zenwallet')
+
+let doesFolderExist = fs.existsSync(userDataPath)
+
+if (!doesFolderExist) { fs.mkdirSync(userDataPath) }
 
 const zenDataPath = path.join(userDataPath, fileName)
 
