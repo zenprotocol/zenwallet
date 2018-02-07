@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Zen Wallet",
   "main": "dest/main.js",
   "bin": {
@@ -26,7 +26,7 @@
   },
   "homepage": "https://gitlab.com/zenprotocol/zenwallet#README",
   "dependencies": {
-    "@zen/zen-node": "0.1.11",
+    "@zen/zen-node": "0.1.13",
     "axios": "^0.17.1",
     "class-autobind": "^0.1.4",
     "classnames": "^2.2.5",
@@ -42,8 +42,7 @@
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.3",
     "react-router-dom": "^4.2.2",
-    "sweetalert": "^2.1.0",
-    "electron": "^1.7.10"
+    "sweetalert": "^2.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -58,7 +57,8 @@
     "gulp-sass": "^3.1.0",
     "mobx-react-devtools": "^4.2.15",
     "node-sass": "^4.7.2",
-    "normalize.css": "^7.0.0"
+    "normalize.css": "^7.0.0",
+    "electron": "^1.7.10"
   },
   "files":[
     "bin/zen-wallet.js",
