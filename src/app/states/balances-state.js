@@ -9,6 +9,7 @@ const zenAsset = '00000000000000000000000000000000000000000000000000000000000000
 
 class BalancesState {
     assets = observable.array([])
+    @observable searchQuery = ''
 
     constructor()  {
       this.fetch = this.fetch.bind(this)
@@ -53,6 +54,23 @@ class BalancesState {
         return asset
       })
       return assetsWithNamesResult
+    }
+
+    @computed
+    get filtered() {
+      const inputValue = this.searchQuery.trim().toLowerCase()
+      const inputLength = inputValue.length
+      const assetsWithNames = this.assetsWithNames
+
+      if (inputLength === 0) {
+        return assetsWithNames
+      } else {
+        return assetsWithNames.filter(asset =>
+    	    (asset.name.toLowerCase().indexOf(inputValue) > -1) ||
+          (asset.asset.toLowerCase().indexOf(inputValue) > -1)
+    	  )
+      }
+
     }
 
     @computed

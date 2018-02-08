@@ -26,6 +26,17 @@ input, .dropzone  {
   outline: none;
   border-radius: $border-radius;
   font-size: 13px;
+
+	&.error {	border: 1px solid $red;	}
+}
+
+div.error-message {
+	color: $red;
+	text-transform: uppercase;
+	font-size: 13px;
+	padding: 7px 3px;
+	letter-spacing: 0.4px;
+	i.fa { padding: 0 5px; }
 }
 
 .upload-contract-dropzone {

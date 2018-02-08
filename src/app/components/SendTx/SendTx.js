@@ -22,8 +22,10 @@ class SendTx extends Component {
 		super()
 
 		this.state = {
-			value: '',
-			suggestions: []
+			autoSuggestvalue: '',
+			suggestionValue: '',
+			suggestions: [],
+			assetError: ''
 		}
 
 		autobind(this)
@@ -31,6 +33,7 @@ class SendTx extends Component {
 
 	componentWillMount() {
 		const {match, transaction} = this.props
+
 		const {assetHash} = match.params
 		if (assetHash) { transaction.asset = assetHash }
 	}
@@ -38,6 +41,9 @@ class SendTx extends Component {
 	componentDidMount() {
     const {balances} = this.props
     balances.fetch()
+
+		const {transaction} = this.props
+		this.setState({suggestionValue: transaction.asset})
   }
 
 	onDestinationAddressChanged(event) {
@@ -54,27 +60,13 @@ class SendTx extends Component {
 		}
 	}
 
-	onAssetChanged(event) {
-		const {transaction} = this.props
-		transaction.asset = event.target.value.trim()
-	}
-
 	onPasteClicked() {
 		const {transaction} = this.props
 		transaction.to = clipboard.readText().trim()
 	}
 
-	getSuggestions = value => {
-		const {balances} = this.props
-		const assetsWithNames = balances.assetsWithNames
 
-	  const inputValue = value.trim().toLowerCase()
-	  const inputLength = inputValue.length
-
-	  return inputLength === 0 ? [] : assetsWithNames.filter(asset =>
-	    asset.name.toLowerCase().slice(0, inputLength) === inputValue
-	  )
-	}
+ // AUTO SUGGEST ASSET //
 
 	getSuggestionValue = suggestion => suggestion.asset
 
@@ -84,31 +76,88 @@ class SendTx extends Component {
 		</div>
 	)
 
-	onChange = (event, { newValue }) => {
+	onSuggestionSelected = (event, {suggestion}) => {
+		const {suggestionValue} = this.state
 		const {transaction} = this.props
-		this.setState({value: newValue.trim()})
-		transaction.asset = newValue.trim()
+
+		this.setState({suggestionValue: suggestion.asset})
+		transaction.asset = suggestion.asset
+	}
+
+	onChange = (event, { newValue, method }) => {
+		const {suggestionValue} = this.state
+		const {transaction} = this.props
+		const val = newValue.trim()
+
+		const userPressedUpOrDown = (method === 'down' || method === 'up')
+		if (!userPressedUpOrDown) { this.setState({suggestionValue: val})	}
+
+		const suggestions = this.getSuggestions(val)
+		this.setState({assetError: (suggestions.length === 0 && val != '')})
+	}
+
+	onAssetBlur = () => {
+		const {suggestionValue} = this.state
+		const val = suggestionValue.trim()
+		const suggestions = this.getSuggestions(val)
+
+		const {transaction} = this.props
+
+		if (suggestions.length === 1 && suggestions[0].asset === val) {
+			transaction.asset = val
+		}
+
+		if (suggestions.length === 0 && val != '') {
+			transaction.asset = ''
+			this.setState({suggestionValue: ''})
+			this.setState({assetError: false})
+		}
+	}
+
+	getSuggestions = value => {
+		const {balances} = this.props
+		balances.searchQuery = value
+		return balances.filtered
 	}
 
 	onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: this.getSuggestions(value)
-    })
+		this.setState({ suggestions: this.getSuggestions(value) })
   }
 
 	onSuggestionsClearRequested = () => {
 		this.setState({suggestions: []})
 	}
 
+	shouldRenderSuggestions = (value) => {
+		const suggestions = this.getSuggestions(value)
+		return !(suggestions.length === 1 && suggestions[0].asset === value)
+	}
+
+	renderAssetErrorMessage() {
+		const {assetError} = this.state
+		if (assetError) {
+			return (
+				<div className='error-message'>
+					<i class="fa fa-exclamation-circle"></i>
+					<span>You don't have such an asset</span>
+				</div>
+			)
+		}
+	}
+
 	render() {
 		const {transaction} = this.props
-		const {value, suggestions} = this.state
+		const {suggestionValue, suggestions, assetError} = this.state
+
+		const assetClassNames = (assetError ? 'full-width error' : 'full-width' )
 
 		const inputProps = {
+			type: 'search',
       placeholder: 'Start typing the asset name',
-      value: transaction.asset,
-			className: 'full-width',
-      onChange: this.onChange
+      value: suggestionValue,
+			className: assetClassNames,
+      onChange: this.onChange,
+			onBlur: this.onAssetBlur
     }
 
 		return (
@@ -142,20 +191,15 @@ class SendTx extends Component {
 
 								<Autosuggest
 					        suggestions={suggestions}
+									onSuggestionSelected={this.onSuggestionSelected}
 					        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
 					        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
 					        getSuggestionValue={this.getSuggestionValue}
 					        renderSuggestion={this.renderSuggestion}
+									shouldRenderSuggestions={this.shouldRenderSuggestions}
 					        inputProps={inputProps}
 					      />
-
-								{/* <input
-									id="asset"
-									name="asset"
-									type="text"
-									placeholder="Enter Asset"
-									value={transaction.asset}
-									onChange={this.onAssetChanged} /> */}
+								{this.renderAssetErrorMessage()}
 
 							</Flexbox>
 
@@ -165,7 +209,7 @@ class SendTx extends Component {
 									id="amount"
 									name="amount"
 									type="number"
-									placeholder="Enter amount of Zens"
+									placeholder="Enter amount you wan to send"
 									value={transaction.amount}
 									onChange={this.onAmountChanged} />
 							</Flexbox>
