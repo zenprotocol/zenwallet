@@ -138,7 +138,7 @@ class SendTx extends Component {
 		if (assetError) {
 			return (
 				<div className='error-message'>
-					<i class="fa fa-exclamation-circle"></i>
+					<i className="fa fa-exclamation-circle"></i>
 					<span>You don't have such an asset</span>
 				</div>
 			)

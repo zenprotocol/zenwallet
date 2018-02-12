@@ -23,6 +23,7 @@
 .react-autosuggest__suggestions-container--open {
   border: solid 1px $input-border-color;
   border-top: none;
+  top: 35px;
 };
 .react-autosuggest__suggestions-list {};
 .react-autosuggest__suggestion {
