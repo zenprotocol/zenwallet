@@ -2,8 +2,8 @@ import {observable, action, runInAction} from 'mobx'
 import {postRunContractMessage} from '../services/api-service'
 
 class ContractMessageState {
-  @observable asset
-  @observable to
+  @observable asset = ''
+  @observable to = ''
   @observable amount
   @observable command
   @observable data
@@ -11,8 +11,10 @@ class ContractMessageState {
   @observable inprogress
 
   @action
-  init() {}
-
+  init() {
+    this.asset = ''
+  }
+  
   @action
   async sendContractMessage(msg) {
 

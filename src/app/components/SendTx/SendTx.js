@@ -9,8 +9,8 @@ import {truncateString} from '../../../utils/helpers'
 import {clipboard} from 'electron'
 import {toInteger} from 'lodash'
 
-
 import Layout from '../UI/Layout/Layout'
+import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
 @inject('balances')
@@ -20,14 +20,6 @@ class SendTx extends Component {
 
 	constructor() {
 		super()
-
-		this.state = {
-			autoSuggestvalue: '',
-			suggestionValue: '',
-			suggestions: [],
-			assetError: ''
-		}
-
 		autobind(this)
 	}
 
@@ -41,9 +33,6 @@ class SendTx extends Component {
 	componentDidMount() {
     const {balances} = this.props
     balances.fetch()
-
-		const {transaction} = this.props
-		this.setState({suggestionValue: transaction.asset})
   }
 
 	onDestinationAddressChanged(event) {
@@ -66,99 +55,19 @@ class SendTx extends Component {
 	}
 
 
- // AUTO SUGGEST ASSET //
+	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
 
-	getSuggestionValue = suggestion => suggestion.asset
-
-	renderSuggestion = suggestion => (
-	  <div className='suggestionItem'>
-			{suggestion.name} ({truncateString(suggestion.asset)})
-		</div>
-	)
-
-	onSuggestionSelected = (event, {suggestion}) => {
-		const {suggestionValue} = this.state
-		const {transaction} = this.props
-
-		this.setState({suggestionValue: suggestion.asset})
-		transaction.asset = suggestion.asset
+	updateAssetFromSuggestions = (data) => {
+		this.props.transaction.asset = data
 	}
 
-	onChange = (event, { newValue, method }) => {
-		const {suggestionValue} = this.state
-		const {transaction} = this.props
-		const val = newValue.trim()
-
-		const userPressedUpOrDown = (method === 'down' || method === 'up')
-		if (!userPressedUpOrDown) { this.setState({suggestionValue: val})	}
-
-		const suggestions = this.getSuggestions(val)
-		this.setState({assetError: (suggestions.length === 0 && val != '')})
-	}
-
-	onAssetBlur = () => {
-		const {suggestionValue} = this.state
-		const val = suggestionValue.trim()
-		const suggestions = this.getSuggestions(val)
-
-		const {transaction} = this.props
-
-		if (suggestions.length === 1 && suggestions[0].asset === val) {
-			transaction.asset = val
-		}
-
-		if (suggestions.length === 0 && val != '') {
-			transaction.asset = ''
-			this.setState({suggestionValue: ''})
-			this.setState({assetError: false})
-		}
-	}
-
-	getSuggestions = value => {
-		const {balances} = this.props
-		balances.searchQuery = value
-		return balances.filtered
-	}
-
-	onSuggestionsFetchRequested = ({ value }) => {
-		this.setState({ suggestions: this.getSuggestions(value) })
+	onBlur() {
+    this.refs.child.onAssetBlur()
   }
 
-	onSuggestionsClearRequested = () => {
-		this.setState({suggestions: []})
-	}
-
-	shouldRenderSuggestions = (value) => {
-		const suggestions = this.getSuggestions(value)
-		return !(suggestions.length === 1 && suggestions[0].asset === value)
-	}
-
-	renderAssetErrorMessage() {
-		const {assetError} = this.state
-		if (assetError) {
-			return (
-				<div className='error-message'>
-					<i className="fa fa-exclamation-circle"></i>
-					<span>You don't have such an asset</span>
-				</div>
-			)
-		}
-	}
 
 	render() {
 		const {transaction} = this.props
-		const {suggestionValue, suggestions, assetError} = this.state
-
-		const assetClassNames = (assetError ? 'full-width error' : 'full-width' )
-
-		const inputProps = {
-			type: 'search',
-      placeholder: 'Start typing the asset name',
-      value: suggestionValue,
-			className: assetClassNames,
-      onChange: this.onChange,
-			onBlur: this.onAssetBlur
-    }
 
 		return (
 			<Layout className="send-tx">
@@ -186,22 +95,7 @@ class SendTx extends Component {
 
 						<Flexbox flexDirection="row">
 
-							<Flexbox flexGrow={1} flexDirection="column" className="select-asset">
-								<label htmlFor="asset">Asset</label>
-
-								<Autosuggest
-					        suggestions={suggestions}
-									onSuggestionSelected={this.onSuggestionSelected}
-					        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-					        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-					        getSuggestionValue={this.getSuggestionValue}
-					        renderSuggestion={this.renderSuggestion}
-									shouldRenderSuggestions={this.shouldRenderSuggestions}
-					        inputProps={inputProps}
-					      />
-								{this.renderAssetErrorMessage()}
-
-							</Flexbox>
+							<AutoSuggestAssets sendData={this.updateAssetFromSuggestions} asset={transaction.asset} onBlur={this.onBlur.bind(this)} />
 
 							<Flexbox flexGrow={0} flexDirection="column" className="amount">
 								<label htmlFor="amount">Amount</label>

@@ -8,6 +8,7 @@ import {clipboard} from 'electron'
 import {toInteger} from 'lodash'
 
 import Layout from '../UI/Layout/Layout'
+import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
 @inject('contractMessage')
@@ -59,11 +60,6 @@ class RunContract extends Component {
 		contractMessage.command = event.target.value.trim()
 	}
 
-	onAssetChanged(event) {
-		const {contractMessage} = this.props
-		contractMessage.asset = event.target.value.trim()
-	}
-
 	onPasteClicked() {
 		const {contractMessage} = this.props
 		contractMessage.to = clipboard.readText()
@@ -104,6 +100,18 @@ class RunContract extends Component {
 		return (inprogress ? "Running" : "Run")
 	}
 
+
+	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
+
+	updateAssetFromSuggestions = (data) => {
+		this.props.contractMessage.asset = data
+	}
+
+	onBlur() {
+    this.refs.child.onAssetBlur()
+  }
+
+
 	render() {
 		const {contractMessage} = this.props
 
@@ -136,7 +144,7 @@ class RunContract extends Component {
 						</Flexbox>
 
 						<Flexbox flexDirection="column" className="choose-command form-row">
-							<label htmlFor="asset">Choose command</label>
+							<label htmlFor="command">Choose command</label>
 							<Flexbox flexDirection="row" className='command-input'>
 								<input
 									id="command"
@@ -151,18 +159,7 @@ class RunContract extends Component {
 
 						<Flexbox flexDirection="row" className="contract-message-details form-row">
 
-								<Flexbox flexGrow={1} flexDirection="column" className="select-asset">
-									<label htmlFor="asset">Asset</label>
-
-									<input
-										id="asset"
-										name="asset"
-										type="text"
-										placeholder="Enter Asset"
-										value={contractMessage.asset}
-										onChange={this.onAssetChanged} />
-
-								</Flexbox>
+								<AutoSuggestAssets sendData={this.updateAssetFromSuggestions} asset={contractMessage.asset} onBlur={this.onBlur.bind(this)} />
 
 								<Flexbox flexGrow={0} flexDirection="column" className="choose-amount">
 									<label htmlFor="amount">Amount</label>
