@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {inject, observer} from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import Autosuggest from 'react-autosuggest'
+import classnames from 'classnames'
 
 import {truncateString} from '../../../../utils/helpers'
 
@@ -16,7 +17,8 @@ class AutoSuggestAssets extends Component {
     this.state = {
 			suggestionValue: '',
 			suggestions: [],
-			assetError: ''
+			assetError: false,
+      isValid: false
 		}
 
     autobind(this)
@@ -29,17 +31,14 @@ class AutoSuggestAssets extends Component {
   componentDidMount() {
     const {asset} = this.props
     if (asset) {
-      this.setState({suggestionValue: asset})
+      const suggestions = this.getSuggestions(asset)
+      const isValid = (suggestions.length === 1 && suggestions[0].asset === asset)
+      const hasError = (suggestions.length === 0 && asset.length > 0 && !isValid)
+      this.setState({suggestionValue: asset, assetError: hasError})
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 'success') { this.setState({suggestionValue: ''}) }
-  }  
-
-  updateParent = (asset) => {
-    this.props.sendData(asset)
-  }
+  updateParent = (asset) => { this.props.sendData(asset) }
 
   getSuggestionValue = suggestion => suggestion.asset
 
@@ -63,22 +62,17 @@ class AutoSuggestAssets extends Component {
     if (!userPressedUpOrDown) { this.setState({suggestionValue: val})	}
 
     const suggestions = this.getSuggestions(val)
-    this.setState({assetError: (suggestions.length === 0 && val != '')})
+    const hasError = (suggestions.length === 0 && val.length > 0)
+    const isValid = (suggestions.length === 1 && suggestions[0].asset === val)
+    this.setState({assetError: hasError, isValid: isValid})
   }
 
   onAssetBlur = () => {
     const {suggestionValue} = this.state
     const val = suggestionValue.trim()
     const suggestions = this.getSuggestions(val)
-
-    if (suggestions.length === 1 && suggestions[0].asset === val) {
-      this.updateParent(val)
-    }
-
-    if (suggestions.length === 0 && val != '') {
-      this.updateParent('')
-      this.setState({assetError: false, suggestionValue: ''})
-    }
+    this.updateParent(val)
+    this.setState({isValid: false})
   }
 
   getSuggestions = value => {
@@ -113,8 +107,9 @@ class AutoSuggestAssets extends Component {
   }
 
   render() {
-    const {suggestionValue, suggestions, assetError} = this.state
-    const assetClassNames = (assetError ? 'full-width error' : 'full-width' )
+    const {suggestionValue, suggestions, assetError, isValid} = this.state
+    let assetClassNames = (assetError ? 'full-width error' : 'full-width' )
+    if (isValid) { assetClassNames = classnames('is-valid', assetClassNames) }
 
     const inputProps = {
       type: 'search',

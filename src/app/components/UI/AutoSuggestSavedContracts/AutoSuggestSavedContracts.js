@@ -5,6 +5,7 @@ import {inject, observer} from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import Autosuggest from 'react-autosuggest'
 import {clipboard} from 'electron'
+import classnames from 'classnames'
 import bech32 from 'bech32'
 
 import {truncateString} from '../../../../utils/helpers'
@@ -19,7 +20,8 @@ class AutoSuggestSavedContracts extends Component {
     this.state = {
 			suggestionValue: '',
 			suggestions: [],
-			assetError: false
+			assetError: false,
+      isValid: false
 		}
 
     autobind(this)
@@ -28,7 +30,8 @@ class AutoSuggestSavedContracts extends Component {
   componentDidMount() {
     const {address} = this.props
     if (address) {
-      this.setState({suggestionValue: address})
+      const isValid = this.validateAddress(address)
+      this.setState({suggestionValue: address, assetError: !isValid})
     }
   }
 
@@ -70,29 +73,22 @@ class AutoSuggestSavedContracts extends Component {
   }
 
   onChange = (event, { newValue, method }) => {
-    console.log('onChange newValue', newValue)
     const val = newValue.trim()
 
     const userPressedUpOrDown = (method === 'down' || method === 'up')
     if (!userPressedUpOrDown) { this.setState({suggestionValue: val}) }
 
     const suggestions = this.getSuggestions(val)
-    this.setState({assetError: (suggestions.length === 0 && !this.validateAddress(val))})
+    const isValid = this.validateAddress(val)
+    const hasError = (suggestions.length === 0 && !isValid)
+    this.setState({assetError: hasError, isValid: isValid})
   }
 
   onAssetBlur = (e) => {
     const val = e.target.value.trim()
     const suggestions = this.getSuggestions(val)
-
-    if (suggestions.length === 1 && suggestions[0].asset === val) {
-      this.updateParent(val)
-    }
-
-    if (!this.validateAddress(val)) {
-      // this.updateParent('')
-      // this.setState({assetError: false, suggestionValue: ''})
-    }
-
+    this.updateParent(val)
+    this.setState({isValid: false})
   }
 
   onSuggestionsFetchRequested = ({ value }) => {
@@ -136,8 +132,9 @@ class AutoSuggestSavedContracts extends Component {
 	}
 
   render() {
-    const {suggestionValue, suggestions, assetError} = this.state
-    const classNames = (assetError ? 'full-width error' : 'full-width' )
+    const {suggestionValue, suggestions, assetError, isValid} = this.state
+    let classNames = (assetError ? 'full-width error' : 'full-width' )
+    if (isValid) { classNames = classnames('is-valid', classNames) }
 
     const inputProps = {
       type: 'search',
