@@ -42,6 +42,7 @@ textarea, input, .dropzone  {
 		outline: none;
 	}
 	&.error {	border: 1px solid $red;	}
+	&.is-valid { border: 1px solid $blue;	}
 }
 
 div.error-message {
