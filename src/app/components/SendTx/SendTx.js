@@ -95,7 +95,12 @@ class SendTx extends Component {
 
 						<Flexbox flexDirection="row">
 
-							<AutoSuggestAssets sendData={this.updateAssetFromSuggestions} asset={transaction.asset} onBlur={this.onBlur.bind(this)} />
+							<AutoSuggestAssets
+								sendData={this.updateAssetFromSuggestions}
+								asset={transaction.asset}
+								onBlur={this.onBlur.bind(this)}
+								status={transaction.status}
+							/>
 
 							<Flexbox flexGrow={0} flexDirection="column" className="amount">
 								<label htmlFor="amount">Amount</label>
