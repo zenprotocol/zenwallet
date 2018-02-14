@@ -32,6 +32,10 @@ class AutoSuggestSavedContracts extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.status === 'success') { this.setState({suggestionValue: ''}) }
+  }
+
   updateParent = (address) => {
     this.props.sendData(address)
   }

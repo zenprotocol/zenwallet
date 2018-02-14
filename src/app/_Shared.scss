@@ -9,9 +9,13 @@ $fa-font-path:   "./assets/fonts/fontawesome/scss/fontawesome.scss";
 
 html, body { height: 100%; }
 
+body, textarea, input {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  font: 15px/1 'Source Sans Pro', sans-serif;
+  font-size: 15px;
   color: #777;
 }
 

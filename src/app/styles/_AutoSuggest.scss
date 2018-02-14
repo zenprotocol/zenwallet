@@ -4,14 +4,15 @@
   display: block;
   position: relative;
   input { box-sizing: border-box; }
-};
+}
 .react-autosuggest__container--open {
   input { border-radius: 2px 2px 0 0; border-bottom: none; }
-};
-.react-autosuggest__input {};
-.react-autosuggest__input--open {};
-.react-autosuggest__input--focused {};
+}
+.react-autosuggest__input {}
+.react-autosuggest__input--open {}
+.react-autosuggest__input--focused {}
 .react-autosuggest__suggestions-container {
+  border-color: $input-border-color;
   background-color: $dark-grey;
   color: $bright-grey;
   position: absolute;
@@ -19,22 +20,27 @@
   display: block;
   border-radius: 0 0 2px 2px;
   box-sizing: border-box;
-};
+}
 .react-autosuggest__suggestions-container--open {
-  border: solid 1px $input-border-color;
+  border: solid 1px $bright-grey;
   border-top: none;
   top: 35px;
-};
-.react-autosuggest__suggestions-list {};
+
+  -webkit-transition: border-color 0.2s ease-in-out;
+  -moz-transition: border-color 0.2s ease-in-out;
+  -ms-transition: border-color 0.2s ease-in-out;
+  -o-transition: border-color 0.2s ease-in-out;
+}
+.react-autosuggest__suggestions-list {}
 .react-autosuggest__suggestion {
   padding: 12px;
   cursor: pointer;
-};
-.react-autosuggest__suggestion--first {};
+}
+.react-autosuggest__suggestion--first {}
 .react-autosuggest__suggestion--highlighted {
   background-color: $blue;
   color: $light-white;
-};
-.react-autosuggest__section-container {};
-.react-autosuggest__section-container--first {};
-.react-autosuggest__section-title {};
+}
+.react-autosuggest__section-container {}
+.react-autosuggest__section-container--first {}
+.react-autosuggest__section-title {}

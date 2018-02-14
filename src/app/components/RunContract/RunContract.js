@@ -133,33 +133,12 @@ class RunContract extends Component {
 
 					<Flexbox flexDirection="column" className="form-container">
 
-
 						<AutoSuggestSavedContracts
 							sendData={this.updateContractAddressFromSuggestions}
 							address={contractMessage.to}
 							onBlur={this.onContractAddressBlur.bind(this)}
+							status={contractMessage.status}
 						/>
-
-{/*
-						<Flexbox flexDirection="column" className="contract-address form-row">
-
-							<label htmlFor='to'>Contract Address</label>
-							<Flexbox flexDirection="row" className='destination-address-input'>
-								<input
-									className='full-width'
-									id='to'
-									name='to'
-									type='text'
-									placeholder="Enter contract address"
-									onChange={this.onContractAddressChanged}
-									value={contractMessage.to}
-								/>
-								<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
-							</Flexbox>
-
-						</Flexbox>
- */}
-
 
 						<Flexbox flexDirection="column" className="choose-command form-row">
 							<label htmlFor="command">Choose command</label>
@@ -177,7 +156,12 @@ class RunContract extends Component {
 
 						<Flexbox flexDirection="row" className="contract-message-details form-row">
 
-								<AutoSuggestAssets sendData={this.updateAssetFromSuggestions} asset={contractMessage.asset} onBlur={this.onBlur.bind(this)} />
+								<AutoSuggestAssets
+									sendData={this.updateAssetFromSuggestions}
+									asset={contractMessage.asset}
+									onBlur={this.onBlur.bind(this)}
+									status={contractMessage.status}
+								/>
 
 								<Flexbox flexGrow={0} flexDirection="column" className="choose-amount">
 									<label htmlFor="amount">Amount</label>

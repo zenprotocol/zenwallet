@@ -18,7 +18,12 @@
 
 .form-row { margin-bottom: 10px; }
 
-input, .dropzone  {
+
+body, textarea, input {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+textarea, input, .dropzone  {
   background: $dark-grey;
   padding: 10px;
   color: $off-white;
@@ -27,6 +32,15 @@ input, .dropzone  {
   border-radius: $border-radius;
   font-size: 13px;
 
+	-webkit-transition: border-color 0.2s ease-in-out;
+  -moz-transition: border-color 0.2s ease-in-out;
+  -ms-transition: border-color 0.2s ease-in-out;
+  -o-transition: border-color 0.2s ease-in-out;
+
+	&:focus {
+		border-color: $bright-grey;
+		outline: none;
+	}
 	&.error {	border: 1px solid $red;	}
 }
 
@@ -59,11 +73,6 @@ div.error-message {
 
 .success-icon { height: 13px; }
 
-textarea {
-	background: $dark-grey;
-	border: $input-border-color;
-	padding: 15px;
-}
 
 label {
   line-height: 2.5rem;

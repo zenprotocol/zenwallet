@@ -33,6 +33,10 @@ class AutoSuggestAssets extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.status === 'success') { this.setState({suggestionValue: ''}) }
+  }  
+
   updateParent = (asset) => {
     this.props.sendData(asset)
   }
