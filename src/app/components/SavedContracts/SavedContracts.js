@@ -15,12 +15,12 @@ db.defaults({
     {
       name: 'ZENP Faucet',
       hash: 'e33df4ecc99599274a386ab062d54da0afc06b8f8d3932fcdd8534cbb1fee7d8',
-      contractAddress: 'tc1quv7lfmxfjkvjwj3cd2cx942d5zhuq6u035un9lxas56vhv07ulvqrm5w9c'
+      address: 'tc1quv7lfmxfjkvjwj3cd2cx942d5zhuq6u035un9lxas56vhv07ulvqrm5w9c'
     },
     {
       name: 'Jezreel Valley Adumim 2020 Red',
       hash: '2d74c94e224b3056532a47d4c372243581153299f8e56a2dd4770f03ce8e141b',
-      contractAddress: 'tc1q946vjn3zfvc9v5e2gl2vxu3yxkq32v5elrjk5tw5wu8s8n5wzsdsrtrphh'
+      address: 'tc1q946vjn3zfvc9v5e2gl2vxu3yxkq32v5elrjk5tw5wu8s8n5wzsdsrtrphh'
     }
   ]
 }).write()

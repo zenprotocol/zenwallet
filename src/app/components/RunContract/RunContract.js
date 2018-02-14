@@ -9,6 +9,7 @@ import {toInteger} from 'lodash'
 
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
+import AutoSuggestSavedContracts from '../UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
 @inject('contractMessage')
@@ -34,11 +35,6 @@ class RunContract extends Component {
 		if (contractMessage.status == 'success' || contractMessage.status == 'error') {
 			contractMessage.resetForm()
 		}
-	}
-
-	onContractAddressChanged(event) {
-		const {contractMessage} = this.props
-		contractMessage.to = event.target.value.trim()
 	}
 
 	onDataChanged(event) {
@@ -112,6 +108,18 @@ class RunContract extends Component {
   }
 
 
+
+	// HELPER METHODS FOR CONTRACT ADDRESS AUTO SUGGGEST //
+
+	updateContractAddressFromSuggestions = (data) => {
+		this.props.contractMessage.to = data
+	}
+
+	onContractAddressBlur() {
+    this.refs.child.onContractAddressBlur()
+  }
+
+
 	render() {
 		const {contractMessage} = this.props
 
@@ -125,6 +133,14 @@ class RunContract extends Component {
 
 					<Flexbox flexDirection="column" className="form-container">
 
+
+						<AutoSuggestSavedContracts
+							sendData={this.updateContractAddressFromSuggestions}
+							address={contractMessage.to}
+							onBlur={this.onContractAddressBlur.bind(this)}
+						/>
+
+{/*
 						<Flexbox flexDirection="column" className="contract-address form-row">
 
 							<label htmlFor='to'>Contract Address</label>
@@ -142,6 +158,8 @@ class RunContract extends Component {
 							</Flexbox>
 
 						</Flexbox>
+ */}
+
 
 						<Flexbox flexDirection="column" className="choose-command form-row">
 							<label htmlFor="command">Choose command</label>
