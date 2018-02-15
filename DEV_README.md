@@ -5,11 +5,12 @@
 
 # Releasing a new Version
 1) Update the 'zen-node' version in package.json
-2) Increase the version # of the zen-wallet at the top of the package.json file
-3) Run `yarn build`
-4) Run `yarn pack`
-5) go to (myget)[https://www.myget.org/feed/Packages/zenprotocol]
-6) Add npm package to zen-wallet
+2) commit with the new version
+3) Increase the version # of the zen-wallet at the top of the package.json file
+4) Run `yarn build`
+5) Run `yarn pack`
+6) go to (myget)[https://www.myget.org/feed/Packages/zenprotocol]
+7) Add npm package to zen-wallet
 
 
 # Zen Node APIs

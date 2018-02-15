@@ -11,3 +11,11 @@ npm install electron @zen/zen-wallet -g
 ```
 
 Now you can run `zen-wallet` from anywhere in your command line
+
+
+# Updating
+
+Run:
+```
+npm install @zen/zen-wallet -g
+```
