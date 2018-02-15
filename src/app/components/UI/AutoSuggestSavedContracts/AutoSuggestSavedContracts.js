@@ -6,9 +6,8 @@ import Flexbox from 'flexbox-react'
 import Autosuggest from 'react-autosuggest'
 import {clipboard} from 'electron'
 import classnames from 'classnames'
-import bech32 from 'bech32'
 
-import {truncateString} from '../../../../utils/helpers'
+import {truncateString, validateAddress} from '../../../../utils/helpers'
 import db from '../../../services/store'
 
 const savedContracts = db.get('savedContracts').value()
@@ -30,7 +29,7 @@ class AutoSuggestSavedContracts extends Component {
   componentDidMount() {
     const {address} = this.props
     if (address) {
-      const isValid = this.validateAddress(address)
+      const isValid = validateAddress(address)
       this.setState({suggestionValue: address, assetError: !isValid})
     }
   }
@@ -78,18 +77,29 @@ class AutoSuggestSavedContracts extends Component {
     const userPressedUpOrDown = (method === 'down' || method === 'up')
     if (!userPressedUpOrDown) { this.setState({suggestionValue: val}) }
 
-    const suggestions = this.getSuggestions(val)
-    const isValid = this.validateAddress(val)
-    const hasError = (suggestions.length === 0 && !isValid)
-    this.setState({assetError: hasError, isValid: isValid})
+    this.validateStates(val)
   }
 
-  onAssetBlur = (e) => {
+  onContractAddressBlur = (e) => {
     const val = e.target.value.trim()
     const suggestions = this.getSuggestions(val)
+
     this.updateParent(val)
-    this.setState({isValid: false})
+    const isValid = validateAddress(val)
+    const hasError = (val.length > 0 && !isValid)
+    this.setState({assetError: hasError, isValid: false})
   }
+
+  onContractAddressFocus = (e) => {
+    this.validateStates(this.state.suggestionValue)
+  }
+
+  validateStates(val) {
+    const suggestions = this.getSuggestions(val)
+    const isValid = validateAddress(val)
+    const hasError = (suggestions.length === 0 && !isValid)
+    this.setState({assetError: hasError, isValid: isValid})
+	}
 
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({ suggestions: this.getSuggestions(value) })
@@ -120,17 +130,6 @@ class AutoSuggestSavedContracts extends Component {
     this.setState({suggestionValue: clipboard.readText()})
   }
 
-  validateAddress(value) {
-	  try {
-	    const decodedAddress = bech32.decode(value)
-	    const pkHash = bech32.fromWords(decodedAddress.words)
-      const prefix = decodedAddress.prefix
-      return (pkHash.length === 33 && (prefix === 'tc' || prefix === 'zc'))
-	  } catch (e) {
-      return false
-	  }
-	}
-
   render() {
     const {suggestionValue, suggestions, assetError, isValid} = this.state
     let classNames = (assetError ? 'full-width error' : 'full-width' )
@@ -142,7 +141,8 @@ class AutoSuggestSavedContracts extends Component {
       value: suggestionValue,
       className: classNames,
       onChange: this.onChange,
-      onBlur: this.onAssetBlur
+      onBlur: this.onContractAddressBlur,
+      onFocus: this.onContractAddressFocus
     }
 
     return (

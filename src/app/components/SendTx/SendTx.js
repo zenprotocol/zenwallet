@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import {inject, observer} from 'mobx-react'
 import Autosuggest from 'react-autosuggest'
-import {truncateString} from '../../../utils/helpers'
+import classnames from 'classnames'
+import {truncateString, validateAddress} from '../../../utils/helpers'
 
 import {clipboard} from 'electron'
 import {toInteger} from 'lodash'
@@ -20,6 +21,12 @@ class SendTx extends Component {
 
 	constructor() {
 		super()
+
+		this.state = {
+			addressIsValid: false,
+			addressError: false
+		}
+
 		autobind(this)
 	}
 
@@ -33,11 +40,25 @@ class SendTx extends Component {
 	componentDidMount() {
     const {balances} = this.props
     balances.fetch()
+		this.validateAddressStates()
   }
 
 	onDestinationAddressChanged(event) {
 		const {transaction} = this.props
-		transaction.to = event.target.value.trim()
+		const value = event.target.value.trim()
+		const addressIsValid = validateAddress(value)
+		transaction.to = value
+		this.validateAddressStates()
+	}
+
+	validateAddressStates() {
+		const {transaction} = this.props
+		const value = transaction.to
+		const addressIsValid = validateAddress(value)
+		this.setState({
+			addressIsValid: addressIsValid,
+			addressError: (value.length > 0 && !addressIsValid)
+		})
 	}
 
 	onAmountChanged(event) {
@@ -52,8 +73,25 @@ class SendTx extends Component {
 	onPasteClicked() {
 		const {transaction} = this.props
 		transaction.to = clipboard.readText().trim()
+
+		this.validateAddressStates()
+
+		this.refs.to.focus()
 	}
 
+	renderAddressErrorMessage() {
+    if (this.state.addressError) {
+      return (
+        <div className='error-message'>
+          <i className="fa fa-exclamation-circle"></i>
+          <span>Destination Address is invalid</span>
+        </div>
+      )
+    }
+  }
+
+	onAddressBlur() { this.setState({ addressIsValid: false }) }
+	onAddressFocus() { this.validateAddressStates() }
 
 	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
 
@@ -61,13 +99,15 @@ class SendTx extends Component {
 		this.props.transaction.asset = data
 	}
 
-	onBlur() {
-    this.refs.child.onAssetBlur()
-  }
-
+	onBlur() { this.refs.child.onAssetBlur() }
+	onAssetFocus() { this.refs.child.onAssetFocus() }
 
 	render() {
 		const {transaction} = this.props
+		const {addressIsValid, addressError} = this.state
+
+		let addressClassNames = (addressError ? 'error' : '' )
+		if (addressIsValid) { addressClassNames = classnames('is-valid', addressClassNames) }
 
 		return (
 			<Layout className="send-tx">
@@ -82,14 +122,25 @@ class SendTx extends Component {
 						<Flexbox flexDirection="column" className='destination-address-input form-row'>
 							<label htmlFor='to'>Destination Address</label>
 							<Flexbox flexDirection="row" className='destination-address-input'>
-								<input
-									className='full-width'
-									id='to'
-									name="to"
-									type="text"
-									placeholder="Destination address"
-									onChange={this.onDestinationAddressChanged} value={transaction.to} />
-									<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
+
+								<Flexbox flexDirection="column" className='full-width'>
+									<input
+										id='to'
+										ref='to'
+										name='to'
+										type="text"
+										placeholder="Destination address"
+										className={addressClassNames}
+										onChange={this.onDestinationAddressChanged}
+										value={transaction.to}
+										onBlur={this.onAddressBlur}
+										onFocus={this.onAddressFocus}
+										autoFocus
+									/>
+									{this.renderAddressErrorMessage()}
+			          </Flexbox>
+
+								<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
 							</Flexbox>
 						</Flexbox>
 
@@ -99,6 +150,7 @@ class SendTx extends Component {
 								sendData={this.updateAssetFromSuggestions}
 								asset={transaction.asset}
 								onBlur={this.onBlur.bind(this)}
+								onFocus={this.onAssetFocus.bind(this)}
 								status={transaction.status}
 							/>
 

@@ -53,22 +53,22 @@ class AutoSuggestAssets extends Component {
   )
 
   onSuggestionSelected = (event, {suggestion}) => {
-    const {suggestionValue} = this.state
-    this.setState({suggestionValue: suggestion.asset})
-    this.updateParent(suggestion.asset)
+    const value = suggestion.asset
+    this.setState({suggestionValue: value})
+    this.updateParent(value)
+    this.validateAssetStates(value)
   }
 
   onChange = (event, { newValue, method }) => {
     const {suggestionValue} = this.state
-    const val = newValue.trim()
+    const value = newValue.trim()
 
     const userPressedUpOrDown = (method === 'down' || method === 'up')
-    if (!userPressedUpOrDown) { this.setState({suggestionValue: val})	}
+    if (!userPressedUpOrDown) {
+      this.setState({suggestionValue: value})
+    }
 
-    const suggestions = this.getSuggestions(val)
-    const hasError = (suggestions.length === 0 && val.length > 0)
-    const isValid = (suggestions.length === 1 && suggestions[0].asset === val)
-    this.setState({assetError: hasError, isValid: isValid})
+    this.validateAssetStates(value)
   }
 
   onAssetBlur = () => {
@@ -78,6 +78,17 @@ class AutoSuggestAssets extends Component {
     this.updateParent(val)
     this.setState({isValid: false})
   }
+
+  onAssetFocus = () => {
+    this.validateAssetStates(this.state.suggestionValue)
+  }
+
+  validateAssetStates(val) {
+    const suggestions = this.getSuggestions(val)
+    const hasError = (suggestions.length === 0 && val.length > 0)
+    const isValid = (suggestions.length === 1 && suggestions[0].asset === val)
+    this.setState({assetError: hasError, isValid: isValid})
+	}
 
   getSuggestions = value => {
     const {balances} = this.props
@@ -121,7 +132,8 @@ class AutoSuggestAssets extends Component {
       value: suggestionValue,
       className: assetClassNames,
       onChange: this.onChange,
-      onBlur: this.onAssetBlur
+      onBlur: this.onAssetBlur,
+      onFocus: this.onAssetFocus
     }
 
     return (

@@ -9,7 +9,6 @@
 }
 .form-container {	margin-bottom: 35px; }
 
-
 .success-message {
 	a { text-decoration: none; }
 	p { margin-bottom: 10px; }
@@ -17,7 +16,6 @@
 }
 
 .form-row { margin-bottom: 10px; }
-
 
 body, textarea, input {
   font-family: 'Source Sans Pro', sans-serif;
@@ -40,9 +38,9 @@ textarea, input, .dropzone  {
 	&:focus {
 		border-color: $bright-grey;
 		outline: none;
+		&.is-valid { border: 1px solid $blue;	}
 	}
 	&.error {	border: 1px solid $red;	}
-	&.is-valid { border: 1px solid $blue;	}
 }
 
 div.error-message {

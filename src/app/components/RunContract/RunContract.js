@@ -103,10 +103,7 @@ class RunContract extends Component {
 		this.props.contractMessage.asset = data
 	}
 
-	onBlur() {
-    this.refs.child.onAssetBlur()
-  }
-
+	onBlur() { this.refs.child.onAssetBlur() }
 
 
 	// HELPER METHODS FOR CONTRACT ADDRESS AUTO SUGGGEST //
@@ -115,9 +112,8 @@ class RunContract extends Component {
 		this.props.contractMessage.to = data
 	}
 
-	onContractAddressBlur() {
-    this.refs.child.onContractAddressBlur()
-  }
+	onContractAddressBlur() { this.refs.child.onContractAddressBlur() }
+	onContractAddressFocus() { this.refs.child.onContractAddressFocus() }
 
 
 	render() {
@@ -136,8 +132,9 @@ class RunContract extends Component {
 						<AutoSuggestSavedContracts
 							sendData={this.updateContractAddressFromSuggestions}
 							address={contractMessage.to}
-							onBlur={this.onContractAddressBlur.bind(this)}
 							status={contractMessage.status}
+							onBlur={this.onContractAddressBlur.bind(this)}
+							onFocus={this.onContractAddressFocus.bind(this)}
 						/>
 
 						<Flexbox flexDirection="column" className="choose-command form-row">
