@@ -3,12 +3,12 @@ import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import {inject, observer} from 'mobx-react'
-import Autosuggest from 'react-autosuggest'
-import classnames from 'classnames'
-import {truncateString, validateAddress} from '../../../utils/helpers'
-
 import {clipboard} from 'electron'
 import {toInteger} from 'lodash'
+import Autosuggest from 'react-autosuggest'
+import classnames from 'classnames'
+
+import {truncateString, validateAddress} from '../../../utils/helpers'
 
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
@@ -24,7 +24,10 @@ class SendTx extends Component {
 
 		this.state = {
 			addressIsValid: false,
-			addressError: false
+			addressError: false,
+			assetChosen: false,
+			assetBalance: 0,
+			amountIsInvalid: false
 		}
 
 		autobind(this)
@@ -61,15 +64,6 @@ class SendTx extends Component {
 		})
 	}
 
-	onAmountChanged(event) {
-		const {transaction} = this.props
-		if (event.target.value) {
-			transaction.amount = toInteger(event.target.value.trim())
-		}	else {
-			transaction.amount = undefined
-		}
-	}
-
 	onPasteClicked() {
 		const {transaction} = this.props
 		transaction.to = clipboard.readText().trim()
@@ -96,18 +90,87 @@ class SendTx extends Component {
 	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
 
 	updateAssetFromSuggestions = (data) => {
-		this.props.transaction.asset = data
+		const {transaction,balances} = this.props
+		const balanceOfAsset = balances.getBalanceFor(data.asset)
+		this.setState({assetBalance: balanceOfAsset})
+
+		transaction.asset = data.asset
+		transaction.assetIsValid = data.assetIsValid
 	}
 
 	onBlur() { this.refs.child.onAssetBlur() }
 	onAssetFocus() { this.refs.child.onAssetFocus() }
 
+
+  // AMOUNT INPUT //
+
+	onAmountChanged(event) {
+		const {transaction} = this.props
+		const {assetBalance} = this.state
+		if (event.target.value) {
+			transaction.amount = parseFloat(event.target.value.trim().replace(/,/g, ''))
+
+			this.validateAmount()
+		}	else {
+			transaction.amount = undefined
+		}
+	}
+
+	validateAmount() {
+		const {transaction} = this.props
+		const {assetBalance} = this.state
+		if (transaction.assetIsValid && assetBalance > 0) {
+			this.setState({amountIsInvalid: transaction.amount > assetBalance})
+		}
+	}
+
+	onAmountKeyDown = event => {
+		if (event.keyCode == 38) {
+			if (this.props.transaction.amount === undefined) {
+				this.props.transaction.amount = 1
+			}
+			this.props.transaction.amount++
+		} // up
+		if (event.keyCode == 40) {this.props.transaction.amount-- } // down
+		this.validateAmount()
+	}
+
+	increaseAmount() {
+		this.props.transaction.amount++
+		this.validateAmount()
+	}
+	decreaseAmount() {
+		this.props.transaction.amount--
+		this.validateAmount()
+	}
+
+	renderMaxAmountDiv() {
+		const {transaction} = this.props
+		const {assetBalance} = this.state
+    if (transaction.assetIsValid) {
+      return (
+        <div className='maxSend'> / {assetBalance.toLocaleString() }</div>
+      )
+    }
+  }
+
 	render() {
 		const {transaction} = this.props
-		const {addressIsValid, addressError} = this.state
+		const {
+			addressIsValid,
+			addressError,
+			assetChosen,
+			amountIsInvalid
+		} = this.state
 
 		let addressClassNames = (addressError ? 'error' : '' )
 		if (addressIsValid) { addressClassNames = classnames('is-valid', addressClassNames) }
+
+		console.log('render assetIsValid', transaction.assetIsValid)
+		let amountInputClassNames = (transaction.assetIsValid ? 'amountInputContainer asset-chosen' : 'amountInputContainer')
+		if (amountIsInvalid) { amountInputClassNames = classnames('error', amountInputClassNames) }
+
+		const presentableAmount = (transaction.amount === undefined ? '' : transaction.amount.toLocaleString() )
 
 		return (
 			<Layout className="send-tx">
@@ -140,7 +203,11 @@ class SendTx extends Component {
 									{this.renderAddressErrorMessage()}
 			          </Flexbox>
 
-								<button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
+								<button
+									className="button secondary button-on-right"
+									onClick={this.onPasteClicked}>
+									Paste
+								</button>
 							</Flexbox>
 						</Flexbox>
 
@@ -156,13 +223,28 @@ class SendTx extends Component {
 
 							<Flexbox flexGrow={0} flexDirection="column" className="amount">
 								<label htmlFor="amount">Amount</label>
-								<input
-									id="amount"
-									name="amount"
-									type="number"
-									placeholder="Enter amount you wan to send"
-									value={transaction.amount}
-									onChange={this.onAmountChanged} />
+
+								<Flexbox flexDirection='row' className={amountInputClassNames}>
+									<input
+										id='amount'
+										name='amount'
+										type='text'
+										placeholder='Enter amount'
+										value={presentableAmount}
+										onKeyDown={this.onAmountKeyDown}
+										onChange={this.onAmountChanged}
+									/>
+									{ this.renderMaxAmountDiv() }
+									<Flexbox flexDirection='column' className='amountArrows'>
+										<div onClick={this.increaseAmount}>
+											<i className='fa fa-angle-up' />
+										</div>
+										<div onClick={this.decreaseAmount}>
+											<i className='fa fa-angle-down' />
+										</div>
+									</Flexbox>
+								</Flexbox>
+
 							</Flexbox>
 
 						</Flexbox>

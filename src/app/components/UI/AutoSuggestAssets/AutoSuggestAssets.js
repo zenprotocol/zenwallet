@@ -16,6 +16,7 @@ class AutoSuggestAssets extends Component {
 
     this.state = {
 			suggestionValue: '',
+			suggestionName: '',
 			suggestions: [],
 			assetError: false,
       isValid: false
@@ -42,8 +43,6 @@ class AutoSuggestAssets extends Component {
     if (nextProps.status === 'success') { this.setState({suggestionValue: ''}) }
   }
 
-  updateParent = (asset) => { this.props.sendData(asset) }
-
   getSuggestionValue = suggestion => suggestion.asset
 
   renderSuggestion = suggestion => (
@@ -54,8 +53,11 @@ class AutoSuggestAssets extends Component {
 
   onSuggestionSelected = (event, {suggestion}) => {
     const value = suggestion.asset
-    this.setState({suggestionValue: value})
-    this.updateParent(value)
+
+    this.setState({
+      suggestionValue: value,
+      chosenAssetName: suggestion.name
+    })
     this.validateAssetStates(value)
   }
 
@@ -65,7 +67,10 @@ class AutoSuggestAssets extends Component {
 
     const userPressedUpOrDown = (method === 'down' || method === 'up')
     if (!userPressedUpOrDown) {
-      this.setState({suggestionValue: value})
+      this.setState({
+        suggestionValue: value,
+        chosenAssetName: null
+      })
     }
 
     this.validateAssetStates(value)
@@ -75,8 +80,8 @@ class AutoSuggestAssets extends Component {
     const {suggestionValue} = this.state
     const val = suggestionValue.trim()
     const suggestions = this.getSuggestions(val)
-    this.updateParent(val)
     this.setState({isValid: false})
+    this.validateAssetStates(val)
   }
 
   onAssetFocus = () => {
@@ -88,6 +93,15 @@ class AutoSuggestAssets extends Component {
     const hasError = (suggestions.length === 0 && val.length > 0)
     const isValid = (suggestions.length === 1 && suggestions[0].asset === val)
     this.setState({assetError: hasError, isValid: isValid})
+    if (isValid) {
+      this.setState({chosenAssetName: suggestions[0].name})
+      this.props.sendData({
+        asset: suggestions[0].asset,
+        assetIsValid: isValid
+      })
+    } else {
+      this.props.sendData({assetIsValid: false})
+    }
 	}
 
   getSuggestions = value => {
@@ -121,8 +135,17 @@ class AutoSuggestAssets extends Component {
     }
   }
 
+  renderChosenAssetName() {
+    const {chosenAssetName} = this.state
+    if (chosenAssetName) {
+      return (
+        <div className='chosenAssetName'>{chosenAssetName}</div>
+      )
+    }
+  }
+
   render() {
-    const {suggestionValue, suggestions, assetError, isValid} = this.state
+    const {suggestionValue, suggestions, assetError, isValid, chosenAssetName} = this.state
     let assetClassNames = (assetError ? 'full-width error' : 'full-width' )
     if (isValid) { assetClassNames = classnames('is-valid', assetClassNames) }
 
@@ -150,6 +173,7 @@ class AutoSuggestAssets extends Component {
           shouldRenderSuggestions={this.shouldRenderSuggestions}
           inputProps={inputProps}
         />
+        {this.renderChosenAssetName()}
         {this.renderErrorMessage()}
 
       </Flexbox>
