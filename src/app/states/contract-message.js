@@ -11,6 +11,7 @@ class ContractMessageState {
   @observable asset = ''
   @observable assetIsValid = false
   @observable assetName = ''
+  @observable assetBalance
 
   @action
   init() {
@@ -53,6 +54,8 @@ class ContractMessageState {
     this.inprogress = false
     this.asset = ''
     this.assetName = ''
+    this.assetBalance = ''
+    this.assetIsValid = false
     this.to = ''
     this.amount = ''
     this.command = ''
