@@ -29,6 +29,9 @@ class ContractMessageState {
         console.log('sendContractMessage response', response)
         this.resetForm()
         this.status = 'success'
+        setTimeout(() => {
+          this.status = ''
+        }, 15000)
       })
 
     } catch (error) {

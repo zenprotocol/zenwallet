@@ -19,8 +19,6 @@ class AmountInput extends Component {
       assetIsValid: props.assetIsValid
     }
 
-    // console.log('AmountInput constructor props', props.amount)
-
     autobind(this)
   }
 
@@ -30,15 +28,15 @@ class AmountInput extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.status === 'success') {
-      this.setState({amount: ''})
+      this.setState({amount: '', assetBalance: '', assetIsValid: false})
+    } else {
+      this.setState({
+        assetBalance: nextProps.assetBalance,
+        assetIsValid: nextProps.assetIsValid
+      }, function () {
+        this.validateAmount()
+      })
     }
-
-    this.setState({
-      assetBalance: nextProps.assetBalance,
-      assetIsValid: nextProps.assetIsValid
-    }, function () {
-      this.validateAmount()
-    })
   }
 
 	onChange(event) {
@@ -50,7 +48,9 @@ class AmountInput extends Component {
       })
       this.props.sendData({amount: newAmount})
 		}	else {
-      this.setState({amount: undefined})
+      this.setState({amount: undefined}, function () {
+        this.validateAmount()
+      })
 		}
 	}
 
@@ -136,18 +136,14 @@ class AmountInput extends Component {
 
 
   render() {
-    const {assetIsValid, assetBalance} = this.props
-    const {amount, amountIsInvalid} = this.state
+    const {amount, amountIsInvalid, assetIsValid, assetBalance} = this.state
 
 		let amountInputClassNames = (assetIsValid ? 'amountInputContainer asset-chosen' : 'amountInputContainer')
 		if (amountIsInvalid) {
       amountInputClassNames = classnames('error', amountInputClassNames)
     }
 
-
-    // console.log('AmountInput render amount', amount)
 		const presentableAmount = (amount === undefined ? '' : amount.toLocaleString() )
-    // console.log('presentableAmount', presentableAmount)
 
     return (
       <Flexbox flexGrow={0} flexDirection="column" className="amount">
