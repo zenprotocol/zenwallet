@@ -21,7 +21,11 @@ body, textarea, input {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-textarea, input, .dropzone  {
+textarea,
+input[type=text],
+input[type=search],
+.amountInputContainer,
+.dropzone  {
   background: $dark-grey;
   padding: 10px;
   color: $off-white;
@@ -42,6 +46,58 @@ textarea, input, .dropzone  {
 	}
 	&.error {	border: 1px solid $red;	}
 }
+
+.chosenAssetName {
+	display: inline;
+  position: absolute;
+  right: 1.5px;
+  top: 41.5px;
+  background: $dark-grey-2;
+  padding: 11px;
+	font-size: 12px;
+  border-left: solid 1px $input-border-color;
+  color: $blue;
+  text-transform: uppercase;
+}
+
+.amountInputContainer {
+	padding: 0.4px 0 0 0.1px;
+	width: 250px;
+
+	.maxSend {
+		padding: 12px 10px 0px 0px;
+		color: $blue;
+	}
+
+	.amountArrows {
+		padding: 3.5px 12px 3.5px 12px;
+		background: $dark-grey-2;
+		border-left: 1px solid $input-border-color;
+		border-radius: 0 2px 2px 0;
+		i.fa { color: $blue; }
+	}
+
+	input#amount {
+		width: 100%;
+		outline: none;
+		border: none;
+		padding: 1px 0px 0px 10px;
+		background: $dark-grey;
+		color: $off-white;
+	}
+
+	input#amount::-webkit-inner-spin-button,
+	input#amount::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	&.asset-chosen {
+		input#amount { width: 129.4px; }
+	}
+
+}
+
 
 div.error-message {
 	color: $red;

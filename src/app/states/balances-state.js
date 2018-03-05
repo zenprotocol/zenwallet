@@ -42,6 +42,17 @@ class BalancesState {
         }
     }
 
+    @action
+    getBalanceFor(asset) {
+      let result = find(this.assets, {asset: asset})
+      if (result !== undefined) {
+        result = result.balance
+      } else {
+        result = 0
+      }
+      return result
+    }
+
     @computed
     get assetsWithNames() {
       const assetsWithNamesResult = this.assets.map(asset => {

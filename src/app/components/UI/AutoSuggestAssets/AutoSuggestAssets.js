@@ -11,15 +11,16 @@ import {truncateString} from '../../../../utils/helpers'
 @inject('balances')
 @observer
 class AutoSuggestAssets extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
 			suggestionValue: '',
 			suggestionName: '',
 			suggestions: [],
 			assetError: false,
-      isValid: false
+      isValid: false,
+      chosenAssetName: props.assetName
 		}
 
     autobind(this)
@@ -40,7 +41,12 @@ class AutoSuggestAssets extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 'success') { this.setState({suggestionValue: ''}) }
+    if (nextProps.status === 'success') {
+      this.setState({
+        suggestionValue: '',
+        chosenAssetName: ''
+      })
+    }
   }
 
   getSuggestionValue = suggestion => suggestion.asset
@@ -94,13 +100,18 @@ class AutoSuggestAssets extends Component {
     const isValid = (suggestions.length === 1 && suggestions[0].asset === val)
     this.setState({assetError: hasError, isValid: isValid})
     if (isValid) {
-      this.setState({chosenAssetName: suggestions[0].name})
+      const chosenAsset = suggestions[0]
+      this.setState({chosenAssetName: chosenAsset.name})
       this.props.sendData({
-        asset: suggestions[0].asset,
-        assetIsValid: isValid
+        asset: chosenAsset.asset,
+        assetIsValid: isValid,
+        assetName: chosenAsset.name
       })
     } else {
-      this.props.sendData({assetIsValid: false})
+      this.props.sendData({
+        assetIsValid: false,
+        assetName: ''
+      })
     }
 	}
 

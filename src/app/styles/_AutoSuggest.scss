@@ -1,6 +1,7 @@
 @import "Variables";
 
 .react-autosuggest__container {
+  width: 100%;
   display: block;
   position: relative;
   input { box-sizing: border-box; }

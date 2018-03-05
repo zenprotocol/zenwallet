@@ -8,10 +8,13 @@ class TransactionState {
   @observable status
   @observable inprogress
   @observable errorMessage
+  @observable assetIsValid = false
+  @observable assetName = ''
 
   @action
   init() {
     this.asset = ''
+    this.assetIsValid = false
   }
 
   @action
@@ -48,6 +51,7 @@ class TransactionState {
   resetForm() {
     this.inprogress = false
     this.asset = ''
+    this.assetName = ''
     this.to = ''
     this.amount = ''
     this.status = ''

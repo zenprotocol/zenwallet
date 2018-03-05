@@ -13,6 +13,7 @@ import {truncateString, validateAddress} from '../../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
+import AmountInput from '../UI/AmountInput/AmountInput'
 
 @inject('balances')
 @inject('transaction')
@@ -25,9 +26,7 @@ class SendTx extends Component {
 		this.state = {
 			addressIsValid: false,
 			addressError: false,
-			assetChosen: false,
-			assetBalance: 0,
-			amountIsInvalid: false
+			assetBalance: 0
 		}
 
 		autobind(this)
@@ -90,11 +89,10 @@ class SendTx extends Component {
 	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
 
 	updateAssetFromSuggestions = (data) => {
-		const {transaction,balances} = this.props
-		const balanceOfAsset = balances.getBalanceFor(data.asset)
-		this.setState({assetBalance: balanceOfAsset})
-
+		const {transaction, balances} = this.props
+		transaction.assetBalance = balances.getBalanceFor(data.asset)
 		transaction.asset = data.asset
+		transaction.assetName = data.assetName
 		transaction.assetIsValid = data.assetIsValid
 	}
 
@@ -104,73 +102,18 @@ class SendTx extends Component {
 
   // AMOUNT INPUT //
 
-	onAmountChanged(event) {
+	updateAmount = (data) => {
 		const {transaction} = this.props
-		const {assetBalance} = this.state
-		if (event.target.value) {
-			transaction.amount = parseFloat(event.target.value.trim().replace(/,/g, ''))
-
-			this.validateAmount()
-		}	else {
-			transaction.amount = undefined
-		}
+		transaction.amount = data.amount
 	}
 
-	validateAmount() {
-		const {transaction} = this.props
-		const {assetBalance} = this.state
-		if (transaction.assetIsValid && assetBalance > 0) {
-			this.setState({amountIsInvalid: transaction.amount > assetBalance})
-		}
-	}
-
-	onAmountKeyDown = event => {
-		if (event.keyCode == 38) {
-			if (this.props.transaction.amount === undefined) {
-				this.props.transaction.amount = 1
-			}
-			this.props.transaction.amount++
-		} // up
-		if (event.keyCode == 40) {this.props.transaction.amount-- } // down
-		this.validateAmount()
-	}
-
-	increaseAmount() {
-		this.props.transaction.amount++
-		this.validateAmount()
-	}
-	decreaseAmount() {
-		this.props.transaction.amount--
-		this.validateAmount()
-	}
-
-	renderMaxAmountDiv() {
-		const {transaction} = this.props
-		const {assetBalance} = this.state
-    if (transaction.assetIsValid) {
-      return (
-        <div className='maxSend'> / {assetBalance.toLocaleString() }</div>
-      )
-    }
-  }
 
 	render() {
 		const {transaction} = this.props
-		const {
-			addressIsValid,
-			addressError,
-			assetChosen,
-			amountIsInvalid
-		} = this.state
+		const {addressIsValid, addressError} = this.state
 
 		let addressClassNames = (addressError ? 'error' : '' )
 		if (addressIsValid) { addressClassNames = classnames('is-valid', addressClassNames) }
-
-		console.log('render assetIsValid', transaction.assetIsValid)
-		let amountInputClassNames = (transaction.assetIsValid ? 'amountInputContainer asset-chosen' : 'amountInputContainer')
-		if (amountIsInvalid) { amountInputClassNames = classnames('error', amountInputClassNames) }
-
-		const presentableAmount = (transaction.amount === undefined ? '' : transaction.amount.toLocaleString() )
 
 		return (
 			<Layout className="send-tx">
@@ -216,36 +159,19 @@ class SendTx extends Component {
 							<AutoSuggestAssets
 								sendData={this.updateAssetFromSuggestions}
 								asset={transaction.asset}
+								assetName={transaction.assetName}
 								onBlur={this.onBlur.bind(this)}
 								onFocus={this.onAssetFocus.bind(this)}
 								status={transaction.status}
 							/>
 
-							<Flexbox flexGrow={0} flexDirection="column" className="amount">
-								<label htmlFor="amount">Amount</label>
-
-								<Flexbox flexDirection='row' className={amountInputClassNames}>
-									<input
-										id='amount'
-										name='amount'
-										type='text'
-										placeholder='Enter amount'
-										value={presentableAmount}
-										onKeyDown={this.onAmountKeyDown}
-										onChange={this.onAmountChanged}
-									/>
-									{ this.renderMaxAmountDiv() }
-									<Flexbox flexDirection='column' className='amountArrows'>
-										<div onClick={this.increaseAmount}>
-											<i className='fa fa-angle-up' />
-										</div>
-										<div onClick={this.decreaseAmount}>
-											<i className='fa fa-angle-down' />
-										</div>
-									</Flexbox>
-								</Flexbox>
-
-							</Flexbox>
+							<AmountInput
+								amount={transaction.amount}
+								assetIsValid={transaction.assetIsValid}
+								assetBalance={transaction.assetBalance}
+								sendData={this.updateAmount}
+								status={transaction.status}
+							/>
 
 						</Flexbox>
 
@@ -311,9 +237,20 @@ class SendTx extends Component {
 		return (inprogress ? "Sending" : "Send")
 	}
 
+	validateAmountField() {
+		const {amount, assetBalance, assetIsValid} = this.props.transaction
+		return (assetIsValid && amount <= assetBalance)
+	}
+
+	validateDestinationAddressField() {
+		const value = this.props.transaction.to
+		const addressIsValid = validateAddress(value)
+		return (value.length > 0 && addressIsValid)
+	}
+
 	validateAllFields() {
-		const {asset,to,amount,inprogress} = this.props.transaction
-		return !!(asset && to && amount)
+		const {asset, to, amount, inprogress} = this.props.transaction
+		return !!(asset && to && this.validateAmountField() && this.validateDestinationAddressField())
 	}
 
 	isSubmitButtonDisabled() {
