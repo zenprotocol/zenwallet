@@ -11,7 +11,9 @@ import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestSavedContracts from '../UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
+import AmountInput from '../UI/AmountInput/AmountInput'
 
+@inject('balances')
 @inject('contractMessage')
 @observer
 class RunContract extends Component {
@@ -96,16 +98,6 @@ class RunContract extends Component {
 		return (inprogress ? "Running" : "Run")
 	}
 
-
-	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
-
-	updateAssetFromSuggestions = (data) => {
-		this.props.contractMessage.asset = data
-	}
-
-	onBlur() { this.refs.child.onAssetBlur() }
-
-
 	// HELPER METHODS FOR CONTRACT ADDRESS AUTO SUGGGEST //
 
 	updateContractAddressFromSuggestions = (data) => {
@@ -114,6 +106,27 @@ class RunContract extends Component {
 
 	onContractAddressBlur() { this.refs.child.onContractAddressBlur() }
 	onContractAddressFocus() { this.refs.child.onContractAddressFocus() }
+
+
+	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
+
+	updateAssetFromSuggestions = (data) => {
+		const {contractMessage, balances} = this.props
+		contractMessage.assetBalance = balances.getBalanceFor(data.asset)
+		contractMessage.asset = data.asset
+		contractMessage.assetName = data.assetName
+		contractMessage.assetIsValid = data.assetIsValid
+	}
+
+	onAssetBlur() { this.refs.child.onAssetBlur() }
+	onAssetFocus() { this.refs.child.onAssetFocus() }
+
+	// AMOUNT INPUT //
+
+	updateAmount = (data) => {
+		const {contractMessage} = this.props
+		contractMessage.amount = data.amount
+	}
 
 
 	render() {
@@ -156,20 +169,19 @@ class RunContract extends Component {
 								<AutoSuggestAssets
 									sendData={this.updateAssetFromSuggestions}
 									asset={contractMessage.asset}
-									onBlur={this.onBlur.bind(this)}
+									assetName={contractMessage.assetName}
 									status={contractMessage.status}
+									onBlur={this.onAssetBlur.bind(this)}
+									onFocus={this.onAssetFocus.bind(this)}
 								/>
 
-								<Flexbox flexGrow={0} flexDirection="column" className="choose-amount">
-									<label htmlFor="amount">Amount</label>
-									<input
-										id="amount"
-										name="amount"
-										type="number"
-										placeholder="Enter amount of Zens"
-										value={contractMessage.amount}
-										onChange={this.onAmountChanged} />
-								</Flexbox>
+								<AmountInput
+									amount={contractMessage.amount}
+									assetIsValid={contractMessage.assetIsValid}
+									assetBalance={contractMessage.assetBalance}
+									status={contractMessage.status}
+									sendData={this.updateAmount}
+								/>
 
 						</Flexbox>
 

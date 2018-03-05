@@ -24,6 +24,10 @@ class AmountInput extends Component {
     autobind(this)
   }
 
+  componentDidMount() {
+    this.validateAmount()
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.status === 'success') {
       this.setState({amount: ''})

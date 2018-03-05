@@ -2,19 +2,22 @@ import {observable, action, runInAction} from 'mobx'
 import {postRunContractMessage} from '../services/api-service'
 
 class ContractMessageState {
-  @observable asset = ''
   @observable to = ''
   @observable amount
   @observable command
   @observable data
   @observable status
   @observable inprogress
+  @observable asset = ''
+  @observable assetIsValid = false
+  @observable assetName = ''
 
   @action
   init() {
     this.asset = ''
+    this.assetIsValid = false
   }
-  
+
   @action
   async sendContractMessage(msg) {
 
@@ -46,6 +49,7 @@ class ContractMessageState {
   resetForm() {
     this.inprogress = false
     this.asset = ''
+    this.assetName = ''
     this.to = ''
     this.amount = ''
     this.command = ''
