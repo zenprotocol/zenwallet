@@ -135,14 +135,15 @@ class AmountInput extends Component {
     }
   }
 
+  onFocus() { this.setState({isFocused: true}) }
+  onBlur() { this.setState({isFocused: false}) }
 
   render() {
-    const {amount, amountIsInvalid, assetIsValid, assetBalance} = this.state
+    const {amount, amountIsInvalid, assetIsValid, assetBalance, isFocused} = this.state
 
 		let amountInputClassNames = (assetIsValid ? 'amountInputContainer asset-chosen' : 'amountInputContainer')
-		if (amountIsInvalid) {
-      amountInputClassNames = classnames('error', amountInputClassNames)
-    }
+		if (amountIsInvalid) { amountInputClassNames = classnames('error', amountInputClassNames) }
+    if (isFocused) { amountInputClassNames = classnames('is-focused', amountInputClassNames) }
 
 		const presentableAmount = (amount === undefined ? '' : amount.toLocaleString() )
 
@@ -159,6 +160,8 @@ class AmountInput extends Component {
             value={presentableAmount}
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
           />
           { this.renderMaxAmountDiv() }
           <Flexbox flexDirection='column' className='amountArrows'>
