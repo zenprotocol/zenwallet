@@ -54,7 +54,6 @@ class AutoSuggestSavedContracts extends Component {
 
   onSuggestionSelected = (event, {suggestion}) => {
     const {suggestionValue} = this.state
-    console.log('onSuggestionSelected contracts suggestion', suggestion)
     this.setState({
       suggestionValue: suggestion.address,
       contractName: suggestion.name
@@ -142,7 +141,6 @@ class AutoSuggestSavedContracts extends Component {
 
   renderChosenContractName() {
     const {contractName} = this.state
-    console.log('renderChosenContractName contractName', contractName)
     if (contractName) {
       return (
         <div className='chosenContractName'>{contractName}</div>

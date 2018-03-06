@@ -6,6 +6,7 @@ import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import Dropzone from 'react-dropzone'
 import {head} from 'lodash'
+import Highlight from 'react-highlight'
 
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
@@ -138,6 +139,20 @@ class ActivateContract extends Component {
 		}
 	}
 
+	renderCodeSnippet() {
+		const {code, acceptedFiles} = this.props.contract
+		if (acceptedFiles.length == 1 && code) {
+			return (
+				<Flexbox flexDirection="column" className="contract-code form-row">
+					<label htmlFor='code'>Code</label>
+					<Highlight className='fsharp'>
+					  {code}
+					</Highlight>
+				</Flexbox>
+			)
+		}
+	}
+
 	render() {
 		const {contract} = this.props
 
@@ -186,6 +201,8 @@ class ActivateContract extends Component {
 								</button>
 							</Flexbox>
 						</Flexbox>
+
+						{this.renderCodeSnippet()}
 
 					</Flexbox>
 
