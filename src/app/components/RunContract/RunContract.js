@@ -101,7 +101,9 @@ class RunContract extends Component {
 	// HELPER METHODS FOR CONTRACT ADDRESS AUTO SUGGGEST //
 
 	updateContractAddressFromSuggestions = (data) => {
-		this.props.contractMessage.to = data
+		const {contractMessage} = this.props
+		contractMessage.contractName = data.name
+		contractMessage.to = data.address
 	}
 
 	onContractAddressBlur() { this.refs.child.onContractAddressBlur() }
@@ -146,6 +148,7 @@ class RunContract extends Component {
 							sendData={this.updateContractAddressFromSuggestions}
 							address={contractMessage.to}
 							status={contractMessage.status}
+							contractName={contractMessage.contractName}
 							onBlur={this.onContractAddressBlur.bind(this)}
 							onFocus={this.onContractAddressFocus.bind(this)}
 						/>

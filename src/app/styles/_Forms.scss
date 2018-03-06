@@ -47,18 +47,22 @@ input[type=search],
 	&.error {	border: 1px solid $red;	}
 }
 
-.chosenAssetName {
+.select-contract { position: relative; }
+
+.chosenAssetName, .chosenContractName {
 	display: inline;
   position: absolute;
   right: 1.5px;
   top: 41.5px;
-  background: $dark-grey-2;
   padding: 11px;
 	font-size: 12px;
-  border-left: solid 1px $input-border-color;
-  color: $blue;
   text-transform: uppercase;
+	border-left: solid 1px $input-border-color;
+	color: $blue;
+	background: $dark-grey-2;
 }
+
+.chosenContractName { top: 1.5px; }
 
 .amountInputContainer {
 	padding: 0.4px 0 0 0.1px;

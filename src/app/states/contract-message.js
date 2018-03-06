@@ -3,6 +3,7 @@ import {postRunContractMessage} from '../services/api-service'
 
 class ContractMessageState {
   @observable to = ''
+  @observable contractName = ''
   @observable amount
   @observable command
   @observable data
@@ -57,6 +58,7 @@ class ContractMessageState {
     this.assetBalance = ''
     this.assetIsValid = false
     this.to = ''
+    this.contractName = ''
     this.amount = ''
     this.command = ''
     this.data = ''

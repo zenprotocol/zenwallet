@@ -13,14 +13,15 @@ import db from '../../../services/store'
 const savedContracts = db.get('savedContracts').value()
 
 class AutoSuggestSavedContracts extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
 			suggestionValue: '',
 			suggestions: [],
 			assetError: false,
-      isValid: false
+      isValid: false,
+      contractName: props.contractName
 		}
 
     autobind(this)
@@ -38,10 +39,6 @@ class AutoSuggestSavedContracts extends Component {
     if (nextProps.status === 'success') { this.setState({suggestionValue: ''}) }
   }
 
-  updateParent = (address) => {
-    this.props.sendData(address)
-  }
-
   getSuggestionValue = suggestion => suggestion.address
 
   renderSuggestion = suggestion => (
@@ -52,8 +49,12 @@ class AutoSuggestSavedContracts extends Component {
 
   onSuggestionSelected = (event, {suggestion}) => {
     const {suggestionValue} = this.state
-    this.setState({suggestionValue: suggestion.address})
-    this.updateParent(suggestion.address)
+    console.log('onSuggestionSelected contracts suggestion', suggestion)
+    this.setState({
+      suggestionValue: suggestion.address,
+      contractName: suggestion.name
+    })
+    this.props.sendData(suggestion)
   }
 
   getSuggestions = value => {
@@ -77,26 +78,35 @@ class AutoSuggestSavedContracts extends Component {
     const userPressedUpOrDown = (method === 'down' || method === 'up')
     if (!userPressedUpOrDown) { this.setState({suggestionValue: val}) }
 
-    this.validateStates(val)
+    this.validateAndUpdate(val)
   }
 
   onContractAddressBlur = (e) => {
     const val = e.target.value.trim()
     const suggestions = this.getSuggestions(val)
-
-    this.updateParent(val)
     const isValid = validateAddress(val)
     const hasError = (val.length > 0 && !isValid)
     this.setState({assetError: hasError, isValid: false})
   }
 
   onContractAddressFocus = (e) => {
-    this.validateStates(this.state.suggestionValue)
+    this.validateAndUpdate(this.state.suggestionValue)
   }
 
-  validateStates(val) {
+  validateAndUpdate(val) {
     const suggestions = this.getSuggestions(val)
     const isValid = validateAddress(val)
+    if (suggestions.length === 1 && isValid) {
+      this.setState({
+        contractName: suggestions[0].name,
+        suggestionValue: suggestions[0].address
+      })
+      this.props.sendData(suggestions[0])
+    }
+    if (!isValid) {
+      this.setState({contractName: '', suggestionValue: val})
+      this.props.sendData({name: '', address: val})
+    }
     const hasError = (suggestions.length === 0 && !isValid)
     this.setState({assetError: hasError, isValid: isValid})
 	}
@@ -126,8 +136,16 @@ class AutoSuggestSavedContracts extends Component {
     }
   }
 
-  onPasteClicked() {
-    this.setState({suggestionValue: clipboard.readText()})
+  onPaste() { this.validateAndUpdate(clipboard.readText()) }
+
+  renderChosenContractName() {
+    const {contractName} = this.state
+    console.log('renderChosenContractName contractName', contractName)
+    if (contractName) {
+      return (
+        <div className='chosenContractName'>{contractName}</div>
+      )
+    }
   }
 
   render() {
@@ -152,7 +170,7 @@ class AutoSuggestSavedContracts extends Component {
         <label htmlFor='to'>Contract Address</label>
         <Flexbox flexDirection="row" className='destination-address-input'>
 
-          <Flexbox flexDirection="column" className='full-width'>
+          <Flexbox flexDirection="column" className='full-width select-contract'>
             <Autosuggest
               suggestions={suggestions}
               onSuggestionSelected={this.onSuggestionSelected}
@@ -163,10 +181,11 @@ class AutoSuggestSavedContracts extends Component {
               shouldRenderSuggestions={this.shouldRenderSuggestions}
               inputProps={inputProps}
             />
+            {this.renderChosenContractName()}
             {this.renderErrorMessage()}
           </Flexbox>
 
-          <button className="button secondary button-on-right" onClick={this.onPasteClicked}>Paste</button>
+          <button className="button secondary button-on-right" onClick={this.onPaste}>Paste</button>
         </Flexbox>
 
       </Flexbox>

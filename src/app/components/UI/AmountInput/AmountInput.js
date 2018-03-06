@@ -48,6 +48,7 @@ class AmountInput extends Component {
       })
       this.props.sendData({amount: newAmount})
 		}	else {
+      this.props.sendData({amount: ''})
       this.setState({amount: undefined}, function () {
         this.validateAmount()
       })
