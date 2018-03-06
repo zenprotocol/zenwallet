@@ -27,6 +27,11 @@ class AutoSuggestSavedContracts extends Component {
     autobind(this)
   }
 
+  componentWillMount() {
+		const {address} = this.props
+		if (address) { this.validateAndUpdate(address) }
+	}
+
   componentDidMount() {
     const {address} = this.props
     if (address) {
@@ -74,11 +79,8 @@ class AutoSuggestSavedContracts extends Component {
 
   onChange = (event, { newValue, method }) => {
     const val = newValue.trim()
-
     const userPressedUpOrDown = (method === 'down' || method === 'up')
-    if (!userPressedUpOrDown) { this.setState({suggestionValue: val}) }
-
-    this.validateAndUpdate(val)
+    if (!userPressedUpOrDown) { this.validateAndUpdate(val) }
   }
 
   onContractAddressBlur = (e) => {

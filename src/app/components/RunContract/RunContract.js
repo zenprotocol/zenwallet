@@ -28,7 +28,7 @@ class RunContract extends Component {
 		const {contractAddress} = match.params
 		if (contractAddress) {
 			contractMessage.to = contractAddress
-			contractMessage.amount = null
+			contractMessage.amount = ''
 		}
 	}
 
