@@ -6,8 +6,21 @@ import db from './app/services/store'
 
 db.defaults({
   userPreferences: {
-    width: 1200, height: 800 }
-  }).write()
+    width: 1200, height: 800
+  },
+  savedContracts: [
+    {
+      name: 'ZENP Faucet',
+      hash: '5221fb6b756e67dc53dcdc296f3bbdc58ae7d4356ee738b68c98126e0390b046',
+      address: 'tc1q2kpzsa5nra7uncpyyzheett46qyxvs8lgva0agmp0kw50q63h39qy49v6g'
+    },
+    {
+      name: 'Jezreel Valley Adumim 2020 Red',
+      hash: '3cb6b7179971d7af7f1747926ffea22c40dda652a20d1dd059bd0a37df298795',
+      address: 'tc1q8jmtw9uew8t67lchg7fxll4z93qdmfjj5gx3m5zeh59r0hefs72sdydgsq'
+    }
+  ]
+}).write()
 
 let mainWindow
 

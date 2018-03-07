@@ -134,6 +134,10 @@ class RunContract extends Component {
 
 	render() {
 		const {contractMessage} = this.props
+		const {
+			to, status, contractName, command, amount, asset,
+			assetName, assetIsValid, assetBalance, data, inprogress
+		} = this.props.contractMessage
 
 		return (
 			<Layout className="run-contract">
@@ -147,9 +151,9 @@ class RunContract extends Component {
 
 						<AutoSuggestSavedContracts
 							sendData={this.updateContractAddressFromSuggestions}
-							address={contractMessage.to}
-							status={contractMessage.status}
-							contractName={contractMessage.contractName}
+							address={to}
+							status={status}
+							contractName={contractName}
 							onBlur={this.onContractAddressBlur.bind(this)}
 							onFocus={this.onContractAddressFocus.bind(this)}
 						/>
@@ -163,7 +167,7 @@ class RunContract extends Component {
 									name="command"
 									type="text"
 									placeholder="Enter Command"
-									value={contractMessage.command}
+									value={command}
 									onChange={this.onCommandChanged} />
 							</Flexbox>
 						</Flexbox>
@@ -172,19 +176,19 @@ class RunContract extends Component {
 
 								<AutoSuggestAssets
 									sendData={this.updateAssetFromSuggestions}
-									asset={contractMessage.asset}
-									assetName={contractMessage.assetName}
-									status={contractMessage.status}
+									asset={asset}
+									assetName={assetName}
+									status={status}
 									onBlur={this.onAssetBlur.bind(this)}
 									onFocus={this.onAssetFocus.bind(this)}
 								/>
 
 								<AmountInput
-									amount={contractMessage.amount}
+									amount={amount}
 									label='Amount'
-									assetIsValid={contractMessage.assetIsValid}
-									assetBalance={contractMessage.assetBalance}
-									status={contractMessage.status}
+									assetIsValid={assetIsValid}
+									assetBalance={assetBalance}
+									status={status}
 									sendData={this.updateAmount}
 								/>
 
@@ -195,7 +199,7 @@ class RunContract extends Component {
 							<textarea rows='4' cols='50'
 								id="data"	name="data"	type="text"
 								placeholder="Paste message data here"
-								value={contractMessage.data}
+								value={data}
 								onChange={this.onDataChanged} />
 						</Flexbox>
 
@@ -209,7 +213,7 @@ class RunContract extends Component {
 							<button
 								disabled={this.isSubmitButtonDisabled()}
 								onClick={this.onRunContractClicked}>
-								{(contractMessage.inprogress ? "Running" : "Run")}
+								{(inprogress ? "Running" : "Run")}
 							</button>
 						</Flexbox>
 					</Flexbox>
