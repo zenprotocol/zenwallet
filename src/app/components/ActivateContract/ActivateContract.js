@@ -207,7 +207,6 @@ class ActivateContract extends Component {
 									type='text'
 									onChange={this.onContractNameChanged}
 									value={name}
-									autoFocus
 								/>
 							</Flexbox>
 

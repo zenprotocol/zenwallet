@@ -31,12 +31,15 @@ class AutoSuggestAssets extends Component {
   }
 
   componentDidMount() {
-    const {asset} = this.props
+    const {asset, chosenAssetName} = this.props
     if (asset) {
       const suggestions = this.getSuggestions(asset)
       const isValid = (suggestions.length === 1 && suggestions[0].asset === asset)
       const hasError = (suggestions.length === 0 && asset.length > 0 && !isValid)
       this.setState({suggestionValue: asset, assetError: hasError})
+      if (isValid) {
+        this.validateAssetStates(suggestions[0].asset)
+      }
     }
   }
 

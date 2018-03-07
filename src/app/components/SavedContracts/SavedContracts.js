@@ -50,11 +50,11 @@ class SavedContracts extends Component {
 
       return (
         <tr key={contract.hash}>
-          <td>{contract.name}</td>
+          <td className='text'>{contract.name}</td>
           <td><span title={contract.hash} >{hash}</span></td>
           <td><span title={contract.address} >{address}</span></td>
           <td className='align-right'>
-            <Link className='button small' to={`/run-contract/${contract.address}`} >Run</Link>
+            <Link className='button small margin-right' to={`/run-contract/${contract.address}`} >Run</Link>
             <button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button>
           </td>
         </tr>

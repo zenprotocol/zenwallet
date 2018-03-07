@@ -26,7 +26,7 @@ class Balances extends Component {
       const assetName = balances.getAssetName(asset.asset)
       return (
         <tr key={asset.asset}>
-          <td className='align-left' title={assetName} >{assetName}</td>
+          <td className='align-left text' title={assetName} >{assetName}</td>
           <td className='align-left' title={asset.asset} >{truncateString(asset.asset)}</td>
           <td className='bright-blue' >{asset.balance.toLocaleString()}</td>
           <td className='align-right' >

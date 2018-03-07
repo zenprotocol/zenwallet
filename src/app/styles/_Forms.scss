@@ -67,7 +67,7 @@ input[type=search],
 .chosenContractName { top: 1.5px; }
 
 .amountInputContainer {
-	padding: 0.4px 0 0 0.1px;
+	padding: 0.5px 0 0 0.5px;
 	width: 280px;
 
 	&.is-focused { border-color: $bright-grey; }
@@ -91,7 +91,7 @@ input[type=search],
 		width: 100%;
 		outline: none;
 		border: none;
-		padding: 1px 0px 0px 10px;
+		padding: 2px 0px 0px 10px;
 		background: $dark-grey;
 		color: $off-white;
 	}

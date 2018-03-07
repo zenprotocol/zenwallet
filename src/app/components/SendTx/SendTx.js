@@ -111,6 +111,7 @@ class SendTx extends Component {
 
 	render() {
 		const {transaction} = this.props
+		const {to, asset, assetName, status, amount, assetIsValid, assetBalance} = this.props.transaction
 		const {addressIsValid, addressError} = this.state
 
 		let addressClassNames = (addressError ? 'error' : '' )
@@ -139,7 +140,7 @@ class SendTx extends Component {
 										placeholder="Destination address"
 										className={addressClassNames}
 										onChange={this.onDestinationAddressChanged}
-										value={transaction.to}
+										value={to}
 										onBlur={this.onAddressBlur}
 										onFocus={this.onAddressFocus}
 										autoFocus
@@ -159,20 +160,20 @@ class SendTx extends Component {
 
 							<AutoSuggestAssets
 								sendData={this.updateAssetFromSuggestions}
-								asset={transaction.asset}
-								assetName={transaction.assetName}
+								asset={asset}
+								assetName={assetName}
 								onBlur={this.onBlur.bind(this)}
 								onFocus={this.onAssetFocus.bind(this)}
-								status={transaction.status}
+								status={status}
 							/>
 
 							<AmountInput
-								amount={transaction.amount}
+								amount={amount}
 								label='Amount'
-								assetIsValid={transaction.assetIsValid}
-								assetBalance={transaction.assetBalance}
+								assetIsValid={assetIsValid}
+								assetBalance={assetBalance}
 								sendData={this.updateAmount}
-								status={transaction.status}
+								status={status}
 							/>
 
 						</Flexbox>
@@ -201,8 +202,8 @@ class SendTx extends Component {
 
 
 	renderSuccessResponse() {
-		const {transaction} = this.props
-		if (transaction.status == 'success') {
+		const {status} = this.props.transaction
+		if (status == 'success') {
 			return(
 				<FormResponseMessage className='success'>
 					<span>Transaction sent successfully.</span>
@@ -212,13 +213,13 @@ class SendTx extends Component {
 	}
 
 	renderErrorResponse() {
-		const {transaction} = this.props
-		if (transaction.status == 'error') {
+		const {status, errorMessage} = this.props.transaction
+		if (status == 'error') {
 			return(
 				<FormResponseMessage className='error'>
 					<span>There was a problem with sending the transaction.</span>
 					<span className="devider"></span>
-					<p>Error message: {transaction.errorMessage}</p>
+					<p>Error message: {errorMessage}</p>
 				</FormResponseMessage>
 			)
 		}

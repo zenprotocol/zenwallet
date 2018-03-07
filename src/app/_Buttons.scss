@@ -1,8 +1,8 @@
 @import "Variables";
 
 
-button, .button {
-  height: 35px;
+button, .button, a.button {
+  height: 36.6px;
   width: 125px;
   text-align: center;
   border-radius: 2px;
@@ -13,7 +13,6 @@ button, .button {
   letter-spacing: 0.5px;
   cursor: pointer;
   text-decoration: none;
-  margin: 0 5px;
   background: $blue;
 
   &:hover { background-color: $blue-hover; }
@@ -39,14 +38,13 @@ button, .button {
   &.info {}
 
   &.small {
-    padding: 7px 14px 6px 14px;
+    padding: 4px 14px 5px 14px;
     height: initial;
     width: initial;
   }
   &.button-on-right { margin-left: 17px; }
+  &.margin-right { margin-right: 10px; }
 }
-
-
-a.button {
-  &.small { padding: 4px 14px 5px 14px; width: initial; }
+button {
+  &.small { padding: 5.5px 14px 5.5px 14px; }
 }

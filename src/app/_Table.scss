@@ -8,14 +8,15 @@ table {
   font-family: 'Roboto Mono', monospace;
 
   th { color: $bright-grey; }
-  td {
-    background: $dark-grey-2;
-
-  }
+  td { background: $dark-grey-2; }
   tbody {
     tr:hover { background: #242424; }
   }
   th, td { padding: 16px 19px; }
+
+  tr {
+    td.text { font-family: 'Source Sans Pro', sans-serif; }
+  }
 
   thead {
     text-align: left;
