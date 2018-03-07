@@ -10,6 +10,7 @@ import Highlight from 'react-highlight'
 
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
+import AmountInput from '../UI/AmountInput/AmountInput'
 
 @inject('contract')
 @observer
@@ -51,13 +52,11 @@ class ActivateContract extends Component {
 	}
 
 	onActivateContractClicked() {
-		const {contract} = this.props
-		const result = contract.activateContract(contract.code)
+		const result = this.props.contract.activateContract()
 	}
 
 	onContractNameChanged(event) {
-		const {contract} = this.props
-		contract.name = event.target.value
+		this.props.contract.name = event.target.value
 	}
 
 	validateForm() {
@@ -108,25 +107,25 @@ class ActivateContract extends Component {
 	}
 
 	renderSuccessResponse() {
-		const {contract} = this.props
+		const {address, hash, status} = this.props.contract
 
-		if (contract.address && contract.hash && contract.status == 'success') {
+		if (address && hash && status == 'success') {
 			return(
 				<FormResponseMessage className='success'>
 					<span>
 						Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
 					</span>
 					<div className="devider"></div>
-					<p>Contract Hash: {contract.hash}</p>
-					<p>Contract Address: {contract.address}</p>
+					<p>Contract Hash: {hash}</p>
+					<p>Contract Address: {address}</p>
 				</FormResponseMessage>
 			)
 		}
 	}
 
 	renderErrorResponse() {
-		const {contract} = this.props
-		if (contract.status == 'error') {
+		const {status} = this.props.contract
+		if (status == 'error') {
 			return(
 				<FormResponseMessage className='error'>
 					<span>
@@ -153,8 +152,16 @@ class ActivateContract extends Component {
 		}
 	}
 
+
+	// AMOUNT INPUT //
+
+	updateNumberOfBlocks = (data) => {
+		this.props.contract.numberOfBlocks = data.amount
+	}
+
+
 	render() {
-		const {contract} = this.props
+		const {dragDropText, name, amountOfBlocks, status} = this.props.contract
 
 		let dropzoneRef
 
@@ -168,18 +175,6 @@ class ActivateContract extends Component {
 
 					<Flexbox flexDirection="column" className="form-container">
 
-						<Flexbox flexDirection="column" className="contract-name form-row">
-							<label htmlFor='to'>Name Your Contract</label>
-							<input
-								id='contract-name'
-								name='contract-name'
-								type='text'
-								onChange={this.onContractNameChanged}
-								value={contract.name}
-								autoFocus
-							/>
-						</Flexbox>
-
 						<Flexbox flexDirection="column" className='destination-address-input form-row'>
 							<label htmlFor='to'>Upload a contract from your computer</label>
 							<Flexbox flexDirection="row" className='upload-contract-dropzone'>
@@ -191,7 +186,7 @@ class ActivateContract extends Component {
 									accept=".fst"
 									onDrop={this.onDrop.bind(this)}
 									>
-									<p>{contract.dragDropText}</p>
+									<p>{dragDropText}</p>
 								</Dropzone>
 								{this.renderCancelIcon()}
 								<button
@@ -200,6 +195,29 @@ class ActivateContract extends Component {
 									Upload
 								</button>
 							</Flexbox>
+						</Flexbox>
+
+						<Flexbox flexDirection="row" className="contract-name-and-amount form-row">
+
+							<Flexbox flexGrow={2} flexDirection="column" className="contract-name with-input-on-right">
+								<label htmlFor='to'>Name Your Contract</label>
+								<input
+									id='contract-name'
+									name='contract-name'
+									type='text'
+									onChange={this.onContractNameChanged}
+									value={name}
+									autoFocus
+								/>
+							</Flexbox>
+
+							<AmountInput
+								amount={amountOfBlocks}
+								status={status}
+								label='Number Of Blocks'
+								sendData={this.updateNumberOfBlocks}
+							/>
+
 						</Flexbox>
 
 						{this.renderCodeSnippet()}

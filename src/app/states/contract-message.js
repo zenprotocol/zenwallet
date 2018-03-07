@@ -10,6 +10,7 @@ class ContractMessageState {
   @observable status
   @observable inprogress
   @observable asset = ''
+  @observable assetType = ''
   @observable assetIsValid = false
   @observable assetName = ''
   @observable assetBalance
@@ -21,11 +22,11 @@ class ContractMessageState {
   }
 
   @action
-  async sendContractMessage(msg) {
+  async sendContractMessage(contractMessage) {
 
     try {
       this.inprogress = true
-      const response = await postRunContractMessage(msg.asset, msg.to, msg.amount, msg.command, msg.data)
+      const response = await postRunContractMessage(contractMessage)
 
       runInAction(() => {
         console.log('sendContractMessage response', response)
@@ -38,7 +39,13 @@ class ContractMessageState {
 
     } catch (error) {
       runInAction(() => {
-        this.errorMessage = error.response.data
+        try {
+          console.log('sendContractMessage error.response', error.response.data)
+          this.errorMessage = error.response.data
+        } catch (e) {
+          console.log('sendContractMessage catch e', e)
+          this.errorMessage = 'something went wrong'
+        }
       })
       this.inprogress = false
       this.status = 'error'
@@ -53,6 +60,7 @@ class ContractMessageState {
   resetForm() {
     this.inprogress = false
     this.asset = ''
+    this.assetType = ''
     this.assetName = ''
     this.assetBalance = ''
     this.assetIsValid = false

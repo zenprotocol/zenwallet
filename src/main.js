@@ -14,7 +14,7 @@ let mainWindow
 contextMenu()
 
 app.on('ready', () => {
-  let args = []
+  let args = [] // '--wipe'
 
   if (process.env.ZEN_LOCAL === 'L1')
     args.push('-l1')

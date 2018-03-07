@@ -140,6 +140,7 @@ class AmountInput extends Component {
 
   render() {
     const {amount, amountIsInvalid, assetIsValid, assetBalance, isFocused} = this.state
+    const {label} = this.props
 
 		let amountInputClassNames = (assetIsValid ? 'amountInputContainer asset-chosen' : 'amountInputContainer')
 		if (amountIsInvalid) { amountInputClassNames = classnames('error', amountInputClassNames) }
@@ -149,7 +150,7 @@ class AmountInput extends Component {
 
     return (
       <Flexbox flexGrow={0} flexDirection="column" className="amount">
-        <label htmlFor="amount">Amount</label>
+        <label htmlFor="amount">{label}</label>
 
         <Flexbox flexDirection='row' className={amountInputClassNames}>
           <input

@@ -49,6 +49,8 @@ input[type=search],
 
 .select-contract { position: relative; }
 
+.with-input-on-right { margin-right: 21px; }
+
 .chosenAssetName, .chosenContractName {
 	display: inline;
   position: absolute;
@@ -105,7 +107,6 @@ input[type=search],
 	}
 
 }
-
 
 div.error-message {
 	color: $red;

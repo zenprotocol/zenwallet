@@ -41,7 +41,9 @@ class AutoSuggestSavedContracts extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 'success') { this.setState({suggestionValue: ''}) }
+    if (nextProps.status === 'success') {
+      this.setState({suggestionValue: '', contractName: ''})
+    }
   }
 
   getSuggestionValue = suggestion => suggestion.address
@@ -97,13 +99,19 @@ class AutoSuggestSavedContracts extends Component {
   validateAndUpdate(val) {
     const suggestions = this.getSuggestions(val)
     const isValid = validateAddress(val)
-    if (suggestions.length === 1 && isValid) {
-      this.setState({
-        contractName: suggestions[0].name,
-        suggestionValue: suggestions[0].address
-      })
-      this.props.sendData(suggestions[0])
+    if (isValid) {
+      if (suggestions.length === 1) {
+        this.setState({
+          contractName: suggestions[0].name,
+          suggestionValue: suggestions[0].address
+        })
+        this.props.sendData(suggestions[0])
+      } else {
+        this.setState({contractName: '',suggestionValue: val})
+        this.props.sendData({contractName: '', address: val})
+      }
     }
+
     if (!isValid) {
       this.setState({contractName: '', suggestionValue: val})
       this.props.sendData({name: '', address: val})
@@ -137,7 +145,9 @@ class AutoSuggestSavedContracts extends Component {
     }
   }
 
-  onPaste() { this.validateAndUpdate(clipboard.readText()) }
+  onPaste() {
+    this.validateAndUpdate(clipboard.readText())
+  }
 
   renderChosenContractName() {
     const {contractName} = this.state

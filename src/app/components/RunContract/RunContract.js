@@ -116,6 +116,7 @@ class RunContract extends Component {
 		const {contractMessage, balances} = this.props
 		contractMessage.assetBalance = balances.getBalanceFor(data.asset)
 		contractMessage.asset = data.asset
+		contractMessage.assetType = data.assetType
 		contractMessage.assetName = data.assetName
 		contractMessage.assetIsValid = data.assetIsValid
 	}
@@ -180,6 +181,7 @@ class RunContract extends Component {
 
 								<AmountInput
 									amount={contractMessage.amount}
+									label='Amount'
 									assetIsValid={contractMessage.assetIsValid}
 									assetBalance={contractMessage.assetBalance}
 									status={contractMessage.status}

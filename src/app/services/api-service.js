@@ -13,13 +13,14 @@ export async function getPublicAddress() {
 }
 
 export async function postTransaction(tx) {
+	const {to, asset, assetType, amount} = tx
 
 	const data = {
-		"address" : tx.to,
+		"address" : to,
 		"spend" : {
-			"asset" : tx.asset,
-			"assetType" : tx.assetType,
-			"amount" : tx.amount
+			"asset" : asset,
+			"assetType" : assetType,
+			"amount" : amount
 		}
 	}
 
@@ -30,9 +31,14 @@ export async function postTransaction(tx) {
 	return response.data
 }
 
-export async function postActivateContract(code) {
+export async function postActivateContract(contract) {
 
-	const data = {"code" : code}
+	const data = {
+		"code" : contract.code,
+		"numberOfBlocks" : contract.numberOfBlocks
+	}
+
+	console.log('postActivateContract data', data)
 
 	const response = await post(`${serverAddress}/wallet/contract/activate`, data, {
 		headers: { 'Content-Type': 'application/json' }
@@ -41,14 +47,18 @@ export async function postActivateContract(code) {
 	return response.data
 }
 
-export async function postRunContractMessage(asset, to, amount, command, data) {
+export async function postRunContractMessage(contractMessage) {
+	const {asset, assetType, to, amount, command, data} = contractMessage
 
 	let finaldata = {	"address" : to }
 	if (command) { finaldata['command'] = command	}
-	if (asset && amount) {
+	if (data) { finaldata['data'] = data }
+
+	if (asset && assetType && amount) {
 		finaldata['spends'] = [
 			{
 				"asset" : asset,
+				"assetType" : assetType,
 				"amount" : amount
 			}
 		]

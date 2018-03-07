@@ -12,6 +12,7 @@ class ContractState {
   @observable code
   @observable hash
   @observable address
+  @observable numberOfBlocks
   @observable status
   @observable inprogress = false
   @observable errorMessage = ''
@@ -25,32 +26,18 @@ class ContractState {
   }
 
   @action
-  resetForm() {
-    this.name = ''
-    this.dragDropText = dropTextPlaceholder
-    this.code = ''
-    this.hash = ''
-    this.address = ''
-    this.status = ''
-    this.inprogress = false
-    this.errorMessage = ''
-    this.acceptedFiles = []
-    this.rejectedFiles = []
-  }
-
-  @action
   resetDragDropText() {
     this.dragDropText = dropTextPlaceholder
   }
 
   @action
-  async activateContract(code) {
+  async activateContract() {
 
     try {
       this.inprogress = true
       this.status = 'inprogress'
 
-      const response = await postActivateContract(code)
+      const response = await postActivateContract(this)
 
       runInAction(() => {
         const savedContracts = db.get('savedContracts').value()
@@ -72,6 +59,9 @@ class ContractState {
         this.inprogress = false
         this.acceptedFiles = []
         this.rejectedFiles = []
+        setTimeout(() => {
+          this.status = ''
+        }, 15000)
       })
 
     } catch (error) {
@@ -81,6 +71,21 @@ class ContractState {
         this.errorMessage = error.response.data
       })
     }
+  }
+
+  @action
+  resetForm() {
+    this.name = ''
+    this.dragDropText = dropTextPlaceholder
+    this.code = ''
+    this.hash = ''
+    this.address = ''
+    this.numberOfBlocks = ''
+    this.status = ''
+    this.inprogress = false
+    this.errorMessage = ''
+    this.acceptedFiles = []
+    this.rejectedFiles = []
   }
 
 }

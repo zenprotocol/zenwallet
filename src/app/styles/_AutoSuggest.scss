@@ -26,6 +26,7 @@
   border: solid 1px $bright-grey;
   border-top: none;
   top: 35px;
+  z-index: 99;
 
   -webkit-transition: border-color 0.2s ease-in-out;
   -moz-transition: border-color 0.2s ease-in-out;

@@ -168,6 +168,7 @@ class SendTx extends Component {
 
 							<AmountInput
 								amount={transaction.amount}
+								label='Amount'
 								assetIsValid={transaction.assetIsValid}
 								assetBalance={transaction.assetBalance}
 								sendData={this.updateAmount}
