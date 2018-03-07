@@ -3,6 +3,7 @@ import {postTransaction} from '../services/api-service'
 
 class TransactionState {
   @observable asset = ''
+  @observable assetType = ''
   @observable to = ''
   @observable amount
   @observable status
@@ -22,7 +23,7 @@ class TransactionState {
 
     try {
       this.inprogress = true
-      const response = await postTransaction(tx.asset, tx.to, tx.amount)
+      const response = await postTransaction(tx)
 
       runInAction(() => {
         console.log('createTransaction response', response)
@@ -35,7 +36,7 @@ class TransactionState {
 
     } catch (error) {
       runInAction(() => {
-        console.log('createTransaction error', error.response.data)
+        console.log('createTransaction error', error)
         this.errorMessage = error.response.data
       })
       this.inprogress = false
@@ -51,6 +52,7 @@ class TransactionState {
   resetForm() {
     this.inprogress = false
     this.asset = ''
+    this.assetType = ''
     this.assetName = ''
     this.to = ''
     this.amount = ''

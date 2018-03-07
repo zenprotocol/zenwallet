@@ -92,6 +92,7 @@ class SendTx extends Component {
 		const {transaction, balances} = this.props
 		transaction.assetBalance = balances.getBalanceFor(data.asset)
 		transaction.asset = data.asset
+		transaction.assetType = data.assetType
 		transaction.assetName = data.assetName
 		transaction.assetIsValid = data.assetIsValid
 	}

@@ -38,7 +38,6 @@ class ContractMessageState {
 
     } catch (error) {
       runInAction(() => {
-        console.log('sendContractMessage error', error.response.data)
         this.errorMessage = error.response.data
       })
       this.inprogress = false

@@ -12,13 +12,14 @@ export async function getPublicAddress() {
 	return response.data.address
 }
 
-export async function postTransaction(asset, to, amount) {
+export async function postTransaction(tx) {
 
 	const data = {
-		"address" : to,
+		"address" : tx.to,
 		"spend" : {
-			"asset" : asset,
-			"amount" : amount
+			"asset" : tx.asset,
+			"assetType" : tx.assetType,
+			"amount" : tx.amount
 		}
 	}
 

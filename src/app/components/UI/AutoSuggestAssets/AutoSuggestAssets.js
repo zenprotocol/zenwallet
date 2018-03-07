@@ -101,9 +101,11 @@ class AutoSuggestAssets extends Component {
     this.setState({assetError: hasError, isValid: isValid})
     if (isValid) {
       const chosenAsset = suggestions[0]
+      console.log('validateAssetStates chosenAsset', chosenAsset)
       this.setState({chosenAssetName: chosenAsset.name})
       this.props.sendData({
         asset: chosenAsset.asset,
+        assetType: chosenAsset.assetType,
         assetIsValid: isValid,
         assetName: chosenAsset.name
       })
