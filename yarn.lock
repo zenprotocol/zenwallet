@@ -20,9 +20,9 @@
   version "15.6.11"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.6.11.tgz#c61440937ccf970446cb3ef77007b450ab1e2f91"
 
-"@zen/zen-node@^0.1.15":
-  version "0.1.15"
-  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.15.tgz#eedb5c2097fbf260c59c9ae52c99cd23b4087d94"
+"@zen/zen-node@^0.1.16":
+  version "0.1.16"
+  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.16.tgz#9e9227fb771ed37fe141166f6457863857920b3e"
 
 abbrev@1:
   version "1.1.1"
@@ -1622,6 +1622,10 @@ hawk@~6.0.2:
     hoek "4.x.x"
     sntp "2.x.x"
 
+highlight.js@^9.11.0:
+  version "9.12.0"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.12.0.tgz#e6d9dbe57cbefe60751f02af336195870c90c01e"
+
 history@^4.7.2:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
@@ -2899,6 +2903,12 @@ react-dropzone@^4.2.3:
   dependencies:
     attr-accept "^1.0.3"
     prop-types "^15.5.7"
+
+react-highlight@briancappello/react-highlight#react-v16-compiled:
+  version "0.10.0"
+  resolved "https://codeload.github.com/briancappello/react-highlight/tar.gz/ecf53ae1bb03deddb897515e7ed65b9e9f7af65b"
+  dependencies:
+    highlight.js "^9.11.0"
 
 react-numeric-input@^2.2.3:
   version "2.2.3"
