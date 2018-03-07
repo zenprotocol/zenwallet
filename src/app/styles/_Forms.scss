@@ -66,12 +66,14 @@ input[type=search],
 
 .amountInputContainer {
 	padding: 0.4px 0 0 0.1px;
-	width: 250px;
+	width: 280px;
 
 	&.is-focused { border-color: $bright-grey; }
 
 	.maxSend {
 		padding: 12px 10px 0px 0px;
+		width: 100px;
+		text-align: right;
 		color: $blue;
 	}
 
