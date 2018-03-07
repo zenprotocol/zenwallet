@@ -3,7 +3,6 @@ open Zen.Vector
 open Zen.Base
 open Zen.Cost
 open Zen.Asset
-open FStar.Mul
 
 module ET = Zen.ErrorT
 module OT = Zen.OptionT
