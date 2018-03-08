@@ -1,6 +1,9 @@
 # Running locally
- - `yarn build ; yarn dev-localhost`
+`yarn build ; yarn dev-localhost`
+`yarn build ; yarn dev-l1`
 
+# Running testnet
+`yarn build ; yarn start`
 
 
 # Releasing a new Version
