@@ -1,0 +1,46 @@
+.loading-container {
+  background: $dark-grey;
+  text-align: center;
+  align-content: center;
+  height: 100%;
+
+  .center { margin: auto; }
+
+  img.zen-logo {
+    width: 160px;
+    height: 185px;
+    margin: 0 auto 37px auto;
+  }
+
+  h1 {
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.59;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #e6e6e6;
+    margin-bottom: 14px;
+  }
+
+  p {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.14;
+    letter-spacing: 0.2px;
+    text-align: center;
+    color: #808080;
+    margin-bottom: 40px;
+  }
+
+  img.loading-dots {
+    width: 40px;
+    margin: auto;
+  }
+
+}

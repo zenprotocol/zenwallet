@@ -10,6 +10,7 @@ import Receive from './components/Receive/Receive'
 import ActivateContract from './components/ActivateContract/ActivateContract'
 import RunContract from './components/RunContract/RunContract'
 import SavedContracts from './components/SavedContracts/SavedContracts'
+import Loading from './components/Loading/Loading'
 
 import states from './states'
 
@@ -27,6 +28,7 @@ ReactDOM.render(
         <Route exact path="/activate-contract" component={ActivateContract} />
         <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
         <Route exact path="/saved-contracts" component={SavedContracts} />
+        <Route exact path="/loading" component={Loading} />
         <Route exact path="/" component={Balances} />
       </Switch>
     </Router>

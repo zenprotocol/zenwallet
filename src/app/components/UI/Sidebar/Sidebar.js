@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'path'
 import React,{Component} from 'react'
 import autobind from 'class-autobind'
 import {Link, NavLink} from 'react-router-dom'
@@ -40,6 +40,7 @@ class Sidebar extends Component {
           <li><NavLink activeClassName={'active'} to="/activate-contract">Activate Contract</NavLink></li>
           <li><NavLink activeClassName={'active'} to="/run-contract">Run Contract</NavLink></li>
           <li><NavLink activeClassName={'active'} to="/saved-contracts">Saved Contracts</NavLink></li>
+          {/* <li><NavLink activeClassName={'active'} to="/loading">Loading</NavLink></li> */}
           <li><a>Settings</a></li>
         </ul>
 
