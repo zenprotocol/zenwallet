@@ -4,6 +4,7 @@ import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import swal from 'sweetalert'
+const {clipboard} = require('electron')
 
 import Layout from '../UI/Layout/Layout'
 
@@ -15,6 +16,9 @@ const contractList = db.get('savedContracts')
 class SavedContracts extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      copyText: 'Copy'
+    }
     autobind(this)
   }
 
@@ -39,10 +43,17 @@ class SavedContracts extends Component {
     })
   }
 
+  copyToClipboard = (string) => {
+    clipboard.writeText(string)
+    this.setState({copyText: 'Copied to Clipboard'})
+    setTimeout(() => {
+      this.setState({copyText: 'Copy'})
+    }, 1250)
+  }
+
   render() {
-
+    const {copyText} = this.state
     const listOfContracts = contractList.value()
-
     const savedContracts = listOfContracts.map((contract, index) => {
 
       let address = truncateString(contract.address)
@@ -51,8 +62,24 @@ class SavedContracts extends Component {
       return (
         <tr key={contract.hash}>
           <td className='text'>{contract.name}</td>
-          <td><span title={contract.hash} >{hash}</span></td>
-          <td><span title={contract.address} >{address}</span></td>
+          <td className='copyable'>
+            <span title={contract.hash} >{hash} </span>
+            <span
+              onClick={()=>{this.copyToClipboard(contract.hash)}}
+              data-balloon={copyText}
+              data-balloon-pos='up'>
+              <i className="fa fa-copy" ></i>
+            </span>
+          </td>
+          <td className='copyable'>
+            <span title={contract.address} >{address} </span>
+            <span
+              onClick={()=>{this.copyToClipboard(contract.address)}}
+              data-balloon={copyText}
+              data-balloon-pos='up'>
+              <i className="fa fa-copy" ></i>
+            </span>
+          </td>
           <td className='align-right'>
             <Link className='button small margin-right' to={`/run-contract/${contract.address}`} >Run</Link>
             <button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button>

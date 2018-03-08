@@ -9,9 +9,11 @@ table {
 
   th { color: $bright-grey; }
   td { background: $dark-grey-2; }
+
   tbody {
     tr:hover { background: #242424; }
   }
+
   th, td { padding: 16px 19px; }
 
   tr {
@@ -21,6 +23,15 @@ table {
   thead {
     text-align: left;
     text-transform: uppercase;
+  }
+
+  td.copyable {
+    min-width: 225px;
+    i.fa-copy {
+      display: none;
+      cursor: pointer;
+    }
+    &:hover i.fa.fa-copy { display: inline-block; }
   }
 
 }
