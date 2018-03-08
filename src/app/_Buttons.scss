@@ -23,7 +23,7 @@ button, .button, a.button {
     color: rgba(255, 255, 255, 0.4);
   }
 
-  &.secondary { background-color: $secondary-grey; }
+  &.secondary { background-color: $button-grey; }
   &.secondary:hover { background-color: $button-grey-hover; }
   &.secondary:focus { background-color: $button-grey-focus; }
   &.secondary:disabled { background-color: $button-grey-disabled; }
