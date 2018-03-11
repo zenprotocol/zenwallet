@@ -1,0 +1,55 @@
+.onboarding-container {
+  background: $dark-grey;
+  height: 100%;
+  font-family: Roboto;
+
+  .body {
+    width: 652px;
+    margin: 50px auto;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    color: #e6e6e6;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.14;
+    letter-spacing: 0.2px;
+    color: $bright-grey;
+  }
+
+  ol.passphrase {
+    color: #83d6f3;
+    border-radius: 4px;
+    font-size: 20px;
+    font-weight: 300;
+    columns: 4;
+    column-gap: 70px;
+    margin: 0;
+    padding: 10px 0 10px 18px;
+    list-style-type: decimal;
+
+    li {
+      color: $bright-grey;
+      font-size: 18px;
+      font-weight: 100;
+      padding-left: 4px;
+      height: 36px;
+
+      &:hover {
+        font-size: 22px;
+        font-weight: 300;
+        color: #cccccc;
+      }
+
+    }
+
+  }
+
+}

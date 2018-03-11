@@ -12,6 +12,8 @@ import RunContract from './components/RunContract/RunContract'
 import SavedContracts from './components/SavedContracts/SavedContracts'
 import Loading from './components/Loading/Loading'
 
+import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
+
 import states from './states'
 
 const history = createMemoryHistory({
@@ -29,6 +31,7 @@ ReactDOM.render(
         <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
         <Route exact path="/saved-contracts" component={SavedContracts} />
         <Route exact path="/loading" component={Loading} />
+        <Route exact path="/secret-phrase" component={SecretPhrase} />
         <Route exact path="/" component={Balances} />
       </Switch>
     </Router>
