@@ -1,7 +1,6 @@
 import {app, BrowserWindow, Menu} from 'electron'
 import contextMenu from 'electron-context-menu'
 import zenNode from '@zen/zen-node'
-
 import db from './app/services/store'
 
 db.defaults({
@@ -27,7 +26,18 @@ let mainWindow
 contextMenu()
 
 app.on('ready', () => {
-  let args = [] // '--wipe'
+  console.log('process.argv', process.argv)
+
+  let args = []
+
+  if (process.argv.indexOf("wipe") > -1) {
+    args.push('--wipe')
+    console.log('WIPING DB')
+  } else {
+    console.log('NOT WIPING DB')
+  }
+
+  console.log('process args', args)
 
   if (process.env.ZEN_LOCAL === 'L1')
     args.push('-l1')
