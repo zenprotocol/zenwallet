@@ -31,9 +31,6 @@ npm config set @zen:registry https://www.myget.org/F/zenprotocol/npm/
 npm install electron @zen/zen-wallet -g
 ```
 
-Now you can run `zen-wallet` from anywhere in your command line
-
-
 ## Updating
 
 Run:
@@ -41,8 +38,15 @@ Run:
 npm install @zen/zen-wallet -g
 ```
 
+## Running the Wallet and full node
 
-### Wiping Database
+You can run `zen-wallet` from anywhere in your command line to start  up the wallet
+
+### Running with arguments
 When we launch a new testnet sometimes you will need to wipe your local database in order to sync.
 
 Do this by running: `zen-wallet wipe`
+
+In order to run a node with a miner run the wallet with the `miner` argument like this:
+
+`zen-wallet miner`
