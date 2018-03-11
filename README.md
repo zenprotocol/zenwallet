@@ -23,7 +23,7 @@
 Windows is not yet supported
 
 
-# Installation
+## Installation
 
 Run the following:
 ```
@@ -34,9 +34,15 @@ npm install electron @zen/zen-wallet -g
 Now you can run `zen-wallet` from anywhere in your command line
 
 
-# Updating
+## Updating
 
 Run:
 ```
 npm install @zen/zen-wallet -g
 ```
+
+
+### Wiping Database
+When we launch a new testnet sometimes you will need to wipe your local database in order to sync.
+
+Do this by running: `zen-wallet wipe`

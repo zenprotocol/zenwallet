@@ -37,6 +37,13 @@ app.on('ready', () => {
     console.log('NOT WIPING DB')
   }
 
+  if (process.argv.indexOf("miner") > -1) {
+    args.push('--miner')
+    console.log('RUNNING A MINER')
+  } else {
+    console.log('NOT RUNNING A MINER')
+  }
+
   console.log('process args', args)
 
   if (process.env.ZEN_LOCAL === 'L1')
