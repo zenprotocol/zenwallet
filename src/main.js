@@ -11,7 +11,7 @@ db.defaults({
     {
       name: 'ZENP Faucet',
       hash: '5221fb6b756e67dc53dcdc296f3bbdc58ae7d4356ee738b68c98126e0390b046',
-      address: 'tc1q2kpzsa5nra7uncpyyzheett46qyxvs8lgva0agmp0kw50q63h39qy49v6g'
+      address: 'tc1q2gslk6m4denac57ums5k7waack9w04p4dmnn3d5vnqfxuquskprqjtfk52'
     },
     {
       name: 'Jezreel Valley Adumim 2020 Red',
