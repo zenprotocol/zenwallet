@@ -50,14 +50,23 @@ class SecretPhrase extends Component {
         </ol>
         <p className='warning'>If you lose this phrase you will lose your Zen tokens!</p>
         <div className="devider"></div>
+
         <Flexbox flexDirection="row">
-          <label className='checkbox'>
-            <Checkbox type="checkbox" checked={checked} onChange={this.onChange} />
-            <span className="checkbox-text">
-              &nbsp; I saved my passphrase and it’s secure
-            </span>
-          </label>
+          <Flexbox flexGrow={1} flexDirection="row">
+            <label className='checkbox'>
+              <Checkbox type="checkbox" checked={checked} onChange={this.onChange} />
+              <span className="checkbox-text">
+                &nbsp; I saved my passphrase and it’s secure
+              </span>
+            </label>
+          </Flexbox>
+          <Flexbox flexGrow={2}></Flexbox>
+          <Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
+            <button className='secondary'>Cancel</button>
+            <button className='button-on-right'>Next</button>
+          </Flexbox>
         </Flexbox>
+
       </OnBoardingLayout>
     )
   }
