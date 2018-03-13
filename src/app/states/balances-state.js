@@ -11,6 +11,11 @@ class BalancesState {
     assets = observable.array([])
     @observable searchQuery = ''
 
+    @action
+    init() {
+      this.searchQuery = ''
+    }
+
     constructor()  {
       this.fetch = this.fetch.bind(this)
     }
@@ -69,7 +74,13 @@ class BalancesState {
 
     @computed
     get filtered() {
-      const inputValue = this.searchQuery.trim().toLowerCase()
+      const query = this.searchQuery
+      let inputValue
+      if (query) {
+        inputValue = this.searchQuery.trim().toLowerCase()
+      } else {
+        inputValue = ''
+      }
       const inputLength = inputValue.length
       const assetsWithNames = this.assetsWithNames
 
@@ -77,11 +88,18 @@ class BalancesState {
         return assetsWithNames
       } else {
         return assetsWithNames.filter(asset =>
-    	    (asset.name.toLowerCase().indexOf(inputValue) > -1) ||
-          (asset.asset.toLowerCase().indexOf(inputValue) > -1)
+          this.assetMatches(asset, inputValue)
     	  )
       }
 
+    }
+
+    assetMatches(asset, value) {
+      let nameMatch
+      let assetMatch
+      if (asset.name) { nameMatch = (asset.name.indexOf(value) > -1) }
+      if (asset.asset) { assetMatch = (asset.asset.indexOf(value) > -1) }
+      return (nameMatch || assetMatch)
     }
 
     @computed
