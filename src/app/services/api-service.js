@@ -75,3 +75,8 @@ export async function getActiveContractSet() {
 	const response = await get(`${serverAddress}/contract/active`)
 	return response.data
 }
+
+export async function getNetworkStatus() {
+	const response = await get(`${serverAddress}/blockchain/info`)
+	return response.data
+}

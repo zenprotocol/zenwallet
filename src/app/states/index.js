@@ -4,6 +4,7 @@ import TransactionState from './transaction-state'
 import ContractState from './contract-state'
 import ContractMessage from './contract-message'
 import ActiveContractSetState from './acs-state'
+import NetworkState from './network-state'
 
 export default {
   balances: new BalancesState(),
@@ -11,5 +12,6 @@ export default {
   transaction: new TransactionState(),
 	contract: new ContractState(),
 	contractMessage: new ContractMessage(),
-  activeContractSet: new ActiveContractSetState()
+  activeContractSet: new ActiveContractSetState(),
+  networkState: new NetworkState()
 }

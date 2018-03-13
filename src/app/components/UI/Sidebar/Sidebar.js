@@ -1,15 +1,24 @@
-import path from 'path'
 import React,{Component} from 'react'
+import moment from 'moment';
+import path from 'path'
+import {inject, observer} from 'mobx-react'
 import autobind from 'class-autobind'
 import {Link, NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
 
+@inject('networkState')
+@observer
 class Sidebar extends Component {
   constructor() {
     super()
     autobind(this)
+  }
+
+  componentDidMount() {
+    const {networkState} = this.props
+    networkState.begin()
   }
 
   static propTypes = {
@@ -19,6 +28,56 @@ class Sidebar extends Component {
 
   static defaultProps = {
     title:'Zen Wallet'
+  }
+
+  renderNetworkStatus() {
+    const {chain, blocks, headers, difficulty, medianTime} = this.props.networkState
+
+    let blockchainTime
+    let formattedBlockchainTime
+    if (medianTime) {
+      blockchainTime = new Date(medianTime)
+      formattedBlockchainTime =  moment(blockchainTime).format('DD/MM/YYYY, HH:mm:ss');
+    } else {
+      formattedBlockchainTime = medianTime
+    }
+
+    if (blocks === 0) {
+      return (
+        <div className='network-status'>
+          Loading...
+        </div>
+      )
+    } else {
+      return (
+        <div className='network-status'>
+          <div className="network-data-point">
+            <span className='data-name'>Chain: </span>
+            <span className='data-point'>{chain}</span>
+          </div>
+          <div className="network-data-point">
+            <span className='data-name'>Blocks: </span>
+            <span className='data-point'>{blocks.toLocaleString()}</span>
+          </div>
+          <div className="network-data-point">
+            <span className='data-name'>Headers: </span>
+            <span className='data-point'>{headers.toLocaleString()}</span>
+          </div>
+          <div className="network-data-point truncate">
+            <span className='data-name'>Mining Difficulty: </span>
+            <span className='data-point'>{difficulty}</span>
+          </div>
+          <div className="network-data-point">
+            <span className='data-name'>Blockchain Time: </span>
+            <span className='data-point'>
+              {formattedBlockchainTime}
+            </span>
+          </div>
+        </div>
+      )
+    }
+
+
   }
 
   render() {
@@ -49,10 +108,7 @@ class Sidebar extends Component {
           </ul>
         </div>
 
-        <div className='network-status'>
-          <p className='status'>Downloading blocks</p>
-          <p className='blocks-and-headers'>34/85</p>
-        </div>
+        {this.renderNetworkStatus()}
 
       </nav>
     )

@@ -38,3 +38,10 @@ h3 { font-size: 1.1rem; color: #8f9aa9; font-weight: 400; }
 
 .align-left { text-align: left; }
 .align-right { text-align: right; }
+
+.truncate {
+  width: 210px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
