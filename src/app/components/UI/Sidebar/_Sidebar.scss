@@ -2,16 +2,31 @@
 
 ul { list-style: none; }
 
-nav {
+nav.sidebar {
   width: 251px;
   background: $grey;
-  border-right: 1px solid black;
-  text-transform: uppercase;
+  border-right: 1px solid $dark-grey;
   font-family: 'Roboto', sans-serif;
 
-  header {
+  .logo {
     padding: 29px 36px;
+    height: 44px;
     img { height: 42px; }
+  }
+
+  .menu {
+    height: calc(100% - (103px + 125px));
+    position: relative;
+  }
+
+  .network-status {
+    height: 85px;
+    padding: 20px;
+    border-top: 1px solid $dark-grey;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.42;
+    color: $bright-grey;
   }
 
   ul {
@@ -26,6 +41,7 @@ nav {
 
     a {
       position: relative;
+      text-transform: uppercase;
       display: block;
       padding: 15px 15px 17px 36px;
       color: $bright-grey;
@@ -64,7 +80,7 @@ nav {
     // li:nth-child(5) a:before { content: '\f002'; }
     // li:last-child   a:before { content: '\f013'; }
 
-    li:last-child {
+    li.settings {
       bottom: 0;
       position: absolute;
       width: 200px;

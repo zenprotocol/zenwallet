@@ -4,6 +4,7 @@ import autobind from 'class-autobind'
 import {Link, NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Flexbox from 'flexbox-react'
 
 class Sidebar extends Component {
   constructor() {
@@ -27,23 +28,31 @@ class Sidebar extends Component {
 
     return (
       <nav className={className}>
-        <header>
+        <div className='logo'>
           <Link to="/">
             <img src={logoSrc} alt="Zen Protocol Logo"/>
           </Link>
-        </header>
+        </div>
 
-        <ul>
-          <li><NavLink exact activeClassName={'active'} to="/">Portfolio</NavLink></li>
-          <li><NavLink activeClassName={'active'} to="/receive">Receive</NavLink></li>
-          <li><NavLink activeClassName={'active'} to="/send-tx">Send</NavLink></li>
-          <li><NavLink activeClassName={'active'} to="/activate-contract">Activate Contract</NavLink></li>
-          <li><NavLink activeClassName={'active'} to="/run-contract">Run Contract</NavLink></li>
-          <li><NavLink activeClassName={'active'} to="/saved-contracts">Saved Contracts</NavLink></li>
-          {/* <li><NavLink activeClassName={'active'} to="/secret-phrase">Secret Phrase</NavLink></li> */}
-          {/* <li><NavLink activeClassName={'active'} to="/loading">Loading</NavLink></li> */}
-          <li><a>Settings</a></li>
-        </ul>
+        <div className='menu'>
+          <ul>
+            <li><NavLink exact activeClassName={'active'} to="/">Portfolio</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/receive">Receive</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/send-tx">Send</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/activate-contract">Activate Contract</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/run-contract">Run Contract</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/acs">Active Contracts</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/saved-contracts">Saved Contracts</NavLink></li>
+            {/* <li><NavLink activeClassName={'active'} to="/secret-phrase">Secret Phrase</NavLink></li> */}
+            {/* <li><NavLink activeClassName={'active'} to="/loading">Loading</NavLink></li> */}
+            <li className='settings'><a>Settings</a></li>
+          </ul>
+        </div>
+
+        <div className='network-status'>
+          <p className='status'>Downloading blocks</p>
+          <p className='blocks-and-headers'>34/85</p>
+        </div>
 
       </nav>
     )

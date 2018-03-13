@@ -70,3 +70,8 @@ export async function postRunContractMessage(contractMessage) {
 
 	return response.data
 }
+
+export async function getActiveContractSet() {
+	const response = await get(`${serverAddress}/contract/active`)
+	return response.data
+}
