@@ -96,7 +96,7 @@ class Faucet extends Component {
 							<i className='fa fa-check'></i>
 							<Flexbox flexDirection="row">
 								<span>This public key is entitled to</span>
-								<span className="bold blue">&nbsp;{amountRedeemable} tokens</span>
+								<span className="bold blue">&nbsp;{amountRedeemable.toLocaleString()} tokens</span>
 							</Flexbox>
 						</Flexbox>
 					)
@@ -176,7 +176,6 @@ class Faucet extends Component {
 						<h1>Claim Crowdsale Tokens</h1>
 						<h3>
 							To gain access to the Zen Protocol software insert the public key generated using our software sale wallet and redeem your tokens.
-							<br/>
 							<br/>
 							If you didn't save your public key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retreive it
 						</h3>
