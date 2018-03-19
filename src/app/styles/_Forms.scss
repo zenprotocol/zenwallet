@@ -37,6 +37,7 @@ input[type=search],
   -ms-transition: border-color 0.2s ease-in-out;
   -o-transition: border-color 0.2s ease-in-out;
 
+	// &.is-valid { border: 1px solid $blue;	}
 	&:focus {
 		border-color: $bright-grey;
 		outline: none;
@@ -109,12 +110,15 @@ input[type=search],
 
 }
 
-div.error-message {
-	color: $red;
+.input-message {
 	text-transform: uppercase;
 	font-size: 13px;
 	padding: 7px 3px;
 	letter-spacing: 0.4px;
+	color: $blue;
+
+	&.error { color: $red; }
+
 	i.fa { padding: 0 5px; }
 }
 
@@ -137,7 +141,6 @@ div.error-message {
 }
 
 .success-icon { height: 13px; }
-
 
 label {
   line-height: 2.5rem;

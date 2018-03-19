@@ -8,15 +8,15 @@ db.defaults({
     width: 1200, height: 800
   },
   savedContracts: [
+    // {
+    //   name: 'ZENP Faucet',
+    //   hash: '55822876931f7dc9e02420af9cad75d0086640ff433afea3617d9d478351bc4a',
+    //   address: 'tc1q2kpzsa5nra7uncpyyzheett46qyxvs8lgva0agmp0kw50q63h39qy49v6g'
+    // },
     {
-      name: 'ZENP Faucet',
-      hash: '55822876931f7dc9e02420af9cad75d0086640ff433afea3617d9d478351bc4a',
-      address: 'tc1q2kpzsa5nra7uncpyyzheett46qyxvs8lgva0agmp0kw50q63h39qy49v6g'
-    },
-    {
-      name: 'Jezreel Valley Adumim 2020 Red',
-      hash: '3cb6b7179971d7af7f1747926ffea22c40dda652a20d1dd059bd0a37df298795',
-      address: 'tc1q8jmtw9uew8t67lchg7fxll4z93qdmfjj5gx3m5zeh59r0hefs72sdydgsq'
+      name: 'Jezreel Valley Adumim 2018 Red',
+      hash: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',
+      address: 'tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7'
     }
   ]
 }).write()

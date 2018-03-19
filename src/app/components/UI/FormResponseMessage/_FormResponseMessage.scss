@@ -8,7 +8,7 @@
 
   i {
     padding: 0 15px 0 0;
-    font-size: 30px;
+    font-size: 22px;
   }
 
   &.success {
@@ -16,9 +16,14 @@
     i { color: $blue; }
   }
 
+  &.warning {
+    border-top: 4px solid $orange;
+    i { color: $orange; }
+  }
+
   &.error {
     border-top: 4px solid $red;
     i { color: $red; }
   }
-  
+
 }

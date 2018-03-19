@@ -3,7 +3,7 @@ import {postActivateContract} from '../services/api-service'
 import db from '../services/store'
 import {some} from 'lodash'
 
-const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.txt files will be accepted.'
+const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
 class ContractState {
   @observable fileName

@@ -19,7 +19,7 @@ export async function postTransaction(tx) {
 		"address" : to,
 		"spend" : {
 			"asset" : asset,
-			"assetType" : assetType,
+			"assetType" : asset,
 			"amount" : amount
 		}
 	}
@@ -78,5 +78,25 @@ export async function getActiveContractSet() {
 
 export async function getNetworkStatus() {
 	const response = await get(`${serverAddress}/blockchain/info`)
+	return response.data
+}
+
+
+
+export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_base_58) {
+
+	const url = `http://localhost:3000/check_crowdsale_tokens_entitlement?pubkey_base_64=${pubkey_base_64}&pubkey_base_58=${pubkey_base_58}`
+
+	const response = await get(url)
+	console.log('getCheckCrowdsaleTokensEntitlement response', response)
+	return response.data
+}
+
+export async function postRedeemCrowdsaleTokens(pubkeys) {
+
+	const response = await post('http://localhost:3000/redeem_crowdsale_tokens', pubkeys, {
+		headers: { 'Content-Type': 'application/json' }
+	})
+
 	return response.data
 }

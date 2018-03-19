@@ -10,12 +10,14 @@ $secondary-grey: #333333;
 $dark-black: #121214;
 
 $blue: #2f8be6;
+.blue { color: $blue; }
 $blue-hover: #3296fa;
 $blue-focus: #297acc;
 $blue-disabled: #1b446c;
 
 $blue-l: lighten($blue, 10%);
 $bright-blue: #2cb1df;
+.bright-blue { color: $bright-blue; }
 
 $light-blue: #83d6f3;
 $light-white: #e6e6e6;
@@ -27,7 +29,7 @@ $input-border-color: #313241;
 $border-radius: 2px;
 
 $red: #fd3a3a;
-.red { color: $red}
+.red { color: $red; }
 $red-hover: #ff4d4d;
 $red-focus: #e33434;
 $red-disabled: #6b1919;
@@ -36,7 +38,9 @@ $code-pink: #ab58a5;
 $code-yellow: #b27d4e;
 $code-grey: #96a1a8;
 
-.bright-blue { color: $bright-blue}
+
+$orange: #fd913a;
+
 
 
 // Buttons

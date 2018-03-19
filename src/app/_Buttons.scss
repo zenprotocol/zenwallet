@@ -3,7 +3,7 @@
 
 button, .button, a.button {
   height: 36.6px;
-  width: 125px;
+  min-width: 125px;
   text-align: center;
   border-radius: 2px;
   color: white;
@@ -14,6 +14,9 @@ button, .button, a.button {
   cursor: pointer;
   text-decoration: none;
   background: $blue;
+  padding: 12px;
+
+  i.fa.fa-spinner { margin-left: 6px; }
 
   &:hover { background-color: $blue-hover; }
   &:focus { background-color: $blue-focus; outline: none; }
@@ -45,6 +48,9 @@ button, .button, a.button {
   &.button-on-right { margin-left: 17px; }
   &.margin-right { margin-right: 10px; }
 }
+
+
+
 button {
   &.small { padding: 5.5px 14px 5.5px 14px; }
 }

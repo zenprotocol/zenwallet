@@ -28,7 +28,7 @@ class FormResponseMessage extends Component {
       const className = classnames('form-response-message', this.props.className)
       return (
         <Flexbox flexGrow={1} flexDirection="row" className={className}>
-          <i className='fa fa-check-circle'></i>
+          <i className='fa fa-check'></i>
           <Flexbox flexDirection="column">
             {this.props.children}
           </Flexbox>

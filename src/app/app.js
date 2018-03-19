@@ -11,8 +11,10 @@ import ActivateContract from './components/ActivateContract/ActivateContract'
 import RunContract from './components/RunContract/RunContract'
 import SavedContracts from './components/SavedContracts/SavedContracts'
 import ActiveContractSet from './components/ActiveContractSet/ActiveContractSet'
-import Loading from './components/Loading/Loading'
+import Faucet from './components/Faucet/Faucet'
 
+
+import Loading from './components/Loading/Loading'
 import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
 
 import states from './states'
@@ -32,6 +34,8 @@ ReactDOM.render(
         <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
         <Route exact path="/saved-contracts" component={SavedContracts} />
         <Route exact path="/acs" component={ActiveContractSet} />
+        <Route exact path="/faucet" component={Faucet} />
+
         <Route exact path="/loading" component={Loading} />
         <Route exact path="/secret-phrase" component={SecretPhrase} />
         <Route exact path="/" component={Balances} />
