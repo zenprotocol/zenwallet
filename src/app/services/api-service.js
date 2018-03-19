@@ -85,8 +85,7 @@ export async function getNetworkStatus() {
 
 export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_base_58) {
 
-	// http://localhost:3000
-
+	// const url = `http://localhost:3000/check_crowdsale_tokens_entitlement?pubkey_base_64=${pubkey_base_64}&pubkey_base_58=${pubkey_base_58}`
 	const url = `https://www.zenprotocol.com/check_crowdsale_tokens_entitlement?pubkey_base_64=${pubkey_base_64}&pubkey_base_58=${pubkey_base_58}`
 
 	const response = await get(url)
@@ -96,6 +95,7 @@ export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_
 
 export async function postRedeemCrowdsaleTokens(pubkeys) {
 
+	// const response = await post('http://localhost:3000/redeem_crowdsale_tokens', pubkeys, {
 	const response = await post('https://www.zenprotocol.com/redeem_crowdsale_tokens', pubkeys, {
 		headers: { 'Content-Type': 'application/json' }
 	})
