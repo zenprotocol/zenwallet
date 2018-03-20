@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.1.42",
+  "version": "0.1.43",
   "description": "Zen Wallet",
   "main": "dest/main.js",
   "bin": {
@@ -10,7 +10,7 @@
     "build": "gulp build",
     "watch": "gulp watch",
     "dev": "NODE_ENV=development electron .",
-    "start": "electron .",
+    "start": "NODE_ENV=prod electron .",
     "dev-localhost": "NODE_ENV=development ZEN_LOCAL=localhost electron .",
     "dev-l1": "NODE_ENV=development ZEN_LOCAL=L1 electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
