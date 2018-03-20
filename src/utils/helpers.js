@@ -8,6 +8,13 @@ export const truncateString = (string) => {
   }
 }
 
+export const normalizeTokens = (number) => {
+  if (Number.isInteger(number)) {
+    console.log('normalizeTokens', number)
+    return (number / 100000000).toLocaleString(undefined, { minimumFractionDigits: 4 });
+  }
+}
+
 export const validateAddress = (value) => {
   try {
     const decodedAddress = bech32.decode(value)
@@ -18,4 +25,5 @@ export const validateAddress = (value) => {
   } catch (e) {
     return false
   }
+  
 }

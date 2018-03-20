@@ -4,6 +4,7 @@ import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
+import {normalizeTokens} from '../../../../utils/helpers'
 
 @inject('balances')
 @inject('history')
@@ -73,7 +74,7 @@ class Header extends Component {
             <span className="total-balance">Total Balance</span>
             <span className='zen-symbol'>ZENP</span>
           </div>
-          <div className='account-balance'>{balances.zen.toLocaleString()}</div>
+          <div className='account-balance'>{normalizeTokens(balances.zen)}</div>
         </div>
       </Flexbox>
     )

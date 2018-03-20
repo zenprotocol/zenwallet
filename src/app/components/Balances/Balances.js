@@ -4,7 +4,7 @@ import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Layout from '../UI/Layout/Layout'
-import {truncateString} from '../../../utils/helpers'
+import {truncateString, normalizeTokens} from '../../../utils/helpers'
 const {clipboard} = require('electron')
 
 @inject('balances')
@@ -52,7 +52,7 @@ class Balances extends Component {
             </span>
 
           </td>
-          <td className='bright-blue' >{asset.balance.toLocaleString()}</td>
+          <td className='bright-blue' >{normalizeTokens(asset.balance)}</td>
           <td className='align-right' >
             <Link className='button small' to={`/send-tx/${asset.asset}`} >Send</Link>
           </td>

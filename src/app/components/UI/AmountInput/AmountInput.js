@@ -5,7 +5,7 @@ import {inject, observer} from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import classnames from 'classnames'
 
-import {truncateString} from '../../../../utils/helpers'
+import {truncateString, normalizeTokens} from '../../../../utils/helpers'
 
 @inject('balances')
 @observer
@@ -94,7 +94,7 @@ class AmountInput extends Component {
 		const {assetIsValid, assetBalance} = this.state
     if (assetIsValid && assetBalance) {
       return (
-        <div className='maxSend'> / {assetBalance.toLocaleString() }</div>
+        <div className='maxSend'> / {normalizeTokens(assetBalance) }</div>
       )
     }
   }
