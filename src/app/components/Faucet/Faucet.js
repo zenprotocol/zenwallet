@@ -86,7 +86,7 @@ class Faucet extends Component {
 						<Flexbox flexGrow={1} flexDirection="row" className='form-response-message warning'>
 							<i className='fa fa-exclamation'></i>
 							<Flexbox flexDirection="column">
-								Tokens have already been redeemed for this public key
+								Tokens have already been redeemed by this public key
 							</Flexbox>
 						</Flexbox>
 					)
@@ -155,7 +155,7 @@ class Faucet extends Component {
 		if (status == 'success') {
 			return(
 				<FormResponseMessage className='success'>
-					<span>{amountRedeemable} tokens were sent to your wallet</span>
+					<span>{amountRedeemable.toLocaleString()} tokens were sent to your wallet</span>
 				</FormResponseMessage>
 			)
 		}

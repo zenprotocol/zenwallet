@@ -1,8 +1,9 @@
-let address
+const localhost = 'http://127.0.0.1'
 
-if (process.env.ZEN_LOCAL === 'L1')
-    address = 'http://127.0.0.1:36000'
-else
-    address = 'http://127.0.0.1:31567'
+export const getServerAddress = () => {
+  return (process.env.ZEN_LOCAL === 'L1' ? `${localhost}:36000` : `${localhost}:31567`)
+}
 
-export default address
+export const getCrowdsaleServerAddress = () => {
+  return (process.env.ZEN_LOCAL === 'localhost' ? `${localhost}:3000` : 'https://www.zenprotocol.com')
+}

@@ -1,6 +1,9 @@
 import {get, post} from 'axios'
 
-import serverAddress from '../config/server-address'
+import {getServerAddress, getCrowdsaleServerAddress} from '../config/server-address'
+
+const serverAddress = getServerAddress()
+const crowdsaleServerAddress = getCrowdsaleServerAddress()
 
 export async function getBalances() {
 	const response = await get(`${serverAddress}/wallet/balance`)
@@ -82,9 +85,8 @@ export async function getNetworkStatus() {
 }
 
 
-// CROWDSALE APIS //
 
-const crowdsaleServerAddress = (process.env.ZEN_LOCAL === 'localhost' ? 'http://localhost:3000' : 'https://www.zenprotocol.com')
+// CROWDSALE APIS //
 
 export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_base_58) {
 
