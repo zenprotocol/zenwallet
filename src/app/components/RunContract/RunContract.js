@@ -128,7 +128,7 @@ class RunContract extends Component {
 
 	updateAmount = (data) => {
 		const {contractMessage} = this.props
-		contractMessage.amount = data.amount
+		contractMessage.amount = Math.floor(data.amount * 100000000)
 	}
 
 
@@ -184,6 +184,7 @@ class RunContract extends Component {
 								/>
 
 								<AmountInput
+									normalize={true}
 									amount={amount}
 									label='Amount'
 									assetIsValid={assetIsValid}

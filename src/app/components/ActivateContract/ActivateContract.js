@@ -161,7 +161,7 @@ class ActivateContract extends Component {
 
 
 	render() {
-		const {dragDropText, name, amountOfBlocks, status} = this.props.contract
+		const {dragDropText, name, numberOfBlocks, status} = this.props.contract
 
 		let dropzoneRef
 
@@ -211,7 +211,8 @@ class ActivateContract extends Component {
 							</Flexbox>
 
 							<AmountInput
-								amount={amountOfBlocks}
+								normalize={false}
+								amount={numberOfBlocks}
 								status={status}
 								label='Number Of Blocks'
 								sendData={this.updateNumberOfBlocks}

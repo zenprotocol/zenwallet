@@ -69,7 +69,10 @@ input[type=search],
 	padding: 0px;
 	width: 280px;
 
-	&.is-focused { border-color: $bright-grey; }
+	&.is-focused {
+		border-color: $bright-grey;
+		&.error {	border: 1px solid $red;	}
+	}
 
 	.maxSend {
 		padding: 12px 10px 0px 0px;

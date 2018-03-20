@@ -13,8 +13,16 @@ class AmountInput extends Component {
   constructor(props) {
     super(props)
 
+    let normalizedNumber, normalizeAssetBalance
+
+    if (props.amount > 0) {
+      normalizedNumber = (props.normalize ? props.amount / 100000000 : props.amount)
+    } else {
+      normalizedNumber = ''
+    }
+
     this.state = {
-      amount: props.amount,
+      amount: normalizedNumber,
       assetBalance: props.assetBalance,
       assetIsValid: props.assetIsValid
     }
@@ -39,39 +47,48 @@ class AmountInput extends Component {
     }
   }
 
-	onChange(event) {
+	onChange(e) {
 		const {amount} = this.state
-		if (event.target.value) {
-      const newAmount = parseFloat(event.target.value.trim().replace(/,/g, ''))
-      this.setState({amount: newAmount}, function () {
-        this.validateAmount()
-      })
-      this.props.sendData({amount: newAmount})
+		if (e.target.value) {
+
+      const regex = /^[0-9\.]+$/
+      let newAmount = e.target.value
+
+      if (regex.test(e.target.value)) {
+        newAmount = e.target.value
+        this.setState({amount: newAmount}, function () {
+          this.validateAmount()
+        })
+        this.sendDataToParent(newAmount)
+      }
+
+      // const newAmount = parseFloat(e.target.value.trim().replace(/,/g, ''))
+
 		}	else {
-      this.props.sendData({amount: ''})
+      this.sendDataToParent('')
       this.setState({amount: undefined}, function () {
         this.validateAmount()
       })
 		}
 	}
 
-	onKeyDown = event => {
-    if (event.keyCode == 38) { this.increaseAmount() } // UP
-		if (event.keyCode == 40) { this.decreaseAmount() } // DOWN
+	onKeyDown = e => {
+    if (e.keyCode == 38) { this.increaseAmount() } // UP
+		if (e.keyCode == 40) { this.decreaseAmount() } // DOWN
 	}
 
 	increaseAmount() {
     const {amount} = this.state
     let newAmount
-    if (amount === undefined) {
+    if (amount === undefined || amount === '') {
       newAmount = 1
     } else {
-      newAmount = amount + 1
+      newAmount = Number(amount) + 1
     }
     this.setState({amount: newAmount}, function () {
       this.validateAmount()
     })
-    this.props.sendData({amount: newAmount})
+    this.sendDataToParent(newAmount)
 	}
 
 	decreaseAmount() {
@@ -80,15 +97,19 @@ class AmountInput extends Component {
     if (amount === undefined) {
       newAmount = -1
     } else {
-      newAmount = amount - 1
+      newAmount = Number(amount) - 1
     }
 
     this.setState({amount: newAmount}, function () {
       this.validateAmount()
     })
 
-    this.props.sendData({amount: newAmount})
+    this.sendDataToParent(newAmount)
 	}
+
+  sendDataToParent(amount) {
+    this.props.sendData({amount: amount})
+  }
 
 	renderMaxAmountDiv() {
 		const {assetIsValid, assetBalance} = this.state
@@ -107,7 +128,8 @@ class AmountInput extends Component {
       this.setState({errorMessage: 'Amount must be above 0'})
     } else {
       if (assetIsValid && assetBalance > 0) {
-        if (amount > assetBalance) {
+        const normalizedAssetBalance = assetBalance / 100000000
+        if (amount > normalizedAssetBalance) {
           this.setState({
             amountIsInvalid: true,
             errorMessage: "You don't have that many tokens"
@@ -127,8 +149,8 @@ class AmountInput extends Component {
     const {amountIsInvalid, errorMessage} = this.state
     if (amountIsInvalid) {
       return (
-        <div className='error-message'>
-          <i className="fa fa-exclamation-circle"></i>
+        <div className='input-message error'>
+          <i className="fa fa-exclamation"></i>
           <span>{errorMessage}</span>
         </div>
       )
@@ -146,7 +168,13 @@ class AmountInput extends Component {
 		if (amountIsInvalid) { amountInputClassNames = classnames('error', amountInputClassNames) }
     if (isFocused) { amountInputClassNames = classnames('is-focused', amountInputClassNames) }
 
-		const presentableAmount = (amount === undefined ? '' : amount.toLocaleString() )
+    let presentableAmount = (amount === undefined ? '' : amount.toLocaleString() )
+    if (amount === undefined) {
+      presentableAmount = ''
+    } else {
+      const parts = (+amount).toFixed(4).split(".")
+      presentableAmount = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (+parts[1] ? "." + parts[1] : "");
+    }
 
     return (
       <Flexbox flexGrow={0} flexDirection="column" className="amount">
@@ -158,7 +186,7 @@ class AmountInput extends Component {
             name='amount'
             type='text'
             placeholder='Enter amount'
-            value={presentableAmount}
+            value={amount}
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
             onFocus={this.onFocus}

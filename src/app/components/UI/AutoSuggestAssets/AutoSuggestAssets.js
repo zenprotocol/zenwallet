@@ -143,8 +143,8 @@ class AutoSuggestAssets extends Component {
     const {assetError} = this.state
     if (assetError) {
       return (
-        <div className='error-message'>
-          <i className="fa fa-exclamation-circle"></i>
+        <div className='input-message error'>
+          <i className="fa fa-exclamation"></i>
           <span>You don't have such an asset</span>
         </div>
       )

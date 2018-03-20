@@ -86,6 +86,7 @@ class SendTx extends Component {
 	onAddressBlur() { this.setState({ addressIsValid: false }) }
 	onAddressFocus() { this.validateAddressStates() }
 
+
 	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
 
 	updateAssetFromSuggestions = (data) => {
@@ -105,7 +106,7 @@ class SendTx extends Component {
 
 	updateAmount = (data) => {
 		const {transaction} = this.props
-		transaction.amount = data.amount
+		transaction.amount = Math.floor(data.amount * 100000000)
 	}
 
 
@@ -168,8 +169,10 @@ class SendTx extends Component {
 							/>
 
 							<AmountInput
+								normalize={true}
 								amount={amount}
 								label='Amount'
+								asset={asset}
 								assetIsValid={assetIsValid}
 								assetBalance={assetBalance}
 								sendData={this.updateAmount}

@@ -14,7 +14,7 @@ button, .button, a.button {
   cursor: pointer;
   text-decoration: none;
   background: $blue;
-  padding: 12px;
+  padding: 0 12px;
 
   i.fa.fa-spinner { margin-left: 6px; }
 
@@ -44,6 +44,7 @@ button, .button, a.button {
     padding: 4px 14px 5px 14px;
     height: initial;
     width: initial;
+    min-width: initial;
   }
   &.button-on-right { margin-left: 17px; }
   &.margin-right { margin-right: 10px; }

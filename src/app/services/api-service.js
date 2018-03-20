@@ -22,7 +22,7 @@ export async function postTransaction(tx) {
 		"address" : to,
 		"spend" : {
 			"asset" : asset,
-			"assetType" : asset,
+			"assetType" : assetType,
 			"amount" : amount
 		}
 	}
