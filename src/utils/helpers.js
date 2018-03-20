@@ -10,8 +10,10 @@ export const truncateString = (string) => {
 
 export const normalizeTokens = (number) => {
   if (Number.isInteger(number)) {
-    console.log('normalizeTokens', number)
-    return (number / 100000000).toLocaleString(undefined, { minimumFractionDigits: 4 });
+    return (number / 100000000).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
   }
 }
 
@@ -25,5 +27,5 @@ export const validateAddress = (value) => {
   } catch (e) {
     return false
   }
-  
+
 }
