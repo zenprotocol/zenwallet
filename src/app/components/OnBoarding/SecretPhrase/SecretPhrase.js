@@ -49,7 +49,7 @@ class SecretPhrase extends Component {
           {mnemonicPhraseWords}
         </ol>
         <p className='warning'>If you lose this phrase you will lose your Zen tokens!</p>
-        <div className="devider"></div>
+        <div className="devider before-buttons"></div>
 
         <Flexbox flexDirection="row">
           <Flexbox flexGrow={1} flexDirection="row">
