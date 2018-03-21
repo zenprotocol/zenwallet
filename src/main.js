@@ -8,11 +8,6 @@ db.defaults({
     width: 1200, height: 800
   },
   savedContracts: [
-    // {
-    //   name: 'ZENP Faucet',
-    //   hash: '55822876931f7dc9e02420af9cad75d0086640ff433afea3617d9d478351bc4a',
-    //   address: 'tc1q2kpzsa5nra7uncpyyzheett46qyxvs8lgva0agmp0kw50q63h39qy49v6g'
-    // },
     {
       name: 'Jezreel Valley Adumim 2018 Red',
       hash: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',

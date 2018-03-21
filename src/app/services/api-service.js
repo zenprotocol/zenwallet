@@ -99,9 +99,9 @@ export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_
 	return response.data
 }
 
-export async function postRedeemCrowdsaleTokens(pubkeys) {
+export async function postRedeemCrowdsaleTokens(data) {
 
-	const response = await post(`${crowdsaleServerAddress}/redeem_crowdsale_tokens`, pubkeys, {
+	const response = await post(`${crowdsaleServerAddress}/redeem_crowdsale_tokens`, data, {
 		headers: { 'Content-Type': 'application/json' }
 	})
 

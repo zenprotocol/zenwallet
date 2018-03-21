@@ -13,12 +13,20 @@ import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
 @inject('redeemTokensState')
+@inject('publicAddress')
 @observer
 class Faucet extends Component {
 
 	constructor() {
 		super()
 		autobind(this)
+	}
+
+	componentDidMount() {
+		const {publicAddress} = this.props
+		publicAddress.fetch()
+		const {redeemTokensState} = this.props
+		redeemTokensState.walletPublicAddress = publicAddress.address
 	}
 
   onChange(e) {
@@ -146,6 +154,8 @@ class Faucet extends Component {
 	}
 
 	onRedeemButtonClicked() {
+		const {publicAddress, redeemTokensState} = this.props
+		redeemTokensState.walletPublicAddress = publicAddress.address
 		this.props.redeemTokensState.redeemCrowdsaleTokens()
 	}
 
@@ -155,7 +165,7 @@ class Faucet extends Component {
 		if (status == 'success') {
 			return(
 				<FormResponseMessage className='success'>
-					<span>{amountRedeemable.toLocaleString()} tokens were sent to your wallet</span>
+					<span>{(amountRedeemable/100000000).toLocaleString()} tokens were sent to your wallet</span>
 				</FormResponseMessage>
 			)
 		}

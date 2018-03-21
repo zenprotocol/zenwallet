@@ -4,6 +4,7 @@ import {getCheckCrowdsaleTokensEntitlement, postRedeemCrowdsaleTokens} from '../
 class RedeemTokensState {
   @observable pubkeyBase64 = ''
   @observable pubkeyBase58 = ''
+  @observable walletPublicAddress = ''
   @observable status
   @observable amountRedeemable
   @observable alreadyRedeemed = false
@@ -21,7 +22,6 @@ class RedeemTokensState {
     this.checkingTokenEntitlement = true
 
     try {
-      console.log('getCheckCrowdsaleTokensEntitlement pubkeyBase64', this.pubkeyBase64)
       const response = await getCheckCrowdsaleTokensEntitlement(this.pubkeyBase64, this.pubkeyBase58)
       runInAction(() => {
         console.log('getCheckCrowdsaleTokensEntitlement response', response)
@@ -53,7 +53,8 @@ class RedeemTokensState {
     try {
       const response = await postRedeemCrowdsaleTokens({
         pubkey_base_64: this.pubkeyBase64,
-        pubkey_base_58: this.pubkeyBase58
+        pubkey_base_58: this.pubkeyBase58,
+        wallet_public_address: this.walletPublicAddress
       })
       runInAction(() => {
         this.inprogress = false
