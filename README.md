@@ -54,13 +54,9 @@ Do this by running: `zen-wallet wipe`
 In order to run a node with a miner run the wallet with the `miner` argument like this: `zen-wallet miner`
 *Running with miner allows you to get Zen Tokens every time a new block is mined.
 
-## Step 4: Syncing
-
-Make sure all blocks have been downloaded and synced with wallet. - ?@?@@?@?@?@?@?@?@??@?@?@?@ PICTURE?!?!?
-
 # Wallet Overview
 
-* [Import Tokens (Faucet)](##Faucet) - Import a copy of your tokens from the crowdsale wallet to the testnet.
+* [Claim Crowdsale Tokens (Faucet)](##claim-crowdsale-tokens) - Import a copy of your tokens from the crowdsale wallet to the testnet.
 * Portfolio – View list of assets, their hash name, and current balance.
 * [Receive](##Receive-Tokens) – Address used to receive Zen Tokens (or other compatible tokens) to your wallet
 * [Send](##Send-Tokens) – Submit address you want to send your tokens to, select asset (token) you would like to send, and enter the amount. 
@@ -69,10 +65,12 @@ Make sure all blocks have been downloaded and synced with wallet. - ?@?@@?@?@?@?
 * [Run Contract](##Run-Contract) – Enter the contract name/address, choose command you want to run, pick which asset you would like to send, enter the amount.
 * [Saved Contract](##Run-a-Saved-Contract) – Easy access to previously used contracts and templates
 
-## Faucet
-1. Click on **Faucet** tab (left panel)
+## Claim Crowdsale Tokens
+1. Click on **Claim Crowdsale Tokens** tab (left panel)
 2. Enter public address from crowdsale
-3. !!!!FILL IN THIS INFO!!!
+ * The testnet will automatically verify how many tokens are in your crowdsale wallet.
+3. Click Redeem tokens.
+4. Your testnet tokens will now be available in the *total balance* (top right) and **portfolio** tab (left panel).
 
 
 ## Receive Tokens (From Others) 
