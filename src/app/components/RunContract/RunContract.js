@@ -145,6 +145,9 @@ class RunContract extends Component {
 
 					<Flexbox flexDirection="column" className='page-title'>
 						<h1>Run Contract</h1>
+						<h3>
+							A contract must be in the <span className="bold">Active Contract Set</span> in order to run it.
+						</h3>
 					</Flexbox>
 
 					<Flexbox flexDirection="column" className="form-container">

@@ -28,6 +28,7 @@ ReactDOM.render(
   <Provider history={history} {...states}>
     <Router history={history}>
       <Switch>
+        <Route exact path="/portfolio" component={Balances} />
         <Route exact path="/receive" component={Receive} />
         <Route exact path="/send-tx/:assetHash?" component={SendTx} />
         <Route exact path="/activate-contract" component={ActivateContract} />
@@ -38,7 +39,7 @@ ReactDOM.render(
 
         <Route exact path="/loading" component={Loading} />
         <Route exact path="/secret-phrase" component={SecretPhrase} />
-        <Route exact path="/" component={Balances} />
+        <Route exact path="/" component={Faucet} />
       </Switch>
     </Router>
   </Provider>, document.getElementById('app')

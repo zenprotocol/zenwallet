@@ -92,9 +92,15 @@ class SavedContracts extends Component {
       <Layout className="saved-contracts">
         <Flexbox flexDirection="column" className="saved-contracts-container">
 
-          <Flexbox className='page-title'>
+          <Flexbox flexDirection="column" className='page-title'>
             <h1>Saved Contracts</h1>
+            <h3>
+              Saved contracts, are like your contract address book.
+              <br/>
+              They get saved on your local machine, so you can re-activate them even after they have left the Active Contract Set.
+            </h3>
           </Flexbox>
+
 
           <Flexbox className='contracts-list' flexGrow={1}>
             <table>

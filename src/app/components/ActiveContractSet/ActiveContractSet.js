@@ -84,8 +84,13 @@ class ActiveContractSet extends Component {
       <Layout className="active-contract-set">
         <Flexbox flexDirection="column" className="active-contract-set-container">
 
-          <Flexbox className='page-title'>
-            <h1>Active Contracts</h1>
+          <Flexbox flexDirection="column" className='page-title'>
+            <h1>Explore Contracts - Active Contract Set</h1>
+            <h3>
+              The active contract set (ACS) contains all the contracts which can directly affect the network.
+              <br/>
+              The Zen Protocol reduces network load by allowing contracts to leave the set when they are not needed, while still allowing the tokens they generate to move freely.
+						</h3>
           </Flexbox>
 
           <Flexbox className='contracts-list' flexGrow={1}>

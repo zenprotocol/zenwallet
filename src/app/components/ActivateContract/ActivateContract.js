@@ -169,8 +169,11 @@ class ActivateContract extends Component {
 			<Layout className="activate-contract">
 				<Flexbox flexDirection="column" className="send-tx-container">
 
-					<Flexbox className='page-title'>
-						<h1>Activate Contract</h1>
+					<Flexbox flexDirection="column" className='page-title'>
+						<h1>Upload Contract to the ACS</h1>
+						<h3>
+              By uploading a contract to the <span className='bold'>Active Contract Set</span>, other peers can discover and run it for the amount of blocks you pay for.
+						</h3>
 					</Flexbox>
 
 					<Flexbox flexDirection="column" className="form-container">

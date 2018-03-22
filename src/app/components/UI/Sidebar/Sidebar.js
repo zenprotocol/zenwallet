@@ -95,14 +95,18 @@ class Sidebar extends Component {
 
         <div className='menu'>
           <ul>
-            <li><NavLink exact activeClassName={'active'} to="/">Portfolio</NavLink></li>
-            <li><NavLink activeClassName={'active'} to="/receive">Receive</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/portfolio">Portfolio</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/send-tx">Send</NavLink></li>
-            <li><NavLink activeClassName={'active'} to="/acs">Active Contract Set</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/receive">Receive</NavLink></li>
+
+            <li><NavLink activeClassName={'active'} to="/acs">Explore Contracts</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/activate-contract">Upload Contract</NavLink></li>
+
             <li><NavLink activeClassName={'active'} to="/run-contract">Run Contract</NavLink></li>
-            <li><NavLink activeClassName={'active'} to="/activate-contract">Activate Contract</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/saved-contracts">My Saved Contracts</NavLink></li>
-            <li><NavLink activeClassName={'active'} to="/faucet">Claim Crowdsale Tokens</NavLink></li>
+
+            <li><NavLink exact activeClassName={'active'} to="/">Claim Crowdsale Tokens</NavLink></li>
+
             {/* <li><NavLink activeClassName={'active'} to="/secret-phrase">Secret Phrase</NavLink></li> */}
             {/* <li><NavLink activeClassName={'active'} to="/loading">Loading</NavLink></li> */}
             <li className='settings'><a>Settings</a></li>

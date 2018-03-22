@@ -12,6 +12,8 @@ import base58 from 'bs58check'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
+const shell = require('electron').shell
+
 @inject('redeemTokensState')
 @inject('publicAddress')
 @observer
@@ -171,6 +173,11 @@ class Faucet extends Component {
 		}
 	}
 
+	onCrowdsaleLinkClick = (e) => {
+    e.preventDefault()
+		shell.openExternal(e.target.href)
+	}
+
 	render() {
 		const {pubkeyBase58, pubkeyError, pubkeyIsValid, inprogress} = this.props.redeemTokensState
 
@@ -188,6 +195,8 @@ class Faucet extends Component {
 							To gain access to the Zen Protocol software insert the public key generated using our software sale wallet and redeem your tokens.
 							<br/>
 							If you didn't save your public key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retreive it
+							<br/>
+							You can also retrieve it by visiting <a href="https://crowdsale.zenprotocol.com/create-wallet/complete" onClick={this.onCrowdsaleLinkClick}>this link</a> in the same browser you made your purchase from.
 						</h3>
 					</Flexbox>
 
