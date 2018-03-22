@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.1.55",
+  "version": "0.1.56",
   "description": "Zen Wallet",
   "main": "dest/main.js",
   "bin": {
@@ -26,7 +26,7 @@
   },
   "homepage": "https://gitlab.com/zenprotocol/zenwallet#README",
   "dependencies": {
-    "@zen/zen-node": "^0.1.28",
+    "@zen/zen-node": "^0.1.29",
     "axios": "^0.17.1",
     "bech32": "^1.1.3",
     "bs58": "^4.0.1",

@@ -4,7 +4,7 @@
 # Tutorial videos:
 * [Installation/update](https://www.youtube.com/watch?v=tYtMcELj3T0)
 * [Claim and Send Tokens](https://www.youtube.com/watch?v=gHU3xg_5Dr8)
-* [Example Contract](https://www.youtube.com/watch?v=-fS0sxr2Aog)
+* [Example Contract](https://www.youtube.com/watch?v=cjfr7zM2vhU)
 
 # Preparing Your Machine
 
