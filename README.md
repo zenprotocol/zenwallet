@@ -1,8 +1,10 @@
 **Please note that the usage of the software is only permitted to anyone who purchased a license during the license sale period. [Sale Terms](https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf)
 
 
-Tutorial videos:
-[Installation/update](https://www.youtube.com/watch?v=tYtMcELj3T0) | [Claim and Send Tokens](https://www.youtube.com/watch?v=gHU3xg_5Dr8) | [Example Contract](https://www.youtube.com/watch?v=-fS0sxr2Aog&feature=youtu.be)
+# Tutorial videos:
+### [Installation/update](https://www.youtube.com/watch?v=tYtMcELj3T0)
+### [Claim and Send Tokens](https://www.youtube.com/watch?v=gHU3xg_5Dr8)
+### [Example Contract](https://www.youtube.com/watch?v=-fS0sxr2Aog)
 
 # Preparing Your Machine
 
@@ -115,6 +117,7 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 * You can now see your Zen Protocol and generic contract tokens in the portfolio
 
 ## Run Contract
+
 1. Click **Run Contract** (left panel).
 2. Under *Contract Address* enter the contract you would like to run.
 * The generic contract you created is a hardcoded option.
