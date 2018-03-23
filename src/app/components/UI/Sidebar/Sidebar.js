@@ -100,16 +100,16 @@ class Sidebar extends Component {
             <li><NavLink activeClassName={'active'} to="/receive">Receive</NavLink></li>
 
             <li><NavLink activeClassName={'active'} to="/acs">Explore Contracts</NavLink></li>
-            <li><NavLink activeClassName={'active'} to="/activate-contract">Upload Contract</NavLink></li>
+            {/* <li><NavLink activeClassName={'active'} to="/activate-contract">Upload Contract</NavLink></li> */}
 
-            <li><NavLink activeClassName={'active'} to="/run-contract">Run Contract</NavLink></li>
+            {/* <li><NavLink activeClassName={'active'} to="/run-contract">Run Contract</NavLink></li> */}
             <li><NavLink activeClassName={'active'} to="/saved-contracts">My Saved Contracts</NavLink></li>
 
             <li><NavLink exact activeClassName={'active'} to="/">Claim Crowdsale Tokens</NavLink></li>
 
             {/* <li><NavLink activeClassName={'active'} to="/secret-phrase">Secret Phrase</NavLink></li> */}
             {/* <li><NavLink activeClassName={'active'} to="/loading">Loading</NavLink></li> */}
-            <li className='settings'><a>Settings</a></li>
+            {/* <li className='settings'><a>Settings</a></li> */}
           </ul>
         </div>
 

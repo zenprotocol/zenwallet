@@ -2,7 +2,7 @@
 
 
 button, .button, a.button {
-  height: 34.5px;
+  height: 36px;
   min-width: 125px;
   text-align: center;
   border-radius: 2px;
@@ -14,6 +14,7 @@ button, .button, a.button {
   text-decoration: none;
   background: $blue;
   padding: 0 12px;
+  line-height: 2.2rem;
 
   i.fa.fa-spinner { margin-left: 6px; }
 
@@ -44,6 +45,7 @@ button, .button, a.button {
     height: initial;
     width: initial;
     min-width: initial;
+    line-height: inherit;
   }
   &.button-on-right { margin-left: 17px; }
   &.margin-right { margin-right: 10px; }
