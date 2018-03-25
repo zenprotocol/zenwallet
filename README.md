@@ -70,7 +70,7 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 
 # Wallet Overview
 
-* Claim Crowdsale Tokens (Faucet)- Import a copy of your tokens from the crowdsale wallet to the testnet.
+* Access Software - Use your key from the software sale to redeem your tokens.
 * Portfolio – View list of assets, their hash name, and current balance.
 * Receive – Address used to receive Zen Tokens (or other compatible tokens) to your wallet
 * Send – Submit address you want to send your tokens to, select asset (token) you would like to send, and enter the amount.
@@ -79,10 +79,10 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 * Run Contract – Enter the contract name/address, choose command you want to run, pick which asset you would like to send, enter the amount.
 * Saved Contract – Easy access to previously used contracts and templates
 
-## Claim Crowdsale Tokens
-1. Click on **Claim Crowdsale Tokens** tab (left panel)
-2. Enter public address from crowdsale
-* The testnet will automatically verify how many tokens are in your crowdsale wallet.
+## Access the Software
+1. Click on **ACCESS SOFTWARE** tab (left panel)
+2. Enter public address from sofware sale
+* The testnet will automatically verify how many tokens you are intitled to.
 3. Click Redeem tokens.
 4. Your testnet tokens will now be available in the *total balance* (top right) and **portfolio** tab (left panel).
 
