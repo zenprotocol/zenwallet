@@ -46,9 +46,13 @@ app.on('ready', () => {
   else if (process.env.ZEN_LOCAL === 'localhost')
     args.push('--localhost')
 
-  const node = zenNode(args)
-  node.stderr.pipe(process.stderr)
-  node.stdout.pipe(process.stdout)
+  let node
+  if (process.env.NODE_ENV !== 'localnode') {
+    node = zenNode(args)
+    node.stderr.pipe(process.stderr)
+    node.stdout.pipe(process.stdout)
+  }
+
 
   let { width, height } = db.get('userPreferences').value()
 
@@ -101,6 +105,6 @@ app.on('ready', () => {
 
     mainWindow.on('closed', () => {
       mainWindow = null
-      node.kill()
+      if (process.env.NODE_ENV !== 'localnode') { node.kill() }
     })
   })
