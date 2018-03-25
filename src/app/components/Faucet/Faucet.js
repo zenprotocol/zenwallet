@@ -96,7 +96,7 @@ class Faucet extends Component {
 						<Flexbox flexGrow={1} flexDirection="row" className='form-response-message warning'>
 							<i className='fa fa-exclamation'></i>
 							<Flexbox flexDirection="column">
-								Tokens have already been redeemed by this public key
+								Tokens have already been redeemed by this key
 							</Flexbox>
 						</Flexbox>
 					)
@@ -105,7 +105,7 @@ class Faucet extends Component {
 						<Flexbox flexGrow={1} flexDirection="row" className='form-response-message success'>
 							<i className='fa fa-check'></i>
 							<Flexbox flexDirection="row">
-								<span>This public key is entitled to</span>
+								<span>This key is entitled to</span>
 								<span className="bold blue">&nbsp;{amountRedeemable.toLocaleString()} tokens</span>
 							</Flexbox>
 						</Flexbox>
@@ -136,7 +136,7 @@ class Faucet extends Component {
 			return (
 				<div className='input-message'>
 					<i className="fa fa-spinner fa-spin"></i>
-          <span>Checking if this public key is entitled to tokens</span>
+          <span>Checking if this key is entitled to tokens</span>
         </div>
 			)
 		}
@@ -190,11 +190,11 @@ class Faucet extends Component {
 				<Flexbox flexDirection="column" className="send-tx-container">
 
 					<Flexbox flexDirection="column" className='page-title'>
-						<h1>Claim Crowdsale Tokens</h1>
+						<h1>Get Access to the Zen Protocol Software</h1>
 						<h3>
-							To gain access to the Zen Protocol software insert the public key generated using our software sale wallet and redeem your tokens.
+							To gain access to the Zen Protocol software insert the key generated using our software sale wallet and redeem your tokens.
 							<br/>
-							If you didn't save your public key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retreive it
+							If you didn't save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retreive it
 							<br/>
 							You can also retrieve it by visiting <a href="https://crowdsale.zenprotocol.com/create-wallet/complete" onClick={this.onCrowdsaleLinkClick}>this link</a> in the same browser you made your purchase from.
 						</h3>
@@ -203,7 +203,7 @@ class Faucet extends Component {
 					<Flexbox flexDirection="column" className="form-container">
 
 						<Flexbox flexDirection="column" className='destination-address-input form-row'>
-							<label htmlFor='to'>What is your public key?</label>
+							<label htmlFor='to'>What is your key?</label>
 							<Flexbox flexDirection="row" className='public-key-input'>
 
 								<Flexbox flexDirection="column" className='full-width'>
