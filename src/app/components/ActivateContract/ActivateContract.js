@@ -7,6 +7,8 @@ import Flexbox from 'flexbox-react'
 import Dropzone from 'react-dropzone'
 import {head} from 'lodash'
 import Highlight from 'react-highlight'
+import {normalizeTokens} from '../../../utils/helpers'
+
 
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
@@ -153,6 +155,28 @@ class ActivateContract extends Component {
 	}
 
 
+	renderCostToActivate() {
+		const {contract} = this.props
+		const {code, acceptedFiles, numberOfBlocks} = contract
+		if (acceptedFiles.length == 1 && code && numberOfBlocks > 0) {
+			const activationCost = code.length * numberOfBlocks
+
+			let unitOfAccountText
+			if (activationCost > 1000000) {
+				unitOfAccountText = `${normalizeTokens(activationCost)} ZENP`
+			} else {
+				unitOfAccountText = `${activationCost.toLocaleString()} Kalapas`
+			}
+
+			return(
+				<Flexbox flexGrow={1} flexDirection="row" className='form-response-message'>
+					<span className='key'>Activation cost: </span>
+					<span className='value'>{unitOfAccountText}</span>
+        </Flexbox>
+			)
+		}
+	}
+
 	// AMOUNT INPUT //
 
 	updateNumberOfBlocks = (data) => {
@@ -228,6 +252,7 @@ class ActivateContract extends Component {
 					</Flexbox>
 
 					<Flexbox flexDirection="row">
+						{ this.renderCostToActivate() }
 						{ this.renderSuccessResponse() }
 						{ this.renderErrorResponse() }
 						<Flexbox flexGrow={2}></Flexbox>

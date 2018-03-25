@@ -35,3 +35,14 @@ table {
   }
 
 }
+
+span.key {
+  color: $bright-grey;
+  text-transform: uppercase;
+  margin: 0 20px 0 0;
+}
+span.value {
+  color: $light-white;
+  text-transform: uppercase;
+  text-align: right;
+}
