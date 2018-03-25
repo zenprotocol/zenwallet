@@ -45,7 +45,7 @@ class Sidebar extends Component {
     if (blocks === 0) {
       return (
         <div className='network-status'>
-          Loading...
+          Syncing...
         </div>
       )
     } else {

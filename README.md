@@ -27,7 +27,9 @@
 * Steps 2-3 require [brew] (https://www.dyclassroom.com/howto-mac/how-to-install-nodejs-and-npm-on-mac-using-homebrew)
 2. Open the **Terminal** (can be found from **search** bar)
 3. Install lmdb. Enter the command (in terminal) `brew install lmdb`.
-4. Install NodeJS. Enter the command (in terminal) `brew install node`.
+4. Install Nodejs (Version >= 6)
+- Recommended to install using [NVM](https://github.com/creationix/nvm#installation)
+- Recommended to install Node LTS (8.9.4) `nvm install 8.9.4`
 
 
 # Install/Update Wallet
