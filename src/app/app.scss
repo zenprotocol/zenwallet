@@ -4,11 +4,11 @@
 
 @import "../../node_modules/normalize.css/normalize.css";
 
-@import "reset";
-@import "Variables";
-@import "Shared";
-@import "Table";
-@import "Buttons";
+@import "styles/Reset";
+@import "styles/Variables";
+@import "styles/Shared";
+@import "styles/Table";
+@import "styles/Buttons";
 @import "styles/Forms";
 @import "styles/AutoSuggest";
 @import "styles/MonokaiSublime";
