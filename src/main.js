@@ -23,21 +23,7 @@ contextMenu()
 app.on('ready', () => {
   console.log('process.argv', process.argv)
 
-  let args = []
-
-  if (process.argv.indexOf("wipe") > -1) {
-    args.push('--wipe')
-    console.log('WIPING DB')
-  } else {
-    console.log('NOT WIPING DB')
-  }
-
-  if (process.argv.indexOf("miner") > -1) {
-    args.push('--miner')
-    console.log('RUNNING A MINER')
-  } else {
-    console.log('NOT RUNNING A MINER')
-  }
+  let args = process.argv.slice(2)
 
   console.log('process args', args)
 
@@ -52,7 +38,6 @@ app.on('ready', () => {
     node.stderr.pipe(process.stderr)
     node.stdout.pipe(process.stdout)
   }
-
 
   let { width, height } = db.get('userPreferences').value()
 
