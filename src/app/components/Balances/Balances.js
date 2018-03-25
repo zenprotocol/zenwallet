@@ -37,6 +37,12 @@ class Balances extends Component {
 
     const balancesRows = balances.assets.map(asset => {
       const assetName = balances.getAssetName(asset.asset)
+      let fullBalanceForTitle
+      if (assetName == 'ZENP') {
+        fullBalanceForTitle = `${asset.balance.toLocaleString()} Kalapas`
+      } else {
+        fullBalanceForTitle = asset.balance.toLocaleString()
+      }
       const truncatedAsset = truncateString(asset.asset)
       return (
         <tr key={asset.asset}>
@@ -52,7 +58,7 @@ class Balances extends Component {
             </span>
 
           </td>
-          <td className='bright-blue' >{normalizeTokens(asset.balance)}</td>
+          <td className='bright-blue' title={fullBalanceForTitle} >{normalizeTokens(asset.balance)}</td>
           <td className='align-right' >
             <Link className='button small' to={`/send-tx/${asset.asset}`} >Send</Link>
           </td>
