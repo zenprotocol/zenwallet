@@ -9,10 +9,12 @@ class ContractState {
   @observable fileName
   @observable dragDropText = dropTextPlaceholder
   @observable name
-  @observable code
   @observable hash
   @observable address
-  @observable numberOfBlocks
+  @observable code = ''
+  @observable numberOfBlocks = ''
+  @observable activationCost = ''
+  @observable blockAmountHasError = false
   @observable status
   @observable inprogress = false
   @observable errorMessage = ''
@@ -81,8 +83,10 @@ class ContractState {
     this.hash = ''
     this.address = ''
     this.numberOfBlocks = ''
+    this.activationCost = ''
     this.status = ''
     this.inprogress = false
+    this.blockAmountHasError = false
     this.errorMessage = ''
     this.acceptedFiles = []
     this.rejectedFiles = []

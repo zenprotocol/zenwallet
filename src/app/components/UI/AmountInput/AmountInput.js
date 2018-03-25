@@ -56,10 +56,12 @@ class AmountInput extends Component {
 
       if (regex.test(e.target.value)) {
         newAmount = e.target.value
-        this.setState({amount: newAmount}, function () {
-          this.validateAmount()
-        })
-        this.sendDataToParent(newAmount)
+        if (newAmount >= 1) {
+          this.setState({amount: newAmount}, function () {
+            this.validateAmount()
+          })
+          this.sendDataToParent(newAmount)
+        }
       }
 
       // const newAmount = parseFloat(e.target.value.trim().replace(/,/g, ''))
@@ -94,17 +96,18 @@ class AmountInput extends Component {
 	decreaseAmount() {
     const {amount} = this.state
     let newAmount
-    if (amount === undefined) {
-      newAmount = -1
-    } else {
-      newAmount = Number(amount) - 1
+
+    if (amount !== undefined) {
+      if (amount >= 1) {
+        newAmount = Number(amount) - 1
+        this.setState({amount: newAmount}, function () {
+          this.validateAmount()
+        })
+
+        this.sendDataToParent(newAmount)
+      }
     }
 
-    this.setState({amount: newAmount}, function () {
-      this.validateAmount()
-    })
-
-    this.sendDataToParent(newAmount)
 	}
 
   sendDataToParent(amount) {
@@ -122,24 +125,25 @@ class AmountInput extends Component {
 
   validateAmount() {
 		const {amount, assetIsValid, assetBalance} = this.state
+		const {hasError, errorMessage} = this.props
 
-    if (amount < 0) {
-      this.setState({amountIsInvalid: true})
-      this.setState({errorMessage: 'Amount must be above 0'})
-    } else {
-      if (assetIsValid && assetBalance > 0) {
-        const normalizedAssetBalance = assetBalance / 100000000
-        if (amount > normalizedAssetBalance) {
-          this.setState({
-            amountIsInvalid: true,
-            errorMessage: "You don't have that many tokens"
-          })
-        } else {
-          this.setState({amountIsInvalid: false})
-        }
-  		} else {
+    if (assetIsValid && assetBalance > 0) {
+      const normalizedAssetBalance = assetBalance / 100000000
+      if (amount > normalizedAssetBalance) {
+        this.setState({
+          amountIsInvalid: true,
+          errorMessage: "You don't have that many tokens"
+        })
+      } else {
         this.setState({amountIsInvalid: false})
-        this.setState({errorMessage: null})
+      }
+		} else {
+      if (hasError && errorMessage) {
+        this.setState({errorMessage: errorMessage})
+        this.setState({amountIsInvalid: true})
+      } else {
+        this.setState({amountIsInvalid: false})
+        this.setState({errorMessage: ''})
       }
     }
 
@@ -194,12 +198,8 @@ class AmountInput extends Component {
           />
           { this.renderMaxAmountDiv() }
           <Flexbox flexDirection='column' className='amountArrows'>
-            <div onClick={this.increaseAmount}>
-              <i className='fa fa-angle-up' />
-            </div>
-            <div onClick={this.decreaseAmount}>
-              <i className='fa fa-angle-down' />
-            </div>
+            <i className='fa fa-angle-up' onClick={this.increaseAmount} />
+            <i className='fa fa-angle-down' onClick={this.decreaseAmount}/>
           </Flexbox>
         </Flexbox>
         {this.renderErrorMessage()}

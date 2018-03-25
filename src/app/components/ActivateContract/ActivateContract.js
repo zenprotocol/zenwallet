@@ -15,6 +15,7 @@ import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 
 @inject('contract')
+@inject('balances')
 @observer
 class ActivateContract extends Component {
 	constructor() {
@@ -50,6 +51,7 @@ class ActivateContract extends Component {
 		if (acceptedFiles.length > 0) {
 			contract.fileName = head(acceptedFiles).name
 			contract.dragDropText = head(acceptedFiles).name
+			this.updateActivationCost()
 		}
 	}
 
@@ -62,12 +64,12 @@ class ActivateContract extends Component {
 	}
 
 	validateForm() {
-		const {name, acceptedFiles} = this.props.contract
-		return (acceptedFiles.length == 1 && !!name)
+		const {name, acceptedFiles, blockAmountHasError} = this.props.contract
+		return (!blockAmountHasError && acceptedFiles.length == 1 && !!name)
 	}
 
 	isSubmitButtonDisabled() {
-		const {inprogress, acceptedFiles} = this.props.contract
+		const {inprogress, acceptedFiles, blockAmountHasError} = this.props.contract
 		const formIsValid = this.validateForm()
 
 		if (formIsValid && inprogress) { return true }
@@ -154,13 +156,10 @@ class ActivateContract extends Component {
 		}
 	}
 
-
 	renderCostToActivate() {
 		const {contract} = this.props
-		const {code, acceptedFiles, numberOfBlocks} = contract
-		if (acceptedFiles.length == 1 && code && numberOfBlocks > 0) {
-			const activationCost = code.length * numberOfBlocks
-
+		const {code, acceptedFiles, numberOfBlocks, activationCost} = contract
+		if (acceptedFiles.length == 1 && code.length > 0 && numberOfBlocks > 0) {
 			let unitOfAccountText
 			if (activationCost > 1000000) {
 				unitOfAccountText = `${normalizeTokens(activationCost)} ZENP`
@@ -177,15 +176,32 @@ class ActivateContract extends Component {
 		}
 	}
 
+  updateActivationCost() {
+		const {contract, balances} = this.props
+		const {code, acceptedFiles, numberOfBlocks} = contract
+		if (acceptedFiles.length == 1 && code.length > 0 && numberOfBlocks > 0) {
+			contract.activationCost = code.length * numberOfBlocks
+			contract.blockAmountHasError = (contract.activationCost > balances.zen)
+		} else {
+      contract.activationCost = ''
+			contract.blockAmountHasError = false
+    }
+  }
+
+
 	// AMOUNT INPUT //
 
 	updateNumberOfBlocks = (data) => {
 		this.props.contract.numberOfBlocks = data.amount
+		this.updateActivationCost()
 	}
 
 
 	render() {
-		const {dragDropText, name, numberOfBlocks, status} = this.props.contract
+		const {
+			dragDropText, name, numberOfBlocks,
+			activationCost, status, blockAmountHasError
+		} = this.props.contract
 
 		let dropzoneRef
 
@@ -238,6 +254,9 @@ class ActivateContract extends Component {
 							</Flexbox>
 
 							<AmountInput
+								hasError={blockAmountHasError}
+								errorMessage="Insufficient funds for that many blocks"
+
 								normalize={false}
 								amount={numberOfBlocks}
 								status={status}

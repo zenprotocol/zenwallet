@@ -82,13 +82,13 @@ input[type=search],
 	}
 
 	.amountArrows {
-		padding: 3.5px 12px 0px 12px;
-		margin-top: 0.5px;
-		height: 30.5px;
+		height: 100%;
 		background: $dark-grey-2;
 		border-left: 1px solid $input-border-color;
 		border-radius: 0 2px 2px 0;
 		i.fa { color: $blue; }
+		i.fa.fa-angle-up { padding: 4px 11px 0px 11px; }
+		i.fa.fa-angle-down { padding: 0px 11px 5px 11px; }
 	}
 
 	input#amount {
@@ -115,7 +115,7 @@ input[type=search],
 
 .input-message {
 	text-transform: uppercase;
-	font-size: 13px;
+	font-size: 12px;
 	padding: 7px 3px;
 	letter-spacing: 0.4px;
 	color: $blue;
@@ -129,15 +129,16 @@ input[type=search],
 	position: relative;
 
 	.dropzone  {
+		background-color: $dark-grey-2;
 		p { display: inline; }
-		&.file-chosen { background-color: $dark-grey-2;}
+		// &.file-chosen {  }
 		&.active { border: 1px solid $blue; }
 	}
 
 	a.cancel-button {
 		position: absolute;
-		right: 127px;
-		padding: 10px 15px;
+		right: 141px;
+		padding: 12px 13px;
 		img { height: 11px; }
 	}
 

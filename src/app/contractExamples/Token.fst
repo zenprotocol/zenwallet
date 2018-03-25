@@ -1,3 +1,4 @@
+(* name:my best contract *)
 open Zen.Types
 open Zen.Vector
 open Zen.Base
@@ -49,4 +50,3 @@ let main txSkeleton contractHash command data returnAddress #l wallet =
         ET.autoFailw "unsupported command"
   | None ->
       ET.autoFailw "returnAddress is required"
-
