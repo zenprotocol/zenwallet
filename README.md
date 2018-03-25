@@ -1,19 +1,22 @@
 **Please note that the usage of the software is only permitted to anyone who purchased a license during the license sale period. [Sale Terms](https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf)
 
 
-# Tutorial videos:
-* [Installation/update](https://www.youtube.com/watch?v=tYtMcELj3T0)
+### Tutorial videos:
+* [Installation/Update](https://www.youtube.com/watch?v=tYtMcELj3T0)
 * [Claim and Send Tokens](https://www.youtube.com/watch?v=gHU3xg_5Dr8)
 * [Example Contract](https://www.youtube.com/watch?v=cjfr7zM2vhU)
 
-# Preparing Your Machine
+
+## Preparing Your Machine
+* Note that this a new network and no other versions will effect functionality.
 
 
 ## Linux
 
-1. Install [mono-devel](http://www.mono-project.com/download). If you choose to install via a package manager, add Mono's own repository first.
-2. Install lmdb. The package name is liblmdb0 on Ubuntu and lmdb on Fedora. `sudo apt install liblmdb0`
-3. Install Nodejs (Version >= 6)
+1. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+2. Install [mono-devel](http://www.mono-project.com/download). If you choose to install via a package manager, add Mono's own repository first.
+3. Install lmdb. The package name is liblmdb0 on Ubuntu and lmdb on Fedora. `sudo apt install liblmdb0`
+4. Install Nodejs (Version >= 6)
 - Recommended to install using [NVM](https://github.com/creationix/nvm#installation)
 - Recommended to install Node LTS (8.9.4) `nvm install 8.9.4`
 
@@ -24,9 +27,7 @@
 * Steps 2-3 require [brew] (https://www.dyclassroom.com/howto-mac/how-to-install-nodejs-and-npm-on-mac-using-homebrew)
 2. Open the **Terminal** (can be found from **search** bar)
 3. Install lmdb. Enter the command (in terminal) `brew install lmdb`.
-4. Install Nodejs (Version >= 6)
-- Recommended to install using [NVM](https://github.com/creationix/nvm#installation)
-- Recommended to install Node LTS (8.9.4) `nvm install 8.9.4`
+4. Install NodeJS. Enter the command (in terminal) `brew install node`.
 
 
 # Install/Update Wallet
@@ -41,22 +42,29 @@ npm install electron @zen/zen-wallet -g
 
 ## Step 2: Updating
 
-Run:
+Run the command:
 ```
 npm install @zen/zen-wallet -g
 ```
 
 ## Step 3: Running wallet and full node
 
-You can run `zen-wallet` from anywhere in your command line to start  up the wallet
+Run `zen-wallet` from anywhere in your command line (terminal) to start  up the wallet
 
-### **Running with arguments (recommended)
-When we launch a new testnet sometimes you will need to wipe your local database in order to sync.
+## Running with arguments
 
-Do this by running: `zen-wallet wipe`
+### Wipe (Clear Data)
+When we launch a new testnet sometimes you will need to wipe your local database in order to sync. Note that this will delete any data/tokens from the wallet.
 
-In order to run a node with a miner run the wallet with the `miner` argument like this: `zen-wallet miner`
-*Running with miner allows you to get Zen Tokens every time a new block is mined.
+You can do this by running: `zen-wallet --wipe`
+
+### Miner
+In order to run a node with a miner run the wallet with the `miner` argument like this: `zen-wallet --miner`
+*Running with miner allows you to get the block reward of Zen Tokens every time a new block is mined.
+
+### Headless
+1. Install the node (without GUI) by running the command `npm install @zen/zen-node -g`
+2. Type the command `zen-node`
 
 # Wallet Overview
 
