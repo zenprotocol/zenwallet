@@ -1,37 +1,38 @@
-@import "styles/Variables";
-
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 3px;
   color: $off-white;
   font-family: 'Roboto Mono', monospace;
-
-  th { color: $bright-grey; }
-  td { background: $dark-grey-2; }
-
-  tbody {
-    tr:hover { background: #242424; }
-  }
-
-  th, td { padding: 16px 19px; }
-
-  tr {
-    td.text { font-family: 'Source Sans Pro', sans-serif; }
-  }
 
   thead {
     font-family: 'Source Sans Pro', sans-serif;
     text-align: left;
+
+    tr { background: $table-row-hover; }
   }
 
+  th { color: $bright-grey; }
+
+  th, td { padding: 16px 19px; }
+
+  tr {
+    background: $dark-grey-2;
+    td.text { font-family: 'Source Sans Pro', sans-serif; }
+    &:hover { background: $table-row-hover; }
+    &.separator { height: 3px; }
+  }
+
+
   td.copyable {
-    min-width: 225px;
     i.fa-copy {
       display: none;
       cursor: pointer;
     }
     &:hover i.fa.fa-copy { display: inline-block; }
+  }
+
+  td.buttons {
+    i.fa { font-size: 12px; }
   }
 
 }

@@ -19,7 +19,8 @@ class ActiveContractSet extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      copyText: 'Copy'
+      copyText: 'Copy',
+      showCodeSnippetForContractAddress: ''
     }
     autobind(this)
   }
@@ -37,9 +38,18 @@ class ActiveContractSet extends Component {
     }, 1250)
   }
 
+  toggleCodeSnippet = (address) => {
+    const {showCodeSnippetForContractAddress} = this.state
+    if (showCodeSnippetForContractAddress === address) {
+      this.setState({showCodeSnippetForContractAddress: ''})
+    } else {
+      this.setState({showCodeSnippetForContractAddress: address})
+    }
+  }
+
   render() {
     const {activeContractSet} = this.props
-    const {copyText} = this.state
+    const {copyText, showCodeSnippetForContractAddress} = this.state
 
     const contractsWithNames = activeContractSet.contractsWithNames
     console.log('contractsWithNames', contractsWithNames)
@@ -49,51 +59,60 @@ class ActiveContractSet extends Component {
       let hash = truncateString(contract.contractHash)
       let address = truncateString(contract.address)
 
+      let codeSnippetClassNames, viewCodeButtonText
+      if (showCodeSnippetForContractAddress === contract.address) {
+        codeSnippetClassNames = 'code'
+        viewCodeButtonText = 'Hide Code'
+      } else {
+        codeSnippetClassNames = 'code display-none'
+        viewCodeButtonText = 'View Code'
+      }
+
       return (
         [
-          <tbody>
-            <tr key={contract.contractHash}>
-              <td className='text'>{contract.name}</td>
-              <td className='copyable'>
-                <span title={contract.contractHash} >{hash} </span>
-                <span
-                  onClick={()=>{this.copyToClipboard(contract.contractHash)}}
-                  data-balloon={copyText}
-                  data-balloon-pos='up'>
-                  <i className="fa fa-copy" ></i>
-                </span>
-              </td>
-              <td className='copyable'>
-                <span title={contract.address} >{address} </span>
-                <span
-                  onClick={()=>{this.copyToClipboard(contract.address)}}
-                  data-balloon={copyText}
-                  data-balloon-pos='up'>
-                  <i className="fa fa-copy" ></i>
-                </span>
-              </td>
-              <td>{contract.expire.toLocaleString()}</td>
-              <td className='align-right'>
-                <a href="#" className="button secondary small margin-right">
-                  <i className="fa fa-code"></i> View Code
-                </a>
-                <Link className='button small' to={`/run-contract/${contract.address}`} >
-                  <i className="fa fa-play"></i> Run
-                </Link>
-              </td>
-            </tr>
-          </tbody>,
-          <tbody className='code'>
-            <tr>
-              <td colspan="5">
-                <Flexbox flexDirection="column" className="contract-code form-row">
-                  <Highlight className='fsharp'>
-                    {contract.code}
-                  </Highlight>
-                </Flexbox>
-              </td>
-            </tr>
-          </tbody>
+          <tr key={contract.contractHash}>
+            <td className='text'>{contract.name}</td>
+            <td className='copyable'>
+              <span title={contract.contractHash} >{hash} </span>
+              <span
+                onClick={()=>{this.copyToClipboard(contract.contractHash)}}
+                data-balloon={copyText}
+                data-balloon-pos='up'>
+                <i className="fa fa-copy" ></i>
+              </span>
+            </td>
+            <td className='copyable'>
+              <span title={contract.address} >{address} </span>
+              <span
+                onClick={()=>{this.copyToClipboard(contract.address)}}
+                data-balloon={copyText}
+                data-balloon-pos='up'>
+                <i className="fa fa-copy" ></i>
+              </span>
+            </td>
+            <td>{contract.expire.toLocaleString()}</td>
+            <td className='align-right buttons'>
+              <a
+                onClick={()=>{this.toggleCodeSnippet(contract.address)}}
+                className="button secondary small margin-right"
+                >
+                <i className="fa fa-code"></i> {viewCodeButtonText}
+              </a>
+              <Link className='button small' to={`/run-contract/${contract.address}`} >
+                <i className="fa fa-play"></i> Run
+              </Link>
+            </td>
+          </tr>,
+          <tr className={codeSnippetClassNames}>
+            <td colSpan="5">
+              <Flexbox flexDirection="column" className="contract-code form-row">
+                <Highlight className='fsharp'>
+                  {contract.code}
+                </Highlight>
+              </Flexbox>
+            </td>
+          </tr>,
+          <tr className="separator" />
         ]
       )
 
@@ -130,8 +149,11 @@ class ActiveContractSet extends Component {
                   <th>Active Until Block</th>
                   <th className='align-right'>Actions</th>
                 </tr>
+                <tr className="separator" />
               </thead>
-              {activeContractsRows}
+              <tbody>
+                {activeContractsRows}
+              </tbody>
             </table>
           </Flexbox>
 

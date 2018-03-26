@@ -95,7 +95,7 @@ class Sidebar extends Component {
 
         <div className='menu'>
           <ul>
-            <li><NavLink exact activeClassName={'active'} to="/">Access Software</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/faucet">Access Software</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/portfolio">Portfolio</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/send-tx">Send</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/receive">Receive</NavLink></li>

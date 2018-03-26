@@ -1,0 +1,25 @@
+.active-contract-set-container {
+  .code {
+
+    pre {
+      height: auto;
+      max-height: 550px;
+    }
+
+    // position: static;
+    // opacity: 1;
+    // height: 200px;
+    //
+    // transition: height 500ms 0ms, opacity 500ms 500ms;
+    //
+    // &.non-visibal {
+    //   position: absolute;
+    //   transition: height 500ms 500ms, opacity 500ms 0ms;
+    //   opacity: 0;
+    //   height: 0px;
+    //
+    // }
+
+  }
+
+}
