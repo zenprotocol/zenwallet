@@ -6,6 +6,7 @@ import ContractMessage from './contract-message'
 import ActiveContractSetState from './acs-state'
 import NetworkState from './network-state'
 import RedeemTokensState from './redeem-tokens-state'
+import LoadingState from './loading-state'
 
 export default {
   balances: new BalancesState(),
@@ -15,5 +16,6 @@ export default {
 	contractMessage: new ContractMessage(),
   activeContractSet: new ActiveContractSetState(),
   networkState: new NetworkState(),
-  redeemTokensState: new RedeemTokensState()
+  redeemTokensState: new RedeemTokensState(),
+  loading: new LoadingState()
 }

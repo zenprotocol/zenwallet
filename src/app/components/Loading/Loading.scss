@@ -1,8 +1,13 @@
 .loading-container {
   text-align: center;
   align-content: center;
+  height: 100%;
+  background-color: $dark-grey;
 
-  .center { margin: auto; }
+  .center {
+    margin: auto;
+    min-height: 342px;
+  }
 
   img.zen-logo {
     width: 160px;
@@ -33,7 +38,7 @@
     letter-spacing: 0.2px;
     text-align: center;
     color: #808080;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
 
   img.loading-dots {

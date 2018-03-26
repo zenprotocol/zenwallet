@@ -178,6 +178,11 @@ class Faucet extends Component {
 		shell.openExternal(e.target.href)
 	}
 
+	onTermsLinkClick = (e) => {
+    e.preventDefault()
+		shell.openExternal(e.target.href)
+	}
+
 	render() {
 		const {pubkeyBase58, pubkeyError, pubkeyIsValid, inprogress} = this.props.redeemTokensState
 
@@ -186,8 +191,8 @@ class Faucet extends Component {
 		if (pubkeyIsValid) { pubkeyClassNames = classnames('is-valid', pubkeyClassNames) }
 
 		return (
-			<Layout className="send-tx">
-				<Flexbox flexDirection="column" className="send-tx-container">
+			<Layout className="faucet">
+				<Flexbox flexDirection="column" className="faucet-container">
 
 					<Flexbox flexDirection="column" className='page-title'>
 						<h1>Get Access to the Zen Protocol Software</h1>
@@ -229,6 +234,11 @@ class Faucet extends Component {
 									Paste
 								</button>
 							</Flexbox>
+						</Flexbox>
+						<Flexbox>
+							<h3 className='agree-to-terms'>
+								* By claiming your tokens you agree to the <a href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf" onClick={this.onTermsLinkClick}>Software License Terms</a>.
+							</h3>
 						</Flexbox>
 
 					</Flexbox>
