@@ -5,7 +5,7 @@ ul { list-style: none; }
 nav.sidebar {
   width: 251px;
   background: $grey;
-  border-right: 1px solid $dark-grey;
+  border-right: 1px solid $almost-black;
   font-family: 'Roboto', sans-serif;
 
   .logo {
@@ -15,14 +15,14 @@ nav.sidebar {
   }
 
   .menu {
-    height: calc(100% - (103px + 125px));
+    height: calc(100% - 238px);
     position: relative;
   }
 
   .network-status {
-    height: 85px;
+    height: 95px;
     padding: 20px;
-    border-top: 1px solid $dark-grey;
+    border-top: 1px solid $almost-black;
     font-size: 12px;
     font-weight: 300;
     line-height: 1.42;
@@ -45,29 +45,30 @@ nav.sidebar {
       position: relative;
       text-transform: uppercase;
       display: block;
-      padding: 15px 15px 17px 36px;
+      padding: 12px 12px 12px 36px;
       color: $bright-grey;
       text-decoration: none;
       line-height: 1.5rem;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 12px;
       letter-spacing: 0.7px;
+
+      &.active {
+        background: $light-grey;
+        color: $off-white;
+        font-weight: 500;
+        border-left: 4px solid $light-blue;
+        padding: 12px 15px 12px 32px;
+        box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.2);
+        width: 201px;
+      }
+
     }
 
     a:hover { color: $light-white; }
     a:focus {
       background: $light-grey;
-      width: 201px;
-    }
-
-    a.active {
-      background: $light-grey;
-      color: $off-white;
-      font-weight: 600;
-      border-left: 4px solid $light-blue;
-      padding: 15px 15px 17px 32px;
-      box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.2);
-      width: 201px;
+      width: 204px;
     }
 
     a:before {

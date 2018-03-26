@@ -45,24 +45,29 @@ class Balances extends Component {
       }
       const truncatedAsset = truncateString(asset.asset)
       return (
-        <tr key={asset.asset}>
-          <td className='align-left text' title={assetName} >{assetName}</td>
-          <td className='align-left copyable' title={asset.asset} >
+        [
+          <tr key={asset.asset}>
+            <td className='align-left text' title={assetName} >{assetName}</td>
+            <td className='align-left copyable' title={asset.asset} >
 
-            <span title={asset.asset} >{truncatedAsset} </span>
-            <span
-              onClick={()=>{this.copyToClipboard(asset.asset)}}
-              data-balloon={copyText}
-              data-balloon-pos='up'>
-              <i className="fa fa-copy" ></i>
-            </span>
+              <span title={asset.asset} >{truncatedAsset} </span>
+              <span
+                onClick={()=>{this.copyToClipboard(asset.asset)}}
+                data-balloon={copyText}
+                data-balloon-pos='up'>
+                <i className="fa fa-copy" ></i>
+              </span>
 
-          </td>
-          <td className='bright-blue' title={fullBalanceForTitle} >{normalizeTokens(asset.balance)}</td>
-          <td className='align-right' >
-            <Link className='button small' to={`/send-tx/${asset.asset}`} >Send</Link>
-          </td>
-        </tr>
+            </td>
+            <td className='bright-blue' title={fullBalanceForTitle} >{normalizeTokens(asset.balance)}</td>
+            <td className='align-right' >
+              <Link className='button small with-icon' to={`/send-tx/${asset.asset}`} title="Send Transaction">
+                <i className="fa fa-paper-plane"></i> <span className='button-text'>Send</span>
+              </Link>
+            </td>
+          </tr>,
+          <tr className="separator" />
+        ]
       )
     })
 
@@ -82,6 +87,7 @@ class Balances extends Component {
                 <th className='align-left'>Balance</th>
                 <th className='align-right'>Actions</th>
               </tr>
+              <tr className="separator" />
             </thead>
             <tbody>
               {balancesRows}

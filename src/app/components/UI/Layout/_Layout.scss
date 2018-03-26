@@ -4,7 +4,7 @@
 
 .page-title {
   padding-bottom: 10px;
-  padding: 16px 19px 37px 19px;
+  padding: 16px 0px 37px 19px;
 
   h1 {
     font-size: 28px;
@@ -22,4 +22,12 @@
 
   .page-buttons { padding-top: 16px; }
 
+}
+
+
+@media screen and (max-width: 1250px) {
+  a.button.with-icon {
+    min-width: auto;
+    .button-text { display: none; }
+  }
 }

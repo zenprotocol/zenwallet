@@ -52,7 +52,6 @@ class ActiveContractSet extends Component {
     const {copyText, showCodeSnippetForContractAddress} = this.state
 
     const contractsWithNames = activeContractSet.contractsWithNames
-    console.log('contractsWithNames', contractsWithNames)
 
     const activeContractsRows = contractsWithNames.map((contract) => {
 
@@ -94,12 +93,12 @@ class ActiveContractSet extends Component {
             <td className='align-right buttons'>
               <a
                 onClick={()=>{this.toggleCodeSnippet(contract.address)}}
-                className="button secondary small margin-right"
+                className="button secondary small margin-right code"
                 >
-                <i className="fa fa-code"></i> {viewCodeButtonText}
+                <i className="fa fa-code"></i> <span className='button-text'>{viewCodeButtonText}</span>
               </a>
-              <Link className='button small' to={`/run-contract/${contract.address}`} >
-                <i className="fa fa-play"></i> Run
+              <Link className='button small play' to={`/run-contract/${contract.address}`} >
+                <i className="fa fa-play"></i> <span className='button-text'>Run</span>
               </Link>
             </td>
           </tr>,
@@ -122,8 +121,8 @@ class ActiveContractSet extends Component {
       <Layout className="active-contract-set">
         <Flexbox flexDirection="column" className="active-contract-set-container">
 
-          <Flexbox flexDirection="row">
-            <Flexbox flexDirection="column" className='page-title'>
+          <Flexbox flexDirection="row" className='page-title'>
+            <Flexbox flexDirection="column">
               <h1>Explore Contracts - Active Contract Set</h1>
               <h3>
                 The active contract set (ACS) contains all the contracts which can directly affect the network.
@@ -133,8 +132,8 @@ class ActiveContractSet extends Component {
             </Flexbox>
             <Flexbox flexGrow={2}></Flexbox>
             <Flexbox flexGrow={1} justifyContent='flex-end' class-name='page-buttons'>
-              <Link className='button' to="/activate-contract">
-                Upload Contract
+              <Link className='button with-icon' to="/activate-contract" title="Upload Contract">
+                <i className="fa fa-cloud-upload"></i> <span className='button-text'>Upload Contract</span>
               </Link>
             </Flexbox>
           </Flexbox>

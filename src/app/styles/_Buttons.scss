@@ -40,7 +40,8 @@ button, .button, a.button {
   &.info {}
 
   &.small {
-    padding: 4px 14px 5px 14px;
+    font-size: 13px;
+    padding: 5px 14px;
     height: initial;
     width: initial;
     min-width: initial;
@@ -51,5 +52,9 @@ button, .button, a.button {
 }
 
 button {
-  &.small { padding: 5.5px 14px 5.5px 14px; }
+  &.small {
+    padding: 7px 14px;
+    position: relative;
+    top: -0.5px;
+  }
 }

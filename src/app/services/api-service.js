@@ -84,6 +84,11 @@ export async function getNetworkStatus() {
 	return response.data
 }
 
+export async function getNetworkConnections() {
+	const response = await get(`${serverAddress}/network/connections/count`)
+	return response.data
+}
+
 export async function getWalletExists() {
 	console.log("getWalletExists()")
 	const response = await get(`${serverAddress}/wallet/exists`)

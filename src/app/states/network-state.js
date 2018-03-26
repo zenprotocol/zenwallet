@@ -1,5 +1,5 @@
 import {observable, computed, action, runInAction} from 'mobx'
-import {getNetworkStatus} from '../services/api-service'
+import {getNetworkStatus, getNetworkConnections} from '../services/api-service'
 
 class NetworkState {
   @observable chain = ''
@@ -7,6 +7,7 @@ class NetworkState {
   @observable headers = 0
   @observable difficulty = 0
   @observable medianTime = 0
+  @observable connections = 0
 
   constructor()  {
     this.fetch = this.fetch.bind(this)
@@ -15,11 +16,12 @@ class NetworkState {
   @action
   begin() {
     this.fetch()
-    setInterval(this.fetch, 4000);
+    setInterval(this.fetch, 7500);
   }
 
   @action
   async fetch() {
+
     let result = await getNetworkStatus()
     runInAction(() => {
       this.chain = result.chain
@@ -28,6 +30,12 @@ class NetworkState {
       this.difficulty = result.difficulty
       this.medianTime = result.medianTime
     })
+
+    let networkConnectionsResult = await getNetworkConnections()
+    runInAction(() => {
+      this.connections = networkConnectionsResult
+    })
+
   }
 
 }

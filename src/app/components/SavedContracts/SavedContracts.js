@@ -60,31 +60,34 @@ class SavedContracts extends Component {
       let hash = truncateString(contract.hash)
 
       return (
-        <tr key={contract.hash}>
-          <td className='text'>{contract.name}</td>
-          <td className='copyable'>
-            <span title={contract.hash} >{hash} </span>
-            <span
-              onClick={()=>{this.copyToClipboard(contract.hash)}}
-              data-balloon={copyText}
-              data-balloon-pos='up'>
-              <i className="fa fa-copy" ></i>
-            </span>
-          </td>
-          <td className='copyable'>
-            <span title={contract.address} >{address} </span>
-            <span
-              onClick={()=>{this.copyToClipboard(contract.address)}}
-              data-balloon={copyText}
-              data-balloon-pos='up'>
-              <i className="fa fa-copy" ></i>
-            </span>
-          </td>
-          <td className='align-right'>
-            <Link className='button small margin-right' to={`/run-contract/${contract.address}`} >Run</Link>
-            <button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button>
-          </td>
-        </tr>
+        [
+          <tr key={contract.hash}>
+            <td className='text'>{contract.name}</td>
+            <td className='copyable'>
+              <span title={contract.hash} >{hash} </span>
+              <span
+                onClick={()=>{this.copyToClipboard(contract.hash)}}
+                data-balloon={copyText}
+                data-balloon-pos='up'>
+                <i className="fa fa-copy" ></i>
+              </span>
+            </td>
+            <td className='copyable'>
+              <span title={contract.address} >{address} </span>
+              <span
+                onClick={()=>{this.copyToClipboard(contract.address)}}
+                data-balloon={copyText}
+                data-balloon-pos='up'>
+                <i className="fa fa-copy" ></i>
+              </span>
+            </td>
+            <td className='align-right'>
+              <Link className='button small margin-right' to={`/run-contract/${contract.address}`} >Run</Link>
+              <button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button>
+            </td>
+          </tr>,
+          <tr className="separator" />
+        ]
       )
     })
 
@@ -111,6 +114,7 @@ class SavedContracts extends Component {
                   <th>Address</th>
                   <th className='align-right'>Actions</th>
                 </tr>
+                <tr className="separator" />
               </thead>
               <tbody>
                 {savedContracts}

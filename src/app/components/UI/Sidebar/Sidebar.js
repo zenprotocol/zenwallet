@@ -31,7 +31,7 @@ class Sidebar extends Component {
   }
 
   renderNetworkStatus() {
-    const {chain, blocks, headers, difficulty, medianTime} = this.props.networkState
+    const {chain, blocks, headers, difficulty, medianTime, connections} = this.props.networkState
 
     let blockchainTime
     let formattedBlockchainTime
@@ -71,6 +71,12 @@ class Sidebar extends Component {
             <span className='data-name' title='Median Time Past'>MTP: </span>
             <span className='data-point'>
               {formattedBlockchainTime}
+            </span>
+          </div>
+          <div className="network-data-point">
+            <span className='data-name' title='Connections'>Connections: </span>
+            <span className='data-point'>
+              {connections}
             </span>
           </div>
         </div>

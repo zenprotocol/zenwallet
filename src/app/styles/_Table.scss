@@ -8,18 +8,29 @@ table {
     font-family: 'Source Sans Pro', sans-serif;
     text-align: left;
 
-    tr { background: $table-row-hover; }
+    tr {
+      background: $table-row-hover;
+    }
+  }
+
+  tbody {
+
+    tr {
+      font-size: 0.85rem;
+    }
+
   }
 
   th { color: $bright-grey; }
 
   th, td { padding: 16px 19px; }
 
+
   tr {
     background: $dark-grey-2;
     td.text { font-family: 'Source Sans Pro', sans-serif; }
     &:hover { background: $table-row-hover; }
-    &.separator { height: 3px; }
+    &.separator { height: 2px; }
   }
 
 
@@ -46,4 +57,18 @@ span.value {
   color: $light-white;
   text-transform: uppercase;
   text-align: right;
+}
+
+
+@media screen and (max-width: 1250px) {
+  table {
+    tbody {
+      td.buttons {
+        span.button-text { display: none; }
+        i.fa { width: 0; }
+        .button.play { padding: 4px 19px 5px 11px; }
+        .button.code { padding: 4px 12px 5px 9px; }
+      }
+    }
+  }
 }
