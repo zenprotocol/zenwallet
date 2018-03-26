@@ -84,6 +84,24 @@ export async function getNetworkStatus() {
 	return response.data
 }
 
+export async function getWalletExists() {
+	console.log("getWalletExists()")
+	const response = await get(`${serverAddress}/wallet/exists`)
+	return response.data
+}
+
+export async function postImportWallet(secretPhraseArray) {
+	let data = {	"words" : secretPhraseArray }
+	const response = await post(`${serverAddress}/wallet/import`, data, {
+		headers: { 'Content-Type': 'application/json' }
+	})
+	return response.data
+}
+
+
+
+
+
 
 
 // CROWDSALE APIS //

@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'mobx-react'
 import {Router, Route, Switch} from 'react-router-dom'
-import {createMemoryHistory} from 'history'
+
+import history from './services/history'
 
 import Balances from './components/Balances/Balances'
 import SendTx from './components/SendTx/SendTx'
@@ -13,16 +14,10 @@ import SavedContracts from './components/SavedContracts/SavedContracts'
 import ActiveContractSet from './components/ActiveContractSet/ActiveContractSet'
 import Faucet from './components/Faucet/Faucet'
 
-
 import Loading from './components/Loading/Loading'
 import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
 
 import states from './states'
-
-const history = createMemoryHistory({
-  initialEntries: ['/'],
-  initialIndex: 0
-})
 
 ReactDOM.render(
   <Provider history={history} {...states}>
@@ -39,7 +34,7 @@ ReactDOM.render(
 
         <Route exact path="/loading" component={Loading} />
         <Route exact path="/secret-phrase" component={SecretPhrase} />
-        <Route exact path="/" component={Faucet} />
+        <Route exact path="/" component={Loading} />
       </Switch>
     </Router>
   </Provider>, document.getElementById('app')
