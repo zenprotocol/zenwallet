@@ -58,10 +58,10 @@ Run `zen-wallet` from anywhere in your command line (terminal) to start  up the 
 ### Wipe (Clear Data)
 When we launch a new testnet sometimes you will need to wipe your local database in order to sync. Note that this will delete any data/tokens from the wallet.
 
-You can do this by running: `zen-wallet --wipe`
+You can do this by running: `zen-wallet wipe`
 
 ### Miner
-In order to run a node with a miner run the wallet with the `miner` argument like this: `zen-wallet --miner`
+In order to run a node with a miner run the wallet with the `miner` argument like this: `zen-wallet miner`
 *Running with miner allows you to get the block reward of Zen Tokens every time a new block is mined.
 
 ### Headless

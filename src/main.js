@@ -23,14 +23,30 @@ contextMenu()
 app.on('ready', () => {
   console.log('process.argv', process.argv)
 
-  let args = process.argv.slice(2)
+  let args = []
 
-  console.log('process args', args)
+  if (process.argv.indexOf("wipe") > -1) {
+    args.push('--wipe')
+    console.log('WIPING DB')
+  } else {
+    console.log('NOT WIPING DB')
+  }
 
-  if (process.env.ZEN_LOCAL === 'L1')
-    args.push('-l1')
-  else if (process.env.ZEN_LOCAL === 'localhost')
-    args.push('--localhost')
+  if (process.argv.indexOf("miner") > -1) {
+    args.push('--miner')
+    console.log('RUNNING A MINER')
+  } else {
+    console.log('NOT RUNNING A MINER')
+  }
+
+  if (process.env.ZEN_LOCAL === 'L1') {
+		args.push('-l1')
+	}
+  if (process.env.ZEN_LOCAL === 'localhost') {
+		args.push('--localhost')
+	}
+
+	console.log('process args', args)
 
   let node
   if (process.env.NODE_ENV !== 'localnode') {
