@@ -42,7 +42,7 @@ class LoadingState {
       runInAction(() => {
         try {
           console.log('walletExistsResponse error.response', error.response)
-          this.go()
+          setTimeout(() => { this.go() }, 1000)
         } catch (e) {
           console.log('sendContractMessage catch e', e)
         }
@@ -55,8 +55,7 @@ class LoadingState {
   @action
   async createWallet() {
 
-    const newSecretPhrase = bip39.generateMnemonic(128).split(" ")
-
+    const newSecretPhrase = bip39.generateMnemonic(256).split(" ")
     console.log('Your new secret phrase. write it down. dont lose it.', newSecretPhrase)
 
     try {
