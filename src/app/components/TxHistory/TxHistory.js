@@ -62,7 +62,7 @@ class TxHistory extends Component {
             <CopyableTableCell string={tx.txHash} />
             {this.renderTransactionsCell(tx)}
           </tr>,
-          <tr className="separator" />
+          <tr key={`${tx.txHash}-separator`} className="separator" />
         ]
       )
     })

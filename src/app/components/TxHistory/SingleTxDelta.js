@@ -1,11 +1,9 @@
 import React,{Component} from 'react'
 import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
-import {truncateString, normalizeTokens} from '../../../utils/helpers'
+import {truncateString, normalizeTokens, isZenAsset} from '../../../utils/helpers'
 
 import CopyableTableCell from '../UI/CopyableTableCell'
-
-const zenAsset = '0000000000000000000000000000000000000000000000000000000000000000'
 
 class SingleTxDelta extends Component {
   constructor() {
@@ -15,15 +13,12 @@ class SingleTxDelta extends Component {
 
   render() {
     const {asset, assetType, amount} = this.props.tx
-    let assetName, finalAmount
+    let assetName
 
-    finalAmount = Math.abs(amount)
-    if (asset === zenAsset && assetType === zenAsset) {
+    if (isZenAsset(asset)) {
       assetName = 'ZENP'
-      finalAmount = normalizeTokens(finalAmount)  // / 100000000
-    } else {
-      finalAmount = finalAmount.toLocaleString()
     }
+    const finalAmount = normalizeTokens(amount, isZenAsset(asset))
 
     const truncatedHash = truncateString(asset)
     const amountClass = (finalAmount > 0 ? 'align-right green' : 'align-right red' )

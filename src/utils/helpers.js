@@ -8,12 +8,19 @@ export const truncateString = (string) => {
   }
 }
 
-export const normalizeTokens = (number) => {
+export const normalizeTokens = (number, isZen) => {
   if (Number.isInteger(number)) {
-    return (number / 100000000).toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+    number = Math.abs(number)
+    if (isZen) {
+      number = Math.floor((number / 100000000) * 100) / 100
+      number.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })
+    } else {
+      number = number.toLocaleString()
+    }
+    return number
   }
 }
 
@@ -28,4 +35,8 @@ export const validateAddress = (value) => {
     return false
   }
 
+}
+
+export const isZenAsset = (asset) => {
+  return (asset === '0000000000000000000000000000000000000000000000000000000000000000')
 }

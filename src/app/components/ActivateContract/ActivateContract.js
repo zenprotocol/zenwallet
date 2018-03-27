@@ -162,7 +162,7 @@ class ActivateContract extends Component {
 		if (acceptedFiles.length == 1 && code.length > 0 && numberOfBlocks > 0) {
 			let unitOfAccountText
 			if (activationCost > 1000000) {
-				unitOfAccountText = `${normalizeTokens(activationCost)} ZENP`
+				unitOfAccountText = `${normalizeTokens(activationCost, true)} ZENP`
 			} else {
 				unitOfAccountText = `${activationCost.toLocaleString()} Kalapas`
 			}

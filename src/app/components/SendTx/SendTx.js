@@ -106,7 +106,7 @@ class SendTx extends Component {
 
 	updateAmount = (data) => {
 		const {transaction} = this.props
-		transaction.amount = Math.floor(data.amount * 100000000)
+		transaction.amount = data.amount
 	}
 
 
@@ -244,7 +244,7 @@ class SendTx extends Component {
 	}
 
 	validateAmountField() {
-		const {amount, assetBalance, assetIsValid} = this.props.transaction
+		const {amount, assetBalance, assetIsValid, asset} = this.props.transaction
 		return (assetIsValid && amount <= assetBalance)
 	}
 

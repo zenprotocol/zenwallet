@@ -5,7 +5,7 @@ import {inject, observer} from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import classnames from 'classnames'
 
-import {truncateString, normalizeTokens} from '../../../../utils/helpers'
+import {truncateString, normalizeTokens, isZenAsset} from '../../../../utils/helpers'
 
 @inject('balances')
 @observer
@@ -24,7 +24,8 @@ class AmountInput extends Component {
     this.state = {
       amount: normalizedNumber,
       assetBalance: props.assetBalance,
-      assetIsValid: props.assetIsValid
+      assetIsValid: props.assetIsValid,
+      asset: props.asset
     }
 
     autobind(this)
@@ -40,7 +41,8 @@ class AmountInput extends Component {
     } else {
       this.setState({
         assetBalance: nextProps.assetBalance,
-        assetIsValid: nextProps.assetIsValid
+        assetIsValid: nextProps.assetIsValid,
+        asset: nextProps.asset
       }, function () {
         this.validateAmount()
       })
@@ -111,24 +113,34 @@ class AmountInput extends Component {
 	}
 
   sendDataToParent(amount) {
+    const {asset} = this.state
+    if (isZenAsset(asset)) {
+      amount = Math.floor(amount * 100000000)
+    }
     this.props.sendData({amount: amount})
   }
 
 	renderMaxAmountDiv() {
-		const {assetIsValid, assetBalance} = this.state
+		const {assetIsValid, assetBalance, asset} = this.state
+
     if (assetIsValid && assetBalance) {
       return (
-        <div className='maxSend'> / {normalizeTokens(assetBalance) }</div>
+        <div className='maxSend'> / {normalizeTokens(assetBalance, isZenAsset(asset)) }</div>
       )
     }
   }
 
   validateAmount() {
-		const {amount, assetIsValid, assetBalance} = this.state
+		const {amount, assetIsValid, assetBalance, asset} = this.state
 		const {hasError, errorMessage} = this.props
+    let normalizedAssetBalance
 
     if (assetIsValid && assetBalance > 0) {
-      const normalizedAssetBalance = assetBalance / 100000000
+      if (isZenAsset(asset)) {
+        normalizedAssetBalance = assetBalance / 100000000
+      } else {
+        normalizedAssetBalance = assetBalance
+      }
       if (amount > normalizedAssetBalance) {
         this.setState({
           amountIsInvalid: true,

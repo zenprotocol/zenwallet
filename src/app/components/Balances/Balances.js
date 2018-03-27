@@ -27,19 +27,26 @@ class Balances extends Component {
 
     const balancesRows = balances.assets.map(asset => {
       const assetName = balances.getAssetName(asset.asset)
-      let fullBalanceForTitle
+      let fullBalanceForTitle, finalNumber
+
       if (assetName == 'ZENP') {
         fullBalanceForTitle = `${asset.balance.toLocaleString()} Kalapas`
+        finalNumber = normalizeTokens(asset.balance, true)
       } else {
         fullBalanceForTitle = asset.balance.toLocaleString()
+        finalNumber = normalizeTokens(asset.balance, false)
       }
+
       const truncatedAsset = truncateString(asset.asset)
+
       return (
         [
           <tr key={asset.asset}>
             <td className='align-left text' title={assetName} >{assetName}</td>
             <CopyableTableCell string={asset.asset} />
-            <td className='bright-blue' title={fullBalanceForTitle} >{normalizeTokens(asset.balance)}</td>
+            <td className='bright-blue' title={fullBalanceForTitle} >
+              {finalNumber}
+            </td>
             <td className='align-right' >
               <Link className='button small with-icon' to={`/send-tx/${asset.asset}`} title="Send Transaction">
                 <i className="fa fa-paper-plane"></i> <span className='button-text'>Send</span>

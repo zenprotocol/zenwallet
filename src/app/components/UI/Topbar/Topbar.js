@@ -74,7 +74,7 @@ class Header extends Component {
             <span className="total-balance">Total Balance</span>
             <span className='zen-symbol'>ZENP</span>
           </div>
-          <div className='account-balance' title={`${balances.zen.toLocaleString()} Kalapas`} >{normalizeTokens(balances.zen)}</div>
+          <div className='account-balance' title={`${balances.zen.toLocaleString()} Kalapas`} >{normalizeTokens(balances.zen, true)}</div>
         </div>
       </Flexbox>
     )
