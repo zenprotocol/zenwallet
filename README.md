@@ -1,4 +1,4 @@
-**Please note that the usage of the software is only permitted to anyone who purchased a license during the license sale period. [Sale Terms](https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf)
+**Please note that the usage of the software is only permitted to anyone who purchased a license during the license sale period. [Sale Terms](https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf)**
 
 
 ### Tutorial videos:
@@ -32,11 +32,19 @@
 - Recommended to install Node LTS (8.9.4) `nvm install 8.9.4`
 
 
+
+## Windows
+
+1. Install [.NET Framework 4.7](https://www.microsoft.com/en-us/download/details.aspx?id=55167).
+2. [Install Nodejs](https://nodejs.org/en/download/) (LTS version recommended)
+3. Open the [Command Prompt](https://www.lifewire.com/how-to-open-command-prompt-2618089)
+
+
 # Install/Update Wallet
 
 ## Step 1: Installation
 
-Run the following command (terminal):
+Run the following commands in the Terminal / Command Prompt:
 ```
 npm config set @zen:registry https://www.myget.org/F/zenprotocol/npm/
 npm install electron @zen/zen-wallet -g
