@@ -79,6 +79,11 @@ export async function getActiveContractSet() {
 	return response.data
 }
 
+export async function getTxHistory() {
+	const response = await get(`${serverAddress}/wallet/transactions`)
+	return response.data
+}
+
 export async function getNetworkStatus() {
 	const response = await get(`${serverAddress}/blockchain/info`)
 	return response.data

@@ -14,11 +14,7 @@ table {
   }
 
   tbody {
-
-    tr {
-      font-size: 0.85rem;
-    }
-
+    tr { font-size: 0.85rem; }
   }
 
   th { color: $bright-grey; }
@@ -29,10 +25,16 @@ table {
   tr {
     background: $dark-grey-2;
     td.text { font-family: 'Source Sans Pro', sans-serif; }
-    &:hover { background: $table-row-hover; }
     &.separator { height: 2px; }
+
+    &:hover { background: $table-row-hover; }
   }
 
+  td {
+    td.multiple-inner-tx-deltas table tbody td {
+      background: green;
+    }
+  }
 
   td.copyable {
     min-width: 142px;
@@ -47,6 +49,10 @@ table {
   td.buttons {
     i.fa { font-size: 12px; }
   }
+
+  td.multiple-inner-tx-deltas { padding: 0; }
+
+  tr:hover td.multiple-inner-tx-deltas table tbody tr td { background: $table-row-hover; }
 
 }
 

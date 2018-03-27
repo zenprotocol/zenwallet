@@ -104,6 +104,7 @@ class Sidebar extends Component {
             <li><NavLink activeClassName={'active'} to="/portfolio">Portfolio</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/send-tx">Send</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/receive">Receive</NavLink></li>
+            <li><NavLink activeClassName={'active'} to="/tx-history">Transactions</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/acs">Explore Contracts</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/saved-contracts">My Saved Contracts</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/faucet">Access Software</NavLink></li>

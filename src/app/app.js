@@ -7,6 +7,7 @@ import history from './services/history'
 
 import Balances from './components/Balances/Balances'
 import SendTx from './components/SendTx/SendTx'
+import TxHistory from './components/TxHistory/TxHistory'
 import Receive from './components/Receive/Receive'
 import ActivateContract from './components/ActivateContract/ActivateContract'
 import RunContract from './components/RunContract/RunContract'
@@ -26,6 +27,7 @@ ReactDOM.render(
         <Route exact path="/portfolio" component={Balances} />
         <Route exact path="/receive" component={Receive} />
         <Route exact path="/send-tx/:assetHash?" component={SendTx} />
+        <Route exact path="/tx-history" component={TxHistory} />
         <Route exact path="/activate-contract" component={ActivateContract} />
         <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
         <Route exact path="/saved-contracts" component={SavedContracts} />
