@@ -1,5 +1,6 @@
 import {observable, action, runInAction} from 'mobx'
 import {getCheckCrowdsaleTokensEntitlement, postRedeemCrowdsaleTokens} from '../services/api-service'
+import db from '../services/store'
 
 class RedeemTokensState {
   @observable pubkeyBase64 = ''
@@ -61,6 +62,7 @@ class RedeemTokensState {
         this.redeemingTokens = false
         if (response.status == 'success') {
           console.log('postRedeemCrowdsaleTokens response.status', response.status)
+          db.set('config.alreadyRedeemedTokens', true).write()
           this.resetForm()
           this.status = response.status
           this.amountRedeemable = response.tokens_sent

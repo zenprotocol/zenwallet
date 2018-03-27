@@ -35,6 +35,8 @@ table {
 
 
   td.copyable {
+    min-width: 150px;
+    
     i.fa-copy {
       display: none;
       cursor: pointer;
