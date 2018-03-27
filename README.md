@@ -35,9 +35,10 @@
 
 ## Windows
 
-1. Install [.NET Framework 4.7](https://www.microsoft.com/en-us/download/details.aspx?id=55167).
-2. [Install Nodejs](https://nodejs.org/en/download/) (LTS version recommended)
-3. Open the [Command Prompt](https://www.lifewire.com/how-to-open-command-prompt-2618089)
+1. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+2. Install [.NET Framework 4.7](https://www.microsoft.com/en-us/download/details.aspx?id=55167).
+3. [Install Nodejs](https://nodejs.org/en/download/) (LTS version recommended)
+4. Open the [Command Prompt](https://www.lifewire.com/how-to-open-command-prompt-2618089)
 
 
 # Install/Update Wallet
