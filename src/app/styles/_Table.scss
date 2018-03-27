@@ -35,8 +35,7 @@ table {
 
 
   td.copyable {
-    min-width: 150px;
-    
+
     i.fa-copy {
       display: none;
       cursor: pointer;
@@ -62,7 +61,7 @@ span.value {
 }
 
 
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1255px) {
   table {
     tbody {
       td.buttons {
@@ -71,6 +70,9 @@ span.value {
         .button.play { padding: 4px 19px 5px 11px; }
         .button.code { padding: 4px 12px 5px 9px; }
       }
+        td.copyable {
+          min-width: 150px;
+        }
     }
   }
 }

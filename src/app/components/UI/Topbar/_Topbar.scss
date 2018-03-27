@@ -5,9 +5,10 @@
     background: $dark-grey;
 
 		.back-buttons {
-			padding: 34px 54px;
+			padding: 34px;
+
 			a {
-        line-height: 32px;
+        line-height: 29px;
         border: 1px solid #2b2b2c;
         border-radius: 2px 0 0 2px;
         width: 33px;
@@ -16,6 +17,8 @@
         color: $bright-grey;
         cursor: default;
         text-align: center;
+
+        i.fa { font-size: 25px; }
 
         &.forward-button {
           border-left: none;
