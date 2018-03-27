@@ -9,7 +9,11 @@ let argsArray = ['start']
 if (process.argv.indexOf('wipe') > -1) { argsArray.push('wipe') }
 if (process.argv.indexOf('miner') > -1) { argsArray.push('miner') }
 
-wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname,'../') });
+if (process.platform !== "win32") {
+  wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname,'../') });
+} else {
+  wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname,'../'), shell:true });
+}
 
 wallet.stdout.pipe(process.stdout);
 wallet.stderr.pipe(process.stderr);
