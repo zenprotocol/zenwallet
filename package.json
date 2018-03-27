@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.1.70",
+  "version": "0.1.71",
   "description": "Zen Wallet",
   "main": "dest/main.js",
   "bin": {
@@ -53,6 +53,7 @@
     "react-highlight": "briancappello/react-highlight#react-v16-compiled",
     "react-numeric-input": "^2.2.3",
     "react-router-dom": "^4.2.2",
+    "normalize.css": "^7.0.0",
     "sweetalert": "^2.1.0"
   },
   "devDependencies": {
@@ -68,8 +69,7 @@
     "gulp-babel": "^7.0.0",
     "gulp-sass": "^3.1.0",
     "mobx-react-devtools": "^4.2.15",
-    "node-sass": "^4.7.2",
-    "normalize.css": "^7.0.0"
+    "node-sass": "^4.7.2"
   },
   "files": [
     "bin/zen-wallet.js",
