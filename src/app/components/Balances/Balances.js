@@ -3,9 +3,11 @@ import {inject, observer} from 'mobx-react'
 import autobind from 'class-autobind'
 import {Link} from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import Layout from '../UI/Layout/Layout'
 import {truncateString, normalizeTokens} from '../../../utils/helpers'
 const {clipboard} = require('electron')
+
+import Layout from '../UI/Layout/Layout'
+import CopyableTableCell from '../UI/CopyableTableCell'
 
 @inject('balances')
 @observer
@@ -48,17 +50,7 @@ class Balances extends Component {
         [
           <tr key={asset.asset}>
             <td className='align-left text' title={assetName} >{assetName}</td>
-            <td className='align-left copyable' title={asset.asset} >
-
-              <span title={asset.asset} >{truncatedAsset} </span>
-              <span
-                onClick={()=>{this.copyToClipboard(asset.asset)}}
-                data-balloon={copyText}
-                data-balloon-pos='up'>
-                <i className="fa fa-copy" ></i>
-              </span>
-
-            </td>
+            <CopyableTableCell string={asset.asset} />
             <td className='bright-blue' title={fullBalanceForTitle} >{normalizeTokens(asset.balance)}</td>
             <td className='align-right' >
               <Link className='button small with-icon' to={`/send-tx/${asset.asset}`} title="Send Transaction">
