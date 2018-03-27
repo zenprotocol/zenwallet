@@ -56,7 +56,7 @@ class AmountInput extends Component {
 
       if (regex.test(e.target.value)) {
         newAmount = e.target.value
-        if (newAmount >= 1) {
+        if (newAmount >= 0) {
           this.setState({amount: newAmount}, function () {
             this.validateAmount()
           })
