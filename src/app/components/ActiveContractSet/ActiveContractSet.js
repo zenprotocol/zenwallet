@@ -19,7 +19,6 @@ class ActiveContractSet extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      copyText: 'Copy',
       showCodeSnippetForContractAddress: ''
     }
     autobind(this)
@@ -28,14 +27,6 @@ class ActiveContractSet extends Component {
   componentWillMount() {
     const {activeContractSet} = this.props
     activeContractSet.fetch()
-  }
-
-  copyToClipboard = (string) => {
-    clipboard.writeText(string)
-    this.setState({copyText: 'Copied to Clipboard'})
-    setTimeout(() => {
-      this.setState({copyText: 'Copy'})
-    }, 1250)
   }
 
   toggleCodeSnippet = (address) => {

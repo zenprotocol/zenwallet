@@ -14,9 +14,6 @@ import CopyableTableCell from '../UI/CopyableTableCell'
 class Balances extends Component {
   constructor() {
     super()
-    this.state = {
-      copyText: 'Copy'
-    }
     autobind(this)
   }
 
@@ -25,17 +22,8 @@ class Balances extends Component {
     balances.fetch()
   }
 
-  copyToClipboard = (string) => {
-    clipboard.writeText(string)
-    this.setState({copyText: 'Copied to Clipboard'})
-    setTimeout(() => {
-      this.setState({copyText: 'Copy'})
-    }, 1250)
-  }
-
   render() {
     const {balances} = this.props
-    const {copyText} = this.state
 
     const balancesRows = balances.assets.map(asset => {
       const assetName = balances.getAssetName(asset.asset)

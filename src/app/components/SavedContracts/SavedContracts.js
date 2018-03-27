@@ -7,6 +7,7 @@ import swal from 'sweetalert'
 const {clipboard} = require('electron')
 
 import Layout from '../UI/Layout/Layout'
+import CopyableTableCell from '../UI/CopyableTableCell'
 
 import db from '../../services/store'
 import {truncateString} from '../../../utils/helpers'
@@ -16,9 +17,6 @@ const contractList = db.get('savedContracts')
 class SavedContracts extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      copyText: 'Copy'
-    }
     autobind(this)
   }
 
@@ -43,16 +41,7 @@ class SavedContracts extends Component {
     })
   }
 
-  copyToClipboard = (string) => {
-    clipboard.writeText(string)
-    this.setState({copyText: 'Copied to Clipboard'})
-    setTimeout(() => {
-      this.setState({copyText: 'Copy'})
-    }, 1250)
-  }
-
   render() {
-    const {copyText} = this.state
     const listOfContracts = contractList.value()
     const savedContracts = listOfContracts.map((contract, index) => {
 
@@ -63,24 +52,8 @@ class SavedContracts extends Component {
         [
           <tr key={contract.hash}>
             <td className='text'>{contract.name}</td>
-            <td className='copyable'>
-              <span title={contract.hash} >{hash} </span>
-              <span
-                onClick={()=>{this.copyToClipboard(contract.hash)}}
-                data-balloon={copyText}
-                data-balloon-pos='up'>
-                <i className="fa fa-copy" ></i>
-              </span>
-            </td>
-            <td className='copyable'>
-              <span title={contract.address} >{address} </span>
-              <span
-                onClick={()=>{this.copyToClipboard(contract.address)}}
-                data-balloon={copyText}
-                data-balloon-pos='up'>
-                <i className="fa fa-copy" ></i>
-              </span>
-            </td>
+            <CopyableTableCell string={contract.hash} />
+            <CopyableTableCell string={contract.address} />
             <td className='align-right'>
               <Link className='button small margin-right' to={`/run-contract/${contract.address}`} >Run</Link>
               <button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button>

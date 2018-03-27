@@ -15,21 +15,12 @@ import SingleTxDelta from './SingleTxDelta'
 class TxHistory extends Component {
   constructor() {
     super()
-    this.state = { copyText: 'Copy' }
     autobind(this)
   }
 
   componentDidMount() {
     const {txhistory} = this.props
     txhistory.fetch()
-  }
-
-  copyToClipboard = (string) => {
-    clipboard.writeText(string)
-    this.setState({copyText: 'Copied to Clipboard'})
-    setTimeout(() => {
-      this.setState({copyText: 'Copy'})
-    }, 1250)
   }
 
   renderTransactionsCell(tx) {
@@ -62,7 +53,6 @@ class TxHistory extends Component {
 
   render() {
     const {txhistory} = this.props
-    const {copyText} = this.state
 
     const tableRows = txhistory.transactions.map(tx => {
       const truncatedHash = truncateString(tx.txHash)
@@ -88,9 +78,9 @@ class TxHistory extends Component {
           <table>
             <thead>
               <tr>
-                <th className='align-left'>Tx Hash</th>
-                <th className='align-left'>Asset</th>
-                <th className='align-left'>AssetType</th>
+                <th className='align-left'>Transaction Hash</th>
+                <th className='align-left'>Asset Hash</th>
+                <th className='align-left'>Asset Name</th>
                 <th className='align-right'>Amount</th>
               </tr>
               <tr className="separator" />

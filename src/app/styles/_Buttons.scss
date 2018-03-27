@@ -55,6 +55,8 @@ button {
   &.small {
     padding: 7px 14px;
     position: relative;
-    top: -0.5px;
+    top: -1px;
   }
 }
+
+.swal-button { padding: inherit !important; }
