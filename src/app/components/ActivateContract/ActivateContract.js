@@ -75,10 +75,8 @@ class ActivateContract extends Component {
 	}
 
 	addOrUpdateCodeComment(code, name) {		
-		const nameCodeCommentIsPresent = this.nameCodeCommentIsPresent(code)
-		console.log('nameCodeCommentIsPresent', nameCodeCommentIsPresent)
-
-		if (nameCodeCommentIsPresent) {
+		const nameCommentIsPresent = this.nameCommentIsPresent(code)
+		if (nameCommentIsPresent) {
 			const nameComment = `(* NAME_START:${name}:NAME_END *)`
 			const indexOfStart = code.indexOf("NAME_START:") - 3
 			const indexOfEnd = code.indexOf(":NAME_END") + 12
@@ -95,7 +93,7 @@ class ActivateContract extends Component {
 		}
 	}
 
-	nameCodeCommentIsPresent(code) {
+	nameCommentIsPresent(code) {
 		const startIsPresent = startRegex.test(code)
 		const endIsPresent = endRegex.test(code)
 		return (startIsPresent && endIsPresent)

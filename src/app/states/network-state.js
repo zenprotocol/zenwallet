@@ -16,7 +16,7 @@ class NetworkState {
   @action
   begin() {
     this.fetch()
-    setInterval(this.fetch, 7500);
+    setInterval(this.fetch, 10000);
   }
 
   @action

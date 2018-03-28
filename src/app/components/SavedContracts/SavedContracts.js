@@ -56,7 +56,7 @@ class SavedContracts extends Component {
             <CopyableTableCell string={contract.address} />
             <td className='align-right'>
               <Link className='button small margin-right' to={`/run-contract/${contract.address}`} >Run</Link>
-              <button className='small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</button>
+              <a className='button small alert' onClick={()=>{this.onDeleteClicked(contract.hash)}}>Delete</a>
             </td>
           </tr>,
           <tr className="separator" />
