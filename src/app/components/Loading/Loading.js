@@ -39,7 +39,7 @@ class Loading extends Component {
         <Flexbox flexDirection="column" className="center">
           <img className='zen-logo' src={zenLogoGif} alt="Zen Protocol Logo" />
           <h1>Welcome to Zen Protocol</h1>
-          <p>Loading, please wait a sec</p>
+          <p>Loading, please wait</p>
           <img className={loadingDotsClass} src={loadingGif} alt="Loading Gif" />
         </Flexbox>
       </Flexbox>
