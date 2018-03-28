@@ -32,13 +32,13 @@
 - Recommended to install Node LTS (8.9.4) `nvm install 8.9.4`
 
 
-
 ## Windows
 
 1. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Install [.NET Framework 4.7](https://www.microsoft.com/en-us/download/details.aspx?id=55167).
 3. [Install Nodejs](https://nodejs.org/en/download/) (LTS version recommended)
 4. Open the [Command Prompt](https://www.lifewire.com/how-to-open-command-prompt-2618089)
+
 
 
 # Install/Update Wallet
@@ -95,7 +95,6 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 3. Click Redeem tokens.
 4. Your testnet tokens will now be available in the *total balance* (top right) and **portfolio** tab (left panel).
 
-
 ## Receive Tokens (From Others)
 1. Click the **Receive** tab (left panel).
 2. Click on address or copy button
@@ -109,6 +108,13 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 * Tokens in portfolio are already hardcoded options.
 4. Enter *Amount* you want to send
 5. Click *Send* (blue)
+
+## Run Contract
+1. Choose a .fst contract file from your computer
+2. Give your contract a name
+* The name will get saved as a comment in your code - which other nodes in the network will be able to read.
+3. Choose how many blocks you would like to activate your contract for
+4. Click "Activate"
 
 
 # Example Contract
