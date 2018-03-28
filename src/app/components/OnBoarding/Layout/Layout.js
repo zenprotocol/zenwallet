@@ -13,8 +13,12 @@ class OnBoardingLayout extends Component {
   }
 
   render() {
+    const {hideSteps} = this.props
+
     const logoSrc = path.join(__dirname, '../../../assets/img/zen-logo.png')
     const classNames = classnames('onboarding-container', this.props.className)
+
+    const progressClassNames = (hideSteps ? 'progress-bar display-none' : 'progress-bar')
 
     return (
       <Flexbox flexDirection="column" className={classNames}>
@@ -23,7 +27,7 @@ class OnBoardingLayout extends Component {
             <img src={logoSrc} alt="Zen Protocol Logo"/>
           </Flexbox>
           <Flexbox flexGrow={1}></Flexbox>
-          <Flexbox flexGrow={0} className='progress-bar'>
+          <Flexbox flexGrow={0} className={progressClassNames} >
             <span>1</span>
             <span className="line"></span>
             <span>2</span>
