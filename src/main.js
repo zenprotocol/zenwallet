@@ -57,6 +57,11 @@ app.on('ready', () => {
     node = zenNode(args)
     node.stderr.pipe(process.stderr)
     node.stdout.pipe(process.stdout)
+    
+    node.on('exit', function (code) {
+	console.log('Closed');
+	app.quit();
+    }); 
   }
 
   let { width, height } = db.get('userPreferences').value()
@@ -87,7 +92,11 @@ app.on('ready', () => {
             label: 'Quit',
             accelerator: 'Command+Q',
             click() {
-              app.quit()
+                if (process.env.NODE_ENV !== 'localnode') {
+		    console.log('Sending SIGINT to Node');
+		    node.kill('SIGINT');
+		} else
+		    app.quit();
             }
           },
         ]
@@ -108,8 +117,19 @@ app.on('ready', () => {
 
     mainWindow.loadURL(`file://${__dirname}/app/index.html`)
 
+    app.on('window-all-closed', () => {
+	    if (process.env.NODE_ENV !== 'localnode') { 
+	        console.log('Sending SIGINT to Node');
+	        node.kill('SIGINT');
+	    } else
+		app.quit();
+    })
+
     mainWindow.on('closed', () => {
       mainWindow = null
-      if (process.env.NODE_ENV !== 'localnode') { node.kill() }
+    })
+
+    process.on('SIGINT', () => {
+	console.log('Please close zen-wallet by closing the window');    
     })
   })
