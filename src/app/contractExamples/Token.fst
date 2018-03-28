@@ -1,4 +1,4 @@
-(* name:my best contract *)
+(* NAME_START: my best contract :NAME_END *)
 open Zen.Types
 open Zen.Vector
 open Zen.Base

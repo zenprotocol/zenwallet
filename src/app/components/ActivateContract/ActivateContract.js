@@ -14,6 +14,9 @@ import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 
+const startRegex = /NAME_START:/
+const endRegex = /:NAME_END/
+
 @inject('contract')
 @inject('balances')
 @observer
@@ -38,10 +41,17 @@ class ActivateContract extends Component {
 			reader.onload = () => {
 				const fileAsBinaryString = reader.result
 				contract.code = fileAsBinaryString
+
+				const codeFromComment = this.getNamefromCodeComment(fileAsBinaryString)
+
+				if (codeFromComment) {
+					contract.name = codeFromComment
+				}
+
 			}
+
 			reader.onabort = () => console.log('file reading was aborted')
 			reader.onerror = () => console.log('file reading has failed')
-
 			reader.readAsBinaryString(file)
 		})
 
@@ -55,12 +65,59 @@ class ActivateContract extends Component {
 		}
 	}
 
-	onActivateContractClicked() {
-		const result = this.props.contract.activateContract()
-	}
 
 	onContractNameChanged(event) {
-		this.props.contract.name = event.target.value
+		const {contract} = this.props
+		contract.name = event.target.value
+		if (contract.acceptedFiles.length > 0 && contract.code) {
+			contract.code = this.addOrUpdateCodeComment(contract.code, event.target.value)
+		}
+	}
+
+	addOrUpdateCodeComment(code, name) {		
+		const nameCodeCommentIsPresent = this.nameCodeCommentIsPresent(code)
+		console.log('nameCodeCommentIsPresent', nameCodeCommentIsPresent)
+
+		if (nameCodeCommentIsPresent) {
+			const nameComment = `(* NAME_START:${name}:NAME_END *)`
+			const indexOfStart = code.indexOf("NAME_START:") - 3
+			const indexOfEnd = code.indexOf(":NAME_END") + 12
+			const length = indexOfEnd - indexOfStart
+			const stringToReplace = code.substr(indexOfStart, length)
+			console.log('stringToReplace', stringToReplace)
+			return code.replace(stringToReplace, nameComment)
+		} else {
+			const nameComment = `(* NAME_START:${name}:NAME_END *)` + "\n"
+			console.log('new nameComment', nameComment)
+			const newCode = nameComment + code
+			console.log('new nameComment', newCode)
+			return newCode
+		}
+	}
+
+	nameCodeCommentIsPresent(code) {
+		const startIsPresent = startRegex.test(code)
+		const endIsPresent = endRegex.test(code)
+		return (startIsPresent && endIsPresent)
+	}
+
+	getNamefromCodeComment(code) {
+		const startIsPresent = startRegex.test(code)
+		const endIsPresent = endRegex.test(code)
+
+		if (startIsPresent && endIsPresent) {
+			const indexOfStart = code.indexOf("NAME_START:") + 11
+			const indexOfEnd = code.indexOf(":NAME_END")
+			const length = indexOfEnd - indexOfStart
+			const name = code.substr(indexOfStart, length).trim()
+			return name
+		} else {
+			return false
+		}
+	}
+
+	onActivateContractClicked() {
+		const result = this.props.contract.activateContract()
 	}
 
 	validateForm() {

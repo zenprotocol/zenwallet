@@ -9,7 +9,7 @@ const {clipboard} = require('electron')
 import Layout from '../UI/Layout/Layout'
 
 import db from '../../services/store'
-import {truncateString} from '../../../utils/helpers'
+import {truncateString, getNamefromCodeComment} from '../../../utils/helpers'
 
 const contractList = db.get('savedContracts')
 
@@ -42,9 +42,7 @@ class ActiveContractSet extends Component {
     const {activeContractSet} = this.props
     const {copyText, showCodeSnippetForContractAddress} = this.state
 
-    const contractsWithNames = activeContractSet.contractsWithNames
-
-    const activeContractsRows = contractsWithNames.map((contract) => {
+    const activeContractsRows = activeContractSet.activeContracts.map((contract) => {
 
       let hash = truncateString(contract.contractHash)
       let address = truncateString(contract.address)
@@ -61,7 +59,7 @@ class ActiveContractSet extends Component {
       return (
         [
           <tr key={contract.contractHash}>
-            <td className='text'>{contract.name}</td>
+            <td className='text'>{getNamefromCodeComment(contract.code)}</td>
             <td className='copyable'>
               <span title={contract.contractHash} >{hash} </span>
               <span

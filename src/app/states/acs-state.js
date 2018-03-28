@@ -21,7 +21,6 @@ class ActiveContractSetState {
   get contractsWithNames() {
     const contractsWithNamesResult = this.activeContracts.map(activeContract => {
       const result = find(savedContracts, contract => contract.hash === activeContract.contractHash)
-      console.log('result', result)
       activeContract['name'] = (result === undefined ? '' : result.name)
       return activeContract
     })

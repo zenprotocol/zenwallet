@@ -40,3 +40,22 @@ export const validateAddress = (value) => {
 export const isZenAsset = (asset) => {
   return (asset === '0000000000000000000000000000000000000000000000000000000000000000')
 }
+
+
+export const getNamefromCodeComment = (code) => {
+  const startRegex = /NAME_START:/
+  const endRegex = /:NAME_END/
+
+  const startIsPresent = startRegex.test(code)
+  const endIsPresent = endRegex.test(code)
+
+  if (startIsPresent && endIsPresent) {
+    const indexOfStart = code.indexOf("NAME_START:") + 11
+    const indexOfEnd = code.indexOf(":NAME_END")
+    const length = indexOfEnd - indexOfStart
+    const name = code.substr(indexOfStart, length).trim()
+    return name
+  } else {
+    return false
+  }
+}
