@@ -1,0 +1,47 @@
+.import-create-wallet-container {
+  
+  .box {
+  	background-color: $dark-grey-2;
+  	padding: 33px;
+  	padding-bottom: 21px;
+  	width: 40%;
+  	text-align: center;
+  	position: relative;
+  	min-height: 260px;
+
+  	img {
+			margin: auto;
+			margin-bottom: 28px;
+			margin-top: 0px;
+			height: 63px;
+			width: 73px;
+  	}
+
+  	h5 {
+  		margin-bottom: 16px;
+  	}
+
+  	p {
+  		margin-bottom: 32px;
+  		color: $bright-grey;
+  		font-size: 15px;
+  		font-weight: 300;
+  		line-height: 1.33;
+  	}
+
+  	a.button {
+			width: 230px;
+			margin: 0 auto;
+			font-size: 15.5px;
+			padding: 16px;
+			line-height: 1;
+			height: auto;
+			width: 198px;
+			position: absolute;
+			left: 70px;
+			bottom: 21px;
+  	}
+
+  }
+
+}

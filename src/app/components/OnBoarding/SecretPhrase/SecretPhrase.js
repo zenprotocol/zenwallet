@@ -1,8 +1,10 @@
 import path from 'path'
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
+import bip39 from 'bip39'
 
 import OnBoardingLayout from '../Layout/Layout'
 
@@ -11,37 +13,28 @@ class SecretPhrase extends Component {
     super(props)
     this.state = {
       checked: false,
-      mnemonicPhrase: [
-        'orbit',  'fix',    'silver', 'nose',   'kind',   'ill',
-        'adjust', 'praise', 'mammal', 'stamp',  'pony',   'leg',
-        'manual', 'course', 'dinner', 'leader', 'mean',   'prepare',
-        'shadow', 'power',  'alien',  'delay',  'shadow', 'shallow'
-      ]
+      mnemonicPhrase: bip39.generateMnemonic(256).split(" ")
     }
     autobind(this)
   }
 
   onChange = (e) => {
     const {checked} = this.state
-    console.log('e.target.checked', e.target.checked)
     this.setState({checked: e.target.checked})
   }
 
-
   render() {
-    const {mnemonicPhrase, checked} = this.state
-    console.log('checked', checked)
+    const {checked, mnemonicPhrase} = this.state
+
     const logoSrc = path.join(__dirname, '../../assets/img/zen_logo_big_no_text.png')
     const loadingGif = path.join(__dirname, '../../assets/img/loading.gif')
 
     const mnemonicPhraseWords = mnemonicPhrase.map(word => {
-      return (
-        <li>{word}</li>
-      )
+      return (<li>{word}</li>)
     })
 
     return (
-      <OnBoardingLayout className="secret-phrase-container">
+      <OnBoardingLayout className="secret-phrase-container" progressStep={2}>
         <h1>Your mnemonic passphrase</h1>
         <h3>Write down the following words in cheonological order and save it in a safe place.</h3>
         <div className="devider"></div>
@@ -62,7 +55,7 @@ class SecretPhrase extends Component {
           </Flexbox>
           <Flexbox flexGrow={2}></Flexbox>
           <Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
-            <button className='secondary'>Cancel</button>
+          <Link className="button secondary" to="/import-or-create-wallet">Back</Link>
             <button className='button-on-right'>Next</button>
           </Flexbox>
         </Flexbox>

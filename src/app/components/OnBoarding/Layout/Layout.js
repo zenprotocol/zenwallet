@@ -13,28 +13,34 @@ class OnBoardingLayout extends Component {
   }
 
   render() {
-    const {hideSteps} = this.props
+    const {hideSteps, progressStep} = this.props
 
     const logoSrc = path.join(__dirname, '../../../assets/img/zen-logo.png')
     const classNames = classnames('onboarding-container', this.props.className)
 
     const progressClassNames = (hideSteps ? 'progress-bar display-none' : 'progress-bar')
 
+    const progressNumbers = [1,2,3,4].map(li => {
+      if (li === progressStep) {
+        return (<li className="active">{li}</li>)
+      } else {
+        return (<li>{li}</li>)
+      }
+    })
+
     return (
       <Flexbox flexDirection="column" className={classNames}>
         <Flexbox flexDirection="row" className="header">
           <Flexbox className='zen-logo' width="100px">
-            <img src={logoSrc} alt="Zen Protocol Logo"/>
+            <Link to="/">
+              <img src={logoSrc} alt="Zen Protocol Logo"/>
+            </Link>
           </Flexbox>
           <Flexbox flexGrow={1}></Flexbox>
           <Flexbox flexGrow={0} className={progressClassNames} >
-            <span>1</span>
-            <span className="line"></span>
-            <span>2</span>
-            <span className="line"></span>
-            <span>3</span>
-            <span className="line"></span>
-            <span>4</span>
+            <ul>
+              {progressNumbers}
+            </ul>  
           </Flexbox>
         </Flexbox>
         <Flexbox flexDirection="column" className="body">

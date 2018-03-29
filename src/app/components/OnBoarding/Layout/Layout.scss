@@ -3,10 +3,8 @@
   height: 100%;
   font-family: Roboto;
 
-  .body {
-    width: 770px;
-    margin: 50px auto;
-  }
+  .body { width: 770px; margin: 50px auto; }
+  .header { background: #181818; border-bottom: 1px solid $almost-black; }
 
   h1 {
     font-size: 28px;
@@ -52,6 +50,55 @@
 
   }
 
+  .progress-bar {
+
+    padding: 34px;
+
+    li {
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      border-radius: 100px;
+      font-weight: 500;
+      text-align: center;
+      margin: 0 17px;
+      display: inline-block;
+      color: white;
+      position: relative;
+      background: $blue;
+      border: 2px solid $blue;
+
+      &::before{
+        content: '';
+        position: absolute;
+        top: .9em;
+        left: -36px;
+        width: 34px;
+        height: 2px;
+        background: $blue;
+        z-index: 1;
+      }
+
+      &:first-child::before { display: none; }
+
+    }
+
+    .active {
+      background: transparent;
+      color: $blue;
+      border: 2px solid $blue;
+    }
+    .active ~ li {
+      background: transparent;
+      border: 2px solid #2a2a2b;
+      color: #2a2a2b;
+    }
+    .active ~ li::before {
+      background: #2a2a2b;
+    }
+
+  }
+
   .zen-logo img {
     width: 97px;
     height: 42px;
@@ -68,4 +115,8 @@
     margin-bottom: 35px;
   }  
 
+}
+
+.import-create-wallet-container {
+  .box {}
 }
