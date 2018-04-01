@@ -24,7 +24,14 @@ class SecretPhrase extends Component {
 
   componentWillMount() {
     const {secretPhraseState} = this.props
-    secretPhraseState.mnemonicPhrase = bip39.generateMnemonic(256).split(" ")
+
+    const mnemonicPhrase = bip39.generateMnemonic(256).split(" ")
+
+    const mnemonicPhraseWithStatuses = mnemonicPhrase.map(word => (
+      {word: word, status: ''}
+    ))
+
+    secretPhraseState.mnemonicPhrase = mnemonicPhraseWithStatuses
   }
 
   onChange = (e) => {
@@ -52,7 +59,7 @@ class SecretPhrase extends Component {
     const nextButtonClassNames = (checked ? 'button button-on-right' : 'button button-on-right disabled')
 
     const mnemonicPhraseWords = mnemonicPhrase.map(word => {
-      return (<li key={word}>{word}</li>)
+      return (<li key={word['word']}>{word['word']}</li>)
     })
 
     return (

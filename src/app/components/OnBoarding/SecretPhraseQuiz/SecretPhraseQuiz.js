@@ -15,41 +15,72 @@ class SecretPhraseQuiz extends Component {
     autobind(this)
   }
 
-  componentWillMount() {
-    const {mnemonicPhrase} = this.props.secretPhraseState
-    const mnemonicPhraseWithStatus = mnemonicPhrase.map(word => {
-      { 'word' : word },
-      { 'status' : '' }
-    })
-    this.setState
-  }
-
   onChange = (e) => {
+    const {mnemonicPhrase} = this.props.secretPhraseState
+
     const correctWord = e.target['name']
-    const inputString = e.target.value.trim()
+    const word = e.target.value.trim().toLowerCase()
+    const index = Number(e.target.getAttribute('data-index'))
 
-    correctWord.startsWith(inputString)
+    const arrayObject = mnemonicPhrase[index]
 
+    if (word.length > 0) {
+      if (correctWord.startsWith(word)) {
+        if (correctWord === word) {
+          arrayObject.status = 'perfect'
+          let ref, refIndex, refClass
+          refIndex = index+1
+          ref = this[`input${refIndex}`]
 
+          refClass = ref.getAttribute('class')
 
+          while (refClass == 'perfect') {
+            refIndex = refIndex + 1
+            ref = this[`input${refIndex}`]
+            refClass = ref.getAttribute('class')
+          }
 
-    console.log('onChange', e)
-    console.log('e.target', e.target)
-    console.log('e.target[name]', e.target['name'])
-    console.log('e.target.value', e.target.value)
+          if (ref) { ref.focus() }
+
+        } else {
+          arrayObject.status = 'valid'
+        }
+      } else {
+        arrayObject.status = 'invalid'
+      }
+    } else {
+      arrayObject.status = ''
+    }
+
+    this.forceUpdate()
   }
 
   render() {
     const {mnemonicPhrase} = this.props.secretPhraseState
 
-    const quizInputs = mnemonicPhrase.map(word => {
+    const statuses = mnemonicPhrase.map((word, i) => (word.status))
+    const isValid = statuses.every( (val, i, arr) => val === 'perfect' )
+
+    const quizInputs = mnemonicPhrase.map((word, i) => {
+
+      const finalWord = word.word
+
+      let iconClassNames = 'display-none'
+      if (word.status == 'perfect') { iconClassNames = 'fa fa-check' }
+      if (word.status == 'invalid') { iconClassNames = 'fa fa-times' }
+
       return (
-        <li key={word} className='inputWrapper'>
+        <li key={finalWord} className={word.status}>
           <input
             type="text"
-            name={word}
+            data-index={i}
+            name={finalWord}
             onChange={this.onChange}
+            className={word.status}
+            disabled={word.status=='perfect'}
+            ref={input => { this[`input${i}`] = input }}
           />
+          <i className={iconClassNames} />
         </li>
       )
     })
@@ -58,19 +89,25 @@ class SecretPhraseQuiz extends Component {
       <OnBoardingLayout className="secret-phrase-quiz-container" progressStep={3}>
         <h1>Verify Your Mnemonic Passphrase</h1>
         <h3>Please enter your 24 word secret phrase in the correct order</h3>
+
         <div className="devider after-title"></div>
 
         <ol className="passphrase-quiz">{quizInputs}</ol>
         <div className="devider before-buttons"></div>
 
         <Flexbox flexDirection="row">
-          <Flexbox flexGrow={1} flexDirection="row">
+          <Flexbox flexGrow={1} flexDirection="column">
             <p>Opps. I didn’t write my recovery phrase.</p>
             <Link to="/import-or-create-wallet">Create New Wallet</Link>
           </Flexbox>
           <Flexbox flexGrow={2}></Flexbox>
           <Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
-            <button className='button-on-right'>Continue</button>
+            <button
+              className='button-on-right'
+              disabled={!isValid}
+            >
+              Continue
+            </button>
           </Flexbox>
         </Flexbox>
 
