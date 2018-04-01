@@ -65,7 +65,6 @@ class ActivateContract extends Component {
 		}
 	}
 
-
 	onContractNameChanged(event) {
 		const {contract} = this.props
 		contract.name = event.target.value
