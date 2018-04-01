@@ -19,6 +19,7 @@ import Loading from './components/Loading/Loading'
 import WelcomeMessages from './components/OnBoarding/WelcomeMessages/WelcomeMessages'
 import ImportOrCreateWallet from './components/OnBoarding/ImportOrCreateWallet/ImportOrCreateWallet'
 import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
+import SecretPhraseQuiz from './components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz'
 
 import states from './states'
 
@@ -40,6 +41,7 @@ ReactDOM.render(
         <Route exact path="/welcome-messages" component={WelcomeMessages} />
         <Route exact path="/import-or-create-wallet" component={ImportOrCreateWallet} />
         <Route exact path="/secret-phrase" component={SecretPhrase} />
+        <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
         <Route exact path="/" component={Loading} />
       </Switch>
     </Router>

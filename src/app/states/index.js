@@ -7,6 +7,7 @@ import ContractMessage from './contract-message'
 import ActiveContractSetState from './acs-state'
 import NetworkState from './network-state'
 import RedeemTokensState from './redeem-tokens-state'
+import SecretPhraseState from './secret-phrase-state'
 import LoadingState from './loading-state'
 
 export default {
@@ -19,5 +20,6 @@ export default {
   activeContractSet: new ActiveContractSetState(),
   networkState: new NetworkState(),
   redeemTokensState: new RedeemTokensState(),
+  secretPhraseState: new SecretPhraseState(),
   loading: new LoadingState()
 }
