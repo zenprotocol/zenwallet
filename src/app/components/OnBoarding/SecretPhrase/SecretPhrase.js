@@ -6,7 +6,6 @@ import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
 import bip39 from 'bip39'
-
 import history from '../../../services/history'
 
 import OnBoardingLayout from '../Layout/Layout'

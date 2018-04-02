@@ -4,6 +4,7 @@ import {inject, observer} from 'mobx-react'
 import {Link} from 'react-router-dom'
 import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
+import history from '../../../services/history'
 
 import OnBoardingLayout from '../Layout/Layout'
 

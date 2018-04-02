@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
+import history from '../../../services/history'
 
 import OnBoardingLayout from '../Layout/Layout'
 
@@ -54,7 +55,12 @@ class WelcomeMessages extends Component {
   }
 
   onNextClicked() {
-    this.setState({currentPage: this.state.currentPage+1})
+    const nextPage = this.state.currentPage+1
+    if (nextPage == 4) {
+      history.push('/import-or-create-wallet')
+    } else {
+      this.setState({currentPage: nextPage})
+    }
   }
 
   onBackClicked() {
