@@ -114,8 +114,9 @@ class Sidebar extends Component {
             
             <li><NavLink activeClassName={'active'} to="/welcome-messages">Welcome Messages</NavLink></li>
             <li><NavLink activeClassName={'active'} to="/import-or-create-wallet">Import/Create Wallet</NavLink></li>
-            <li><NavLink activeClassName={'active'} to="/secret-phrase-quiz">Quiz</NavLink></li>
-            <li><NavLink activeClassName={'active'} to="/set-password">Set Password</NavLink></li>
+            
+            {/* <li><NavLink activeClassName={'active'} to="/secret-phrase-quiz">Quiz</NavLink></li> */}
+            {/* <li><NavLink activeClassName={'active'} to="/set-password">Set Password</NavLink></li> */}
 
             {/* <li><NavLink activeClassName={'active'} to="/secret-phrase">Secret Phrase</NavLink></li> */}
             {/* <li><NavLink activeClassName={'active'} to="/loading">Loading</NavLink></li> */}

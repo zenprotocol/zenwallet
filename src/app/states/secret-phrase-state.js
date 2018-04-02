@@ -3,7 +3,7 @@ import {observable, action} from 'mobx'
 class SecretPhraseState {
   mnemonicPhrase = observable.array([])
   @observable password = ''
-  @observable passwordConfirmation = ''
+  @observable autoLogoutMinutes = 30
   
 }
 

@@ -1,8 +1,12 @@
 @import "styles/Variables";
 
-button, .button, a.button {
-  height: 36px;
+button, .button, {
+  // height: 36px;
+  // line-height: 2.2rem;
+
+  padding: 14px;
   min-width: 125px;
+
   text-align: center;
   border-radius: 2px;
   color: white;
@@ -12,8 +16,6 @@ button, .button, a.button {
   cursor: pointer;
   text-decoration: none;
   background: $blue;
-  padding: 0 12px;
-  line-height: 2.2rem;
 
   i.fa.fa-spinner { margin-left: 6px; }
 

@@ -22,7 +22,13 @@
     color: $bright-grey;
   }
 
-  p.warning { text-transform: uppercase; color: $red; }
+  p {
+    font-weight: 300;
+    margin-bottom: 14px;
+    &.warning {
+      text-transform: uppercase; color: $red;
+    }
+  }
 
   .progress-bar {
 

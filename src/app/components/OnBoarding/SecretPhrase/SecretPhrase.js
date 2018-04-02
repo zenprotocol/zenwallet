@@ -28,7 +28,7 @@ class SecretPhrase extends Component {
     const mnemonicPhrase = bip39.generateMnemonic(256).split(" ")
 
     const mnemonicPhraseWithStatuses = mnemonicPhrase.map(word => (
-      {word: word, status: ''}
+      {word: word, status: '', userInput: ''}
     ))
 
     secretPhraseState.mnemonicPhrase = mnemonicPhraseWithStatuses

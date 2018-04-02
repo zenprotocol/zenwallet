@@ -24,42 +24,60 @@ class SecretPhraseQuiz extends Component {
 
     const arrayObject = mnemonicPhrase[index]
 
-    if (word.length > 0) {
-      if (correctWord.startsWith(word)) {
-        if (correctWord === word) {
-          arrayObject.status = 'perfect'
-          let ref, refIndex, refClass
-          refIndex = index+1
-          ref = this[`input${refIndex}`]
+    const validInput = (word.length == 0 || /^(.*[a-z].*)$/.test(word))
 
-          refClass = ref.getAttribute('class')
-
-          while (refClass == 'perfect') {
-            refIndex = refIndex + 1
+    if (validInput  ) {
+      arrayObject.userInput = word
+  
+      if (word.length > 0) {
+        if (correctWord.startsWith(word)) {
+          if (correctWord === word) {
+            arrayObject.status = 'perfect'
+            let ref, refIndex, refClass
+            refIndex = index+1
             ref = this[`input${refIndex}`]
-            refClass = ref.getAttribute('class')
+
+            if (ref) {
+              refClass = ref.getAttribute('class')
+              while (refClass == 'perfect') {
+                refIndex = refIndex + 1
+                ref = this[`input${refIndex}`]
+                refClass = ref.getAttribute('class')
+              }
+            }
+
+            if (ref) { ref.focus() }
+
+          } else {
+            arrayObject.status = 'valid'
           }
-
-          if (ref) { ref.focus() }
-
         } else {
-          arrayObject.status = 'valid'
+          arrayObject.status = 'invalid'
         }
       } else {
-        arrayObject.status = 'invalid'
+        arrayObject.status = ''
       }
-    } else {
-      arrayObject.status = ''
+
     }
 
     this.forceUpdate()
   }
 
+  validateQuiz() {
+    const {mnemonicPhrase} = this.props.secretPhraseState
+    const statuses = mnemonicPhrase.map((word, i) => (word.status))
+    return statuses.every( (val, i, arr) => val === 'perfect' )
+  }
+
+  onSubmitClicked() {
+    if (this.validateQuiz()) {
+      history.push('/set-password')
+    }
+  }
+
   render() {
     const {mnemonicPhrase} = this.props.secretPhraseState
-
-    const statuses = mnemonicPhrase.map((word, i) => (word.status))
-    const isValid = statuses.every( (val, i, arr) => val === 'perfect' )
+    const isValid = this.validateQuiz()
 
     const quizInputs = mnemonicPhrase.map((word, i) => {
 
@@ -77,6 +95,7 @@ class SecretPhraseQuiz extends Component {
             name={finalWord}
             onChange={this.onChange}
             className={word.status}
+            value={word.userInput}
             disabled={word.status=='perfect'}
             ref={input => { this[`input${i}`] = input }}
           />
@@ -96,7 +115,7 @@ class SecretPhraseQuiz extends Component {
         <div className="devider before-buttons"></div>
 
         <Flexbox flexDirection="row">
-          <Flexbox flexGrow={1} flexDirection="column">
+          <Flexbox className='oops' flexGrow={1} flexDirection="column">
             <p>Opps. I didn’t write my recovery phrase.</p>
             <Link to="/import-or-create-wallet">Create New Wallet</Link>
           </Flexbox>
@@ -104,6 +123,7 @@ class SecretPhraseQuiz extends Component {
           <Flexbox flexGrow={1} justifyContent='flex-end' flexDirection="row">
             <button
               className='button-on-right'
+              onClick={this.onSubmitClicked}
               disabled={!isValid}
             >
               Continue
