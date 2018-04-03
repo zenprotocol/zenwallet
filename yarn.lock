@@ -20,9 +20,9 @@
   version "15.6.11"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.6.11.tgz#c61440937ccf970446cb3ef77007b450ab1e2f91"
 
-"@zen/zen-node@0.1.35":
-  version "0.1.35"
-  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.35.tgz#cf7ee862fd26c00849623e27b40c3010faf2dace"
+"@zen/zen-node@0.1.36":
+  version "0.1.36"
+  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.36.tgz#56474e89ce178c71772902f0b873d621a108f56a"
 
 abbrev@1:
   version "1.1.1"
