@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import classnames from 'classnames'
+import history from '../../../services/history'
 
 import OnBoardingLayout from '../Layout/Layout'
 
@@ -85,6 +86,17 @@ class SetPassword extends Component {
     }
   }
 
+  validatePassword() {
+    const {passwordsMatch, validLength, validUpper, hasNumbers} = this.state
+    return (passwordsMatch == 'match' && validLength && validUpper && hasNumbers)
+  }
+
+  onSubmitClicked() {
+    if (this.validatePassword()) {
+      history.push('/terms-of-service')
+    }
+  }  
+
   render() {
     const {
       password, passwordConfirmation, passwordsMatch, inputType, 
@@ -92,8 +104,6 @@ class SetPassword extends Component {
     } = this.state
 
     const passwordIconClassNames = (inputType == 'password' ? 'fa fa-eye' : 'fa fa-eye-slash')
-
-    const submitButtonDisabled = !(passwordsMatch == 'match' && validLength && validUpper && hasNumbers)
 
     return (
       <OnBoardingLayout className="set-password-container" progressStep={4}>
@@ -186,7 +196,8 @@ class SetPassword extends Component {
             </Link>
             <button
               className="button-on-right"
-              disabled={submitButtonDisabled}
+              onClick={this.onSubmitClicked}
+              disabled={!this.validatePassword()}
             >
               Continue
             </button>

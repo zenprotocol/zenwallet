@@ -42,8 +42,6 @@ class SecretPhrase extends Component {
     const {checked} = this.state
     if (checked) {
       history.push('/secret-phrase-quiz')
-    } else {
-      return false
     }
   }
 
