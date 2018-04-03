@@ -20,7 +20,7 @@ class OnBoardingLayout extends Component {
 
     const progressClassNames = (hideSteps ? 'progress-bar display-none' : 'progress-bar')
 
-    const progressNumbers = [1,2,3,4].map(li => {
+    const progressNumbers = [1,2,3,4,5].map(li => {
       if (li === progressStep) {
         return (<li className="active">{li}</li>)
       } else {

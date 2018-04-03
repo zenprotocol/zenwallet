@@ -21,6 +21,7 @@ import ImportOrCreateWallet from './components/OnBoarding/ImportOrCreateWallet/I
 import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
 import SecretPhraseQuiz from './components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz'
 import SetPassword from './components/OnBoarding/SetPassword/SetPassword'
+import TermsOfService from './components/OnBoarding/TermsOfService/TermsOfService'
 
 import states from './states'
 
@@ -44,6 +45,7 @@ ReactDOM.render(
         <Route exact path="/secret-phrase" component={SecretPhrase} />
         <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
         <Route exact path="/set-password" component={SetPassword} />
+        <Route exact path="/terms-of-service" component={TermsOfService} />
         <Route exact path="/" component={Loading} />
       </Switch>
     </Router>

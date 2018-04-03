@@ -51,6 +51,6 @@ h5 { font-size: 18px; color: $light-white; font-weight: 300; }
   text-overflow: ellipsis;
 }
 
-.bold { font-weight: bold; }
+.bold { font-weight: 500 !important; }
 
 .display-none { display: none !important; }

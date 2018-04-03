@@ -1,0 +1,47 @@
+.terms-of-service-container {
+	.terms-of-service-content {
+		height: 375px;
+	  border-radius: 2px;
+	  overflow: auto;
+	  line-height: 1.1rem;
+	  font-size: 13px;
+
+		h1, p, span, ol, li {
+			font-size: 13px;
+			font-weight: 300;
+		}
+
+	  &::-webkit-resizer { background: transparent; }
+	  &::-webkit-scrollbar { width: 27px; }
+	  &::-webkit-scrollbar-track { background-color: transparent; }
+	  &::-webkit-scrollbar-corner { background: transparent; }
+	  &::-webkit-scrollbar-thumb {
+	    background-color: $button-grey;
+	    border-radius: 15px;
+	    border: 9px solid rgba(0, 0, 0, 0);
+	    background-clip: padding-box;
+	  }
+
+	  h1 {
+	  	margin-top: 5px;
+	  	font-size: 20px;
+	  }
+
+	  ol.list-of-terms {
+	  	list-style-position: inside;
+			list-style-type: decimal;
+			padding-left: 15px;
+			
+			li {margin-bottom: 15px; }
+	  }
+
+	  ol[type=a] {
+	  	list-style-position: inside;
+	  	padding-left: 15px;
+	  	padding-top: 15px;
+
+	  	li {margin-bottom: 15px; }
+	  }
+
+	}	
+}
