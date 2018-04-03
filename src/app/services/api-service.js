@@ -53,7 +53,12 @@ export async function postActivateContract(contract) {
 export async function postRunContractMessage(contractMessage) {
 	const {asset, assetType, to, amount, command, data} = contractMessage
 
-	let finaldata = {	"address" : to }
+	let finaldata = {
+		"address" : to,
+		"options": {
+			"returnAddress": true
+    }
+	}
 	if (command) { finaldata['command'] = command	}
 	if (data) { finaldata['data'] = data }
 
@@ -110,6 +115,7 @@ export async function postImportWallet(secretPhraseArray, secret) {
 		"words" : secretPhraseArray,
 		"key": secret
 	}
+	console.log('postImportWallet data', data)
 	const response = await post(`${serverAddress}/wallet/import`, data, {
 		headers: { 'Content-Type': 'application/json' }
 	})

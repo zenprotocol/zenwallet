@@ -33,7 +33,8 @@ class LoadingState {
             history.push('/faucet')
           }
         } else {
-          this.createWallet()
+          history.push('/welcome-messages')
+          // this.createWallet()
         }
 
       })

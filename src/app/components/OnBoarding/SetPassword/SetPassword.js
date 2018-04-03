@@ -92,7 +92,9 @@ class SetPassword extends Component {
   }
 
   onSubmitClicked() {
+    const {secretPhraseState} = this.props
     if (this.validatePassword()) {
+      secretPhraseState.importWallet()
       history.push('/terms-of-service')
     }
   }  
