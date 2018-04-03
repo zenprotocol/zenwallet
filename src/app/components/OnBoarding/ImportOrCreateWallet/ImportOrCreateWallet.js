@@ -40,13 +40,13 @@ class ImportOrCreateWallet extends Component {
         
           <Flexbox className='box import-wallet' flexDirection="column">
             <img src={importWalletImgSrc} />
-            <h5>Import New Wallet</h5>
+            <h5>Import Exisiting Wallet</h5>
             <p>If you already have a secret phrase you can simply import it and get access to all of your assets.</p>
-            <a className="button secondary">Import Wallet</a>
+            <Link className="button secondary" to="/secret-phrase">Import Wallet</Link>
+
           </Flexbox>
 
         </Flexbox>
-
 
       </OnBoardingLayout>
     )
