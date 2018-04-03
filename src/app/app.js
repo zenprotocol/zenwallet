@@ -18,6 +18,7 @@ import Faucet from './components/Faucet/Faucet'
 import Loading from './components/Loading/Loading'
 import WelcomeMessages from './components/OnBoarding/WelcomeMessages/WelcomeMessages'
 import ImportOrCreateWallet from './components/OnBoarding/ImportOrCreateWallet/ImportOrCreateWallet'
+import ImportWallet from './components/OnBoarding/ImportWallet/ImportWallet'
 import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
 import SecretPhraseQuiz from './components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz'
 import SetPassword from './components/OnBoarding/SetPassword/SetPassword'
@@ -42,6 +43,7 @@ ReactDOM.render(
         <Route exact path="/loading" component={Loading} />
         <Route exact path="/welcome-messages" component={WelcomeMessages} />
         <Route exact path="/import-or-create-wallet" component={ImportOrCreateWallet} />
+        <Route exact path="/import-wallet" component={ImportWallet} />
         <Route exact path="/secret-phrase" component={SecretPhrase} />
         <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
         <Route exact path="/set-password" component={SetPassword} />

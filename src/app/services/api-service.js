@@ -100,15 +100,29 @@ export async function getWalletExists() {
 	return response.data
 }
 
-export async function postImportWallet(secretPhraseArray) {
-	let data = {	"words" : secretPhraseArray }
+export async function getLockWallet() {
+	const response = await get(`${serverAddress}/wallet/lock`)
+	return response.data
+}
+
+export async function postImportWallet(secretPhraseArray, secret) {
+	let data = {
+		"words" : secretPhraseArray,
+		"key": secret
+	}
 	const response = await post(`${serverAddress}/wallet/import`, data, {
 		headers: { 'Content-Type': 'application/json' }
 	})
 	return response.data
 }
 
-
+export async function postUnlockWallet(secret) {
+	let data = { "key": secret }
+	const response = await post(`${serverAddress}/wallet/unlock`, data, {
+		headers: { 'Content-Type': 'application/json' }
+	})
+	return response.data
+}
 
 
 

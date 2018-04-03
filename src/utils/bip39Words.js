@@ -1982,7 +1982,7 @@ export default [
 'wasp',
 'waste',
 'water',
-'wave',
+'wave',	
 'way',
 'wealth',
 'weapon',

@@ -173,12 +173,7 @@ class Faucet extends Component {
 		}
 	}
 
-	onCrowdsaleLinkClick = (e) => {
-    e.preventDefault()
-		shell.openExternal(e.target.href)
-	}
-
-	onTermsLinkClick = (e) => {
+	onLinkClick = (e) => {
     e.preventDefault()
 		shell.openExternal(e.target.href)
 	}
@@ -201,7 +196,11 @@ class Faucet extends Component {
 							<br/>
 							If you didn't save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retreive it
 							<br/>
-							You can also retrieve it by visiting <a href="https://crowdsale.zenprotocol.com/create-wallet/complete" onClick={this.onCrowdsaleLinkClick}>this link</a> in the same browser you made your purchase from.
+							You can also retrieve it by visiting 
+							<a
+								href="https://crowdsale.zenprotocol.com/create-wallet/complete"
+								onClick={this.onLinkClick}
+							>this link</a> in the same browser you made your purchase from.
 						</h3>
 					</Flexbox>
 
@@ -237,7 +236,11 @@ class Faucet extends Component {
 						</Flexbox>
 						<Flexbox>
 							<h3 className='agree-to-terms'>
-								* By claiming your tokens you agree to the <a href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf" onClick={this.onTermsLinkClick}>Software License Terms</a>.
+								* By claiming your tokens you agree to the 
+								<a
+									href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf"
+									onClick={this.onLinkClick}
+								>Software License Terms</a>.
 							</h3>
 						</Flexbox>
 

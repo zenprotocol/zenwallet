@@ -1,6 +1,29 @@
 import bech32 from 'bech32'
+import bip39Words from './bip39Words'
 
 const validPrefixes = ['tc', 'zc', 'tp', 'zp']
+
+export const isValidBip39Word = (string) => {
+  if (string) {
+    for (let word of bip39Words) {
+      if (word.includes(string)) {
+        return true
+      }
+    }
+    return false;
+  }
+}
+
+export const isBip39Word = (string) => {
+  if (string) {
+    for (let word of bip39Words) {
+      if (word == string) {
+        return true
+      }
+    }
+    return false;
+  }
+}
 
 export const truncateString = (string) => {
   if (string) {
