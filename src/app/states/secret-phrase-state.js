@@ -1,5 +1,5 @@
 import {observable, action, runInAction} from 'mobx'
-import {postImportWallet} from '../services/api-service'
+import {postImportWallet, postWalletResync, postUnlockWallet} from '../services/api-service'
 
 class SecretPhraseState {
   mnemonicPhrase = observable.array([])
@@ -19,8 +19,6 @@ class SecretPhraseState {
 
       runInAction(() => {
         console.log('importWallet response', response)
-        this.password = ''
-        this.mnemonicPhrase.replace([])
       })
 
     } catch (error) {
@@ -29,6 +27,51 @@ class SecretPhraseState {
           console.log('importWallet error.response', error.response)
         } catch (e) {
           console.log('importWallet catch e', e)
+        }
+      })
+    }
+
+  }
+
+  @action
+  async unlockWallet() {
+
+    try {
+      const response = await postUnlockWallet(this.password)
+
+      runInAction(() => {
+        console.log('unlockWallet response', response)
+      })
+
+    } catch (error) {
+      runInAction(() => {
+        try {
+          console.log('unlockWallet error.response', error.response)
+        } catch (e) {
+          console.log('unlockWallet catch e', e)
+        }
+      })
+    }
+
+  }
+
+  @action
+  async resync() {
+    console.log('wallet resync')
+
+    try {
+      const response = await postWalletResync()
+
+      runInAction(() => {
+        console.log('resync response', response)
+      })
+
+    } catch (error) {
+      runInAction(() => {
+        try {
+          console.log('resync error.response', error.response)
+        } catch (e) {
+          console.log('resync catch e', e)
         }
       })
     }

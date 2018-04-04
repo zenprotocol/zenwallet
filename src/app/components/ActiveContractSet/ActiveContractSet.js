@@ -122,7 +122,7 @@ class ActiveContractSet extends Component {
             <Flexbox flexGrow={2}></Flexbox>
             <Flexbox flexGrow={1} justifyContent='flex-end' class-name='page-buttons'>
               <Link className='button with-icon' to="/activate-contract" title="Upload Contract">
-                <i className="fa fa-cloud-upload"></i> <span className='button-text'>Upload Contract</span>
+                <i className="fa fa-cloud-upload"></i> <span className='button-text'>Upload</span>
               </Link>
             </Flexbox>
           </Flexbox>

@@ -130,6 +130,14 @@ export async function postUnlockWallet(secret) {
 	return response.data
 }
 
+export async function postWalletResync() {
+	const response = await post(`${serverAddress}/wallet/resync`, {
+		headers: { 'Content-Type': 'application/json' }
+	})
+	return response.data
+}
+
+
 
 
 

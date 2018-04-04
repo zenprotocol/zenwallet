@@ -95,6 +95,12 @@ class SetPassword extends Component {
     const {secretPhraseState} = this.props
     if (this.validatePassword()) {
       secretPhraseState.importWallet()
+      secretPhraseState.resync()
+      secretPhraseState.unlockWallet()
+
+      secretPhraseState.mnemonicPhrase = []
+      secretPhraseState.password = ''
+
       history.push('/terms-of-service')
     }
   }  
