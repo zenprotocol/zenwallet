@@ -34,7 +34,7 @@ class SetPassword extends Component {
 
     this.setState({
       password: newValue,
-      validLength: (newValue.length > 5 && newValue.length < 13),
+      validLength: (newValue.length == 16),
       validUpper: /^(.*[A-Z].*)$/.test(newValue),
       hasNumbers: /^(.*\d.*)$/.test(newValue)
     }, () => {
@@ -123,7 +123,7 @@ class SetPassword extends Component {
               <ol>
                 <li>
                   <i className={validLength ? 'fa fa-check' : 'fa fa-times'} ></i>
-                  <span>6 to 12 characters</span>
+                  <span>Exactly 16 characters</span>
                 </li>
                 <li>
                   <i className={validUpper ? 'fa fa-check' : 'fa fa-times'} ></i>
