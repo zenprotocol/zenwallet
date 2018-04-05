@@ -7,6 +7,8 @@ import Flexbox from 'flexbox-react'
 
 import history from '../../services/history'
 
+@inject('loading')
+@observer
 class UnlockWallet extends Component {
   
   constructor(props) {
@@ -32,7 +34,8 @@ class UnlockWallet extends Component {
   }
 
   onSubmitClicked() {
-    return true
+		const {password} = this.state
+		this.props.loading.unlockWallet(password)
   }
 
   render() {
