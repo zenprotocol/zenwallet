@@ -1,0 +1,18 @@
+.loading-container {
+
+	.unlock-wallet {
+		.input-group.password, button.unlock {
+			margin-bottom: 36px;
+		}
+		button.unlock {
+			position: relative;
+
+			i.fa.fa-unlock {
+				position: absolute;
+				right: 10px;
+				top: 12px;
+			}
+		}
+	}
+
+}

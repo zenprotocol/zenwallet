@@ -16,6 +16,8 @@ import ActiveContractSet from './components/ActiveContractSet/ActiveContractSet'
 import Faucet from './components/Faucet/Faucet'
 
 import Loading from './components/Loading/Loading'
+import UnlockWallet from './components/UnlockWallet/UnlockWallet'
+
 import WelcomeMessages from './components/OnBoarding/WelcomeMessages/WelcomeMessages'
 import ImportOrCreateWallet from './components/OnBoarding/ImportOrCreateWallet/ImportOrCreateWallet'
 import ImportWallet from './components/OnBoarding/ImportWallet/ImportWallet'
@@ -41,6 +43,8 @@ ReactDOM.render(
         <Route exact path="/faucet" component={Faucet} />
 
         <Route exact path="/loading" component={Loading} />
+        <Route exact path="/unlock-wallet" component={UnlockWallet} />
+        
         <Route exact path="/welcome-messages" component={WelcomeMessages} />
         <Route exact path="/import-or-create-wallet" component={ImportOrCreateWallet} />
         <Route exact path="/import-wallet" component={ImportWallet} />

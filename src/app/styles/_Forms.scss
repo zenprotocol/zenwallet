@@ -305,7 +305,7 @@ label.checkbox {
   -ms-flex-align: stretch;
   align-items: stretch;
 
-  padding: 0.3px;
+  padding: 0.4px;
 
 	&.valid {
 		border: 1px solid $blue;
@@ -352,6 +352,15 @@ label.checkbox {
 		-ms-flex-align: center;
 		align-items: center;
 
+		&.show-password {
+			cursor: pointer;
+
+			i.fa {
+				&:hover { color: $light-white; }
+				&:focus { color: $off-white; }
+				&:active { color: $off-white; }
+			}			
+		}
 
 		&.with-background {
 			background: $dark-grey-2;
@@ -362,6 +371,7 @@ label.checkbox {
 			&:last-child { border: none; border-left: 1px solid $input-border-color; }
 		}
 	}
+
 
 }
 
