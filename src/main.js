@@ -3,6 +3,8 @@ import contextMenu from 'electron-context-menu'
 import zenNode from '@zen/zen-node'
 import db from './app/services/store'
 
+require('electron-reload')(__dirname)
+
 db.defaults({
   userPreferences: {
     width: 1200,
