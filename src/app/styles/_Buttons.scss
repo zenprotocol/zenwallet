@@ -1,10 +1,11 @@
 @import "styles/Variables";
 
+
+
 button, .button, {
   // height: 36px;
   // line-height: 2.2rem;
 
-  max-height: 36.5px;
   padding: 10px 20px;
   min-width: 100px;
 
@@ -56,12 +57,21 @@ button, .button, {
   &.margin-right { margin-right: 10px; }
 }
 
+
+.button {
+  max-height: 16.5px;
+}
+
 button {
+
+  max-height: none;
+
   &.small {
     padding: 7px 14px;
     position: relative;
     top: -1px;
   }
+
 }
 
 .swal-button { padding: inherit !important; }

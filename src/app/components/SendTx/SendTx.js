@@ -150,7 +150,7 @@ class SendTx extends Component {
 			          </Flexbox>
 
 								<button
-									className="button secondary button-on-right"
+									className="secondary button-on-right"
 									onClick={this.onPasteClicked}>
 									Paste
 								</button>

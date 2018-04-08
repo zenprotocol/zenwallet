@@ -1,10 +1,19 @@
 .onboarding-container {
   background: $dark-grey;
   height: 100%;
+  min-height: 610px;
   font-family: Roboto;
 
-  .body { width: 770px; margin: 50px auto; }
-  .header { background: #181818; border-bottom: 1px solid $almost-black; }
+  .body {
+    width: 770px;
+    margin: 50px auto;
+    min-height: 510px;
+  }
+
+  .header {
+    background: #181818;
+    border-bottom: 1px solid $almost-black;
+  }
 
   h1 {
     font-size: 28px;
