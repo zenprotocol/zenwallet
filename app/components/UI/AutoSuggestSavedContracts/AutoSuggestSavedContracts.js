@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
-import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import Autosuggest from 'react-autosuggest'
 import { clipboard } from 'electron'
@@ -13,18 +11,12 @@ import db from '../../../services/store'
 const savedContracts = db.get('savedContracts').value()
 
 class AutoSuggestSavedContracts extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      suggestionValue: '',
-      suggestions: [],
-      assetError: false,
-      isValid: false,
-      contractName: props.contractName
-    }
-
-    autobind(this)
+  state = {
+    suggestionValue: '',
+    suggestions: [],
+    assetError: false,
+    isValid: false,
+    contractName: this.props.contractName,
   }
 
   componentWillMount() {
@@ -58,7 +50,7 @@ class AutoSuggestSavedContracts extends Component {
     const { suggestionValue } = this.state
     this.setState({
       suggestionValue: suggestion.address,
-      contractName: suggestion.name
+      contractName: suggestion.name,
     })
     this.props.sendData(suggestion)
   }
@@ -101,7 +93,7 @@ class AutoSuggestSavedContracts extends Component {
       if (suggestions.length === 1) {
         this.setState({
           contractName: suggestions[0].name,
-          suggestionValue: suggestions[0].address
+          suggestionValue: suggestions[0].address,
         })
         this.props.sendData(suggestions[0])
       } else {
@@ -158,7 +150,7 @@ class AutoSuggestSavedContracts extends Component {
 
   render() {
     const {
-      suggestionValue, suggestions, assetError, isValid
+      suggestionValue, suggestions, assetError, isValid,
     } = this.state
     let classNames = (assetError ? 'full-width error' : 'full-width')
     if (isValid) { classNames = classnames('is-valid', classNames) }
@@ -170,7 +162,7 @@ class AutoSuggestSavedContracts extends Component {
       className: classNames,
       onChange: this.onChange,
       onBlur: this.onContractAddressBlur,
-      onFocus: this.onContractAddressFocus
+      onFocus: this.onContractAddressFocus,
     }
 
     return (

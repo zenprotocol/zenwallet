@@ -1,17 +1,11 @@
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
 
 class Footer extends Component {
-  constructor() {
-    super()
-    autobind(this)
-  }
-
     static propTypes = {
-      className: PropTypes.string
+      className: PropTypes.string,
     }
 
     render() {

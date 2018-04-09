@@ -38,7 +38,7 @@ class Sidebar extends Component {
 
   renderNetworkStatus() {
     const {
-      chain, blocks, headers, difficulty, connections
+      chain, blocks, headers, difficulty, connections,
     } = this.props.networkState
     if (blocks === 0) {
       return (

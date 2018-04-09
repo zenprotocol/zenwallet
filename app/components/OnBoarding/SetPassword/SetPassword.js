@@ -17,7 +17,7 @@ class SetPassword extends Component {
     passwordConfirmation: '',
     passwordsMatch: '',
     inputType: 'password',
-    autoLogoutMinutes: 30
+    autoLogoutMinutes: 30,
   }
 
   onPasswordChanged = (evt) => {
@@ -27,7 +27,7 @@ class SetPassword extends Component {
       password: newValue,
       validLength: (newValue.length === 16),
       validUpper: /^(.*[A-Z].*)$/.test(newValue),
-      hasNumbers: /^(.*\d.*)$/.test(newValue)
+      hasNumbers: /^(.*\d.*)$/.test(newValue),
     }, () => {
       this.validatePasswordConfirmation()
     })
@@ -35,7 +35,7 @@ class SetPassword extends Component {
 
   onPasswordConfirmationChanged = (evt) => {
     this.setState({
-      passwordConfirmation: evt.target.value.trim()
+      passwordConfirmation: evt.target.value.trim(),
     }, () => {
       this.validatePasswordConfirmation()
     })
@@ -78,7 +78,7 @@ class SetPassword extends Component {
 
   validatePassword() {
     const {
-      passwordsMatch, validLength, validUpper, hasNumbers
+      passwordsMatch, validLength, validUpper, hasNumbers,
     } = this.state
     return (passwordsMatch === 'match' && validLength && validUpper && hasNumbers)
   }
@@ -141,7 +141,7 @@ class SetPassword extends Component {
     render() {
       const {
         password, passwordConfirmation, passwordsMatch, inputType,
-        autoLogoutMinutes, validLength, validUpper, hasNumbers
+        autoLogoutMinutes, validLength, validUpper, hasNumbers,
       } = this.state
 
       const passwordIconClassNames = (inputType == 'password' ? 'fa fa-eye' : 'fa fa-eye-slash')

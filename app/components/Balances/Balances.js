@@ -19,7 +19,8 @@ class Balances extends Component {
 
     const balancesRows = balances.assets.map(asset => {
       const assetName = balances.getAssetName(asset.asset)
-      let fullBalanceForTitle, finalNumber
+      let fullBalanceForTitle,
+        finalNumber
       if (assetName === 'ZENP') {
         fullBalanceForTitle = `${asset.balance.toLocaleString()} Kalapas`
         finalNumber = normalizeTokens(asset.balance, true)
@@ -42,7 +43,7 @@ class Balances extends Component {
               </Link>
             </td>
           </tr>,
-          <tr className="separator" />
+          <tr className="separator" />,
         ]
       )
     })

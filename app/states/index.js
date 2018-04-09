@@ -21,5 +21,5 @@ export default {
   networkState: new NetworkState(),
   redeemTokensState: new RedeemTokensState(),
   secretPhraseState: new SecretPhraseState(),
-  loading: new LoadingState()
+  loading: new LoadingState(),
 }

@@ -10,8 +10,8 @@ const pageTexts = [
     img: 'image-source-blockchain.png',
     bullets: [
       'Zen wallet is a free, open source client interface',
-      'We allow you to interact with the blockchain while remaining in full control of your keys & your funds.'
-    ]
+      'We allow you to interact with the blockchain while remaining in full control of your keys & your funds.',
+    ],
   },
   {
     img: 'image-wallet.png',
@@ -19,8 +19,8 @@ const pageTexts = [
       'When creating a wallet on Zen Protocol you are generating a cryptographic set of words: your private key and your public key (address).',
       'If you send your public key (address) to someone, they can send you Zen or other assets.',
       'Never share your private key.',
-      'We do not store your private key. Make sure to keep it in a safe place.'
-    ]
+      'We do not store your private key. Make sure to keep it in a safe place.',
+    ],
   },
   {
     img: 'image-attention.png',
@@ -29,22 +29,22 @@ const pageTexts = [
       'No one can recover or change your private key.',
       'No one can change your password.',
       'No one can refund your transactions.',
-      'No one can freeze your accounts.'
-    ]
+      'No one can freeze your accounts.',
+    ],
   },
   {
     img: 'image-security.png',
     bullets: [
       'Keep your private key and password safe.',
       'Be aware of phishing websites or programs.',
-      'Make backup of your private key and password.'
-    ]
-  }
+      'Make backup of your private key and password.',
+    ],
+  },
 ]
 
 class WelcomeMessages extends Component {
   state = {
-    currentPage: 0
+    currentPage: 0,
   }
   onNextClicked = () => {
     const nextPage = this.state.currentPage + 1

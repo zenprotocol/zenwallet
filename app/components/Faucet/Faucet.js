@@ -74,7 +74,7 @@ class Faucet extends Component {
     const {
       anyOrders, alreadyRedeemed,
       amountRedeemable, inprogress,
-      redeemingTokens, pubkeyIsValid, pubkeyError
+      redeemingTokens, pubkeyIsValid, pubkeyError,
     } = this.props.redeemTokensState
 
     if (pubkeyIsValid && !inprogress) {
@@ -162,9 +162,9 @@ class Faucet extends Component {
     shell.openExternal(evt.target.href)
   }
 
-	render() {
+  render() {
 	  const {
-	    pubkeyBase58, pubkeyError, pubkeyIsValid, inprogress
+	    pubkeyBase58, pubkeyError, pubkeyIsValid, inprogress,
 	  } = this.props.redeemTokensState
 
 	  let pubkeyClassNames = ''
@@ -252,16 +252,16 @@ class Faucet extends Component {
     </Flexbox>
   </Layout>
 	  )
-	}
+  }
 
-	isRedeemable() {
+  isRedeemable() {
 	  const {
-	    anyOrders, alreadyRedeemed, amountRedeemable, pubkeyIsValid
+	    anyOrders, alreadyRedeemed, amountRedeemable, pubkeyIsValid,
 	  } = this.props.redeemTokensState
 	  return (pubkeyIsValid && anyOrders && !alreadyRedeemed && amountRedeemable > 0)
-	}
+  }
 
-	renderRedeemInnerButton() {
+  renderRedeemInnerButton() {
 	  const { inprogress, redeemingTokens } = this.props.redeemTokensState
 
 	  if (redeemingTokens) {
@@ -273,14 +273,14 @@ class Faucet extends Component {
 	    )
 	  }
 	  return 'Redeem Tokens'
-	}
+  }
 
-	isSubmitButtonDisabled() {
+  isSubmitButtonDisabled() {
 	  const { inprogress, redeemingTokens } = this.props.redeemTokensState
 
 	  if (redeemingTokens) { return true; }
 	  return !(this.isRedeemable() && !inprogress)
-	}
+  }
 }
 
 export default Faucet

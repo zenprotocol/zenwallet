@@ -194,7 +194,6 @@
     "bip39": "^2.5.0",
     "bs58": "^4.0.1",
     "bs58check": "^2.1.1",
-    "class-autobind": "^0.1.4",
     "classnames": "^2.2.5",
     "devtron": "^1.4.0",
     "electron-context-menu": "^0.9.1",

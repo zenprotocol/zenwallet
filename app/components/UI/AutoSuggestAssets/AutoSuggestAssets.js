@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
@@ -11,23 +10,16 @@ import { truncateString } from '../../../../utils/helpers'
 @inject('balances')
 @observer
 class AutoSuggestAssets extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      suggestionValue: '',
-      suggestionName: '',
-      suggestions: [],
-      assetError: false,
-      isValid: false,
-      chosenAssetName: props.assetName
-    }
-
-    autobind(this)
-  }
-
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+  }
+  state = {
+    suggestionValue: '',
+    suggestionName: '',
+    suggestions: [],
+    assetError: false,
+    isValid: false,
+    chosenAssetName: this.props.props.assetName,
   }
 
   componentDidMount() {
@@ -47,7 +39,7 @@ class AutoSuggestAssets extends Component {
     if (nextProps.status === 'success') {
       this.setState({
         suggestionValue: '',
-        chosenAssetName: ''
+        chosenAssetName: '',
       })
     }
   }
@@ -65,20 +57,18 @@ class AutoSuggestAssets extends Component {
 
     this.setState({
       suggestionValue: value,
-      chosenAssetName: suggestion.name
+      chosenAssetName: suggestion.name,
     })
     this.validateAssetStates(value)
   }
 
   onChange = (event, { newValue, method }) => {
-    const { suggestionValue } = this.state
     const value = newValue.trim()
-
     const userPressedUpOrDown = (method === 'down' || method === 'up')
     if (!userPressedUpOrDown) {
       this.setState({
         suggestionValue: value,
-        chosenAssetName: null
+        chosenAssetName: null,
       })
       this.validateAssetStates(value)
     }
@@ -108,12 +98,12 @@ class AutoSuggestAssets extends Component {
         asset: chosenAsset.asset,
         assetType: chosenAsset.assetType,
         assetIsValid: isValid,
-        assetName: chosenAsset.name
+        assetName: chosenAsset.name,
       })
     } else {
       this.props.sendData({
         assetIsValid: false,
-        assetName: ''
+        assetName: '',
       })
     }
   }
@@ -160,7 +150,7 @@ class AutoSuggestAssets extends Component {
 
   render() {
     const {
-      suggestionValue, suggestions, assetError, isValid, chosenAssetName
+      suggestionValue, suggestions, assetError, isValid,
     } = this.state
     let assetClassNames = (assetError ? 'full-width error' : 'full-width')
     if (isValid) { assetClassNames = classnames('is-valid', assetClassNames) }
@@ -172,7 +162,7 @@ class AutoSuggestAssets extends Component {
       className: assetClassNames,
       onChange: this.onChange,
       onBlur: this.onAssetBlur,
-      onFocus: this.onAssetFocus
+      onFocus: this.onAssetFocus,
     }
 
     return (

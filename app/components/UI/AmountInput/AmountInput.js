@@ -1,35 +1,19 @@
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import classnames from 'classnames'
 
-import { truncateString, normalizeTokens, isZenAsset } from '../../../../utils/helpers'
+import { normalizeTokens, isZenAsset } from '../../../../utils/helpers'
 
 @inject('balances')
 @observer
 class AmountInput extends Component {
-  constructor(props) {
-    super(props)
-
-    let normalizedNumber,
-      normalizeAssetBalance
-
-    if (props.amount > 0) {
-      normalizedNumber = (props.normalize ? props.amount / 100000000 : props.amount)
-    } else {
-      normalizedNumber = ''
-    }
-
-    this.state = {
-      amount: normalizedNumber,
-      assetBalance: props.assetBalance,
-      assetIsValid: props.assetIsValid,
-      asset: props.asset
-    }
-
-    autobind(this)
+  state = {
+    amount: this.initialAmountState(),
+    assetBalance: this.props.assetBalance,
+    assetIsValid: this.props.assetIsValid,
+    asset: this.props.asset,
   }
 
   componentDidMount() {
@@ -43,14 +27,20 @@ class AmountInput extends Component {
       this.setState({
         assetBalance: nextProps.assetBalance,
         assetIsValid: nextProps.assetIsValid,
-        asset: nextProps.asset
+        asset: nextProps.asset,
       }, function () {
         this.validateAmount()
       })
     }
   }
-
-  onChange(e) {
+  initialAmountState() {
+    const { amount, normalize } = this.props
+    if (amount > 0) {
+      return normalize ? (amount / 100000000) : amount
+    }
+    return ''
+  }
+  onChange = (e) => {
     const { amount } = this.state
     if (e.target.value) {
       const regex = /^[0-9\.]+$/
@@ -130,7 +120,7 @@ class AmountInput extends Component {
 
 	validateAmount() {
 	  const {
-	    amount, assetIsValid, assetBalance, asset
+	    amount, assetIsValid, assetBalance, asset,
 	  } = this.state
 	  const { hasError, errorMessage } = this.props
 	  let normalizedAssetBalance
@@ -144,7 +134,7 @@ class AmountInput extends Component {
 	    if (amount > normalizedAssetBalance) {
 	      this.setState({
 	        amountIsInvalid: true,
-	        errorMessage: "You don't have that many tokens"
+	        errorMessage: "You don't have that many tokens",
 	      })
 	    } else {
 	      this.setState({ amountIsInvalid: false })
@@ -170,12 +160,12 @@ class AmountInput extends Component {
 	  }
 	}
 
-	onFocus() { this.setState({ isFocused: true }) }
-	onBlur() { this.setState({ isFocused: false }) }
+	onFocus = () => this.setState({ isFocused: true })
+	onBlur = () => this.setState({ isFocused: false })
 
 	render() {
 	  const {
-	    amount, amountIsInvalid, assetIsValid, assetBalance, isFocused
+	    amount, amountIsInvalid, assetIsValid, isFocused,
 	  } = this.state
 	  const { label } = this.props
 

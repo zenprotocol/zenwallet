@@ -54,7 +54,7 @@ class RedeemTokensState {
       const response = await postRedeemCrowdsaleTokens({
         pubkey_base_64: this.pubkeyBase64,
         pubkey_base_58: this.pubkeyBase58,
-        wallet_public_address: this.walletPublicAddress
+        wallet_public_address: this.walletPublicAddress,
       })
       runInAction(() => {
         this.inprogress = false

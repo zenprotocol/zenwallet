@@ -127,7 +127,7 @@ class RunContract extends Component {
 	render() {
 	  const {
 	    to, status, contractName, command, amount, asset,
-	    assetName, assetIsValid, assetBalance, data, inprogress
+	    assetName, assetIsValid, assetBalance, data, inprogress,
 	  } = this.props.contractMessage
 
 	  return (

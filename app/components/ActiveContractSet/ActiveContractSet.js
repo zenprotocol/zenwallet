@@ -11,7 +11,7 @@ import { truncateString, getNamefromCodeComment } from '../../../utils/helpers'
 @observer
 class ActiveContractSet extends Component {
   state = {
-    showCodeSnippetForContractAddress: ''
+    showCodeSnippetForContractAddress: '',
   }
 
   componentWillMount() {
@@ -91,7 +91,7 @@ class ActiveContractSet extends Component {
               </Flexbox>
             </td>
           </tr>,
-          <tr className="separator" />
+          <tr className="separator" />,
         ]
       )
     })

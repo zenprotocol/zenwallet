@@ -8,7 +8,7 @@ render(
   <AppContainer>
     <App />
   </AppContainer>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 if (module.hot) {
@@ -18,7 +18,7 @@ if (module.hot) {
       <AppContainer>
         <NextApp />
       </AppContainer>,
-      document.getElementById('root')
+      document.getElementById('root'),
     );
   });
 }

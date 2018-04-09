@@ -1,22 +1,18 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
+
 import { normalizeTokens } from '../../../../utils/helpers'
 
 @inject('balances')
 @inject('history')
 @observer
 class Header extends Component {
-  constructor() {
-    super()
-    autobind(this)
-  }
 
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   componentDidMount() {
@@ -24,16 +20,14 @@ class Header extends Component {
     balances.begin()
   }
 
-  onBackClicked(event) {
-    const history = this.props.history
-    history.goBack()
-    event.preventDefault()
+  onBackClicked = (evt) => {
+    this.props.history.goBack()
+    evt.preventDefault()
   }
 
-  onForwardClicked(event) {
-    const history = this.props.history
-    history.goForward()
-    event.preventDefault()
+  onForwardClicked = (evt) => {
+    this.props.history.goForward()
+    evt.preventDefault()
   }
 
   renderBackButton() {

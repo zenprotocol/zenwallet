@@ -1,27 +1,18 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import autobind from 'class-autobind'
-import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import { truncateString, normalizeTokens } from '../../../utils/helpers'
 
-const { clipboard } = require('electron')
-
+import { truncateString } from '../../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
+
 import SingleTxDelta from './SingleTxDelta'
 
 @inject('txhistory')
 @observer
 class TxHistory extends Component {
-  constructor() {
-    super()
-    autobind(this)
-  }
-
   componentDidMount() {
-    const { txhistory } = this.props
-    txhistory.fetch()
+    this.props.txhistory.fetch()
   }
 
   renderTransactionsCell(tx) {
@@ -59,7 +50,7 @@ class TxHistory extends Component {
             <CopyableTableCell string={tx.txHash} />
             {this.renderTransactionsCell(tx)}
           </tr>,
-          <tr key={`${tx.txHash}-separator`} className="separator" />
+          <tr key={`${tx.txHash}-separator`} className="separator" />,
         ]
       )
     })

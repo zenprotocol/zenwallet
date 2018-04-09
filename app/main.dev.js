@@ -19,20 +19,20 @@ import MenuBuilder from './menu'
 db.defaults({
   userPreferences: {
     width: 1200,
-    height: 800
+    height: 800,
   },
   savedContracts: [
     {
       name: 'Jezreel Valley Adumim 2018 Red',
       hash: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',
-      address: 'tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7'
-    }
+      address: 'tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7',
+    },
   ],
   config: {
     alreadyRedeemedTokens: false,
     autoLogoutMinutes: 30,
-    miner: false
-  }
+    miner: false,
+  },
 }).write()
 
 let mainWindow = null
@@ -55,7 +55,7 @@ const installExtensions = async () => {
   const extensions = [
     'REACT_DEVELOPER_TOOLS',
     'REDUX_DEVTOOLS',
-    'MOBX_DEVTOOLS'
+    'MOBX_DEVTOOLS',
   ]
 
   return Promise
@@ -85,7 +85,7 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
-    height: 728
+    height: 728,
   })
 
   console.log('process.argv', process.argv)

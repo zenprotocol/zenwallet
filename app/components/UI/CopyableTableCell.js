@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
-import { truncateString, normalizeTokens } from '../../../utils/helpers'
+
+import { truncateString } from '../../../utils/helpers'
 
 const { clipboard } = require('electron')
 
 class CopyableTableCell extends Component {
-  constructor() {
-    super()
-    this.state = {
-      copyText: 'Copy'
-    }
-    autobind(this)
+  state = {
+    copyText: 'Copy',
   }
-
+  componentWillUnmount() {
+    clearTimeout(this.copyTimeout)
+  }
   copyToClipboard = (string) => {
     clipboard.writeText(string)
     this.setState({ copyText: 'Copied to Clipboard' })
-    setTimeout(() => {
+    this.copyTimeout = setTimeout(() => {
       this.setState({ copyText: 'Copy' })
     }, 1250)
   }

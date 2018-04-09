@@ -8,13 +8,13 @@ import { LOADING_GIF_SRC, LOGO_GIF_SRC } from '../../constants/imgSources'
 @observer
 class Loading extends Component {
   state = {
-    loadingDotsClass: 'loading-dots display-none'
+    loadingDotsClass: 'loading-dots display-none',
   }
 
   componentWillMount() {
     this.props.loading.load()
   }
-  
+
   componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ loadingDotsClass: 'loading-dots' })

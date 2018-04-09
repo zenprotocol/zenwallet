@@ -17,7 +17,7 @@ export async function getPublicAddress() {
 
 export async function postTransaction(tx) {
   const {
-    to, asset, assetType, amount
+    to, asset, assetType, amount,
   } = tx
 
   const data = {
@@ -25,12 +25,12 @@ export async function postTransaction(tx) {
     spend: {
       asset,
       assetType,
-      amount
-    }
+      amount,
+    },
   }
 
   const response = await post(`${serverAddress}/wallet/spend`, data, {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
 
   return response.data
@@ -39,13 +39,13 @@ export async function postTransaction(tx) {
 export async function postActivateContract(contract) {
   const data = {
     code: contract.code,
-    numberOfBlocks: contract.numberOfBlocks
+    numberOfBlocks: contract.numberOfBlocks,
   }
 
   console.log('postActivateContract data', data)
 
   const response = await post(`${serverAddress}/wallet/contract/activate`, data, {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
 
   return response.data
@@ -53,14 +53,14 @@ export async function postActivateContract(contract) {
 
 export async function postRunContractMessage(contractMessage) {
   const {
-    asset, assetType, to, amount, command, data
+    asset, assetType, to, amount, command, data,
   } = contractMessage
 
   const finaldata = {
     address: to,
     options: {
-      returnAddress: true
-    }
+      returnAddress: true,
+    },
   }
   if (command) { finaldata.command = command	}
   if (data) { finaldata.data = data }
@@ -70,13 +70,13 @@ export async function postRunContractMessage(contractMessage) {
       {
         asset,
         assetType,
-        amount
-      }
+        amount,
+      },
     ]
   }
 
   const response = await post(`${serverAddress}/wallet/contract/execute`, finaldata, {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
 
   return response.data
@@ -116,11 +116,11 @@ export async function getLockWallet() {
 export async function postImportWallet(secretPhraseArray, secret) {
   const data = {
     words: secretPhraseArray,
-    key: secret
+    key: secret,
   }
   console.log('postImportWallet data', data)
   const response = await post(`${serverAddress}/wallet/import`, data, {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
   return response.data
 }
@@ -128,14 +128,14 @@ export async function postImportWallet(secretPhraseArray, secret) {
 export async function postUnlockWallet(secret) {
   const data = { key: secret }
   const response = await post(`${serverAddress}/wallet/unlock`, data, {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
   return response.data
 }
 
 export async function postWalletResync() {
   const response = await post(`${serverAddress}/wallet/resync`, {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
   return response.data
 }
@@ -155,7 +155,7 @@ export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_
 
 export async function postRedeemCrowdsaleTokens(data) {
   const response = await post(`${crowdsaleServerAddress}/redeem_crowdsale_tokens`, data, {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
 
   return response.data

@@ -195,7 +195,7 @@ class ActivateContract extends Component {
   renderCostToActivate() {
     const { contract } = this.props
     const {
-      code, acceptedFiles, numberOfBlocks, activationCost
+      code, acceptedFiles, numberOfBlocks, activationCost,
     } = contract
     if (acceptedFiles.length === 1 && code.length > 0 && numberOfBlocks > 0) {
       let unitOfAccountText
@@ -238,7 +238,7 @@ class ActivateContract extends Component {
 	render() {
 	  const {
 	    dragDropText, name, numberOfBlocks,
-	    activationCost, status, blockAmountHasError
+	    activationCost, status, blockAmountHasError,
 	  } = this.props.contract
 
 	  let dropzoneRef

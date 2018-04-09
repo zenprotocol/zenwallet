@@ -66,7 +66,7 @@ class SendTx extends Component {
     const addressIsValid = validateAddress(value)
     this.setState({
       addressIsValid,
-      addressError: (value.length > 0 && !addressIsValid)
+      addressError: (value.length > 0 && !addressIsValid),
     })
   }
 
@@ -166,7 +166,7 @@ class SendTx extends Component {
   }
   render() {
     const {
-      to, asset, assetName, status, amount, assetIsValid, assetBalance
+      to, asset, assetName, status, amount, assetIsValid, assetBalance,
     } = this.props.transaction
     const { addressIsValid, addressError } = this.state
 

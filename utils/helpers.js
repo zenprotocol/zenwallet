@@ -38,7 +38,7 @@ export const normalizeTokens = (number, isZen) => {
       number = Math.floor((number / 100000000) * 100) / 100
       number.toLocaleString(undefined, {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       })
     } else {
       number = number.toLocaleString()

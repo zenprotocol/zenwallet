@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
 
 class FormResponseMessage extends Component {
-  constructor() {
-    super()
-    this.state = { showFormMessage: false }
-    autobind(this)
+  static propTypes = {
+    className: PropTypes.string,
+  }
+  state = {
+    showFormMessage: false,
   }
 
   componentWillMount() {
     this.setState({ showFormMessage: true })
-    setTimeout(() => {
+    this.formMsgTimeout = setTimeout(() => {
       this.setState({ showFormMessage: false })
     }, 15000);
   }
 
-  static propTypes = {
-    className: PropTypes.string
+  componentWillUnmount() {
+    clearTimeout(this.formMsgTimeout)
   }
 
   render() {

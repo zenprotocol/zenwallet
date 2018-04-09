@@ -14,7 +14,6 @@
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
-    "comma-dangle": "off",
     "generator-star-spacing": "off",
     "import/order": ["error", {"newlines-between": "always"}],
     "import/no-unresolved": "error",

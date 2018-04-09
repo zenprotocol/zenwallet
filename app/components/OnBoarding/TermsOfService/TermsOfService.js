@@ -10,7 +10,7 @@ import OnBoardingLayout from '../Layout/Layout'
 
 class TermsOfService extends Component {
   state = {
-    checked: false
+    checked: false,
   }
 
   onChange = (evt) => {

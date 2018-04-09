@@ -48,7 +48,7 @@ class ContractState {
           db.get('savedContracts').push({
             name: this.name,
             hash: response.hash,
-            address: response.address
+            address: response.address,
           }).write()
         }
 
