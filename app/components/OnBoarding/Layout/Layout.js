@@ -1,43 +1,45 @@
-import path from 'path'
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import _ from 'lodash'
+import cx from 'classnames'
+
+import { LOGO_SRC } from '../../../constants/imgSources'
 
 class OnBoardingLayout extends Component {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    hideSteps: PropTypes.boolean,
+    progressStep: PropTypes.number.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.node,
+    ]).isRequired,
   }
-
+  static defaultProps = {
+    className: '',
+    hideSteps: false,
+  }
+  renderProgressNumbers() {
+    return _.range(1, 6).map(n => (
+      <li className={cx({ active: n === this.props.progressStep })}>{n}</li>
+    ))
+  }
   render() {
-    const { hideSteps, progressStep } = this.props
-
-    const logoSrc = path.join(__dirname, '../../../assets/img/zen-logo.png')
-    const classNames = classnames('onboarding-container', this.props.className)
-
-    const progressClassNames = (hideSteps ? 'progress-bar display-none' : 'progress-bar')
-
-    const progressNumbers = [1, 2, 3, 4, 5].map(li => {
-      if (li === progressStep) {
-        return (<li className="active">{li}</li>)
-      }
-      return (<li>{li}</li>)
-    })
-
+    const { hideSteps, className } = this.props
     return (
-      <Flexbox flexDirection="column" className={classNames}>
+      <Flexbox flexDirection="column" className={`onboarding-container ${className}`}>
         <Flexbox flexDirection="row" className="header">
           <Flexbox className="zen-logo" width="100px">
             <Link to="/">
-              <img src={logoSrc} alt="Zen Protocol Logo" />
+              <img src={LOGO_SRC} alt="Zen Protocol Logo" />
             </Link>
           </Flexbox>
           <Flexbox flexGrow={1} />
-          <Flexbox flexGrow={0} className={progressClassNames} >
+          <Flexbox flexGrow={0} className={cx('progress-bar', { 'display-none': hideSteps })}>
             <ul>
-              {progressNumbers}
+              {this.renderProgressNumbers()}
             </ul>
           </Flexbox>
         </Flexbox>
