@@ -85,7 +85,7 @@
   "bugs": {
     "url": "https://gitlab.com/zenprotocol/zenwallet/issues"
   },
-  "homepage": "https://gitlab.com/zenprotocol/zenwallet#README",
+  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
   "keywords": [
     "electron",
     "boilerplate",
@@ -97,7 +97,6 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
@@ -168,6 +167,8 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.1.4",
     "minimist": "^1.2.0",
+    "mobx-devtools-mst": "^0.9.14",
+    "mobx-react-devtools": "^5.0.1",
     "node-sass": "^4.7.2",
     "npm-logical-tree": "^1.2.1",
     "react-test-renderer": "^16.2.0",

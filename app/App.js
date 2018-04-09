@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider } from 'mobx-react'
 import { Router, Route, Switch } from 'react-router-dom'
+import MobxDevTools from 'mobx-react-devtools'
 
 import history from './services/history'
 
@@ -30,33 +31,36 @@ import states from './states'
 export default class App extends React.Component {
   render() {
     return (
-      <Provider history={history} {...states}>
-        <Router history={history}>
-          <Switch>
-            <Route exact path="/portfolio" component={Balances} />
-            <Route exact path="/receive" component={Receive} />
-            <Route exact path="/send-tx/:assetHash?" component={SendTx} />
-            <Route exact path="/tx-history" component={TxHistory} />
-            <Route exact path="/activate-contract" component={ActivateContract} />
-            <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
-            <Route exact path="/saved-contracts" component={SavedContracts} />
-            <Route exact path="/acs" component={ActiveContractSet} />
-            <Route exact path="/faucet" component={Faucet} />
-
-            <Route exact path="/loading" component={Loading} />
-            <Route exact path="/unlock-wallet" component={UnlockWallet} />
-
-            <Route exact path="/welcome-messages" component={WelcomeMessages} />
-            <Route exact path="/import-or-create-wallet" component={ImportOrCreateWallet} />
-            <Route exact path="/import-wallet" component={ImportWallet} />
-            <Route exact path="/secret-phrase" component={SecretPhrase} />
-            <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
-            <Route exact path="/set-password" component={SetPassword} />
-            <Route exact path="/terms-of-service" component={TermsOfService} />
-            <Route exact path="/" component={Loading} />
-          </Switch>
-        </Router>
-      </Provider>
+      <React.Fragment>
+        <Provider history={history} {...states}>
+          <Router history={history}>
+            <Switch>
+              <Route exact path="/portfolio" component={Balances} />
+              <Route exact path="/receive" component={Receive} />
+              <Route exact path="/send-tx/:assetHash?" component={SendTx} />
+              <Route exact path="/tx-history" component={TxHistory} />
+              <Route exact path="/activate-contract" component={ActivateContract} />
+              <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
+              <Route exact path="/saved-contracts" component={SavedContracts} />
+              <Route exact path="/acs" component={ActiveContractSet} />
+              <Route exact path="/faucet" component={Faucet} />
+              
+              <Route exact path="/loading" component={Loading} />
+              <Route exact path="/unlock-wallet" component={UnlockWallet} />
+              
+              <Route exact path="/welcome-messages" component={WelcomeMessages} />
+              <Route exact path="/import-or-create-wallet" component={ImportOrCreateWallet} />
+              <Route exact path="/import-wallet" component={ImportWallet} />
+              <Route exact path="/secret-phrase" component={SecretPhrase} />
+              <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
+              <Route exact path="/set-password" component={SetPassword} />
+              <Route exact path="/terms-of-service" component={TermsOfService} />
+              <Route exact path="/" component={Loading} />
+            </Switch>
+          </Router>
+        </Provider>
+        <MobxDevTools />
+      </React.Fragment>
     )
   }
 }

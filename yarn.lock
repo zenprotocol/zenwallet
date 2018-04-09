@@ -6661,6 +6661,14 @@ mkdirp@0.5.0:
   dependencies:
     minimist "0.0.8"
 
+mobx-devtools-mst@^0.9.14:
+  version "0.9.14"
+  resolved "https://registry.yarnpkg.com/mobx-devtools-mst/-/mobx-devtools-mst-0.9.14.tgz#e203ebf686331f9ff016336599b81b1796d10339"
+
+mobx-react-devtools@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/mobx-react-devtools/-/mobx-react-devtools-5.0.1.tgz#9473c85929b2fc0c95086430419028cebd96fb3b"
+
 mobx-react@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.0.0.tgz#8d5a33be376fa22b184a6f555d40a6a3a8459a16"
