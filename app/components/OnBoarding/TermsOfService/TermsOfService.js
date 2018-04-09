@@ -1,7 +1,7 @@
-import path from 'path'
+/* eslint-disable react/no-unescaped-entities,max-len,no-irregular-whitespace */
+
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
 import history from '../../../services/history'
@@ -9,26 +9,16 @@ import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 
 class TermsOfService extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      checked: false
-    }
-    autobind(this)
+  state = {
+    checked: false
   }
 
-  onChange = (e) => {
-    const { checked } = this.state
-    this.setState({ checked: e.target.checked })
+  onChange = (evt) => {
+    this.setState({ checked: evt.target.checked })
   }
 
-  onNextClicked() {
-    const { checked } = this.state
-    if (checked) {
-      history.push('/portfolio')
-    } else {
-      return false
-    }
+  onNext = () => {
+    history.push('/portfolio')
   }
 
   render() {
@@ -491,7 +481,7 @@ class TermsOfService extends Component {
             <button
               disabled={!checked}
               className="button-on-right"
-              onClick={this.onNextClicked}
+              onClick={this.onNext}
             >
               Accept Terms
             </button>

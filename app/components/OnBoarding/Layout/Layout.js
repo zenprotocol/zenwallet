@@ -10,7 +10,7 @@ import { LOGO_SRC } from '../../../constants/imgSources'
 class OnBoardingLayout extends Component {
   static propTypes = {
     className: PropTypes.string,
-    hideSteps: PropTypes.boolean,
+    hideSteps: PropTypes.bool,
     progressStep: PropTypes.number.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.element,
@@ -23,7 +23,7 @@ class OnBoardingLayout extends Component {
   }
   renderProgressNumbers() {
     return _.range(1, 6).map(n => (
-      <li className={cx({ active: n === this.props.progressStep })}>{n}</li>
+      <li key={n} className={cx({ active: n === this.props.progressStep })}>{n}</li>
     ))
   }
   render() {

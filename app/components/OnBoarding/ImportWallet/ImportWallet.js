@@ -1,39 +1,27 @@
-import path from 'path'
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Link } from 'react-router-dom'
-import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
+
 import history from '../../../services/history'
 import { isValidBip39Word, isBip39Word } from '../../../../utils/helpers'
-
 import OnBoardingLayout from '../Layout/Layout'
 
-const shell = require('electron').shell
-
+const { shell } = require('electron')
 
 @inject('secretPhraseState')
 @observer
 class ImportWallet extends Component {
-  constructor(props) {
-    super(props)
-    autobind(this)
-  }
-
   componentWillMount() {
     const { secretPhraseState } = this.props
-    secretPhraseState.mnemonicPhrase = [...Array(24).keys()].map(word => (
+    secretPhraseState.mnemonicPhrase = [...Array(24).keys()].map(() => (
       { word: '', status: '' }
     ))
   }
 
-  onChange = (e) => {
-    const { mnemonicPhrase } = this.props.secretPhraseState
-    const index = Number(e.target.getAttribute('data-index'))
-
-    const newWord = e.target.value.trim().toLowerCase()
-
-    const object = mnemonicPhrase[index]
+  onChange = (evt) => {
+    const index = Number(evt.target.getAttribute('data-index'))
+    const newWord = evt.target.value.trim().toLowerCase()
+    const object = this.props.secretPhraseState.mnemonicPhrase[index]
     object.word = newWord
 
     object.status = ''
@@ -47,16 +35,16 @@ class ImportWallet extends Component {
 
   validateSecretPhrase() {
     const { mnemonicPhrase } = this.props.secretPhraseState
-    const statuses = mnemonicPhrase.map((word, i) => (word.status))
-    return statuses.every((val, i, arr) => val === 'perfect')
+    const statuses = mnemonicPhrase.map(word => word.status)
+    return statuses.every(val => val === 'perfect')
   }
 
-  onLinkClick = (e) => {
-    e.preventDefault()
-    shell.openExternal(e.target.href)
+  onLinkClick = (evt) => {
+    evt.preventDefault()
+    shell.openExternal(evt.target.href)
   }
 
-  onSubmitClicked() {
+  onSubmitClicked = () => {
     const { mnemonicPhrase } = this.props.secretPhraseState
     console.log('onSubmitClicked mnemonicPhrase', mnemonicPhrase)
 
@@ -70,8 +58,8 @@ class ImportWallet extends Component {
 
     const importPhraseInputs = mnemonicPhrase.map((word, index) => {
       let iconClassNames = 'display-none'
-      if (word.status == 'perfect') { iconClassNames = 'fa fa-check' }
-      if (word.status == 'invalid') { iconClassNames = 'fa fa-times' }
+      if (word.status === 'perfect') { iconClassNames = 'fa fa-check' }
+      if (word.status === 'invalid') { iconClassNames = 'fa fa-times' }
 
   		return (
     <li key={index} className={word.status} >

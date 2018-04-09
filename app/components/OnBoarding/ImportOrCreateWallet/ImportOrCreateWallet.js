@@ -1,22 +1,14 @@
-import path from 'path'
+/* eslint-disable max-len */
+
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
-import Checkbox from 'rc-checkbox'
 
 import OnBoardingLayout from '../Layout/Layout'
+import { CREATE_WALLET_SRC, IMPORT_WALLET_SRC } from '../../../constants/imgSources'
 
 class ImportOrCreateWallet extends Component {
-  constructor(props) {
-    super(props)
-    autobind(this)
-  }
-
   render() {
-    const createWalletImgSrc = path.join(__dirname, '../../../assets/img/create-wallet-icon.png')
-    const importWalletImgSrc = path.join(__dirname, '../../../assets/img/import-wallet-icon.png')
-
     return (
       <OnBoardingLayout className="import-create-wallet-container" progressStep={1}>
         <h1>Setting Up Your Wallet</h1>
@@ -31,14 +23,14 @@ class ImportOrCreateWallet extends Component {
         <Flexbox flexDirection="row" justifyContent="space-between">
 
           <Flexbox className="box create-wallet" flexDirection="column">
-            <img src={createWalletImgSrc} />
+            <img src={CREATE_WALLET_SRC} alt="Create wallet" />
             <h5>Create New Wallet</h5>
             <p>Creating a new wallet will generate a 24 secret phrase which you will need to store in a very safe place. Preferably 2 peices of paper.</p>
             <Link className="button" to="/secret-phrase">Create Wallet</Link>
           </Flexbox>
 
           <Flexbox className="box import-wallet" flexDirection="column">
-            <img src={importWalletImgSrc} />
+            <img src={IMPORT_WALLET_SRC} alt="Import wallet" />
             <h5>Import Exisiting Wallet</h5>
             <p>If you already have a secret phrase you can simply import it and get access to all of your assets.</p>
             <Link className="button secondary" to="/import-wallet">Import Wallet</Link>

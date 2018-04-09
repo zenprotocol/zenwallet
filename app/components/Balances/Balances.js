@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import autobind from 'class-autobind'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import { truncateString, normalizeTokens } from '../../../utils/helpers'
-
-const { clipboard } = require('electron')
 
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
@@ -13,14 +10,8 @@ import CopyableTableCell from '../UI/CopyableTableCell'
 @inject('balances')
 @observer
 class Balances extends Component {
-  constructor() {
-    super()
-    autobind(this)
-  }
-
   componentDidMount() {
-    const { balances } = this.props
-    balances.fetch()
+    this.props.balances.fetch()
   }
 
   render() {
@@ -28,18 +19,14 @@ class Balances extends Component {
 
     const balancesRows = balances.assets.map(asset => {
       const assetName = balances.getAssetName(asset.asset)
-      let fullBalanceForTitle,
-        finalNumber
-
-      if (assetName == 'ZENP') {
+      let fullBalanceForTitle, finalNumber
+      if (assetName === 'ZENP') {
         fullBalanceForTitle = `${asset.balance.toLocaleString()} Kalapas`
         finalNumber = normalizeTokens(asset.balance, true)
       } else {
         fullBalanceForTitle = asset.balance.toLocaleString()
         finalNumber = normalizeTokens(asset.balance, false)
       }
-
-      const truncatedAsset = truncateString(asset.asset)
 
       return (
         [

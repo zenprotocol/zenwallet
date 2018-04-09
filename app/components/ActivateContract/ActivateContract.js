@@ -1,16 +1,13 @@
-const path = require('path')
-
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
-import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import Dropzone from 'react-dropzone'
 import { head } from 'lodash'
 import Highlight from 'react-highlight'
+
 import { normalizeTokens } from '../../../utils/helpers'
-
-
+import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
@@ -22,34 +19,24 @@ const endRegex = /:NAME_END/
 @inject('balances')
 @observer
 class ActivateContract extends Component {
-  constructor() {
-    super()
-    autobind(this)
-  }
-
   componentWillUnmount() {
-    const { contract } = this.props
-    if (contract.status == 'success') {
-      contract.resetForm()
+    if (this.props.contract.status === 'success') {
+      this.props.contract.resetForm()
     }
   }
 
   onDrop(acceptedFiles, rejectedFiles) {
     const { contract } = this.props
-
     acceptedFiles.forEach(file => {
       const reader = new FileReader()
       reader.onload = () => {
         const fileAsBinaryString = reader.result
         contract.code = fileAsBinaryString
-
         const codeFromComment = this.getNamefromCodeComment(fileAsBinaryString)
-
         if (codeFromComment) {
           contract.name = codeFromComment
         }
       }
-
       reader.onabort = () => console.log('file reading was aborted')
       reader.onerror = () => console.log('file reading has failed')
       reader.readAsBinaryString(file)
@@ -84,7 +71,7 @@ class ActivateContract extends Component {
       console.log('stringToReplace', stringToReplace)
       return code.replace(stringToReplace, nameComment)
     }
-    const nameComment = `(* NAME_START:${name}:NAME_END *)` + '\n'
+    const nameComment = `(* NAME_START:${name}:NAME_END *)'\n'`
     console.log('new nameComment', nameComment)
     const newCode = nameComment + code
     console.log('new nameComment', newCode)
@@ -94,7 +81,7 @@ class ActivateContract extends Component {
   nameCommentIsPresent(code) {
     const startIsPresent = startRegex.test(code)
     const endIsPresent = endRegex.test(code)
-    return (startIsPresent && endIsPresent)
+    return startIsPresent && endIsPresent
   }
 
   getNamefromCodeComment(code) {
@@ -111,13 +98,11 @@ class ActivateContract extends Component {
     return false
   }
 
-  onActivateContractClicked() {
-    const result = this.props.contract.activateContract()
-  }
+  onActivateContractClicked = () => this.props.contract.activateContract()
 
   validateForm() {
     const { name, acceptedFiles, blockAmountHasError } = this.props.contract
-    return (!blockAmountHasError && acceptedFiles.length == 1 && !!name)
+    return !blockAmountHasError && (acceptedFiles.length === 1) && !!name
   }
 
   isSubmitButtonDisabled() {
@@ -141,35 +126,34 @@ class ActivateContract extends Component {
 
   renderCancelIcon() {
     const { acceptedFiles } = this.props.contract
-    const cancelIconSource = path.join(__dirname, '../../assets/img/cancel-icon.png')
-    if (acceptedFiles.length == 1) {
+    if (acceptedFiles.length === 1) {
       return (
         <a className="cancel-button" onClick={this.onCancelChosenFiledClicked}>
-          <img src={cancelIconSource} alt="Cancel chosen file" />
+          <img src={CANCEL_ICON_SRC} alt="Cancel chosen file" />
         </a>
       )
     }
   }
 
-  onCancelChosenFiledClicked() {
+  onCancelChosenFiledClicked = () => {
     const { contract } = this.props
     contract.acceptedFiles = []
     contract.resetDragDropText()
   }
 
   renderDropZoneClassName() {
-    const isFileChosen = this.props.contract.acceptedFiles.length == 1
+    const isFileChosen = this.props.contract.acceptedFiles.length === 1
     return (isFileChosen ? 'dropzone full-width file-chosen' : 'dropzone full-width')
   }
 
   renderSuccessResponse() {
     const { address, hash, status } = this.props.contract
 
-    if (address && hash && status == 'success') {
+    if (address && hash && status === 'success') {
       return (
         <FormResponseMessage className="success">
           <span>
-						Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
+            Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
           </span>
           <div className="devider" />
           <p>Contract Hash: {hash}</p>
@@ -180,18 +164,18 @@ class ActivateContract extends Component {
   }
 
   renderErrorResponse() {
-    const { status } = this.props.contract
-    if (status == 'error') {
-      return (
-        <FormResponseMessage className="error">
-          <span>
-						There seems to be a problem with your contract. Please contact your developer and direct them to use the ZEN-SDK to test the contract.
-            <br />
-						SDK Link: <a target="_blank" href="https://github.com/zenprotocol/ZFS-SDK">https://github.com/zenprotocol/ZFS-SDK</a>
-          </span>
-        </FormResponseMessage>
-      )
+    if (this.props.contract.status !== 'error') {
+      return null
     }
+    return (
+      <FormResponseMessage className="error">
+        <span>
+          There seems to be a problem with your contract. Please contact your developer and direct them to use the ZEN-SDK to test the contract.
+          <br />
+          SDK Link: <a target="_blank" href="https://github.com/zenprotocol/ZFS-SDK">https://github.com/zenprotocol/ZFS-SDK</a>
+        </span>
+      </FormResponseMessage>
+    )
   }
 
   renderCodeSnippet() {
@@ -213,7 +197,7 @@ class ActivateContract extends Component {
     const {
       code, acceptedFiles, numberOfBlocks, activationCost
     } = contract
-    if (acceptedFiles.length == 1 && code.length > 0 && numberOfBlocks > 0) {
+    if (acceptedFiles.length === 1 && code.length > 0 && numberOfBlocks > 0) {
       let unitOfAccountText
       if (activationCost > 1000000) {
         unitOfAccountText = `${normalizeTokens(activationCost, true)} ZENP`
@@ -289,8 +273,7 @@ class ActivateContract extends Component {
             <button
               className="button secondary button-on-right"
               onClick={() => { dropzoneRef.open() }}
-            >
-									Upload
+            >Upload
             </button>
           </Flexbox>
         </Flexbox>

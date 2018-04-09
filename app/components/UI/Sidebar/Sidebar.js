@@ -1,49 +1,45 @@
 import React, { Component } from 'react'
-import moment from 'moment';
-import path from 'path'
+import moment from 'moment'
 import { inject, observer } from 'mobx-react'
-import autobind from 'class-autobind'
 import { Link, NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import Flexbox from 'flexbox-react'
+
+import { LOGO_SRC } from '../../../constants/imgSources'
 
 @inject('networkState')
 @observer
 class Sidebar extends Component {
-  constructor() {
-    super()
-    autobind(this)
+  static propTypes = {
+    className: PropTypes.string,
+    networkState: PropTypes.shape({
+      headers: PropTypes.number.isRequired,
+      difficulty: PropTypes.number.isRequired,
+      connections: PropTypes.number.isRequired,
+      chain: PropTypes.string.isRequired,
+      blocks: PropTypes.number.isRequired,
+      medianTime: PropTypes.number.isRequired,
+      begin: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+  static defaultProps = {
+    className: '',
   }
 
   componentDidMount() {
-    const { networkState } = this.props
-    networkState.begin()
+    this.props.networkState.begin()
   }
 
-  static propTypes = {
-    className: PropTypes.string,
-    title: PropTypes.string
-  }
-
-  static defaultProps = {
-    title: 'Zen Wallet'
+  formattedBlockchainTime() {
+    const { medianTime } = this.props.networkState
+    return medianTime
+      ? moment(new Date(medianTime)).format('DD/MM/YYYY, HH:mm:ss')
+      : medianTime
   }
 
   renderNetworkStatus() {
     const {
-      chain, blocks, headers, difficulty, medianTime, connections
+      chain, blocks, headers, difficulty, connections
     } = this.props.networkState
-
-    let blockchainTime
-    let formattedBlockchainTime
-    if (medianTime) {
-      blockchainTime = new Date(medianTime)
-      formattedBlockchainTime = moment(blockchainTime).format('DD/MM/YYYY, HH:mm:ss');
-    } else {
-      formattedBlockchainTime = medianTime
-    }
-
     if (blocks === 0) {
       return (
         <div className="network-status">
@@ -72,7 +68,7 @@ class Sidebar extends Component {
         <div className="network-data-point">
           <span className="data-name" title="Median Time Past">MTP: </span>
           <span className="data-point">
-            {formattedBlockchainTime}
+            {this.formattedBlockchainTime()}
           </span>
         </div>
         <div className="network-data-point">
@@ -85,48 +81,34 @@ class Sidebar extends Component {
     )
   }
 
-  render() {
-    const { title } = this.props
-    const logoSrc = path.join(__dirname, '../../../assets/img/zen-logo.png')
-    const className = classnames('sidebar', this.props.className)
-
+  renderMenu() { // eslint-disable-line class-methods-use-this
     return (
-      <nav className={className}>
+      <div className="menu">
+        <ul>
+          {[
+            { to: 'portfolio', text: 'Portfolio' },
+            { to: 'send-tx', text: 'Send' },
+            { to: 'receive', text: 'Receive' },
+            { to: 'tx-history', text: 'Transactions' },
+            { to: 'acs', text: 'Explore Contracts' },
+            { to: 'saved-contracts', text: 'My Saved Contracts' },
+            { to: 'faucet', text: 'Access Software' },
+          ].map(({ to, text }) => <li key={to}><NavLink activeClassName="active" to={`/${to}`}>{text}</NavLink></li>)
+        }
+        </ul>
+      </div>
+    )
+  }
+  render() {
+    return (
+      <nav className={`sidebar ${this.props.className}`}>
         <div className="logo">
           <Link to="/">
-            <img src={logoSrc} alt="Zen Protocol Logo" />
+            <img src={LOGO_SRC} alt="Zen Protocol Logo" />
           </Link>
         </div>
-
-        <div className="menu">
-          <ul>
-            <li><NavLink activeClassName="active" to="/portfolio">Portfolio</NavLink></li>
-            <li><NavLink activeClassName="active" to="/send-tx">Send</NavLink></li>
-            <li><NavLink activeClassName="active" to="/receive">Receive</NavLink></li>
-            <li><NavLink activeClassName="active" to="/tx-history">Transactions</NavLink></li>
-            <li><NavLink activeClassName="active" to="/acs">Explore Contracts</NavLink></li>
-            <li><NavLink activeClassName="active" to="/saved-contracts">My Saved Contracts</NavLink></li>
-            <li><NavLink activeClassName="active" to="/faucet">Access Software</NavLink></li>
-
-            {/* <li><NavLink activeClassName={'active'} to="/activate-contract">Upload Contract</NavLink></li> */}
-            {/* <li><NavLink activeClassName={'active'} to="/run-contract">Run Contract</NavLink></li> */}
-
-            {/* <li><NavLink activeClassName={'active'} to="/welcome-messages">Welcome Messages</NavLink></li> */}
-            {/* <li><NavLink activeClassName={'active'} to="/import-or-create-wallet">Import/Create Wallet</NavLink></li> */}
-            {/* <li><NavLink activeClassName={'active'} to="/import-wallet">Import Wallet</NavLink></li> */}
-            {/* <li><NavLink activeClassName={'active'} to="/terms-of-service">TOS</NavLink></li> */}
-
-            {/* <li><NavLink activeClassName={'active'} to="/secret-phrase-quiz">Quiz</NavLink></li> */}
-            {/* <li><NavLink activeClassName={'active'} to="/set-password">Set Password</NavLink></li> */}
-
-            {/* <li><NavLink activeClassName={'active'} to="/secret-phrase">Secret Phrase</NavLink></li> */}
-            {/* <li><NavLink activeClassName={'active'} to="/loading">Loading</NavLink></li> */}
-            {/* <li className='settings'><a>Settings</a></li> */}
-          </ul>
-        </div>
-
+        {this.renderMenu()}
         {this.renderNetworkStatus()}
-
       </nav>
     )
   }

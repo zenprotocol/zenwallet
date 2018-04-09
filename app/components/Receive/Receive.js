@@ -1,59 +1,53 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import autobind from 'class-autobind'
-import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-
-const { clipboard } = require('electron')
+import { clipboard } from 'electron'
 
 import Layout from '../UI/Layout/Layout'
 
 @inject('publicAddress')
 @observer
 class Receive extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { showCopyMessage: false }
-    autobind(this)
+  state = {
+    showCopyMessage: false,
   }
-
   componentDidMount() {
-    const { publicAddress } = this.props
-    publicAddress.fetch()
+    this.props.publicAddress.fetch()
   }
-
-  handleFocus(event) {
+  componentWillUnmount() {
+    clearTimeout(this.copyMessageTimeout)
+  }
+  handleFocus = (evt) => {
     const { publicAddress } = this.props
     clipboard.writeText(publicAddress.address)
-    event.target.select()
-    event.target.focus()
+    evt.target.select()
+    evt.target.focus()
     this.showHideCopyMessage()
   }
 
-  onCopyClicked() {
-    const { publicAddress } = this.props
+  onCopyClicked = () => {
     this.refs.publicAddressInput.focus()
     this.refs.publicAddressInput.select()
-    clipboard.writeText(publicAddress.address)
+    clipboard.writeText(this.props.publicAddress.address)
     this.showHideCopyMessage()
   }
 
   showHideCopyMessage() {
     this.setState({ showCopyMessage: true })
-    setTimeout(() => {
+    this.copyMessageTimeout = setTimeout(() => {
       this.setState({ showCopyMessage: false })
     }, 3000);
   }
 
   renderCopiedMessage() {
-    const { showCopyMessage } = this.state
-    if (showCopyMessage === true) {
-      return (
-        <div className="bright-blue copied-to-clipboard-message">
-            Public address copied to clipboard
-        </div>
-      )
+    if (this.state.showCopyMessage === true) {
+      return null
     }
+    return (
+      <div className="bright-blue copied-to-clipboard-message">
+        Public address copied to clipboard
+      </div>
+    )
   }
 
   render() {
@@ -62,26 +56,19 @@ class Receive extends Component {
     return (
       <Layout className="receive">
         <Flexbox flexDirection="column" className="receive-container">
-
           <Flexbox className="page-title">
             <h1>Receive</h1>
           </Flexbox>
-
           <div className="input-container">
             <label onClick={this.handleFocus} htmlFor="public-address">Your Address</label>
             <Flexbox flexDirection="row" className="address-input form-row">
               <input id="public-address" ref="publicAddressInput" onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readOnly />
               <button className="copy-button button-on-right" onClick={this.onCopyClicked}>Copy</button>
             </Flexbox>
-
             <Flexbox>
-              {/* <button className='secondary'>QR code</button> */}
-
               { this.renderCopiedMessage() }
             </Flexbox>
-
           </div>
-
         </Flexbox>
       </Layout>
     )

@@ -1,8 +1,6 @@
-import path from 'path'
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
-import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
 import history from '../../../services/history'
 
@@ -11,21 +9,12 @@ import OnBoardingLayout from '../Layout/Layout'
 @inject('secretPhraseState')
 @observer
 class SecretPhraseQuiz extends Component {
-  constructor(props) {
-    super(props)
-    autobind(this)
-  }
-
-  onChange = (e) => {
-    const { mnemonicPhrase } = this.props.secretPhraseState
-
-    const correctWord = e.target.name
-    const word = e.target.value.trim().toLowerCase()
-    const index = Number(e.target.getAttribute('data-index'))
-
-    const arrayObject = mnemonicPhrase[index]
-
-    const validInput = (word.length == 0 || /^(.*[a-z].*)$/.test(word))
+  onChange = (evt) => {
+    const correctWord = evt.target.name
+    const word = evt.target.value.trim().toLowerCase()
+    const index = Number(evt.target.getAttribute('data-index'))
+    const arrayObject = this.props.secretPhraseState.mnemonicPhrase[index]
+    const validInput = (word.length === 0 || /^(.*[a-z].*)$/.test(word))
 
     if (validInput) {
       arrayObject.userInput = word
@@ -65,45 +54,42 @@ class SecretPhraseQuiz extends Component {
   }
 
   validateQuiz() {
-    const { mnemonicPhrase } = this.props.secretPhraseState
-    const statuses = mnemonicPhrase.map((word, i) => (word.status))
-    return statuses.every((val, i, arr) => val === 'perfect')
+    // const { mnemonicPhrase } = this.props.secretPhraseState
+    // const statuses = mnemonicPhrase.map(word) => (word.status))
+    // return statuses.every(val => val === 'perfect')
+    return this.props.secretPhraseState.mnemonicPhrase.every(word => word.status === 'perfect')
   }
 
-  onSubmitClicked() {
+  onSubmitClicked = () => {
     if (this.validateQuiz()) {
       history.push('/set-password')
     }
   }
 
-  render() {
-    const { mnemonicPhrase } = this.props.secretPhraseState
-    const isValid = this.validateQuiz()
-
-    const quizInputs = mnemonicPhrase.map((word, i) => {
-      const finalWord = word.word
-
+  renderQuizInputs() {
+    return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => {
       let iconClassNames = 'display-none'
-      if (word.status == 'perfect') { iconClassNames = 'fa fa-check' }
-      if (word.status == 'invalid') { iconClassNames = 'fa fa-times' }
-
+      if (word.status === 'perfect') { iconClassNames = 'fa fa-check' }
+      if (word.status === 'invalid') { iconClassNames = 'fa fa-times' }
       return (
-        <li key={finalWord} className={word.status}>
+        <li key={idx} className={word.status}>
           <input
             type="text"
-            data-index={i}
-            name={finalWord}
+            data-index={idx}
+            name={word.word}
             onChange={this.onChange}
             className={word.status}
             value={word.userInput}
-            disabled={word.status == 'perfect'}
-            ref={input => { this[`input${i}`] = input }}
+            disabled={word.status === 'perfect'}
+            ref={input => { this[`input${idx}`] = input }}
           />
           <i className={iconClassNames} />
         </li>
       )
     })
+  }
 
+  render() {
     return (
       <OnBoardingLayout className="secret-phrase-quiz-container" progressStep={3}>
         <h1>Verify Your Mnemonic Passphrase</h1>
@@ -111,7 +97,7 @@ class SecretPhraseQuiz extends Component {
 
         <div className="devider after-title" />
 
-        <ol className="passphrase-quiz">{quizInputs}</ol>
+        <ol className="passphrase-quiz">{this.renderQuizInputs()}</ol>
         <div className="devider before-buttons" />
 
         <Flexbox flexDirection="row">
@@ -124,7 +110,7 @@ class SecretPhraseQuiz extends Component {
             <button
               className="button-on-right"
               onClick={this.onSubmitClicked}
-              disabled={!isValid}
+              disabled={!this.validateQuiz()}
             >
               Continue
             </button>

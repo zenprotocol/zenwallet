@@ -1,33 +1,21 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import autobind from 'class-autobind'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Highlight from 'react-highlight'
 
-const { clipboard } = require('electron')
-
 import Layout from '../UI/Layout/Layout'
-
-import db from '../../services/store'
 import { truncateString, getNamefromCodeComment } from '../../../utils/helpers'
-
-const contractList = db.get('savedContracts')
 
 @inject('activeContractSet')
 @observer
 class ActiveContractSet extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showCodeSnippetForContractAddress: ''
-    }
-    autobind(this)
+  state = {
+    showCodeSnippetForContractAddress: ''
   }
 
   componentWillMount() {
-    const { activeContractSet } = this.props
-    activeContractSet.fetch()
+    this.props.activeContractSet.fetch()
   }
 
   toggleCodeSnippet = (address) => {

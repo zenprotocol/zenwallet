@@ -1,28 +1,19 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import autobind from 'class-autobind'
-import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import { clipboard } from 'electron'
-import { toInteger } from 'lodash'
 import classnames from 'classnames'
-import { Base64 } from 'js-base64'
 import base58 from 'bs58check'
 
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
-const shell = require('electron').shell
+const { shell } = require('electron')
 
 @inject('redeemTokensState')
 @inject('publicAddress')
 @observer
 class Faucet extends Component {
-  constructor() {
-    super()
-    autobind(this)
-  }
-
   componentDidMount() {
     const { publicAddress } = this.props
     publicAddress.fetch()
@@ -30,13 +21,12 @@ class Faucet extends Component {
     redeemTokensState.walletPublicAddress = publicAddress.address
   }
 
-  onChange(e) {
-    const pubkey = e.target.value.trim()
+  onChange = (evt) => {
+    const pubkey = evt.target.value.trim()
     this.setAndValidatePubkey(pubkey)
   }
 
-  onPasteClicked() {
-    const { redeemTokensState } = this.props
+  onPasteClicked = () => {
     const pubkey = clipboard.readText().trim()
     this.setAndValidatePubkey(pubkey)
     this.refs.pubkey.focus()
@@ -61,7 +51,7 @@ class Faucet extends Component {
       redeemTokensState.pubkeyIsValid = false
     }
 
-    if (pubkey.length == 0) {
+    if (pubkey.length === 0) {
       redeemTokensState.pubkeyError = false
       redeemTokensState.pubkeyIsValid = false
     }
@@ -149,7 +139,7 @@ class Faucet extends Component {
     }
   }
 
-  onRedeemButtonClicked() {
+  onRedeemButtonClicked = () => {
     const { publicAddress, redeemTokensState } = this.props
     redeemTokensState.walletPublicAddress = publicAddress.address
     this.props.redeemTokensState.redeemCrowdsaleTokens()
@@ -158,7 +148,7 @@ class Faucet extends Component {
   renderSuccessResponse() {
     const { status, amountRedeemable } = this.props.redeemTokensState
 
-    if (status == 'success') {
+    if (status === 'success') {
       return (
         <FormResponseMessage className="success">
           <span>{(amountRedeemable / 100000000).toLocaleString()} tokens were sent to your wallet</span>
@@ -167,10 +157,10 @@ class Faucet extends Component {
     }
   }
 
-	onLinkClick = (e) => {
-	  e.preventDefault()
-	  shell.openExternal(e.target.href)
-	}
+  onLinkClick = (evt) => {
+    evt.preventDefault()
+    shell.openExternal(evt.target.href)
+  }
 
 	render() {
 	  const {
@@ -234,7 +224,7 @@ class Faucet extends Component {
         </Flexbox>
         <Flexbox>
           <h3 className="agree-to-terms">
-								* By claiming your tokens you agree to the
+            * By claiming your tokens you agree to the
             <a
               href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf"
               onClick={this.onLinkClick}

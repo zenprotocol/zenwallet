@@ -1,10 +1,8 @@
-import path from 'path'
 import React, { Component } from 'react'
-import autobind from 'class-autobind'
 import Flexbox from 'flexbox-react'
-import Checkbox from 'rc-checkbox'
-import history from '../../../services/history'
 
+import history from '../../../services/history'
+import { IMG_BASE } from '../../../constants/imgSources'
 import OnBoardingLayout from '../Layout/Layout'
 
 const pageTexts = [
@@ -45,24 +43,19 @@ const pageTexts = [
 ]
 
 class WelcomeMessages extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentPage: 0
-    }
-    autobind(this)
+  state = {
+    currentPage: 0
   }
-
-  onNextClicked() {
+  onNextClicked = () => {
     const nextPage = this.state.currentPage + 1
-    if (nextPage == 4) {
+    if (nextPage === 4) {
       history.push('/import-or-create-wallet')
     } else {
       this.setState({ currentPage: nextPage })
     }
   }
 
-  onBackClicked() {
+  onBackClicked = () => {
     this.setState({ currentPage: this.state.currentPage - 1 })
   }
 
@@ -77,13 +70,9 @@ class WelcomeMessages extends Component {
 
   render() {
     const { currentPage } = this.state
-
     const pageDetails = pageTexts[currentPage]
-
-    const pageImgSrc = path.join(__dirname, `../../../assets/img/${pageDetails.img}`)
-
     const bulletPointes = pageDetails.bullets.map(bullet => (
-      <li>{bullet}</li>
+      <li key={bullet}>{bullet}</li>
     ))
 
     return (
@@ -99,7 +88,7 @@ class WelcomeMessages extends Component {
           </Flexbox>
 
           <Flexbox className="bullet-image" flexGrow={1} justifyContent="flex-end">
-            <img className={`page-${currentPage}`} src={pageImgSrc} />
+            <img alt="Page" className={`page-${currentPage}`} src={`${IMG_BASE}/${pageDetails.img}`} />
           </Flexbox>
 
         </Flexbox>
