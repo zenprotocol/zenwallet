@@ -1,6 +1,6 @@
 **Please note that the usage of the software is only permitted to anyone who purchased a license during the license sale period. [Sale Terms](https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf)**
 
-
+Parts of this software are available under the MIT licence. See the directory "third-party".
 ### Tutorial videos:
 * [Installation/Update](https://www.youtube.com/watch?v=tYtMcELj3T0)
 * [Claim and Send Tokens](https://www.youtube.com/watch?v=gHU3xg_5Dr8)

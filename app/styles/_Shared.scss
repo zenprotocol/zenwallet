@@ -1,0 +1,56 @@
+// $fa-font-path:   "assets/fonts/fontawesome/scss/fontawesome.scss";
+
+@import "styles/Variables";
+
+@import "assets/fonts/fontawesome/scss/fontawesome.scss";
+// @import "assets/fonts/fontawesome/scss/fa-light.scss";
+
+.light-blue { color: $light-grey; }
+
+html, body { height: 100%; }
+
+body, textarea, input {
+  // font-family: 'Source Sans Pro', sans-serif;
+  font-family: Roboto;
+}
+
+body {
+  // font-family: 'Source Sans Pro', sans-serif;
+  font-family: Roboto;
+  font-size: 15px;
+  color: #777;
+}
+
+a { cursor: pointer; color: $blue; }
+
+h1, h2, h3, h4, h5, h6, input, button {
+  font-family: Roboto;
+  // font-family: 'Source Sans Pro', sans-serif;
+}
+
+h3 { font-size: 1.1rem; color: #8f9aa9; font-weight: 400; }
+
+h5 { font-size: 18px; color: $light-white; font-weight: 300; }
+
+.full-width { width: 100%; }
+
+.devider {
+  width: 100%;
+  margin: 19px 0;
+  border: none;
+  border-bottom: 1px solid $border-color;
+}
+
+.align-left { text-align: left; }
+.align-right { text-align: right; }
+
+.truncate {
+  width: 210px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bold { font-weight: 500 !important; }
+
+.display-none { display: none !important; }
