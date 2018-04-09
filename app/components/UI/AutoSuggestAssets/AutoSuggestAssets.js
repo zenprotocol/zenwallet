@@ -15,11 +15,10 @@ class AutoSuggestAssets extends Component {
   }
   state = {
     suggestionValue: '',
-    suggestionName: '',
     suggestions: [],
     assetError: false,
     isValid: false,
-    chosenAssetName: this.props.props.assetName,
+    chosenAssetName: this.props.assetName,
   }
 
   componentDidMount() {
