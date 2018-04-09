@@ -1,7 +1,11 @@
 ul { list-style: none; }
 
 nav.sidebar {
-  width: 251px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: $sidebar-width;
+  height: 100vh;
   background: $grey;
   border-right: 1px solid $almost-black;
   font-family: 'Roboto', sans-serif;

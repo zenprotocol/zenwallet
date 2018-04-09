@@ -9,7 +9,7 @@ class Main extends Component {
     }
 
     render() {
-        const className = classnames('main', this.props.className)
+        const className = classnames('main inner-main', this.props.className)
 
         return (
             <Flexbox element="main" flexDirection="column" minHeight="100vh" className={className}>
