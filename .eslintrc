@@ -10,7 +10,6 @@
     "node": true
   },
   "rules": {
-    "no-multiple-empty-lines":
     "semi": "off",
     "arrow-parens": ["off"],
     "compat/compat": "error",
