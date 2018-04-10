@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import ToggleVisibilityIcon from '../../Icons/ToggleVisibilityIcon'
+import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 
@@ -105,20 +108,17 @@ class SetPassword extends Component {
     renderPasswordConfirmInput() {
       const { password, passwordConfirmation, passwordsMatch } = this.state
 
-      let iconClasses
       let inputGroupClasses = 'input-group'
       let iconWrapperClasses = 'input-group-label display-none'
 
       if (password.length > 0 && passwordsMatch == 'match') {
         inputGroupClasses = 'input-group valid'
         iconWrapperClasses = 'input-group-label'
-        iconClasses = 'fa fa-check'
       }
 
       if (password.length > 0 && passwordsMatch == 'error') {
         inputGroupClasses = 'input-group error'
         iconWrapperClasses = 'input-group-label'
-        iconClasses = 'fa fa-times'
       }
 
       return (
@@ -133,18 +133,16 @@ class SetPassword extends Component {
             onChange={this.onPasswordConfirmationChanged}
           />
           <span className={iconWrapperClasses} >
-            <i className={iconClasses} />
+            <IsValidIcon isValid={passwordsMatch === 'match'} isHidden={password.length === 0} />
           </span>
         </div>
       )
     }
     render() {
       const {
-        password, passwordConfirmation, passwordsMatch, inputType,
+        password, inputType,
         autoLogoutMinutes, validLength, validUpper, hasNumbers,
       } = this.state
-
-      const passwordIconClassNames = (inputType == 'password' ? 'fa fa-eye' : 'fa fa-eye-slash')
 
       return (
         <OnBoardingLayout className="set-password-container" progressStep={4}>
@@ -161,15 +159,15 @@ class SetPassword extends Component {
                 <h5>Make sure your password includes:</h5>
                 <ol>
                   <li>
-                    <i className={validLength ? 'fa fa-check' : 'fa fa-times'} />
+                    <IsValidIcon isValid={validLength === 'match'} />
                     <span>Exactly 16 characters</span>
                   </li>
                   <li>
-                    <i className={validUpper ? 'fa fa-check' : 'fa fa-times'} />
+                    <IsValidIcon isValid={validUpper === 'match'} />
                     <span>Uper and lower case letters</span>
                   </li>
                   <li>
-                    <i className={hasNumbers ? 'fa fa-check' : 'fa fa-times'} />
+                    <IsValidIcon isValid={hasNumbers === 'match'} />
                     <span>Numbers</span>
                   </li>
                 </ol>
@@ -186,7 +184,7 @@ class SetPassword extends Component {
                     onChange={this.onPasswordChanged}
                   />
                   <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
-                    <i className={passwordIconClassNames} />
+                    <ToggleVisibilityIcon shouldShow={inputType === 'password'} />
                   </span>
                 </div>
 

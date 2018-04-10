@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { truncateString } from '../../../utils/helpers'
 
@@ -34,7 +35,7 @@ class CopyableTableCell extends Component {
           data-balloon={copyText}
           data-balloon-pos="up"
         >
-          <i className="fa fa-copy" />
+          <FontAwesomeIcon icon={['far', 'copy']} />
         </span>
 
       </td>

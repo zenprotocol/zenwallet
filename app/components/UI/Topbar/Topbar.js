@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { normalizeTokens } from '../../../../utils/helpers'
 
@@ -36,7 +37,7 @@ class Header extends Component {
     const className = (canGoBack ? 'back-button active' : 'back-button')
     return (
       <a onClick={this.onBackClicked} className={className} disabled={!canGoBack}>
-        <i className="fa fa-angle-left" />
+        <FontAwesomeIcon icon={['far', 'angle-left']} />
       </a>
     )
   }
@@ -48,7 +49,7 @@ class Header extends Component {
 
     return (
       <a onClick={this.onForwardClicked} className={className} disabled={!canGoForward}>
-        <i className="fa fa-angle-right" />
+        <FontAwesomeIcon icon={['far', 'angle-right']} />
       </a>
     )
   }

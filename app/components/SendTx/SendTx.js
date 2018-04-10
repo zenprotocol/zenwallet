@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import { clipboard } from 'electron'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { validateAddress } from '../../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
@@ -80,7 +81,7 @@ class SendTx extends Component {
     if (this.state.addressError) {
       return (
         <div className="error-message">
-          <i className="fa fa-exclamation-circle" />
+          <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
           <span>Destination Address is invalid</span>
         </div>
       )

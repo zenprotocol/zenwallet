@@ -4,6 +4,7 @@ import Flexbox from 'flexbox-react'
 import { clipboard } from 'electron'
 import classnames from 'classnames'
 import base58 from 'bs58check'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
@@ -63,7 +64,7 @@ class Faucet extends Component {
     if (redeemTokensState.pubkeyError) {
       return (
         <div className="input-message error">
-          <i className="fa fa-exclamation" />
+          <FontAwesomeIcon icon={['far', 'exclamation']} />
           <span>Invalid Public Key</span>
         </div>
       )
@@ -82,7 +83,7 @@ class Faucet extends Component {
         if (alreadyRedeemed) {
           return (
             <Flexbox flexGrow={1} flexDirection="row" className="form-response-message warning">
-              <i className="fa fa-exclamation" />
+              <FontAwesomeIcon icon={['far', 'exclamation']} />
               <Flexbox flexDirection="column">
 								Tokens have already been redeemed by this key
               </Flexbox>
@@ -91,7 +92,7 @@ class Faucet extends Component {
         }
         return (
           <Flexbox flexGrow={1} flexDirection="row" className="form-response-message success">
-            <i className="fa fa-check" />
+            <FontAwesomeIcon icon={['far', 'check']} />
             <Flexbox flexDirection="row">
               <span>This key is entitled to</span>
               <span className="bold blue">&nbsp;{amountRedeemable.toLocaleString()} tokens</span>
@@ -103,7 +104,7 @@ class Faucet extends Component {
       if (amountRedeemable === 0 || !anyOrders) {
         return (
           <Flexbox flexGrow={1} flexDirection="row" className="form-response-message warning">
-            <i className="fa fa-exclamation" />
+            <FontAwesomeIcon icon={['far', 'exclamation']} />
             <Flexbox flexDirection="column">
 								This Public Key is not entitled to any tokens
             </Flexbox>
@@ -119,7 +120,7 @@ class Faucet extends Component {
     if (pubkeyIsValid && checkingTokenEntitlement) {
       return (
         <div className="input-message">
-          <i className="fa fa-spinner fa-spin" />
+          <FontAwesomeIcon icon={['far', 'spinner']} spin />
           <span>Checking if this key is entitled to tokens</span>
         </div>
       )
@@ -132,7 +133,7 @@ class Faucet extends Component {
     if (pubkeyIsValid && !checkingTokenEntitlement) {
       return (
         <div className="input-message">
-          <i className="fa fa-check" />
+          <FontAwesomeIcon icon={['far', 'check']} />
           <span>Public key is valid</span>
         </div>
       )
@@ -268,7 +269,7 @@ class Faucet extends Component {
 	    return (
   <span>
 					Redeeming Tokens
-    <i className="fa fa-spinner fa-spin" />
+    <FontAwesomeIcon icon={['far', 'spinner']} spin />
   </span>
 	    )
 	  }

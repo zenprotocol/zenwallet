@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 class FormResponseMessage extends Component {
   static propTypes = {
@@ -28,7 +29,7 @@ class FormResponseMessage extends Component {
       const className = classnames('form-response-message', this.props.className)
       return (
         <Flexbox flexGrow={1} flexDirection="row" className={className}>
-          <i className="fa fa-check" />
+          <FontAwesomeIcon icon={['far', 'check']} />
           <Flexbox flexDirection="column">
             {this.props.children}
           </Flexbox>

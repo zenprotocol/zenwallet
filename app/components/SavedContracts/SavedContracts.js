@@ -11,7 +11,7 @@ const contractList = db.get('savedContracts')
 
 class SavedContracts extends Component {
   onRemoveContractClicked() {
-    this.props.contractMessage.sendContractMessage(contractMessage)
+    this.props.contractMessage.sendContractMessage()
   }
 
   onDeleteClicked = (hash) => {
@@ -33,8 +33,8 @@ class SavedContracts extends Component {
   render() {
     const listOfContracts = contractList.value()
     const savedContracts = listOfContracts.map((contract) => (
-      [
-        <tr key={contract.hash}>
+      <React.Fragment key={contract.hash}>
+        <tr>
           <td className="text">{contract.name}</td>
           <CopyableTableCell string={contract.hash} />
           <CopyableTableCell string={contract.address} />
@@ -42,9 +42,9 @@ class SavedContracts extends Component {
             <Link className="button small margin-right" to={`/run-contract/${contract.address}`} >Run</Link>
             <a className="button small alert" onClick={() => { this.onDeleteClicked(contract.hash) }}>Delete</a>
           </td>
-        </tr>,
-        <tr className="separator" />,
-      ]
+        </tr>
+        <tr className="separator" />
+      </React.Fragment>
     ))
 
     return (

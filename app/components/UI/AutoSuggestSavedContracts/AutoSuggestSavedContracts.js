@@ -4,6 +4,7 @@ import Flexbox from 'flexbox-react'
 import Autosuggest from 'react-autosuggest'
 import { clipboard } from 'electron'
 import classnames from 'classnames'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { truncateString, validateAddress } from '../../../../utils/helpers'
 import db from '../../../services/store'
@@ -128,7 +129,7 @@ class AutoSuggestSavedContracts extends Component {
     if (assetError) {
       return (
         <div className="error-message">
-          <i className="fa fa-exclamation-circle" />
+          <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
           <span>Contract address is invalid</span>
         </div>
       )

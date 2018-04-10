@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Highlight from 'react-highlight'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import Layout from '../UI/Layout/Layout'
 import { truncateString, getNamefromCodeComment } from '../../../utils/helpers'
@@ -56,7 +57,7 @@ class ActiveContractSet extends Component {
                 data-balloon={copyText}
                 data-balloon-pos="up"
               >
-                <i className="fa fa-copy" />
+                <FontAwesomeIcon icon={['far', 'copy']} />
               </span>
             </td>
             <td className="copyable">
@@ -66,7 +67,7 @@ class ActiveContractSet extends Component {
                 data-balloon={copyText}
                 data-balloon-pos="up"
               >
-                <i className="fa fa-copy" />
+                <FontAwesomeIcon icon={['far', 'copy']} />
               </span>
             </td>
             <td>{contract.expire.toLocaleString()}</td>
@@ -75,10 +76,10 @@ class ActiveContractSet extends Component {
                 onClick={() => { this.toggleCodeSnippet(contract.address) }}
                 className="button secondary small margin-right code"
               >
-                <i className="fa fa-code" /> <span className="button-text">{viewCodeButtonText}</span>
+                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">{viewCodeButtonText}</span>
               </a>
               <Link className="button small play" to={`/run-contract/${contract.address}`} >
-                <i className="fa fa-play" /> <span className="button-text">Run</span>
+                <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
               </Link>
             </td>
           </tr>,
@@ -112,7 +113,7 @@ class ActiveContractSet extends Component {
             <Flexbox flexGrow={2} />
             <Flexbox flexGrow={1} justifyContent="flex-end" class-name="page-buttons">
               <Link className="button with-icon" to="/activate-contract" title="Upload Contract">
-                <i className="fa fa-cloud-upload" /> <span className="button-text">Upload</span>
+                <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
               </Link>
             </Flexbox>
           </Flexbox>

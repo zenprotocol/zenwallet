@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 
+import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import { isValidBip39Word, isBip39Word } from '../../../../utils/helpers'
 import OnBoardingLayout from '../Layout/Layout'
@@ -57,9 +58,6 @@ class ImportWallet extends Component {
     const { mnemonicPhrase } = this.props.secretPhraseState
 
     const importPhraseInputs = mnemonicPhrase.map((word, index) => {
-      let iconClassNames = 'display-none'
-      if (word.status === 'perfect') { iconClassNames = 'fa fa-check' }
-      if (word.status === 'invalid') { iconClassNames = 'fa fa-times' }
 
   		return (
     <li key={index} className={word.status} >
@@ -70,7 +68,7 @@ class ImportWallet extends Component {
         onChange={this.onChange}
         value={word.word}
       />
-      <i className={iconClassNames} />
+      <IsValidIcon isValid={word.status === 'perfect'} isHidden={!word.status.match(/perfect|invliad/)} />
     </li>
       )
   	})

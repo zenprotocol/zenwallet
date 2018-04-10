@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import cx from 'classnames'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+
+import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 
 @inject('loading')
 @observer
@@ -42,14 +44,14 @@ class UnlockWallet extends Component {
                 className="input-group-field"
                 onChange={this.onChange}
               />
-              <a className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
-                <i className={cx('fa', { 'fa-eye': hidePassword, 'fa-eye-slash': !hidePassword })} />
-              </a>
+              <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
+                <ToggleVisibilityIcon shouldShow={hidePassword} />
+              </span>
             </div>
 
             <button className="unlock">
               <span>Unlock</span>
-              <i className="fa fa-unlock" />
+              <FontAwesomeIcon icon={['far', 'unlock']} />
             </button>
           </form>
 

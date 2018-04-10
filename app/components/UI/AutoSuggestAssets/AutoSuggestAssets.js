@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import Autosuggest from 'react-autosuggest'
 import classnames from 'classnames'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { truncateString } from '../../../../utils/helpers'
 
@@ -131,7 +132,7 @@ class AutoSuggestAssets extends Component {
     if (assetError) {
       return (
         <div className="input-message error">
-          <i className="fa fa-exclamation" />
+          <FontAwesomeIcon icon={['far', 'exclamation']} />
           <span>You don't have such an asset</span>
         </div>
       )

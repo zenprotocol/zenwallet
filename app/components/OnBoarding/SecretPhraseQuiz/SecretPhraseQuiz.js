@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import history from '../../../services/history'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import IsValidIcon from '../../Icons/IsValidIcon'
+import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 
 @inject('secretPhraseState')
@@ -68,9 +70,6 @@ class SecretPhraseQuiz extends Component {
 
   renderQuizInputs() {
     return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => {
-      let iconClassNames = 'display-none'
-      if (word.status === 'perfect') { iconClassNames = 'fa fa-check' }
-      if (word.status === 'invalid') { iconClassNames = 'fa fa-times' }
       return (
         <li key={idx} className={word.status}>
           <input
@@ -83,7 +82,7 @@ class SecretPhraseQuiz extends Component {
             disabled={word.status === 'perfect'}
             ref={input => { this[`input${idx}`] = input }}
           />
-          <i className={iconClassNames} />
+          <IsValidIcon isValid={word.status === 'perfect'} isHidden={!word.status.match(/perfect|invliad/)} />
         </li>
       )
     })

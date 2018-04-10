@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import { truncateString, normalizeTokens } from '../../../utils/helpers'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import { truncateString, normalizeTokens } from '../../../utils/helpers'
+import IsValidIcon from '../Icons/IsValidIcon'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
@@ -39,7 +41,7 @@ class Balances extends Component {
             </td>
             <td className="align-right" >
               <Link className="button small with-icon" to={`/send-tx/${asset.asset}`} title="Send Transaction">
-                <i className="fa fa-paper-plane" /> <span className="button-text">Send</span>
+                <FontAwesomeIcon icon={['far', 'paper-plane']} /> <span className="button-text">Send</span>
               </Link>
             </td>
           </tr>,

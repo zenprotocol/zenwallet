@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import classnames from 'classnames'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { normalizeTokens, isZenAsset } from '../../../../utils/helpers'
 
@@ -153,7 +154,7 @@ class AmountInput extends Component {
 	  if (amountIsInvalid) {
 	    return (
   <div className="input-message error">
-    <i className="fa fa-exclamation" />
+    <FontAwesomeIcon icon={['far', 'exclamation']} />
     <span>{errorMessage}</span>
   </div>
 	    )
@@ -199,8 +200,8 @@ class AmountInput extends Component {
       />
       { this.renderMaxAmountDiv() }
       <Flexbox flexDirection="column" className="amountArrows">
-        <i className="fa fa-angle-up" onClick={this.increaseAmount} />
-        <i className="fa fa-angle-down" onClick={this.decreaseAmount} />
+        <FontAwesomeIcon icon={['far', 'angle-up']} />
+        <FontAwesomeIcon icon={['far', 'angle-down']} />
       </Flexbox>
     </Flexbox>
     {this.renderErrorMessage()}
