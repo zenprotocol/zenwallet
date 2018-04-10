@@ -1,6 +1,4 @@
-import path from 'path'
-
-export const IMG_BASE = path.resolve(__dirname, 'assets/img')
+export const IMG_BASE = 'assets/img'
 export const LOGO_SRC = `${IMG_BASE}/zen-logo.png`
 export const CREATE_WALLET_SRC = `${IMG_BASE}/create-wallet-icon.png`
 export const IMPORT_WALLET_SRC = `${IMG_BASE}/import-wallet-icon.png`

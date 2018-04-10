@@ -7,10 +7,10 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["add-module-exports"],
+  "plugins": ["transform-decorators-legacy", "add-module-exports"],
   "env": {
     "production": {
-      "presets": ["react-optimize"],
+      "presets": [],
       "plugins": ["dev-expression"]
     },
     "development": {
