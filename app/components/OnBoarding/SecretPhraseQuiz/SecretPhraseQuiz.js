@@ -2,64 +2,21 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import _ from 'lodash'
+import cx from 'classnames'
 
-import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 
 @inject('secretPhraseState')
 @observer
 class SecretPhraseQuiz extends Component {
-  onChange = (evt) => {
-    const correctWord = evt.target.name
-    const word = evt.target.value.trim().toLowerCase()
-    const index = Number(evt.target.getAttribute('data-index'))
-    const arrayObject = this.props.secretPhraseState.mnemonicPhrase[index]
-    const validInput = (word.length === 0 || /^(.*[a-z].*)$/.test(word))
-
-    if (validInput) {
-      arrayObject.userInput = word
-
-      if (word.length > 0) {
-        if (correctWord.startsWith(word)) {
-          if (correctWord === word) {
-            arrayObject.status = 'perfect'
-            let ref,
-              refIndex,
-              refClass
-            refIndex = index + 1
-            ref = this[`input${refIndex}`]
-
-            if (ref) {
-              refClass = ref.getAttribute('class')
-              while (refClass == 'perfect') {
-                refIndex += 1
-                ref = this[`input${refIndex}`]
-                refClass = ref.getAttribute('class')
-              }
-            }
-
-            if (ref) { ref.focus() }
-          } else {
-            arrayObject.status = 'valid'
-          }
-        } else {
-          arrayObject.status = 'invalid'
-        }
-      } else {
-        arrayObject.status = ''
-      }
-    }
-
-    this.forceUpdate()
+  state = {
+    userInputWords: _.range(24).map(() => ''),
   }
 
   validateQuiz() {
-    // const { mnemonicPhrase } = this.props.secretPhraseState
-    // const statuses = mnemonicPhrase.map(word) => (word.status))
-    // return statuses.every(val => val === 'perfect')
-    return this.props.secretPhraseState.mnemonicPhrase.every(word => word.status === 'perfect')
+    return this.props.secretPhraseState.mnemonicPhrase.every((word, idx) => this.isInputValid(idx))
   }
 
   onSubmitClicked = () => {
@@ -67,22 +24,41 @@ class SecretPhraseQuiz extends Component {
       history.push('/set-password')
     }
   }
+  registerOnChangeFor = idx => evt => {
+    const { value } = evt.target // persist evt, don't delete! see https://reactjs.org/docs/events.html#event-pooling
+    this.setState(({ userInputWords }) => {
+      userInputWords[idx] = value
+      return { userInputWords }
+    }, () => {
+      if (this.isInputValid(idx) && idx < 23) {
+        this[`input${idx + 1}`].focus()
+      }
+    })
+  }
+
+  isInputValid = idx =>
+    this.props.secretPhraseState.mnemonicPhrase[idx] === this.state.userInputWords[idx]
+  isInputInvalid = idx => !this.isInputValid(idx) && this.state.userInputWords[idx]
 
   renderQuizInputs() {
     return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => {
+      let iconClassNames = 'display-none'
+      if (word.status === 'perfect') { iconClassNames = 'fa fa-check' }
+      if (word.status === 'invalid') { iconClassNames = 'fa fa-times' }
       return (
-        <li key={idx} className={word.status}>
+        <li
+          key={idx}
+          className={cx({ perfect: this.isInputValid(idx), invalid: this.isInputInvalid(idx) })}
+        >
           <input
             type="text"
-            data-index={idx}
-            name={word.word}
-            onChange={this.onChange}
-            className={word.status}
-            value={word.userInput}
-            disabled={word.status === 'perfect'}
+            onChange={this.registerOnChangeFor(idx)}
+            className={cx({ perfect: this.isInputValid(idx), invalid: this.isInputInvalid(idx) })}
+            value={this.state.userInputWords[idx]}
+            disabled={this.isInputValid(idx)}
             ref={input => { this[`input${idx}`] = input }}
           />
-          <IsValidIcon isValid={word.status === 'perfect'} isHidden={!word.status.match(/perfect|invliad/)} />
+          <i className={iconClassNames} />
         </li>
       )
     })

@@ -1,4 +1,6 @@
 import { observable, action, runInAction } from 'mobx'
+import bip39 from 'bip39'
+
 import { postImportWallet, postWalletResync, postUnlockWallet } from '../services/api-service'
 
 class SecretPhraseState {
@@ -8,6 +10,11 @@ class SecretPhraseState {
   @observable inprogress = ''
   @observable importError = ''
   @observable status = ''
+
+  @action.bound
+  generateSeed() {
+    this.mnemonicPhrase = observable.array(bip39.generateMnemonic(256).split(' '))
+  }
 
   @action
   async importWallet(contractMessage) {
