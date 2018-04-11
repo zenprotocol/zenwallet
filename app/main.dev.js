@@ -89,14 +89,14 @@ app.on('ready', async () => {
   console.log('process.argv', process.argv)
 
   const args = []
-  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1) {
+  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1) {
     args.push('--wipe')
     console.log('WIPING DB')
   } else {
     console.log('NOT WIPING DB')
   }
 
-  if (process.argv.indexOf('--miner') > -1) {
+  if (process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1) {
     args.push('--miner')
     console.log('RUNNING A MINER')
   } else {
