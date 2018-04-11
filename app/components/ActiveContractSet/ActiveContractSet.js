@@ -73,12 +73,13 @@ class ActiveContractSet extends Component {
             <td>{contract.expire.toLocaleString()}</td>
             <td className="align-right buttons">
               <a
+                title='Show Code Snippet'
                 onClick={() => { this.toggleCodeSnippet(contract.address) }}
                 className="button secondary small margin-right code"
               >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">{viewCodeButtonText}</span>
               </a>
-              <Link className="button small play" to={`/run-contract/${contract.address}`} >
+              <Link title='Run Contract' className="button small play" to={`/run-contract/${contract.address}`} >
                 <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
               </Link>
             </td>
