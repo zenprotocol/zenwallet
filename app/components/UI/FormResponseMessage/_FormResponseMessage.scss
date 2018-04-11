@@ -6,24 +6,24 @@
   border: 1px solid $input-border-color;
   line-height: 1.5;
 
-  i {
+  svg {
     padding: 0 15px 0 0;
     font-size: 22px;
   }
 
   &.success {
     border-top: 4px solid $blue;
-    i { color: $blue; }
+    svg { color: $blue; }
   }
 
   &.warning {
     border-top: 4px solid $orange;
-    i { color: $orange; }
+    svg { color: $orange; }
   }
 
   &.error {
     border-top: 4px solid $red;
-    i { color: $red; }
+    svg { color: $red; }
   }
 
 }

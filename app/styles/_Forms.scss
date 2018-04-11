@@ -88,9 +88,9 @@ input[type=password],
 		background: $dark-grey-2;
 		border-left: 1px solid $input-border-color;
 		border-radius: 0 2px 2px 0;
-		i.fa { color: $blue; }
-		i.fa.fa-angle-up { padding: 4px 11px 0px 11px; }
-		i.fa.fa-angle-down { padding: 0px 11px 5px 11px; }
+		svg { color: $blue; }
+		svg.fa-angle-up { padding: 4px 11px 0px 11px; }
+		svg.fa-angle-down { padding: 0px 11px 5px 11px; }
 	}
 
 	input#amount {
@@ -124,7 +124,7 @@ input[type=password],
 
 	&.error { color: $red; }
 
-	i.fa { padding: 0 5px; }
+	svg { padding: 0 5px; }
 }
 
 .upload-contract-dropzone {
@@ -322,7 +322,7 @@ label.checkbox {
 		font-family: Roboto;
     font-size: 13px;
     font-weight: 300;
-    letter-spacing: 0.5px;		
+    letter-spacing: 0.5px;
 
     border-radius: 0;
     -webkit-box-flex: 1;
@@ -359,7 +359,7 @@ label.checkbox {
 				&:hover { color: $light-white; }
 				&:focus { color: $off-white; }
 				&:active { color: $off-white; }
-			}			
+			}
 		}
 
 		&.with-background {
@@ -375,7 +375,11 @@ label.checkbox {
 
 }
 
-
+.input-icon {
+	position: absolute;
+	top: 11px;
+	right: 14px;
+}
 
 
 .loading:after {

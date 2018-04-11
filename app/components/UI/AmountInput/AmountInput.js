@@ -42,7 +42,6 @@ class AmountInput extends Component {
     return ''
   }
   onChange = (e) => {
-    const { amount } = this.state
     if (e.target.value) {
       const regex = /^[0-9\.]+$/
       let newAmount = e.target.value
@@ -71,7 +70,7 @@ class AmountInput extends Component {
 	  if (e.keyCode == 40) { this.decreaseAmount() } // DOWN
 	}
 
-	increaseAmount() {
+	increaseAmount = () => {
 	  const { amount } = this.state
 	  let newAmount
 	  if (amount === undefined || amount === '') {
@@ -85,7 +84,7 @@ class AmountInput extends Component {
 	  this.sendDataToParent(newAmount)
 	}
 
-	decreaseAmount() {
+	decreaseAmount = () => {
 	  const { amount } = this.state
 	  let newAmount
 
@@ -200,8 +199,8 @@ class AmountInput extends Component {
       />
       { this.renderMaxAmountDiv() }
       <Flexbox flexDirection="column" className="amountArrows">
-        <FontAwesomeIcon icon={['far', 'angle-up']} />
-        <FontAwesomeIcon icon={['far', 'angle-down']} />
+        <FontAwesomeIcon onClick={this.increaseAmount} icon={['far', 'angle-up']} />
+        <FontAwesomeIcon onClick={this.decreaseAmount} icon={['far', 'angle-down']} />
       </Flexbox>
     </Flexbox>
     {this.renderErrorMessage()}

@@ -183,7 +183,7 @@ class Faucet extends Component {
           <br />
 							If you didn't save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retreive it
           <br />
-							You can also retrieve it by visiting
+							You can also retrieve it by visiting&nbsp;
           <a
             href="https://crowdsale.zenprotocol.com/create-wallet/complete"
             onClick={this.onLinkClick}
@@ -225,7 +225,7 @@ class Faucet extends Component {
         </Flexbox>
         <Flexbox>
           <h3 className="agree-to-terms">
-            * By claiming your tokens you agree to the
+            * By claiming your tokens you agree to the&nbsp;
             <a
               href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf"
               onClick={this.onLinkClick}

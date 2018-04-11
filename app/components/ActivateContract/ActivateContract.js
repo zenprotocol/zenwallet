@@ -52,11 +52,11 @@ class ActivateContract extends Component {
     }
   }
 
-  onContractNameChanged(event) {
+  onContractNameChanged = (evt) => {
     const { contract } = this.props
-    contract.name = event.target.value
+    contract.name = evt.target.value
     if (contract.acceptedFiles.length > 0 && contract.code) {
-      contract.code = this.addOrUpdateCodeComment(contract.code, event.target.value)
+      contract.code = this.addOrUpdateCodeComment(contract.code, evt.target.value)
     }
   }
 

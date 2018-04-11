@@ -8,7 +8,7 @@ const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.fst f
 class ContractState {
   @observable fileName
   @observable dragDropText = dropTextPlaceholder
-  @observable name
+  @observable name = ''
   @observable hash
   @observable address
   @observable code = ''

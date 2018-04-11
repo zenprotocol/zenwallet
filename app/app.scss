@@ -8,6 +8,7 @@
 
  @import "~normalize.css/normalize";
 
+ @import "styles/utils";
  @import "styles/Reset";
  @import "styles/Variables";
  @import "styles/Shared";
@@ -17,7 +18,7 @@
  @import "styles/AutoSuggest";
  @import "styles/MonokaiSublime";
  @import "styles/Balloon";
- // 
+ //
  @import "components/UI/Layout/Layout";
  @import "components/UI/Container/Container";
  @import "components/UI/Main/Main";
@@ -26,7 +27,7 @@
  @import "components/UI/Sidebar/Sidebar";
  @import "components/UI/FormResponseMessage/FormResponseMessage";
  @import "components/UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts";
- // 
+ //
  @import "components/Balances/Balances";
  @import "components/Receive/Receive";
  @import "components/SendTx/SendTx";
@@ -35,7 +36,7 @@
  @import "components/ActiveContractSet/ActiveContractSet";
  @import "components/Loading/Loading";
  @import "components/UnlockWallet/UnlockWallet";
- // 
+ //
  @import "components/OnBoarding/Layout/Layout";
  @import "components/OnBoarding/WelcomeMessages/WelcomeMessages";
  @import "components/OnBoarding/ImportOrCreateWallet/ImportOrCreateWallet";
@@ -43,5 +44,5 @@
  @import "components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz";
  @import "components/OnBoarding/SetPassword/SetPassword";
  @import "components/OnBoarding/TermsOfService/TermsOfService";
- // 
- div#app { height: 100%; }
+ //
+ #root { height: 100%; }

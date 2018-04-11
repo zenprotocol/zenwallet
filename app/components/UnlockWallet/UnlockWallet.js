@@ -49,7 +49,7 @@ class UnlockWallet extends Component {
               </span>
             </div>
 
-            <button className="unlock">
+            <button className="unlock btn-block">
               <span>Unlock</span>
               <FontAwesomeIcon icon={['far', 'unlock']} />
             </button>

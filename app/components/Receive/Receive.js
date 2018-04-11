@@ -40,7 +40,7 @@ class Receive extends Component {
   }
 
   renderCopiedMessage() {
-    if (this.state.showCopyMessage === true) {
+    if (!this.state.showCopyMessage) {
       return null
     }
     return (

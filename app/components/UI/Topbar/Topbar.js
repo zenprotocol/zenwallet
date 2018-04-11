@@ -59,10 +59,6 @@ class Header extends Component {
     const className = classnames('header', this.props.className)
     return (
       <Flexbox className={className} element="header" >
-        <Flexbox className="back-buttons" width="100px">
-          { this.renderBackButton() }
-          { this.renderForwardButton() }
-        </Flexbox>
         <Flexbox flexGrow={1} />
         <div className="balance">
           <div className="balance-and-ticker">

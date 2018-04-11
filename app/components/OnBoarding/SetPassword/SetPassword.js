@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import ToggleVisibilityIcon from '../../Icons/ToggleVisibilityIcon'
 import IsValidIcon from '../../Icons/IsValidIcon'
@@ -55,7 +54,6 @@ class SetPassword extends Component {
           this.setState({ passwordsMatch: 'error' })
         }
         if (password === passwordConfirmation) {
-          this.props.secretPhraseState.password = password
           this.setState({ passwordsMatch: 'match' })
           return true
         }
@@ -88,16 +86,13 @@ class SetPassword extends Component {
 
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
-    if (this.validatePassword()) {
-      secretPhraseState.importWallet()
-      secretPhraseState.resync()
-      secretPhraseState.unlockWallet()
+    secretPhraseState.importWallet(this.state.password)
+    // secretPhraseState.resync() crashing the node since @zen/node v0.1.38
+    secretPhraseState.unlockWallet(this.state.password)
 
-      secretPhraseState.mnemonicPhrase = []
-      secretPhraseState.password = ''
+    secretPhraseState.mnemonicPhrase = []
 
-      history.push('/terms-of-service')
-    }
+    history.push('/terms-of-service')
   }
 
     onPastePassConfirmation = (evt) => {
@@ -159,15 +154,15 @@ class SetPassword extends Component {
                 <h5>Make sure your password includes:</h5>
                 <ol>
                   <li>
-                    <IsValidIcon isValid={validLength === 'match'} />
+                    <IsValidIcon isValid={validLength} />
                     <span>Exactly 16 characters</span>
                   </li>
                   <li>
-                    <IsValidIcon isValid={validUpper === 'match'} />
+                    <IsValidIcon isValid={validUpper} />
                     <span>Uper and lower case letters</span>
                   </li>
                   <li>
-                    <IsValidIcon isValid={hasNumbers === 'match'} />
+                    <IsValidIcon isValid={hasNumbers} />
                     <span>Numbers</span>
                   </li>
                 </ol>

@@ -32,8 +32,8 @@ class Balances extends Component {
       }
 
       return (
-        [
-          <tr key={asset.asset}>
+        <React.Fragment key={asset.asset}>
+          <tr>
             <td className="align-left text" title={assetName} >{assetName}</td>
             <CopyableTableCell string={asset.asset} />
             <td className="bright-blue" title={fullBalanceForTitle} >
@@ -44,9 +44,9 @@ class Balances extends Component {
                 <FontAwesomeIcon icon={['far', 'paper-plane']} /> <span className="button-text">Send</span>
               </Link>
             </td>
-          </tr>,
-          <tr className="separator" />,
-        ]
+          </tr>
+          <tr className="separator" />
+        </React.Fragment>
       )
     })
 

@@ -6,6 +6,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import IsValidIcon from '../Icons/IsValidIcon'
 import { validateAddress } from '../../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
@@ -80,7 +81,7 @@ class SendTx extends Component {
   renderAddressErrorMessage() {
     if (this.state.addressError) {
       return (
-        <div className="error-message">
+        <div className="error input-message">
           <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
           <span>Destination Address is invalid</span>
         </div>
@@ -188,7 +189,7 @@ class SendTx extends Component {
               <label htmlFor="to">Destination Address</label>
               <Flexbox flexDirection="row" className="destination-address-input">
 
-                <Flexbox flexDirection="column" className="full-width">
+                <Flexbox flexDirection="column" className="full-width relative">
                   <input
                     id="to"
                     ref={(el) => { this['elem-to'] = el }}
@@ -202,6 +203,7 @@ class SendTx extends Component {
                     onFocus={this.onAddressFocus}
                     autoFocus
                   />
+                  <IsValidIcon isValid={validateAddress(this.props.transaction.to)} className="input-icon" />
                   {this.renderAddressErrorMessage()}
                 </Flexbox>
                 <button
