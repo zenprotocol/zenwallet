@@ -2,6 +2,6 @@
 # yarn lockfile v1
 
 
-"@zen/zen-node@^0.1.39":
-  version "0.1.39"
-  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.39.tgz#1076009fb8d1dba7070b77017cbdba82e764e462"
+"@zen/zen-node@^0.1.40":
+  version "0.1.40"
+  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.40.tgz#a2b8eb4920c73f9c4fa88d1a9d26f317b0917842"
