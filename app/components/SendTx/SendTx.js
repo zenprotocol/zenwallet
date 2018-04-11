@@ -17,6 +17,7 @@ import AmountInput from '../UI/AmountInput/AmountInput'
 @inject('transaction')
 @observer
 class SendTx extends Component {
+  
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -140,7 +141,7 @@ class SendTx extends Component {
     )
   }
 
-  onSubmitButtonClicked() {
+  onSubmitButtonClicked = () => {
     this.props.transaction.createTransaction(this.props.transaction)
   }
 
