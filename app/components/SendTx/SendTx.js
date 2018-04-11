@@ -203,7 +203,12 @@ class SendTx extends Component {
                     onFocus={this.onAddressFocus}
                     autoFocus
                   />
-                  <IsValidIcon isValid={validateAddress(this.props.transaction.to)} className="input-icon" />
+                  <IsValidIcon
+                    isValid={validateAddress(this.props.transaction.to)}
+                    className="input-icon"
+                    hasColors
+                    isHidden={!to}
+                  />
                   {this.renderAddressErrorMessage()}
                 </Flexbox>
                 <button

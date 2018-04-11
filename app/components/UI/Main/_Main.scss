@@ -7,4 +7,5 @@
 
 .inner-main {
   margin-left: $sidebar-width;
+  width: calc(100% - #{$sidebar-width})
 }

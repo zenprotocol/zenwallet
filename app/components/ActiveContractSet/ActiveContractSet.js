@@ -48,8 +48,8 @@ class ActiveContractSet extends Component {
       }
 
       return (
-        [
-          <tr key={contract.contractHash}>
+        <React.Fragment key={contract.contractHash}>
+          <tr>
             <td className="text">{getNamefromCodeComment(contract.code)}</td>
             <CopyableTableCell string={contract.contractHash} />
             <CopyableTableCell string={contract.address} />
@@ -66,7 +66,7 @@ class ActiveContractSet extends Component {
                 <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
               </Link>
             </td>
-          </tr>,
+          </tr>
           <tr className={codeSnippetClassNames}>
             <td colSpan="5">
               <Flexbox flexDirection="column" className="contract-code form-row">
@@ -75,9 +75,9 @@ class ActiveContractSet extends Component {
                 </Highlight>
               </Flexbox>
             </td>
-          </tr>,
-          <tr className="separator" />,
-        ]
+          </tr>
+          <tr className="separator" />
+        </React.Fragment>
       )
     })
 

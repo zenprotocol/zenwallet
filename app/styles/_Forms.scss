@@ -379,6 +379,13 @@ label.checkbox {
 	position: absolute;
 	top: 11px;
 	right: 14px;
+
+	&.error {
+		color: $red;
+	}
+	&.valid {
+		color: $blue;
+	}
 }
 
 
