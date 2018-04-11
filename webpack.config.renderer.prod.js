@@ -164,6 +164,7 @@ export default merge.smart(baseConfig, {
     new UglifyJSPlugin({
       parallel: true,
       sourceMap: true,
+      test: !process.env.DEBUG_PROD ? /\.js$/i : /cantTouchThis/,
     }),
 
     new ExtractTextPlugin('style.css'),
