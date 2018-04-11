@@ -37,11 +37,11 @@ table {
   td.copyable {
     min-width: 142px;
 
-    i.fa-copy {
-      display: none;
+    svg {
+      // display: none;
       cursor: pointer;
     }
-    &:hover i.fa.fa-copy { display: inline-block; }
+    &:hover svg { display: inline-block; }
   }
 
   td.buttons {

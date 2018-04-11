@@ -54,7 +54,7 @@ export default class App extends React.Component {
             </Switch>
           </Router>
         </Provider>
-        <MobxDevTools />
+        {process.env.NODE_ENV !== 'production' && <MobxDevTools />}
       </React.Fragment>
     )
   }

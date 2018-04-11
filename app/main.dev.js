@@ -68,38 +68,35 @@ const installExtensions = async () => {
  * Add event listeners...
  */
 
-app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
+let node
 
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
   }
-
+  const { width: _width, height: _height } = db.get('userPreferences').value()
   mainWindow = new BrowserWindow({
-    show: false,
-    width: 1024,
-    height: 728,
+    width: _width,
+    height: _height,
+    title: app.getName(),
   })
+
+  mainWindow.on('resize', () => {
+    const { width, height } = mainWindow.getBounds()
+    db.get('userPreferences').assign({ width, height }).write()
+  });
 
   console.log('process.argv', process.argv)
 
   const args = []
-
-  if (process.argv.indexOf('wipe') > -1) {
+  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1) {
     args.push('--wipe')
     console.log('WIPING DB')
   } else {
     console.log('NOT WIPING DB')
   }
 
-  if (process.argv.indexOf('miner') > -1) {
+  if (process.argv.indexOf('--miner') > -1) {
     args.push('--miner')
     console.log('RUNNING A MINER')
   } else {
@@ -116,11 +113,11 @@ app.on('ready', async () => {
   console.log('process args', args)
 
   if (process.env.NODE_ENV !== 'localnode') {
-    const node = zenNode(args)
+    node = zenNode(args)
     node.stderr.pipe(process.stderr)
     node.stdout.pipe(process.stdout)
 
-    node.on('exit', (code) => {
+    node.on('exit', () => {
       console.log('Closed');
       app.quit();
     });
@@ -144,4 +141,19 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow)
   menuBuilder.buildMenu()
+
+  process.on('SIGINT', () => {
+    console.log('Please close zen-wallet by closing the app window');
+  })
+})
+
+app.on('window-all-closed', () => {
+  if (process.env.NODE_ENV !== 'localnode') {
+    console.log('Sending SIGINT to Node');
+    node.kill('SIGINT');
+  } else if (process.platform !== 'darwin') {
+    // Respect the OSX convention of having the application in memory even
+    // after all windows have been closed
+    app.quit()
+  }
 })

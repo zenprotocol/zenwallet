@@ -27,15 +27,15 @@ class CopyableTableCell extends Component {
     const truncatedString = truncateString(string)
 
     return (
-      <td className="align-left copyable" title={string} >
+      <td className="align-left copyable" title={string}>
 
-        <span title={string} >{truncatedString} </span>
+        <span title={string}>{truncatedString} </span>
         <span
           onClick={() => { this.copyToClipboard(string) }}
           data-balloon={copyText}
           data-balloon-pos="up"
         >
-          <FontAwesomeIcon icon={['far', 'copy']} />
+          <FontAwesomeIcon icon={['far', 'copy']} className="" />
         </span>
 
       </td>

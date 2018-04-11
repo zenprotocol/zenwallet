@@ -7,6 +7,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import Layout from '../UI/Layout/Layout'
 import { truncateString, getNamefromCodeComment } from '../../../utils/helpers'
+import CopyableTableCell from '../UI/CopyableTableCell'
 
 @inject('activeContractSet')
 @observer
@@ -50,26 +51,8 @@ class ActiveContractSet extends Component {
         [
           <tr key={contract.contractHash}>
             <td className="text">{getNamefromCodeComment(contract.code)}</td>
-            <td className="copyable">
-              <span title={contract.contractHash} >{hash} </span>
-              <span
-                onClick={() => { this.copyToClipboard(contract.contractHash) }}
-                data-balloon={copyText}
-                data-balloon-pos="up"
-              >
-                <FontAwesomeIcon icon={['far', 'copy']} />
-              </span>
-            </td>
-            <td className="copyable">
-              <span title={contract.address} >{address} </span>
-              <span
-                onClick={() => { this.copyToClipboard(contract.address) }}
-                data-balloon={copyText}
-                data-balloon-pos="up"
-              >
-                <FontAwesomeIcon icon={['far', 'copy']} />
-              </span>
-            </td>
+            <CopyableTableCell string={contract.contractHash} />
+            <CopyableTableCell string={contract.address} />
             <td>{contract.expire.toLocaleString()}</td>
             <td className="align-right buttons">
               <a
