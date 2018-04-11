@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
+import {unlockWallet} from './UnlockWalletUtil'
 
-@inject('loading')
-@observer
 class UnlockWallet extends Component {
+  
   state = {
     password: '',
     hidePassword: true,
@@ -24,7 +23,7 @@ class UnlockWallet extends Component {
 
   onSubmit = (evt) => {
     evt.preventDefault()
-    this.props.loading.unlockWallet(this.state.password)
+    unlockWallet(this.state.password)
   }
 
   render() {

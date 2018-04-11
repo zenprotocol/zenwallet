@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 
-import { LOADING_GIF_SRC, LOGO_GIF_SRC } from '../../constants/imgSources'
+import {LOADING_GIF_SRC, LOGO_GIF_SRC} from '../../constants/imgSources'
+import {load} from './LoadingUtil'
 
-@inject('loading')
-@observer
 class Loading extends Component {
   state = {
     loadingDotsClass: 'loading-dots display-none',
   }
 
   componentWillMount() {
-    this.props.loading.load()
+    load()
   }
 
   componentDidMount() {
