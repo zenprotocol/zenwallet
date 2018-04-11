@@ -56,7 +56,7 @@ input[type=password],
 	display: inline;
   position: absolute;
   right: 1.5px;
-  top: 41.5px;
+  top: 41px;
   padding: 11px;
 	font-size: 12px;
   text-transform: uppercase;
@@ -65,7 +65,7 @@ input[type=password],
 	background: $dark-grey-2;
 }
 
-.chosenContractName { top: 1.5px; }
+.chosenContractName { top: 1px; }
 
 .amountInputContainer {
 	padding: 0px;
