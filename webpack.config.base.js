@@ -37,6 +37,9 @@ export default {
       path.join(__dirname, 'app'),
       'node_modules',
     ],
+    alias: {
+      '@fortawesome': path.join(__dirname, 'app', 'vendor', '@fortawesome'),
+    },
   },
 
   plugins: [

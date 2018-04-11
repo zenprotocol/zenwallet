@@ -10,9 +10,9 @@ if (process.argv.indexOf('wipe') > -1) { argsArray.push('wipe') }
 if (process.argv.indexOf('miner') > -1) { argsArray.push('miner') }
 
 if (process.platform !== 'win32') {
-  wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname, '../') });
+  wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname, '..', 'app') });
 } else {
-  wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname, '../'), shell: true });
+  wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname, '..', 'app'), shell: true });
 }
 
 wallet.stdout.pipe(process.stdout);

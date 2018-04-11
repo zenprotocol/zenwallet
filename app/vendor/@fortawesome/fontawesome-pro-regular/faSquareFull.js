@@ -1,0 +1,1 @@
+module.exports = { prefix: 'far', iconName: 'square-full', icon: [512, 512, [], "f45c", "M0 0v512h512V0H0zm464 464H48V48h416v416z"] };

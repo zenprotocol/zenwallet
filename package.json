@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.1.86",
+  "version": "0.1.87",
   "description": "Zen Wallet",
   "main": "app/main.prod.js",
   "scripts": {
@@ -31,9 +31,9 @@
     "test-all": "npm run lint && npm run flow && npm run build && npm run test && npm run test-e2e",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js e2e",
     "test-watch": "npm test -- --watch",
-    "dev-localhost": "NODE_ENV=development ZEN_LOCAL=localhost electron .",
-    "dev-l1": "NODE_ENV=development ZEN_LOCAL=L1 electron .",
-    "dev-localnode": "NODE_ENV=localnode electron ."
+    "dev-localhost": "NODE_ENV=development ZEN_LOCAL=localhost electron ./app/",
+    "dev-l1": "NODE_ENV=development ZEN_LOCAL=L1 electron ./app/",
+    "dev-localnode": "NODE_ENV=localnode electron ./app/"
   },
   "browserslist": "electron 1.6",
   "build": {
