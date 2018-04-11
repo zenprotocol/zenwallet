@@ -113,10 +113,15 @@ export async function getLockWallet() {
   return response.data
 }
 
+export async function getIsAccountLocked() {
+  const response = await get(`${serverAddress}/wallet/locked`)
+  return response.data
+}
+
 export async function postImportWallet(secretPhraseArray, secret) {
   const data = {
     words: secretPhraseArray,
-    key: secret,
+    password: secret,
   }
   console.log('postImportWallet data', data)
   const response = await post(`${serverAddress}/wallet/import`, data, {
@@ -126,7 +131,7 @@ export async function postImportWallet(secretPhraseArray, secret) {
 }
 
 export async function postUnlockWallet(secret) {
-  const data = { key: secret }
+  const data = { password: secret }
   const response = await post(`${serverAddress}/wallet/unlock`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
