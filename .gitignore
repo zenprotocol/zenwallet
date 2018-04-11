@@ -47,7 +47,7 @@ dist
 dll
 main.js
 main.js.map
-*-wallet-v*.tgz
+*-wallet-*.tgz
 
 .idea
 npm-debug.log.*
