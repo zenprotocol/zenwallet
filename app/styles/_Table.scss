@@ -38,10 +38,11 @@ table {
     min-width: 142px;
 
     svg {
-      // display: none;
+      opacity: 0;
+      transition: 0.5s opacity;
       cursor: pointer;
     }
-    &:hover svg { display: inline-block; }
+    &:hover svg { opacity: 1; }
   }
 
   td.buttons {
