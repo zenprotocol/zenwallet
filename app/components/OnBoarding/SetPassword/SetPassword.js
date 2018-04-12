@@ -231,7 +231,6 @@ class SetPassword extends Component {
               <button
                 className="button-on-right"
                 onClick={this.onSubmitClicked}
-                disabled={!this.validatePassword()}
               >
               Continue
               </button>
