@@ -32,8 +32,10 @@
   }
 
   p {
-    font-weight: 300;
+    font-weight: 500;
     margin-bottom: 14px;
+    letter-spacing: 0.2px;
+
     &.warning {
       text-transform: uppercase; color: $red;
     }
