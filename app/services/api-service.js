@@ -12,7 +12,7 @@ export async function getBalances() {
 
 export async function getPublicAddress() {
   const response = await get(`${serverAddress}/wallet/address`)
-  return response.data.address
+  return response.data
 }
 
 export async function postTransaction(tx) {
@@ -29,7 +29,7 @@ export async function postTransaction(tx) {
     },
   }
 
-  const response = await post(`${serverAddress}/wallet/spend`, data, {
+  const response = await post(`${serverAddress}/wallet/send`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
 
