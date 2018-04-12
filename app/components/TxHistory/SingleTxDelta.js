@@ -11,13 +11,14 @@ class SingleTxDelta extends Component {
     const amountClass = (finalAmount > 0 ? 'align-right green' : 'align-right red')
 
     return (
-      [
-        <CopyableTableCell string={`${asset}:${assetType}`} />,
-        <td>{isZenAsset(asset) && 'ZENP'}</td>,
+      <React.Fragment>
+        <CopyableTableCell string={`${asset}:${assetType}`} />
+        <td>{isZenAsset(asset) && 'ZENP'}</td>
         <td className={amountClass}>
           {finalAmount}
-        </td>,
-      ]
+        </td>
+      </React.Fragment>
+
     )
   }
 }

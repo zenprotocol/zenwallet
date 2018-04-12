@@ -1,4 +1,5 @@
 import { observable, action, runInAction } from 'mobx'
+
 import { getPublicAddress } from '../services/api-service'
 
 class PublicAddressState {

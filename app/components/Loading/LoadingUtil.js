@@ -21,10 +21,10 @@ export const go = async() => {
     }
 
   } catch (error) {
-    
+
     try {
       console.log('response error.response', error.response)
-      setTimeout(() => { this.go() }, 1000)
+      setTimeout(() => { go() }, 1000)
     } catch (e) {
       console.log('sendContractMessage catch e', e)
     }
@@ -68,7 +68,7 @@ export const unlockWallet = async(password) => {
     }
 
   } catch (error) {
-      
+
     try {
       console.log('unlockWallet error.response', error.response)
     } catch (e) {

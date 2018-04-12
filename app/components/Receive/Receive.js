@@ -34,6 +34,9 @@ class Receive extends Component {
 
   showHideCopyMessage() {
     this.setState({ showCopyMessage: true })
+    if (this.copyMessageTimeout) {
+      return // HACK: timeout is being called twice
+    }
     this.copyMessageTimeout = setTimeout(() => {
       this.setState({ showCopyMessage: false })
     }, 3000);
