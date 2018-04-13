@@ -1,4 +1,5 @@
 import { observable, action, runInAction } from 'mobx'
+
 import { postTransaction } from '../services/api-service'
 
 class TransactionState {
@@ -12,6 +13,10 @@ class TransactionState {
   @observable assetIsValid = false
   @observable assetName = ''
 
+  constructor(secretPhraseState) {
+    this.secretPhraseState = secretPhraseState
+  }
+
   @action
   init() {
     this.asset = ''
@@ -22,7 +27,7 @@ class TransactionState {
   async createTransaction(tx) {
     try {
       this.inprogress = true
-      const response = await postTransaction(tx)
+      const response = await postTransaction({ ...tx, password: this.secretPhraseState.password })
 
       runInAction(() => {
         console.log('createTransaction response', response)

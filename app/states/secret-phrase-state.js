@@ -11,6 +11,7 @@ const { alreadyRedeemedTokens } = db.get('config').value()
 class SecretPhraseState {
   @observable mnemonicPhrase = []
   @observable autoLogoutMinutes = 30
+  @observable password = ''
   @observable inprogress = ''
   @observable importError = ''
   @observable status = ''
@@ -69,7 +70,7 @@ class SecretPhraseState {
   }
 
   @action
-  async resync() {
+  async resync() { // eslint-disable-line class-methods-use-this
     console.log('wallet resync')
 
     try {

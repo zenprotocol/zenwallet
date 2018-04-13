@@ -1,4 +1,5 @@
 import { observable, action, runInAction } from 'mobx'
+
 import { postRunContractMessage } from '../services/api-service'
 
 class ContractMessageState {
@@ -15,6 +16,10 @@ class ContractMessageState {
   @observable assetName = ''
   @observable assetBalance
 
+  constructor(secretPhraseState) {
+    this.secretPhraseState = secretPhraseState
+  }
+
   @action
   init() {
     this.asset = ''
@@ -25,7 +30,8 @@ class ContractMessageState {
   async sendContractMessage(contractMessage) {
     try {
       this.inprogress = true
-      const response = await postRunContractMessage(contractMessage)
+      const data = { ...contractMessage, password: this.secretPhraseState.password }
+      const response = await postRunContractMessage(data)
 
       runInAction(() => {
         console.log('sendContractMessage response', response)

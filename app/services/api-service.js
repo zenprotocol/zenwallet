@@ -17,11 +17,11 @@ export async function getPublicAddress() {
 
 export async function postTransaction(tx) {
   const {
-    to, asset, assetType, amount,
+    password, to, asset, assetType, amount,
   } = tx
-
   const data = {
     address: to,
+    password,
     spend: {
       asset,
       assetType,
@@ -36,33 +36,28 @@ export async function postTransaction(tx) {
   return response.data
 }
 
-export async function postActivateContract(contract) {
-  const data = {
-    code: contract.code,
-    numberOfBlocks: contract.numberOfBlocks,
-  }
-
+export async function postActivateContract({ code, numberOfBlocks, password }) {
+  const data = { code, numberOfBlocks, password }
   console.log('postActivateContract data', data)
-
   const response = await post(`${serverAddress}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
-
   return response.data
 }
 
 export async function postRunContractMessage(contractMessage) {
   const {
-    asset, assetType, to, amount, command, data,
+    password, asset, assetType, to, amount, command, data,
   } = contractMessage
 
   const finaldata = {
+    password,
     address: to,
     options: {
       returnAddress: true,
     },
   }
-  if (command) { finaldata.command = command	}
+  if (command) { finaldata.command = command }
   if (data) { finaldata.data = data }
 
   if (asset && assetType && amount) {
@@ -156,6 +151,7 @@ export async function postWalletResync() {
 
 // CROWDSALE APIS //
 
+/* eslint-disable camelcase */
 export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_base_58) {
   console.log('crowdsaleServerAddress', crowdsaleServerAddress)
 
@@ -173,3 +169,4 @@ export async function postRedeemCrowdsaleTokens(data) {
 
   return response.data
 }
+/* eslint-enable camelcase */

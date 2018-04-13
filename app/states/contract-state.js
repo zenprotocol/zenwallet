@@ -1,7 +1,8 @@
 import { observable, action, runInAction } from 'mobx'
+import { some } from 'lodash'
+
 import { postActivateContract } from '../services/api-service'
 import db from '../services/store'
-import { some } from 'lodash'
 
 const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
@@ -21,6 +22,10 @@ class ContractState {
   @observable acceptedFiles = []
   @observable rejectedFiles = []
 
+  constructor(secretPhraseState) {
+    this.secretPhraseState = secretPhraseState
+  }
+
   @action
   init(dropTextPlaceholder) {
     this.dragDropText = dropTextPlaceholder
@@ -37,8 +42,8 @@ class ContractState {
     try {
       this.inprogress = true
       this.status = 'inprogress'
-
-      const response = await postActivateContract(this)
+      const data = { ...this, password: this.secretPhraseState.password }
+      const response = await postActivateContract(data)
 
       runInAction(() => {
         const savedContracts = db.get('savedContracts').value()

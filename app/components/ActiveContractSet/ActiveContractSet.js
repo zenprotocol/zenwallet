@@ -85,7 +85,7 @@ class ActiveContractSet extends Component {
       <Layout className="active-contract-set">
         <Flexbox flexDirection="column" className="active-contract-set-container">
 
-          <Flexbox flexDirection="row" className="page-title">
+          <Flexbox flexDirection="row" className="page-title" justifyContent="space-between">
             <Flexbox flexDirection="column">
               <h1>Explore Contracts - Active Contract Set</h1>
               <h3>
@@ -94,7 +94,7 @@ class ActiveContractSet extends Component {
                 The Zen Protocol reduces network load by allowing contracts to leave the set when they are not needed, while still allowing the tokens they generate to move freely.
               </h3>
             </Flexbox>
-            <Flexbox justifyContent="flex-end" class-name="page-buttons">
+            <Flexbox justifyContent="flex-end" className="page-buttons">
               <Link className="button with-icon" to="/activate-contract" title="Upload Contract">
                 <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
               </Link>
