@@ -15,7 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@zen/zen-node": "^0.1.41",
+    "@zen/zen-node": "^0.1.45",
     "cross-env": "^5.1.4",
     "electron": "^1.8.4"
   }

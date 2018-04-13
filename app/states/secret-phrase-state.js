@@ -1,11 +1,15 @@
 import { observable, action, runInAction } from 'mobx'
 import bip39 from 'bip39'
+import swal from 'sweetalert'
 
-import { postImportWallet, postWalletResync, postUnlockWallet } from '../services/api-service'
+import db from '../services/store'
+import history from '../services/history'
+import { postImportWallet, postWalletResync, postCheckPassword } from '../services/api-service'
+
+const { alreadyRedeemedTokens } = db.get('config').value()
 
 class SecretPhraseState {
-  mnemonicPhrase = observable.array([])
-  @observable password = ''
+  @observable mnemonicPhrase = []
   @observable autoLogoutMinutes = 30
   @observable inprogress = ''
   @observable importError = ''
@@ -17,11 +21,9 @@ class SecretPhraseState {
   }
 
   @action
-  async importWallet(contractMessage) {
-    const wordsArray = this.mnemonicPhrase.map(word => (word.word))
-
+  async importWallet(password) {
     try {
-      const response = await postImportWallet(wordsArray, this.password)
+      const response = await postImportWallet(this.mnemonicPhrase, password)
 
       runInAction(() => {
         console.log('importWallet response', response)
@@ -38,12 +40,22 @@ class SecretPhraseState {
   }
 
   @action
-  async unlockWallet() {
+  async unlockWallet(password) {
     try {
-      const response = await postUnlockWallet(this.password)
+      const isPasswordCorrect = await postCheckPassword(password)
 
       runInAction(() => {
-        console.log('unlockWallet response', response)
+        console.log('isPasswordCorrect', isPasswordCorrect)
+        if (!isPasswordCorrect) {
+          swal('password is not correct')
+          return
+        }
+        this.password = password
+        if (alreadyRedeemedTokens) {
+          history.push('/portfolio')
+        } else {
+          history.push('/faucet')
+        }
       })
     } catch (error) {
       runInAction(() => {

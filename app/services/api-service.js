@@ -138,6 +138,14 @@ export async function postUnlockWallet(secret) {
   return response.data
 }
 
+export async function postCheckPassword(password) {
+  const data = { password }
+  const response = await post(`${serverAddress}/wallet/checkpassword`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response.data
+}
+
 export async function postWalletResync() {
   const response = await post(`${serverAddress}/wallet/resync`, {
     headers: { 'Content-Type': 'application/json' },

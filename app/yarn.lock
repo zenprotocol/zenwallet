@@ -6,9 +6,9 @@
   version "8.10.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.7.tgz#40c0058c115bd42ee9bf35d7a217eeef1acd2716"
 
-"@zen/zen-node@^0.1.41":
-  version "0.1.41"
-  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.41.tgz#36b1567f44368725aafba2ab5590ab4026fbc009"
+"@zen/zen-node@^0.1.45":
+  version "0.1.45"
+  resolved "https://www.myget.org/F/zenprotocol/npm/@zen/zen-node/-/@zen/zen-node-0.1.45.tgz#25cbf60bfb1d6a8ca2f739cbf70fa97d79bfe0f4"
 
 ajv@^5.1.0:
   version "5.5.2"

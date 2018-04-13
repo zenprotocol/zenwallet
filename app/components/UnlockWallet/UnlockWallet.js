@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { inject } from 'mobx-react'
 
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
-import {unlockWallet} from './UnlockWalletUtil'
 
+@inject('secretPhraseState')
 class UnlockWallet extends Component {
-  
+  static propTypes = {
+    secretPhraseState: PropTypes.shape({
+      unlockWallet: PropTypes.func.isRequired,
+    }).isRequired,
+  }
   state = {
     password: '',
     hidePassword: true,
@@ -23,7 +29,7 @@ class UnlockWallet extends Component {
 
   onSubmit = (evt) => {
     evt.preventDefault()
-    unlockWallet(this.state.password)
+    this.props.secretPhraseState.unlockWallet(this.state.password)
   }
 
   render() {
