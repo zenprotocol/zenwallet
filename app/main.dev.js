@@ -112,7 +112,10 @@ app.on('ready', async () => {
 
   console.log('process args', args)
 
-  if (process.env.NODE_ENV !== 'localnode') {
+  if (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1) {
+    console.log('OPRENING UI ONLY')
+  } else {
+    console.log('LAUNCHING NODE')
     node = zenNode(args)
     node.stderr.pipe(process.stderr)
     node.stdout.pipe(process.stdout)
