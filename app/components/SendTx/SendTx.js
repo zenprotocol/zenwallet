@@ -73,7 +73,7 @@ class SendTx extends Component {
     })
   }
 
-  onPasteClicked() {
+  onPasteClicked = () => {
     this.props.transaction.to = clipboard.readText().trim()
     this.validateAddressStates()
     this['elem-to'].focus()
