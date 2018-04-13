@@ -125,14 +125,6 @@ export async function postImportWallet(secretPhraseArray, secret) {
   return response.data
 }
 
-export async function postUnlockWallet(secret) {
-  const data = { password: secret }
-  const response = await post(`${serverAddress}/wallet/unlock`, data, {
-    headers: { 'Content-Type': 'application/json' },
-  })
-  return response.data
-}
-
 export async function postCheckPassword(password) {
   const data = { password }
   const response = await post(`${serverAddress}/wallet/checkpassword`, data, {
@@ -141,12 +133,11 @@ export async function postCheckPassword(password) {
   return response.data
 }
 
-export async function postWalletResync() {
-  const response = await post(`${serverAddress}/wallet/resync`, {
-    headers: { 'Content-Type': 'application/json' },
-  })
+export async function getWalletResync() {
+  const response = await get(`${serverAddress}/wallet/resync`)
   return response.data
 }
+
 
 
 // CROWDSALE APIS //
