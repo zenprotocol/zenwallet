@@ -16,6 +16,8 @@ import zenNode from '@zen/zen-node'
 import db from './services/store'
 import MenuBuilder from './menu'
 
+const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
+
 db.defaults({
   userPreferences: {
     width: 1200,
@@ -112,7 +114,7 @@ app.on('ready', async () => {
 
   console.log('process args', args)
 
-  if (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1) {
+  if (isUiOnly) {
     console.log('OPRENING UI ONLY')
   } else {
     console.log('LAUNCHING NODE')
@@ -147,16 +149,22 @@ app.on('ready', async () => {
 
   process.on('SIGINT', () => {
     console.log('Please close zen-wallet by closing the app window');
+    if (isUiOnly) {
+      app.quit()
+    } else {
+      console.log('Sending SIGINT to Node');
+      node.kill('SIGINT');      
+    }
   })
 })
 
 app.on('window-all-closed', () => {
-  if (process.env.NODE_ENV !== 'localnode') {
-    console.log('Sending SIGINT to Node');
-    node.kill('SIGINT');
-  } else if (process.platform !== 'darwin') {
+  if (isUiOnly) {
     // Respect the OSX convention of having the application in memory even
     // after all windows have been closed
     app.quit()
+  } else if (process.platform !== 'darwin') {
+    console.log('Sending SIGINT to Node');
+    node.kill('SIGINT');
   }
 })
