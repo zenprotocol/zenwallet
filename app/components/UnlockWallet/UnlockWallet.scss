@@ -1,7 +1,10 @@
 .loading-container {
 	.unlock-wallet {
-		.input-group.password, button.unlock {
+		.password-input-container, button.unlock {
 			margin-bottom: 36px;
+		}
+		.input-group.password {
+			margin-bottom: 0; 
 		}
 		button.unlock {
 			position: relative;

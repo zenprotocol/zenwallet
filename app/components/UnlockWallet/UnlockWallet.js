@@ -25,6 +25,7 @@ class UnlockWallet extends Component {
 
   onChange = (evt) => {
     this.setState({ password: evt.target.value.trim() })
+    this.porps.secretPhraseState.unlockWalletClearForm()
   }
 
   onSubmit = (evt) => {
@@ -32,31 +33,67 @@ class UnlockWallet extends Component {
     this.props.secretPhraseState.unlockWallet(this.state.password)
   }
 
+  renderButtonIcon() {
+    const {inprogress} = this.props.secretPhraseState
+    console.log('inprogress', inprogress)
+    if (inprogress) {
+      return (<FontAwesomeIcon icon={['far', 'spinner']} spin />)
+    } else {
+      return (<FontAwesomeIcon icon={['far', 'unlock']} />)
+    }
+  }
+  
+  renderErrorMessage() {
+    const {status} = this.props.secretPhraseState
+    if (status == 'error') {
+      return (
+        <div className="error input-message">
+          <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
+          <span>Password is invalid</span>
+        </div>
+      )
+    }
+  }
+
   render() {
-    const { password, hidePassword } = this.state
+    const {password, hidePassword} = this.state
+    const {status} = this.props.secretPhraseState
+
+    let inputClassNames = 'input-group password'
+    if (status == 'error') {
+      inputClassNames = 'input-group password error'
+    }
+
     return (
       <Flexbox flexDirection="column" className="loading-container">
         <Flexbox flexDirection="column" className="center unlock-wallet">
           <h1>Unlock Your Wallet</h1>
           <p>Please enter your password</p>
           <form onSubmit={this.onSubmit}>
-            <div className="input-group password">
-              <input
-                name="password"
-                type={hidePassword ? 'password' : 'text'}
-                value={password}
-                placeholder="Enter password"
-                className="input-group-field"
-                onChange={this.onChange}
-              />
-              <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
-                <ToggleVisibilityIcon shouldShow={hidePassword} />
-              </span>
-            </div>
 
-            <button className="unlock btn-block">
+            <Flexbox flexDirection="column" className='password-input-container'>
+              <div className={inputClassNames}>
+                <input
+                  name="password"
+                  type={hidePassword ? 'password' : 'text'}
+                  value={password}
+                  placeholder="Enter password"
+                  className="input-group-field"
+                  onChange={this.onChange}
+                />
+                <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
+                  <ToggleVisibilityIcon shouldShow={hidePassword} />
+                </span>
+              </div>
+              { this.renderErrorMessage() }
+            </Flexbox>
+
+            <button
+              className="unlock btn-block"
+              disabled={password.length == 0}
+            >
               <span>Unlock</span>
-              <FontAwesomeIcon icon={['far', 'unlock']} />
+              { this.renderButtonIcon() }
             </button>
           </form>
 

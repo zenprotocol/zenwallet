@@ -11,8 +11,8 @@ const { alreadyRedeemedTokens } = db.get('config').value()
 class SecretPhraseState {
   @observable mnemonicPhrase = []
   @observable autoLogoutMinutes = 30
+  @observable inprogress = false
   @observable password = ''
-  @observable inprogress = ''
   @observable importError = ''
   @observable status = ''
 
@@ -43,13 +43,18 @@ class SecretPhraseState {
 
   @action
   async unlockWallet(password) {
+    this.inprogress = true
     try {
       const isPasswordCorrect = await postCheckPassword(password)
 
       runInAction(() => {
+        this.inprogress = false
         console.log('isPasswordCorrect', isPasswordCorrect)
         if (!isPasswordCorrect) {
-          swal('password is not correct')
+          this.inprogress = false
+          this.status = 'error'
+          this.password = ''
+          // swal('password is not correct')
           return
         }
         this.password = password
@@ -68,6 +73,13 @@ class SecretPhraseState {
         }
       })
     }
+  }
+
+  @action
+  unlockWalletClearForm() {
+    console.log('unlockWalletClearForm')
+    this.inprogress = false
+    this.status = ''
   }
 
   @action

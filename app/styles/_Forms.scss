@@ -121,6 +121,7 @@ input[type=password],
 	padding: 7px 3px;
 	letter-spacing: 0.4px;
 	color: $blue;
+	text-align: left;
 
 	&.error { color: $red; }
 
