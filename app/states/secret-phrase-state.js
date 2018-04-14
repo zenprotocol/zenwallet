@@ -4,7 +4,7 @@ import swal from 'sweetalert'
 
 import db from '../services/store'
 import history from '../services/history'
-import { postImportWallet, postWalletResync, postCheckPassword } from '../services/api-service'
+import { postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
 
 const { alreadyRedeemedTokens } = db.get('config').value()
 
@@ -23,11 +23,14 @@ class SecretPhraseState {
 
   @action
   async importWallet(password) {
+    const wordsArray = this.mnemonicPhrase.map((word) => word.word)
+
     try {
-      const response = await postImportWallet(this.mnemonicPhrase, password)
+      const response = await postImportWallet(wordsArray, password)
 
       runInAction(() => {
         console.log('importWallet response', response)
+        this.resync()
       })
     } catch (error) {
       runInAction(() => {
@@ -41,40 +44,11 @@ class SecretPhraseState {
   }
 
   @action
-  async unlockWallet(password) {
-    try {
-      const isPasswordCorrect = await postCheckPassword(password)
-
-      runInAction(() => {
-        console.log('isPasswordCorrect', isPasswordCorrect)
-        if (!isPasswordCorrect) {
-          swal('password is not correct')
-          return
-        }
-        this.password = password
-        if (alreadyRedeemedTokens) {
-          history.push('/portfolio')
-        } else {
-          history.push('/faucet')
-        }
-      })
-    } catch (error) {
-      runInAction(() => {
-        try {
-          console.log('unlockWallet error.response', error.response)
-        } catch (e) {
-          console.log('unlockWallet catch e', e)
-        }
-      })
-    }
-  }
-
-  @action
-  async resync() { // eslint-disable-line class-methods-use-this
+  async resync() {
     console.log('wallet resync')
 
     try {
-      const response = await postWalletResync()
+      const response = await getWalletResync()
 
       runInAction(() => {
         console.log('resync response', response)

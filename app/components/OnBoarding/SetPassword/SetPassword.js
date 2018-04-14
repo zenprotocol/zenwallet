@@ -78,17 +78,13 @@ class SetPassword extends Component {
   }
 
   validatePassword() {
-    const {
-      passwordsMatch, validLength, validUpper, hasNumbers,
-    } = this.state
-    return (passwordsMatch === 'match' && validLength && validUpper && hasNumbers)
+    const {passwordsMatch, password} = this.state
+    return (passwordsMatch === 'match' && password.length > 0)
   }
 
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
     secretPhraseState.importWallet(this.state.password)
-    // secretPhraseState.resync() crashing the node since @zen/node v0.1.38
-    secretPhraseState.unlockWallet(this.state.password)
 
     secretPhraseState.mnemonicPhrase = []
 
@@ -231,6 +227,7 @@ class SetPassword extends Component {
               <button
                 className="button-on-right"
                 onClick={this.onSubmitClicked}
+                disabled={!this.validatePassword()}
               >
               Continue
               </button>
