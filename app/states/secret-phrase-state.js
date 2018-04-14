@@ -23,10 +23,8 @@ class SecretPhraseState {
 
   @action
   async importWallet(password) {
-    const wordsArray = this.mnemonicPhrase.map((word) => word.word)
-
     try {
-      const response = await postImportWallet(wordsArray, password)
+      const response = await postImportWallet(this.mnemonicPhrase, password)
 
       runInAction(() => {
         console.log('importWallet response', response)
