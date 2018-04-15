@@ -9,18 +9,23 @@ import OnBoardingLayout from '../Layout/Layout'
 const pageTexts = [
   {
     img: 'image-source-blockchain.png',
+    title: 'What is Zen Protocol?',
     bullets: [
-      'Zen wallet is a free, open source client interface',
-      'We allow you to interact with the blockchain while remaining in full control of your keys & your funds.',
+      'Zen Protocol (ZP) is a platform for peer-2-peer finance.',
+      'ZP wallet is a free, open-source client interface.',
+      'ZP allows you to interact with the blockchain',
+      'Be in full control of your keys & funds without relying on banks or exchanges.',
     ],
   },
   {
     img: 'image-wallet.png',
+    title: 'How does the ZP wallet work?',
+    description: 'We care about your safety ­– so please read the following:',
     bullets: [
-      'When creating a wallet on Zen Protocol you are generating a cryptographic set of words: your private key and your public key (address).',
-      'If you send your public key (address) to someone, they can send you Zen or other assets.',
-      'Never share your private key.',
-      'We do not store your private key. Make sure to keep it in a safe place.',
+      'When creating a wallet on Zen Protocol you are generating a cryptographic set of 24 words, a mnemonic passphrase (seed) and your public address.',
+      'If you send your public address to someone, they can send you Zen or other assets.',
+      'NEVER share your seed or wallet file– these allow anyone holding them complete control over assets in the wallet, including sending these assets.',
+      'The developers of this software have no access to your passphrase or seed. If you forget your password or lose your seed, we cannot recover it for you. Make sure to keep a copy of your seed in a secure place.',
     ],
   },
   {
@@ -79,7 +84,7 @@ class WelcomeMessages extends Component {
     return (
       <OnBoardingLayout className="welcome-messages-container" hideSteps >
         <h1>Welcome to Zen Protocol Wallet</h1>
-        <h3>We care about your safty so please read the following.</h3>
+        <h3>We care about your safety so please read the following.</h3>
         <div className="devider after-title" />
 
         <Flexbox flexDirection="row" className="body-section">
