@@ -27,7 +27,7 @@ class SetPassword extends Component {
 
     this.setState({
       password: newValue,
-      validLength: (newValue.length === 16),
+      validLength: (newValue.length > 3),
       validUpper: /^(.*[A-Z].*)$/.test(newValue),
       hasNumbers: /^(.*\d.*)$/.test(newValue),
     }, () => {
@@ -78,8 +78,8 @@ class SetPassword extends Component {
   }
 
   validatePassword() {
-    const {passwordsMatch, password} = this.state
-    return (passwordsMatch === 'match' && password.length > 0)
+    const {passwordsMatch, password, validLength, validUpper, hasNumbers} = this.state
+    return (passwordsMatch === 'match' && validLength && validUpper && hasNumbers)
   }
 
   onSubmitClicked = () => {
@@ -91,13 +91,13 @@ class SetPassword extends Component {
     history.push('/terms-of-service')
   }
 
-    onPastePassConfirmation = (evt) => {
-      evt.preventDefault()
-      evt.stopPropagation()
-    }
+    // onPastePassConfirmation = (evt) => {
+    //   evt.preventDefault()
+    //   evt.stopPropagation()
+    // }
 
     renderPasswordConfirmInput() {
-      const { password, passwordConfirmation, passwordsMatch } = this.state
+      const {password, passwordConfirmation, passwordsMatch} = this.state
 
       let inputGroupClasses = 'input-group'
       let iconWrapperClasses = 'input-group-label display-none'
@@ -120,7 +120,7 @@ class SetPassword extends Component {
             name="password-confirmation"
             placeholder="Confirm password"
             className="input-group-field"
-            onPaste={this.onPastePassConfirmation}
+            // onPaste={this.onPastePassConfirmation}
             onChange={this.onPasswordConfirmationChanged}
           />
           <span className={iconWrapperClasses} >
@@ -151,15 +151,15 @@ class SetPassword extends Component {
                 <ol>
                   <li>
                     <IsValidIcon isValid={validLength} />
-                    <span>Exactly 16 characters</span>
+                    <span>At least 4 characters</span>
                   </li>
                   <li>
                     <IsValidIcon isValid={validUpper} />
-                    <span>Uper and lower case letters</span>
+                    <span>Containes upper and lower case characters</span>
                   </li>
                   <li>
                     <IsValidIcon isValid={hasNumbers} />
-                    <span>Numbers</span>
+                    <span>Contains at least one number</span>
                   </li>
                 </ol>
               </Flexbox>

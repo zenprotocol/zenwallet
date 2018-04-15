@@ -115,7 +115,7 @@ app.on('ready', async () => {
   console.log('process args', args)
 
   if (isUiOnly) {
-    console.log('OPRENING UI ONLY')
+    console.log('OPENING UI ONLY')
   } else {
     console.log('LAUNCHING NODE')
     node = zenNode(args)
