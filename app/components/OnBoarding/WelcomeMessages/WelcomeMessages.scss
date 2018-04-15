@@ -1,5 +1,5 @@
 .welcome-messages-container {
-	
+
 	.bullet-points {
 		ul {
 			list-style: none;
@@ -16,16 +16,14 @@
 				font-family: 'Source Sans Pro', sans-serif;
 		  }
 
-			li::before {
+			svg {
 				color: #2f8be6;
-				content: "\f111";
-				font-family: FontAwesome;
 				margin-right: 19px;
 				font-size: 12px;
 				position: relative;
 				top: -1px;
 			}
-		  
+
 		}
 	}
 
@@ -39,7 +37,7 @@
 	}
 
 	.body-section {
-		min-height: 300px; 
+		min-height: 300px;
 	}
 
 }

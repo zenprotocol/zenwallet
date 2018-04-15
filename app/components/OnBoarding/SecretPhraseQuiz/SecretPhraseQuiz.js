@@ -5,6 +5,7 @@ import Flexbox from 'flexbox-react'
 import _ from 'lodash'
 import cx from 'classnames'
 
+import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 
@@ -16,7 +17,8 @@ class SecretPhraseQuiz extends Component {
   }
 
   validateQuiz() {
-    return this.props.secretPhraseState.mnemonicPhrase.every((word, idx) => this.isInputValid(idx))
+    return this.props.secretPhraseState.mnemonicPhrase.every(
+      (word, idx) => this.isInputPerfect(idx))
   }
 
   onSubmitClicked = () => {
@@ -30,35 +32,45 @@ class SecretPhraseQuiz extends Component {
       userInputWords[idx] = value
       return { userInputWords }
     }, () => {
-      if (this.isInputValid(idx) && idx < 23) {
+      if (this.isInputPerfect(idx) && idx < 23) {
         this[`input${idx + 1}`].focus()
       }
     })
   }
 
-  isInputValid = idx =>
+  isInputPerfect = idx =>
     this.props.secretPhraseState.mnemonicPhrase[idx] === this.state.userInputWords[idx]
   isInputInvalid = idx => !this.isInputValid(idx) && this.state.userInputWords[idx]
+  isInputValid = idx => this.state.userInputWords[idx]
+    && this.props.secretPhraseState.mnemonicPhrase[idx]
+      .indexOf(this.state.userInputWords[idx]) === 0
 
   renderQuizInputs() {
     return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => {
-      let iconClassNames = 'display-none'
-      if (word.status === 'perfect') { iconClassNames = 'fa fa-check' }
-      if (word.status === 'invalid') { iconClassNames = 'fa fa-times' }
       return (
         <li
           key={idx}
-          className={cx({ perfect: this.isInputValid(idx), invalid: this.isInputInvalid(idx) })}
+          className={cx({
+            perfect: this.isInputPerfect(idx),
+            invalid: this.isInputInvalid(idx),
+          })}
         >
           <input
             type="text"
             onChange={this.registerOnChangeFor(idx)}
-            className={cx({ perfect: this.isInputValid(idx), invalid: this.isInputInvalid(idx) })}
+            className={cx({
+              perfect: this.isInputPerfect(idx),
+              invalid: this.isInputInvalid(idx),
+              valid: this.isInputValid(idx),
+             })}
             value={this.state.userInputWords[idx]}
-            disabled={this.isInputValid(idx)}
+            disabled={this.isInputPerfect(idx)}
             ref={input => { this[`input${idx}`] = input }}
           />
-          <i className={iconClassNames} />
+          <IsValidIcon
+            isValid={this.isInputPerfect(idx)}
+            isHidden={!this.isInputPerfect(idx) && !this.isInputInvalid(idx)}
+          />
         </li>
       )
     })

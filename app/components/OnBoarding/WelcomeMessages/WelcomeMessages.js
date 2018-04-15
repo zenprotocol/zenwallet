@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Flexbox from 'flexbox-react'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import history from '../../../services/history'
 import { IMG_BASE } from '../../../constants/imgSources'
@@ -72,7 +73,7 @@ class WelcomeMessages extends Component {
     const { currentPage } = this.state
     const pageDetails = pageTexts[currentPage]
     const bulletPointes = pageDetails.bullets.map(bullet => (
-      <li key={bullet}>{bullet}</li>
+      <li key={bullet}><FontAwesomeIcon icon={['fal', 'circle']} />{bullet}</li>
     ))
 
     return (

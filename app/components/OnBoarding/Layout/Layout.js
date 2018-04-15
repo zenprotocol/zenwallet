@@ -11,7 +11,7 @@ class OnBoardingLayout extends Component {
   static propTypes = {
     className: PropTypes.string,
     hideSteps: PropTypes.bool,
-    progressStep: PropTypes.number.isRequired,
+    progressStep: PropTypes.number,
     children: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.node,
@@ -20,6 +20,7 @@ class OnBoardingLayout extends Component {
   static defaultProps = {
     className: '',
     hideSteps: false,
+    progressStep: null,
   }
   renderProgressNumbers() {
     return _.range(1, 6).map(n => (
