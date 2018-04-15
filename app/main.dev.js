@@ -72,6 +72,8 @@ const installExtensions = async () => {
 
 let node
 
+require('electron-context-menu')()
+
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
@@ -153,7 +155,7 @@ app.on('ready', async () => {
       app.quit()
     } else {
       console.log('Sending SIGINT to Node');
-      node.kill('SIGINT');      
+      node.kill('SIGINT');
     }
   })
 })
