@@ -168,5 +168,6 @@ app.on('window-all-closed', () => {
   } else if (process.platform !== 'darwin') {
     console.log('Sending SIGINT to Node');
     node.kill('SIGINT');
+    app.quit()
   }
 })
