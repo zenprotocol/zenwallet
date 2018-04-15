@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import { Link, NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
+import pjson from '../../../../package.json'
 import { LOGO_SRC } from '../../../constants/imgSources'
 
 @inject('networkState')
@@ -67,15 +68,19 @@ class Sidebar extends Component {
         </div>
         <div className="network-data-point">
           <span className="data-name" title="Median Time Past">MTP: </span>
-          <span className="data-point">
-            {this.formattedBlockchainTime()}
-          </span>
+          <span className="data-point">{this.formattedBlockchainTime()}</span>
         </div>
         <div className="network-data-point">
           <span className="data-name" title="Connections">Connections: </span>
-          <span className="data-point">
-            {connections}
-          </span>
+          <span className="data-point">{connections}</span>
+        </div>
+        <div className="network-data-point">
+          <span className="data-name" title="Wallet Version">Wallet Version: </span>
+          <span className="data-point">{pjson.version}</span>
+        </div>
+        <div className="network-data-point">
+          <span className="data-name" title="Node Version">Node Version: </span>
+          <span className="data-point">{pjson["dependencies"]["@zen/zen-node"]}</span>
         </div>
       </div>
     )
