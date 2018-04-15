@@ -49,6 +49,8 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   const path = require('path')
   const p = path.join(__dirname, '..', 'app', 'node_modules')
   require('module').globalPaths.push(p)
+} else {
+  require('electron-context-menu')()
 }
 
 const installExtensions = async () => {
@@ -71,8 +73,6 @@ const installExtensions = async () => {
  */
 
 let node
-
-require('electron-context-menu')()
 
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {

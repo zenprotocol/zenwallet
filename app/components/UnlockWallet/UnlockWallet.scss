@@ -2,9 +2,12 @@
 	.unlock-wallet {
 		.password-input-container, button.unlock {
 			margin-bottom: 36px;
+			&.haserror {
+				margin-bottom: 10px;
+			}
 		}
 		.input-group.password {
-			margin-bottom: 0; 
+			margin-bottom: 0;
 		}
 		button.unlock {
 			position: relative;

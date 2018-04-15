@@ -39,8 +39,6 @@ class UnlockWallet extends Component {
 
   renderButtonIcon() {
     const { inprogress } = this.props.secretPhraseState
-
-    console.log('inprogress', inprogress)
     if (inprogress) {
       return (<FontAwesomeIcon icon={['far', 'spinner']} spin />)
     }
@@ -61,7 +59,7 @@ class UnlockWallet extends Component {
 
   render() {
     const { password, hidePassword } = this.state
-    const { status } = this.props.secretPhraseState
+    const { status, inprogress } = this.props.secretPhraseState
 
     return (
       <Flexbox flexDirection="column" className="loading-container">
@@ -70,7 +68,7 @@ class UnlockWallet extends Component {
           <p>Please enter your password</p>
           <form onSubmit={this.onSubmit}>
 
-            <Flexbox flexDirection="column" className="password-input-container">
+            <Flexbox flexDirection="column" className={cx('password-input-container', { haserror: status === 'error' })}>
               <div className={cx('input-group password', { error: status === 'error' })}>
                 <input
                   name="password"
@@ -89,9 +87,9 @@ class UnlockWallet extends Component {
 
             <button
               className="unlock btn-block"
-              disabled={password.length < 4}
+              disabled={(password.length < 4 || inprogress)}
             >
-              <span>Unlock</span>
+              <span>{ inprogress ? 'Unlocking' : 'Unlock' }</span>
               { this.renderButtonIcon() }
             </button>
           </form>
