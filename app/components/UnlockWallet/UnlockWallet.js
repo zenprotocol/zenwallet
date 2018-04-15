@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
+import cx from 'classnames'
 
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 
 @inject('secretPhraseState')
+@observer
 class UnlockWallet extends Component {
   static propTypes = {
     secretPhraseState: PropTypes.shape({
@@ -25,7 +27,7 @@ class UnlockWallet extends Component {
 
   onChange = (evt) => {
     this.setState({ password: evt.target.value.trim() })
-    this.porps.secretPhraseState.unlockWalletClearForm()
+    this.props.secretPhraseState.unlockWalletClearForm()
   }
 
   onSubmit = (evt) => {
@@ -34,20 +36,20 @@ class UnlockWallet extends Component {
   }
 
   renderButtonIcon() {
-    const {inprogress} = this.props.secretPhraseState
+    const { inprogress } = this.props.secretPhraseState
+
     console.log('inprogress', inprogress)
     if (inprogress) {
       return (<FontAwesomeIcon icon={['far', 'spinner']} spin />)
-    } else {
-      return (<FontAwesomeIcon icon={['far', 'unlock']} />)
     }
+    return (<FontAwesomeIcon icon={['far', 'unlock']} />)
   }
-  
+
   renderErrorMessage() {
-    const {status} = this.props.secretPhraseState
-    if (status == 'error') {
+    const { status } = this.props.secretPhraseState
+    if (status === 'error') {
       return (
-        <div className="error input-message">
+        <div clas sName="error input-message">
           <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
           <span>Password is invalid</span>
         </div>
@@ -56,13 +58,8 @@ class UnlockWallet extends Component {
   }
 
   render() {
-    const {password, hidePassword} = this.state
-    const {status} = this.props.secretPhraseState
-
-    let inputClassNames = 'input-group password'
-    if (status == 'error') {
-      inputClassNames = 'input-group password error'
-    }
+    const { password, hidePassword } = this.state
+    const { status } = this.props.secretPhraseState
 
     return (
       <Flexbox flexDirection="column" className="loading-container">
@@ -71,8 +68,8 @@ class UnlockWallet extends Component {
           <p>Please enter your password</p>
           <form onSubmit={this.onSubmit}>
 
-            <Flexbox flexDirection="column" className='password-input-container'>
-              <div className={inputClassNames}>
+            <Flexbox flexDirection="column" className="password-input-container">
+              <div className={cx('input-group password', { error: status === 'error' })}>
                 <input
                   name="password"
                   type={hidePassword ? 'password' : 'text'}
@@ -90,7 +87,7 @@ class UnlockWallet extends Component {
 
             <button
               className="unlock btn-block"
-              disabled={password.length == 0}
+              disabled={password.length < 4}
             >
               <span>Unlock</span>
               { this.renderButtonIcon() }

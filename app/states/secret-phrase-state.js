@@ -1,6 +1,5 @@
 import { observable, action, runInAction } from 'mobx'
 import bip39 from 'bip39'
-import swal from 'sweetalert'
 
 import db from '../services/store'
 import history from '../services/history'
@@ -44,6 +43,7 @@ class SecretPhraseState {
   @action
   async unlockWallet(password) {
     this.inprogress = true
+
     try {
       const isPasswordCorrect = await postCheckPassword(password)
 
@@ -53,8 +53,7 @@ class SecretPhraseState {
         if (!isPasswordCorrect) {
           this.inprogress = false
           this.status = 'error'
-          this.password = ''
-          // swal('password is not correct')
+          console.log('isPasswordCorrect this', this)
           return
         }
         this.password = password
@@ -73,12 +72,11 @@ class SecretPhraseState {
         }
       })
     }
+
   }
 
   @action
   unlockWalletClearForm() {
-    console.log('unlockWalletClearForm')
-    this.inprogress = false
     this.status = ''
   }
 
