@@ -8,6 +8,7 @@ import ActiveContractSetState from './acs-state'
 import NetworkState from './network-state'
 import RedeemTokensState from './redeem-tokens-state'
 import SecretPhraseState from './secret-phrase-state'
+import BlockchainLogsState from './blockchain-logs-state'
 
 const secretPhraseState = new SecretPhraseState()
 const balances = new BalancesState()
@@ -19,6 +20,7 @@ const contractMessage = new ContractMessage(secretPhraseState)
 const activeContractSet = new ActiveContractSetState()
 const networkState = new NetworkState()
 const redeemTokensState = new RedeemTokensState()
+const blockchainLogsState = new BlockchainLogsState()
 
 export default {
   balances,
@@ -31,4 +33,5 @@ export default {
   networkState,
   redeemTokensState,
   secretPhraseState,
+  blockchainLogsState,
 }

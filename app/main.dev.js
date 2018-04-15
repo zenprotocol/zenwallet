@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import zenNode from '@zen/zen-node'
 
 import db from './services/store'
@@ -123,6 +123,14 @@ app.on('ready', async () => {
     node = zenNode(args)
     node.stderr.pipe(process.stderr)
     node.stdout.pipe(process.stdout)
+
+    ipcMain.on('init-fetch-logs', (event) => {
+      node.stdout.on('data', (chunk) => {
+        const log = chunk.toString('utf8')
+        console.log(`Received ${log} bytes of data.`)
+        event.sender.send('blockchainLogs', log)
+      });
+    })
 
     node.on('exit', () => {
       console.log('Closed');
