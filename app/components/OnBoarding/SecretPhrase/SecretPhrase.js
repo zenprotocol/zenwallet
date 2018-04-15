@@ -38,13 +38,13 @@ class SecretPhrase extends Component {
     const { mnemonicPhrase } = this.props.secretPhraseState
     return (
       <OnBoardingLayout className="secret-phrase-container" progressStep={2}>
-        <h1>Your mnemonic passphrase</h1>
-        <h3>Write down the following words in cheonological order and save it in a safe place.</h3>
+        <h1>Your Mnemonic Passphrase (seed)</h1>
+        <h3>Write down the following words in chronological order and save it in a secure place.</h3>
         <div className="devider after-title" />
         <ol className="passphrase">
           {mnemonicPhrase.map((word, idx) => (<li key={idx}>{word}</li>))}
         </ol>
-        <p className="warning">If you lose this phrase you will lose your Zen tokens!</p>
+        <p className="warning">If you lose this passphrase you will lose all assets in the wallet!</p>
         <div className="devider before-buttons" />
 
         <Flexbox flexDirection="row">

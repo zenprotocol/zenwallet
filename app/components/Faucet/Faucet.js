@@ -181,7 +181,7 @@ class Faucet extends Component {
         <h3>
 							To gain access to the Zen Protocol software insert the key generated using our software sale wallet and redeem your tokens.
           <br />
-							If you didn't save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retreive it
+							If you didn't save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retrieve it
           <br />
 							You can also retrieve it by visiting&nbsp;
           <a

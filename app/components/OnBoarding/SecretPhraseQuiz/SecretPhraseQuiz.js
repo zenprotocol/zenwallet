@@ -79,7 +79,7 @@ class SecretPhraseQuiz extends Component {
   render() {
     return (
       <OnBoardingLayout className="secret-phrase-quiz-container" progressStep={3}>
-        <h1>Verify Your Mnemonic Passphrase</h1>
+        <h1>Verify Your Mnemonic Passphrase (Seed)</h1>
         <h3>Please enter your 24 word secret phrase in the correct order</h3>
 
         <div className="devider after-title" />
@@ -89,7 +89,7 @@ class SecretPhraseQuiz extends Component {
 
         <Flexbox flexDirection="row">
           <Flexbox className="oops" flexGrow={1} flexDirection="column">
-            <p>Opps. I didn’t write my recovery phrase.</p>
+            <p>Whoops, I didn’t write my recovery phrase.</p>
             <Link to="/import-or-create-wallet">Create New Wallet</Link>
           </Flexbox>
           <Flexbox flexGrow={2} />

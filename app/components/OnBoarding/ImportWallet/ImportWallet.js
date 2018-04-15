@@ -79,7 +79,7 @@ class ImportWallet extends Component {
       <OnBoardingLayout className="import-wallet-container" progressStep={3}>
         <h1>Import Your Mnemonic Passphrase</h1>
         <h3>
-          Please enter your 24 word secret phrase.
+          Please enter your 24 word secret phrase (seed).
           <br />
           A blue check will apear if the text you entered is a valid&nbsp;
           <a

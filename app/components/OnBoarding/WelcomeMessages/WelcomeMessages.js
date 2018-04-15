@@ -29,21 +29,25 @@ const pageTexts = [
     ],
   },
   {
-    img: 'image-attention.png',
+    img: 'image-security.png',
+    title: 'Zen Protocol Seed & Passwords',
+    description: 'We care about your safety ­– so please read the following:',
     bullets: [
-      'You are responsible for you security.',
-      'No one can recover or change your private key.',
-      'No one can change your password.',
-      'No one can refund your transactions.',
-      'No one can freeze your accounts.',
+      'Keep your seed and password safe.',
+      'Make backups of your seed.',
+      'Be aware of phishing websites or programs.',
     ],
   },
   {
-    img: 'image-security.png',
+    img: 'image-attention.png',
+    title: 'Only YOU are in control',
+    description: 'We care about your safety ­– so please read the following:',
     bullets: [
-      'Keep your private key and password safe.',
-      'Be aware of phishing websites or programs.',
-      'Make backup of your private key and password.',
+      'You are responsible for your own security.',
+      'No one can recover or change your private seed.',
+      'No one can recover your password.',
+      'No one can refund your transactions.',
+      'No one can freeze your accounts.',
     ],
   },
 ]
@@ -83,8 +87,8 @@ class WelcomeMessages extends Component {
 
     return (
       <OnBoardingLayout className="welcome-messages-container" hideSteps >
-        <h1>Welcome to Zen Protocol Wallet</h1>
-        <h3>We care about your safety so please read the following.</h3>
+        <h1>{pageDetails.title}</h1>
+        <h3>{pageDetails.description}</h3>
         <div className="devider after-title" />
 
         <Flexbox flexDirection="row" className="body-section">

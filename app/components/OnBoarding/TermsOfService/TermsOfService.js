@@ -27,7 +27,7 @@ class TermsOfService extends Component {
     return (
       <OnBoardingLayout className="terms-of-service-container" progressStep={5}>
         <h1>Terms and Conditions</h1>
-        <h3>Please read carfully read these terms before accepting.</h3>
+        <h3>Please carefully read these terms before accepting.</h3>
         <div className="devider after-title" />
 
         <div className="terms-of-service-content">
