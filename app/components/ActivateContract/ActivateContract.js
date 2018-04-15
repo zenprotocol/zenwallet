@@ -54,6 +54,9 @@ class ActivateContract extends Component {
 
   onContractNameChanged = (evt) => {
     const { contract } = this.props
+    const newValue = evt.target.value
+    const isValidValue = /^[a-z0-9]+$/i.test(newValue)
+    if (!isValidValue && newValue !== '') { return }
     contract.name = evt.target.value
     if (contract.acceptedFiles.length > 0 && contract.code) {
       contract.code = this.addOrUpdateCodeComment(contract.code, evt.target.value)
