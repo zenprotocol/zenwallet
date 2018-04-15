@@ -11,11 +11,13 @@ import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 @inject('secretPhraseState')
 @observer
 class UnlockWallet extends Component {
+
   static propTypes = {
     secretPhraseState: PropTypes.shape({
       unlockWallet: PropTypes.func.isRequired,
     }).isRequired,
   }
+
   state = {
     password: '',
     hidePassword: true,

@@ -27,7 +27,13 @@ class SecretPhraseState {
 
       runInAction(() => {
         console.log('importWallet response', response)
-        this.resync()
+        if (response.status === 200) {
+          console.log('importWallet set password', password)
+          this.password = password
+          this.resync()
+        } else {
+          console.log('importWallet response error', response)
+        }
       })
     } catch (error) {
       runInAction(() => {

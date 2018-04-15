@@ -122,7 +122,7 @@ export async function postImportWallet(secretPhraseArray, secret) {
   const response = await post(`${serverAddress}/wallet/import`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
-  return response.data
+  return response
 }
 
 export async function postCheckPassword(password) {
