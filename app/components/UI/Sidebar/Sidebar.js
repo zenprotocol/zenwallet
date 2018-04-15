@@ -97,8 +97,8 @@ class Sidebar extends Component {
             { to: 'tx-history', text: 'Transactions' },
             { to: 'acs', text: 'Explore Contracts' },
             { to: 'saved-contracts', text: 'My Saved Contracts' },
-            { to: 'blockchain-logs', text: 'Blockchain Logs' },
             { to: 'faucet', text: 'Access Software' },
+            { to: 'blockchain-logs', text: 'Blockchain Logs' },
           ].map(({ to, text }) => <li key={to}><NavLink activeClassName="active" to={`/${to}`}>{text}</NavLink></li>)
         }
         </ul>

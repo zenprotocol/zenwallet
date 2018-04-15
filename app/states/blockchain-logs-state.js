@@ -7,8 +7,8 @@ class BlockchainLogsState {
   constructor() {
     ipcRenderer.send('init-fetch-logs', null)
     ipcRenderer.on('blockchainLogs', (event, log) => {
-      console.log(log) // prints "pong"
-      this.logs.push(log)
+      if (!log) { return }
+      this.logs = this.logs.concat(log).slice(-50)
     })
   }
 }

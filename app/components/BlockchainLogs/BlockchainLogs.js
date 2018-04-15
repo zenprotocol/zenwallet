@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import { inject, observer, PropTypes as PropTypesMobx } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import PropTypes from 'prop-types'
+import Highlight from 'react-highlight'
 
 import Layout from '../UI/Layout/Layout'
 
@@ -10,7 +11,7 @@ import Layout from '../UI/Layout/Layout'
 class BlockchainLogs extends Component {
   static propTypes = {
     blockchainLogsState: PropTypes.shape({
-      logs: PropTypes.array.isRequired,
+      logs: PropTypesMobx.observableArrayOf(PropTypes.string),
     }).isRequired,
   }
 
@@ -18,16 +19,16 @@ class BlockchainLogs extends Component {
     const { blockchainLogsState } = this.props
 
     return (
-      <Layout className="balances">
+      <Layout className="blockchain-logs">
 
         <Flexbox className="page-title">
           <h1>Blockchain Logs</h1>
         </Flexbox>
 
-        <Flexbox className="balance-list">
-          <div>
-            {blockchainLogsState.logs}
-          </div>
+        <Flexbox flexDirection="column" className="contract-code form-row">
+          <Highlight className="shell-session">
+            {blockchainLogsState.logs.join('')}
+          </Highlight>
         </Flexbox>
 
       </Layout>
