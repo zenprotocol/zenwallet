@@ -43,12 +43,11 @@ class TxHistory extends Component {
     const { txhistory } = this.props
 
     const tableRows = txhistory.transactions.map(tx => {
-      const truncatedHash = truncateString(tx.txHash)
       return (
         [
           <tr key={tx.txHash}>
             <CopyableTableCell string={tx.txHash} />
-            {this.renderTransactionsCell(tx)}
+            { this.renderTransactionsCell(tx) }
           </tr>,
           <tr key={`${tx.txHash}-separator`} className="separator" />,
         ]

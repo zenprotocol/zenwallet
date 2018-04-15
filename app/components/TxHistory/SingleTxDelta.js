@@ -5,10 +5,11 @@ import { normalizeTokens, isZenAsset } from '../../../utils/helpers'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
 class SingleTxDelta extends Component {
+
   render() {
     const { asset, assetType, amount } = this.props.tx
+    const amountClass = (amount > 0 ? 'align-right green' : 'align-right red')
     const finalAmount = normalizeTokens(amount, isZenAsset(asset))
-    const amountClass = (finalAmount > 0 ? 'align-right green' : 'align-right red')
 
     return (
       <React.Fragment>
