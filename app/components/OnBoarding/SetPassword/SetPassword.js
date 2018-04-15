@@ -8,9 +8,12 @@ import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 
+import db from '../../../services/store'
+
 @inject('secretPhraseState')
 @observer
 class SetPassword extends Component {
+  
   state = {
     validLength: false,
     validUpper: false,
@@ -19,7 +22,7 @@ class SetPassword extends Component {
     passwordConfirmation: '',
     passwordsMatch: '',
     inputType: 'password',
-    autoLogoutMinutes: 30,
+    autoLogoutMinutes: db.get('config').value().autoLogoutMinutes,
   }
 
   onPasswordChanged = (evt) => {
@@ -74,6 +77,7 @@ class SetPassword extends Component {
     if (val > 0 && val < 121) {
       secretPhraseState.autoLogoutMinutes = val
       this.setState({ autoLogoutMinutes: val })
+      db.set('config.autoLogoutMinutes', val).write()
     }
   }
 
@@ -90,11 +94,6 @@ class SetPassword extends Component {
 
     history.push('/terms-of-service')
   }
-
-    // onPastePassConfirmation = (evt) => {
-    //   evt.preventDefault()
-    //   evt.stopPropagation()
-    // }
 
     renderPasswordConfirmInput() {
       const {password, passwordConfirmation, passwordsMatch} = this.state
@@ -120,7 +119,6 @@ class SetPassword extends Component {
             name="password-confirmation"
             placeholder="Confirm password"
             className="input-group-field"
-            // onPaste={this.onPastePassConfirmation}
             onChange={this.onPasswordConfirmationChanged}
           />
           <span className={iconWrapperClasses} >
