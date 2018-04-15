@@ -51,7 +51,7 @@ class UnlockWallet extends Component {
     const { status } = this.props.secretPhraseState
     if (status === 'error') {
       return (
-        <div clas sName="error input-message">
+        <div className="error input-message">
           <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
           <span>Password is invalid</span>
         </div>
