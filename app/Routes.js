@@ -22,6 +22,7 @@ import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
 import SecretPhraseQuiz from './components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz'
 import SetPassword from './components/OnBoarding/SetPassword/SetPassword'
 import TermsOfService from './components/OnBoarding/TermsOfService/TermsOfService'
+import Settings from './components/Settings'
 
 const Routes = () => (
   <Router history={history}>
@@ -38,6 +39,7 @@ const Routes = () => (
       <Route exact path="/loading" component={Loading} />
       <Route exact path="/unlock-wallet" component={UnlockWallet} />
       <Route exact path="/blockchain-logs" component={BlockchainLogs} />
+      { /* <Route exact path="/settings" component={Settings} /> */ }
       { /* Onboarding Routes */ }
       <Route exact path="/welcome-messages" component={WelcomeMessages} />
       <Route exact path="/import-or-create-wallet" component={ImportOrCreateWallet} />

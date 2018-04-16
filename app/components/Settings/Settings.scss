@@ -1,0 +1,40 @@
+.settings-page {
+  .row {
+    margin-bottom: 40px;
+  }
+  .description {
+    margin-right: 30px;
+    width: 300px;
+  }
+  .description-title {
+    font-size: 18px;
+    line-height: 1.33;
+    letter-spacing: 0.2px;
+    color: #e6e6e6;
+  }
+  .description-text {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.58;
+    letter-spacing: 0.1px;
+    color: #808080;
+  }
+  .actions {
+    width: 210px;
+  }
+  .change-password-button {
+    margin-left: 10px;
+  }
+  .activate-password-change-button-container {
+    transition: 0.5s opacity;
+    opacity: 0;
+    &:not(.isVisible) {height: 0; padding: 0;} // HACK :: box sizing should take care of that
+    &.isVisible { opacity: 1; }
+  }
+  .password-change-container {
+    transition: 0.5s opacity;
+    opacity: 0;
+    &:not(.isVisible) {height: 0;}
+    &.isVisible { opacity: 1; }
+  }
+}
