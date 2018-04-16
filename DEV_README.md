@@ -1,16 +1,16 @@
 # Running locally
-`yarn build ; yarn dev-localhost`
-`yarn build ; yarn dev-l1`
+`npm run build ; npm run dev-localhost`
+`npm run build ; npm run dev-l1`
 
 # Running testnet
-`yarn build ; yarn start`
+`npm run build ; npm start`
 
 
 # Releasing a new Version
 1) Update the 'zen-node' version in package.json
 2) commit with the new version
 3) Increase the version # of the zen-wallet at the top of the package.json file
-4) Run `yarn build ; yarn pack`
+4) Run `npm run build ; npm pack`
 6) go to (myget)[https://www.myget.org/feed/Packages/zenprotocol]
 7) Add npm package to zen-wallet
 
@@ -65,10 +65,10 @@ Check Address:
 # Building Client locally
 
 ```
-yarn install
-yarn build ; yarn start
-yarn build ; yarn dev-l1
-yarn start
+npm install
+npm run build ; npm start
+npm run build ; npm run dev-l1
+npm start
 ```
 
 # Update node
