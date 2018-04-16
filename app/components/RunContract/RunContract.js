@@ -55,8 +55,7 @@ class RunContract extends Component {
   }
 
   onRunContractClicked = () => {
-    const { contractMessage } = this.props
-    contractMessage.sendContractMessage(contractMessage)
+    this.props.contractMessage.sendContractMessage()
   }
 
   renderSuccessResponse() {

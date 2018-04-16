@@ -51,6 +51,7 @@ class ContractState {
 
         if (!isInSavedContracts) {
           db.get('savedContracts').push({
+            code: this.code,
             name: this.name,
             hash: response.hash,
             address: response.address,
