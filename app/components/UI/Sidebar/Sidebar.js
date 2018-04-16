@@ -19,15 +19,10 @@ class Sidebar extends Component {
       chain: PropTypes.string.isRequired,
       blocks: PropTypes.number.isRequired,
       medianTime: PropTypes.number.isRequired,
-      begin: PropTypes.func.isRequired,
     }).isRequired,
   }
   static defaultProps = {
     className: '',
-  }
-
-  componentDidMount() {
-    this.props.networkState.begin()
   }
 
   formattedBlockchainTime() {
