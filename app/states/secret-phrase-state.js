@@ -15,6 +15,10 @@ class SecretPhraseState {
   @observable importError = ''
   @observable status = ''
 
+  constructor(networkState, balances) {
+    this.networkState = networkState
+    this.balances = balances
+  }
   @action.bound
   generateSeed() {
     this.mnemonicPhrase = observable.array(bip39.generateMnemonic(256).split(' '))
@@ -30,6 +34,8 @@ class SecretPhraseState {
         if (response.status === 200) {
           console.log('importWallet set password', password)
           this.password = password
+          this.balances.initPolling()
+          this.networkState.initPolling()
           this.resync()
         } else {
           console.log('importWallet response error', response)
@@ -63,6 +69,8 @@ class SecretPhraseState {
           return
         }
         this.password = password
+        this.balances.initPolling()
+        this.networkState.initPolling()
         if (alreadyRedeemedTokens) {
           history.push('/portfolio')
         } else {
@@ -87,7 +95,7 @@ class SecretPhraseState {
   }
 
   @action
-  async resync() {
+  async resync() { // eslint-disable-line class-methods-use-this
     console.log('wallet resync')
 
     try {

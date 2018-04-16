@@ -1,12 +1,15 @@
 import { observable, action, runInAction } from 'mobx'
+import _ from 'lodash'
 
 import { postRunContractMessage } from '../services/api-service'
+import { getNamefromCodeComment } from '../../utils/helpers'
+import db from '../services/store'
 
 class ContractMessageState {
   @observable to = ''
   @observable contractName = ''
   @observable amount
-  @observable command
+  @observable command = ''
   @observable data
   @observable status
   @observable inprogress
@@ -16,8 +19,9 @@ class ContractMessageState {
   @observable assetName = ''
   @observable assetBalance
 
-  constructor(secretPhraseState) {
+  constructor(secretPhraseState, activeContractSet) {
     this.secretPhraseState = secretPhraseState
+    this.activeContractSet = activeContractSet
   }
 
   @action
@@ -27,30 +31,42 @@ class ContractMessageState {
   }
 
   @action
-  async sendContractMessage(contractMessage) {
+  async sendContractMessage() {
     try {
       this.inprogress = true
-      const data = { ...contractMessage, password: this.secretPhraseState.password }
+      const data = {
+        asset: this.asset,
+        assetType: this.assetType,
+        to: this.to,
+        amount: this.amount,
+        command: this.command,
+        data: this.data,
+        password: this.secretPhraseState.password,
+      }
       const response = await postRunContractMessage(data)
 
       runInAction(() => {
         console.log('sendContractMessage response', response)
         this.resetForm()
         this.status = 'success'
+        const activeContract = this.activeContractSet.activeContracts.find(ac => ac.address === data.to)
+        const savedContracts = db.get('savedContracts').value()
+        const isInSavedContracts = _.some(savedContracts, { hash: activeContract.hash })
+
+        if (!isInSavedContracts) {
+          db.get('savedContracts').push({
+            code: activeContract.code,
+            name: getNamefromCodeComment(activeContract.code),
+            hash: activeContract.contractHash,
+            address: activeContract.address,
+          }).write()
+        }
         setTimeout(() => {
           this.status = ''
         }, 15000)
       })
-    } catch (error) {
-      runInAction(() => {
-        try {
-          console.log('sendContractMessage error.response', error.response.data)
-          this.errorMessage = error.response.data
-        } catch (e) {
-          console.log('sendContractMessage catch e', e)
-          this.errorMessage = 'something went wrong'
-        }
-      })
+    } catch (err) {
+      console.error('err', err.message, err)
       this.inprogress = false
       this.status = 'error'
       setTimeout(() => {

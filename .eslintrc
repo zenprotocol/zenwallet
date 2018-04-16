@@ -16,7 +16,8 @@
     "consistent-return": "off",
     "generator-star-spacing": "off",
     "import/order": ["error", {"newlines-between": "always"}],
-    "import/no-unresolved": "error",
+    "import/no-unresolved": [ "error", { "ignore": [ '@fortawesome/' ] } ], # hack until resolving import properly
+    "import/extensions": [ "error", { "ignore": [ '@fortawesome/' ] } ], # hack until resolving import properly
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/click-events-have-key-events": 0,
@@ -44,12 +45,12 @@
     "promise",
     "compat",
     "react"
-  ],
-  "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack.config.eslint.js"
-      }
-    }
-  }
+  ]
+  # "settings": {
+  #   "import/resolver": {
+  #     "webpack": {
+  #       "config": "webpack.config.eslint.js"
+  #     }
+  #   }
+  # }
 }

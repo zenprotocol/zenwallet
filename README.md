@@ -48,7 +48,7 @@ Parts of this software are available under the MIT licence. See the directory "t
 Run the following commands in the Terminal / Command Prompt:
 ```
 npm config set @zen:registry https://www.myget.org/F/zenprotocol/npm/
-npm install electron @zen/zen-wallet -g
+npm install @zen/zen-wallet -g
 ```
 
 ## Step 2: Updating

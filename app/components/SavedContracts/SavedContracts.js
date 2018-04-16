@@ -34,7 +34,7 @@ class SavedContracts extends Component {
     const listOfContracts = contractList.value()
     const savedContracts = listOfContracts.map((contract) => (
       <React.Fragment key={contract.hash}>
-        <tr>
+        <tr key={contract.hash}>
           <td className="text">{contract.name}</td>
           <CopyableTableCell string={contract.hash} />
           <CopyableTableCell string={contract.address} />
@@ -56,7 +56,8 @@ class SavedContracts extends Component {
             <h3>
               Saved contracts, are like your contract address book.
               <br />
-              They get saved on your local machine, so you can re-activate them even after they have left the Active Contract Set.
+              They get saved on your local machine, so you can re-activate them
+              even after they have left the Active Contract Set.
             </h3>
           </Flexbox>
 

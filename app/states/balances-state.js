@@ -21,7 +21,7 @@ class BalancesState {
     }
 
     @action
-    begin() {
+    initPolling() {
       this.fetch()
       setInterval(this.fetch, 5000);
     }
