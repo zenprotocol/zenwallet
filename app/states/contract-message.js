@@ -51,7 +51,7 @@ class ContractMessageState {
         this.status = 'success'
         const activeContract = this.activeContractSet.activeContracts.find(ac => ac.address === data.to)
         const savedContracts = db.get('savedContracts').value()
-        const isInSavedContracts = _.some(savedContracts, { hash: activeContract.hash })
+        const isInSavedContracts = _.some(savedContracts, { hash: activeContract.contractHash })
 
         if (!isInSavedContracts) {
           db.get('savedContracts').push({
