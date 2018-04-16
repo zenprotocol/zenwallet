@@ -71,6 +71,7 @@ class SecretPhraseState {
       })
     } catch (error) {
       runInAction(() => {
+        this.inprogress = false
         try {
           console.log('unlockWallet error.response', error.response)
         } catch (e) {
@@ -78,7 +79,6 @@ class SecretPhraseState {
         }
       })
     }
-
   }
 
   @action
