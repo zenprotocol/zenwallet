@@ -16,11 +16,6 @@ class Header extends Component {
     className: PropTypes.string,
   }
 
-  componentDidMount() {
-    const { balances } = this.props
-    balances.begin()
-  }
-
   onBackClicked = (evt) => {
     this.props.history.goBack()
     evt.preventDefault()

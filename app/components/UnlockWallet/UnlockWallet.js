@@ -40,7 +40,7 @@ class UnlockWallet extends Component {
   renderButtonIcon() {
     const { inprogress } = this.props.secretPhraseState
     if (inprogress) {
-      return (<FontAwesomeIcon icon={['far', 'spinner']} spin />)
+      return (<FontAwesomeIcon icon={['far', 'spinner-third']} spin />)
     }
     return (<FontAwesomeIcon icon={['far', 'unlock']} />)
   }

@@ -14,7 +14,7 @@ class NetworkState {
   }
 
   @action
-  begin() {
+  initPolling() {
     this.fetch()
     setInterval(this.fetch, 10000);
   }
