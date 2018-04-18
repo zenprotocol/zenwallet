@@ -19,6 +19,7 @@ class SecretPhraseState {
     this.networkState = networkState
     this.balances = balances
   }
+
   @action.bound
   generateSeed() {
     this.mnemonicPhrase = observable.array(bip39.generateMnemonic(256).split(' '))

@@ -6,6 +6,7 @@
   },
   "extends": "airbnb",
   "env": {
+    "jest/globals": true,
     "browser": true,
     "node": true
   },
@@ -40,6 +41,7 @@
     "react/prefer-stateless-function": "off"
   },
   "plugins": [
+    "jest",
     "flowtype",
     "import",
     "promise",

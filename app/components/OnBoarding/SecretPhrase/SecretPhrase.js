@@ -21,7 +21,7 @@ class SecretPhrase extends Component {
     checked: false,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.secretPhraseState.generateSeed()
   }
 
@@ -39,7 +39,10 @@ class SecretPhrase extends Component {
     return (
       <OnBoardingLayout className="secret-phrase-container" progressStep={2}>
         <h1>Your Mnemonic Passphrase (seed)</h1>
-        <h3>Write down the following words in chronological order and save it in a secure place.</h3>
+        <h3>
+          Write down the following words in chronological order and
+          save it in a secure place.
+        </h3>
         <div className="devider after-title" />
         <ol className="passphrase">
           {mnemonicPhrase.map((word, idx) => (<li key={idx}>{word}</li>))}
