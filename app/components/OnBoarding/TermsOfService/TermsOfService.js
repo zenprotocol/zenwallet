@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
-import history from '../../../services/history'
 
 import OnBoardingLayout from '../Layout/Layout'
+import history from '../../../services/history'
 
 class TermsOfService extends Component {
   state = {
