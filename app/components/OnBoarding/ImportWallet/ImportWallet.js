@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 
 import IsValidIcon from '../../Icons/IsValidIcon'
@@ -101,6 +102,7 @@ class ImportWallet extends Component {
           <Flexbox flexGrow={1} />
           <Flexbox flexGrow={2} />
           <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
+            <Link className="button secondary" to="/import-or-create-wallet">Back</Link>
             <button
               className="button-on-right"
               onClick={this.onSubmitClicked}

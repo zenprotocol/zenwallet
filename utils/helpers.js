@@ -35,15 +35,13 @@ export const normalizeTokens = (number, isZen) => {
   if (Number.isInteger(number)) {
     number = Math.abs(number)
     if (isZen) {
-      number = Math.floor((number / 100000000) * 100) / 100
+      number = Math.floor((number / 100000000) * 100000000) / 100000000
       number.toLocaleString(undefined, {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 8,
       })
-    } else {
-      number = number.toLocaleString()
     }
-    return number
+    return number.toLocaleString()
   }
 }
 

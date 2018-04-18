@@ -82,7 +82,7 @@ class WelcomeMessages extends Component {
     const { currentPage } = this.state
     const pageDetails = pageTexts[currentPage]
     const bulletPointes = pageDetails.bullets.map(bullet => (
-      <li key={bullet}><FontAwesomeIcon icon={['fal', 'circle']} />{bullet}</li>
+      <li key={bullet}><FontAwesomeIcon icon={['fas', 'circle']} />{bullet}</li>
     ))
 
     return (
