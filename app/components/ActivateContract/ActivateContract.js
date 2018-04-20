@@ -74,7 +74,7 @@ class ActivateContract extends Component {
       console.log('stringToReplace', stringToReplace)
       return code.replace(stringToReplace, nameComment)
     }
-    const nameComment = `(* NAME_START:${name}:NAME_END *)'\n'`
+    const nameComment = `(* NAME_START:${name}:NAME_END *)\n`
     console.log('new nameComment', nameComment)
     const newCode = nameComment + code
     console.log('new nameComment', newCode)
