@@ -77,6 +77,7 @@ class UnlockWallet extends Component {
                   placeholder="Enter password"
                   className="input-group-field"
                   onChange={this.onChange}
+									autoFocus
                 />
                 <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
                   <ToggleVisibilityIcon shouldShow={hidePassword} />

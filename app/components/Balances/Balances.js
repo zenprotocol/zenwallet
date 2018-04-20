@@ -10,6 +10,7 @@ import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
 @inject('balances')
+@inject('transaction')
 @observer
 class Balances extends Component {
   componentDidMount() {
@@ -18,29 +19,18 @@ class Balances extends Component {
 
   render() {
     const { balances } = this.props
-
     const balancesRows = balances.assets.map(asset => {
       const assetName = balances.getAssetName(asset.asset)
-      let fullBalanceForTitle,
-        finalNumber
-      if (assetName === 'ZENP') {
-        fullBalanceForTitle = `${asset.balance.toLocaleString()} Kalapas`
-        finalNumber = normalizeTokens(asset.balance, true)
-      } else {
-        fullBalanceForTitle = asset.balance.toLocaleString()
-        finalNumber = normalizeTokens(asset.balance, false)
-      }
-
       return (
         <React.Fragment key={asset.asset}>
           <tr>
-            <td className="align-left text" title={assetName} >{assetName}</td>
+            <td className="align-left text" title={assetName}>{assetName}</td>
             <CopyableTableCell string={asset.asset} />
-            <td className="bright-blue" title={fullBalanceForTitle} >
-              {finalNumber}
+            <td className="bright-blue" title={asset.balance} >
+              {asset.balance}
             </td>
             <td className="align-right" >
-              <Link className="button small with-icon" to={`/send-tx/${asset.asset}`} title="Send Transaction">
+              <Link className="button small with-icon" to="/send-tx" title="Send Transaction" onClick={() => this.props.transaction.updateAsset(asset)}>
                 <FontAwesomeIcon icon={['far', 'paper-plane']} /> <span className="button-text">Send</span>
               </Link>
             </td>
