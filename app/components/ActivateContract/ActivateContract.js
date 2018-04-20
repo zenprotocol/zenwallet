@@ -48,7 +48,6 @@ class ActivateContract extends Component {
     if (acceptedFiles.length > 0) {
       contract.fileName = head(acceptedFiles).name
       contract.dragDropText = head(acceptedFiles).name
-      // this.updateActivationCost()
     }
   }
 
@@ -223,18 +222,6 @@ class ActivateContract extends Component {
     }
   }
 
-  // updateActivationCost() {
-  //   const { contract, balances } = this.props
-  //   const { code, acceptedFiles, numberOfBlocks } = contract
-  //   if (acceptedFiles.length == 1 && code.length > 0 && numberOfBlocks > 0) {
-  //     contract.activationCost = code.length * numberOfBlocks
-  //     contract.blockAmountHasError = (contract.activationCost > balances.zen)
-  //   } else {
-  //     contract.activationCost = ''
-  //     contract.blockAmountHasError = false
-  //   }
-  // }
-
 	updateBlocksAmount = (amount) => {
 	  this.props.contract.numberOfBlocks = amount
 	}
@@ -254,7 +241,7 @@ class ActivateContract extends Component {
       <Flexbox flexDirection="column" className="page-title">
         <h1>Upload a contract to the ACS</h1>
         <h3>
-              By uploading a contract to the <span className="bold">Active Contract Set</span>, other peers can discover and run it for the amount of blocks you pay for.
+          By uploading a contract to the <span className="bold">Active Contract Set</span>, other peers can discover and run it for the amount of blocks you pay for.
         </h3>
       </Flexbox>
 

@@ -4,12 +4,13 @@ import { inject, observer } from 'mobx-react'
 import { clipboard } from 'electron'
 import { toInteger } from 'lodash'
 
-import { stringToNumber } from '../../../utils/helpers'
+import { stringToNumber, isZenAsset } from '../../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestSavedContracts from '../UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
+import { ZENP_MAX_DECIMALS } from '../../constants'
 
 @inject('balances')
 @inject('contractMessage')
@@ -102,6 +103,7 @@ class RunContract extends Component {
 	  const { contractMessage } = this.props
 	  contractMessage.asset = asset
 	  contractMessage.assetType = assetType
+	  contractMessage.amount = ''
 	}
 
   isAmountValid() {
@@ -173,6 +175,7 @@ class RunContract extends Component {
           />
           <AmountInput
             amount={amount}
+						maxDecimal={isZenAsset(asset) ? ZENP_MAX_DECIMALS : 0}
             maxAmount={asset ? this.props.balances.getBalanceFor(asset) : null}
             shouldShowMaxAmount
             exceedingErrorMessage="Insufficient Funds"
