@@ -6,21 +6,13 @@ class TransactionState {
   @observable asset = ''
   @observable assetType = ''
   @observable to = ''
-  @observable amount
-  @observable status
-  @observable inprogress
-  @observable errorMessage
-  @observable assetIsValid = false
-  @observable assetName = ''
+  @observable amount = ''
+  @observable status = ''
+  @observable inprogress = false
+  @observable errorMessage = ''
 
   constructor(secretPhraseState) {
     this.secretPhraseState = secretPhraseState
-  }
-
-  @action
-  init() {
-    this.asset = ''
-    this.assetIsValid = false
   }
 
   @action
@@ -48,6 +40,12 @@ class TransactionState {
         this.status = ''
       }, 15000);
     }
+  }
+
+  @action
+  updateAsset({ asset, assetType }) {
+    this.asset = asset
+    this.assetType = assetType
   }
 
   @action

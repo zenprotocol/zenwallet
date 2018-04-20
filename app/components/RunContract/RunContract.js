@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import { clipboard } from 'electron'
 import { toInteger } from 'lodash'
 
+import { stringToNumber } from '../../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestSavedContracts from '../UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts'
@@ -56,6 +57,7 @@ class RunContract extends Component {
 
   onRunContractClicked = () => {
     this.props.contractMessage.sendContractMessage()
+    this.AutoSuggestAssets.wrappedInstance.reset() // TODO pass input value as props
   }
 
   renderSuccessResponse() {
@@ -89,32 +91,36 @@ class RunContract extends Component {
     const { contractMessage } = this.props
     contractMessage.contractName = data.name
     contractMessage.to = data.address
+    contractMessage.amount = ''
   }
 
   onContractAddressBlur = () => this.refs.child.onContractAddressBlur()
   onContractAddressFocus = () => this.refs.child.onContractAddressFocus()
 
 	// HELPER METHODS FOR ASSET AUTO SUGGGEST //
-	updateAssetFromSuggestions = (data) => {
-	  const { contractMessage, balances } = this.props
-	  contractMessage.assetBalance = balances.getBalanceFor(data.asset)
-	  contractMessage.asset = data.asset
-	  contractMessage.assetType = data.assetType
-	  contractMessage.assetName = data.assetName
-	  contractMessage.assetIsValid = data.assetIsValid
+	updateAssetFromSuggestions = ({ asset, assetType }) => {
+	  const { contractMessage } = this.props
+	  contractMessage.asset = asset
+	  contractMessage.assetType = assetType
 	}
 
-	onAssetBlur = () => this.refs.child.onAssetBlur()
-	onAssetFocus = () => this.refs.child.onAssetFocus()
+  isAmountValid() {
+    const { amount, asset } = this.props.contractMessage
+    if (!asset) {
+      return true
+    }
+    if (!amount) {
+      return false
+    }
+    return stringToNumber(amount) <= stringToNumber(this.props.balances.getBalanceFor(asset))
+  }
 
-	// AMOUNT INPUT //
-
-	updateAmount = (data) => {
+	updateAmount = (amount) => {
 	  const { contractMessage } = this.props
-	  contractMessage.amount = data.amount
+	  contractMessage.amount = amount
 	}
 	validateForm() {
-	  return !!this.props.contractMessage.to
+	  return !!this.props.contractMessage.to && this.isAmountValid()
 	}
 
 	isSubmitButtonDisabled() {
@@ -161,22 +167,17 @@ class RunContract extends Component {
         </Flexbox>
         <Flexbox flexDirection="row" className="contract-message-details form-row">
           <AutoSuggestAssets
-            sendData={this.updateAssetFromSuggestions}
             asset={asset}
-            assetName={assetName}
-            status={status}
-            onBlur={this.onAssetBlur.bind(this)}
-            onFocus={this.onAssetFocus.bind(this)}
+            onUpdateParent={this.updateAssetFromSuggestions}
+            ref={(el) => { this.AutoSuggestAssets = el }}
           />
           <AmountInput
-            normalize
             amount={amount}
+            maxAmount={asset ? this.props.balances.getBalanceFor(asset) : null}
+            shouldShowMaxAmount
+            exceedingErrorMessage="Insufficient Funds"
+            onUpdateParent={this.updateAmount}
             label="Amount"
-            asset={asset}
-            assetIsValid={assetIsValid}
-            assetBalance={assetBalance}
-            status={status}
-            sendData={this.updateAmount}
           />
         </Flexbox>
         <Flexbox flexDirection="column" className="message-data">

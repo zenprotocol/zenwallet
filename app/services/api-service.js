@@ -1,5 +1,6 @@
 import { get, post } from 'axios'
 
+import { isZenAsset } from '../../utils/helpers'
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
 
 const serverAddress = getServerAddress()
@@ -7,7 +8,10 @@ const crowdsaleServerAddress = getCrowdsaleServerAddress()
 
 export async function getBalances() {
   const response = await get(`${serverAddress}/wallet/balance`)
-  return response.data
+  return response.data.map(asset => ({
+    ...asset,
+    balance: normalizePresentableAmount(asset.asset, asset.balance),
+  }))
 }
 
 export async function getPublicAddress() {
@@ -25,7 +29,7 @@ export async function postTransaction(tx) {
     spend: {
       asset,
       assetType,
-      amount,
+      amount: normalizeSendableAmount(asset, amount),
     },
   }
 
@@ -65,7 +69,7 @@ export async function postRunContractMessage(contractMessage) {
       {
         asset,
         assetType,
-        amount,
+        amount: normalizeSendableAmount(asset, amount),
       },
     ]
   }
@@ -138,8 +142,18 @@ export async function getWalletResync() {
   return response.data
 }
 
-
-
+export function normalizeSendableAmount(asset, amount) {
+  return isZenAsset(asset) ? Math.floor(amount * 100000000) : amount
+}
+export function normalizePresentableAmount(asset, amount) {
+  if (isZenAsset(asset)) {
+    return (amount / 100000000).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 8,
+    })
+  }
+  return amount.toLocaleString()
+}
 // CROWDSALE APIS //
 
 /* eslint-disable camelcase */

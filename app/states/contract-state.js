@@ -1,4 +1,4 @@
-import { observable, action, runInAction } from 'mobx'
+import { observable, action, runInAction, computed } from 'mobx'
 import { some } from 'lodash'
 
 import { postActivateContract } from '../services/api-service'
@@ -58,14 +58,8 @@ class ContractState {
           }).write()
         }
 
-        this.name = ''
-        this.dragDropText = dropTextPlaceholder
-        this.hash = response.hash
-        this.address = response.address
+        this.resetForm()
         this.status = 'success'
-        this.inprogress = false
-        this.acceptedFiles = []
-        this.rejectedFiles = []
         setTimeout(() => {
           this.status = ''
         }, 15000)
