@@ -1,6 +1,6 @@
 .form-container, .input-container {
 	background: $grey;
-	padding: 20px;
+	padding: 7px 20px 20px 20px;
 	margin-bottom: 20px;
 	min-width: 225px;
 	&.container-on-right { margin-left: 20px; }
@@ -76,11 +76,12 @@ input[type=password],
 		&.error {	border: 1px solid $red;	}
 	}
 
-	.maxSend {
+	.maxAmount {
 		padding: 12px 10px 0px 0px;
 		width: 100px;
 		text-align: right;
 		color: $blue;
+		white-space: nowrap;
 	}
 
 	.amountArrows {

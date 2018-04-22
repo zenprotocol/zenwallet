@@ -195,7 +195,7 @@ class Faucet extends Component {
       <Flexbox flexDirection="column" className="form-container">
 
         <Flexbox flexDirection="column" className="destination-address-input form-row">
-          <label htmlFor="to">What is your key?</label>
+          <label htmlFor="to">What is your public key?</label>
           <Flexbox flexDirection="row" className="public-key-input">
 
             <Flexbox flexDirection="column" className="full-width">

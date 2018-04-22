@@ -15,7 +15,8 @@ table {
 
   tbody {
     tr { font-size: 0.85rem; }
-    td { padding: 12px 16px; }
+    td { padding: 12px 0px 12px 16px; }
+    td:last-child { padding: 12px 16px; }
   }
 
   th { color: $bright-grey; }

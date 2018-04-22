@@ -6,7 +6,7 @@ import Dropzone from 'react-dropzone'
 import { head } from 'lodash'
 import Highlight from 'react-highlight'
 
-import { normalizeTokens } from '../../../utils/helpers'
+import { normalizeTokens, zenToKalapa, stringToNumber } from '../../../utils/helpers'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
@@ -48,7 +48,6 @@ class ActivateContract extends Component {
     if (acceptedFiles.length > 0) {
       contract.fileName = head(acceptedFiles).name
       contract.dragDropText = head(acceptedFiles).name
-      this.updateActivationCost()
     }
   }
 
@@ -74,7 +73,7 @@ class ActivateContract extends Component {
       console.log('stringToReplace', stringToReplace)
       return code.replace(stringToReplace, nameComment)
     }
-    const nameComment = `(* NAME_START:${name}:NAME_END *)'\n'`
+    const nameComment = `(* NAME_START:${name}:NAME_END *)\n`
     console.log('new nameComment', nameComment)
     const newCode = nameComment + code
     console.log('new nameComment', newCode)
@@ -104,12 +103,17 @@ class ActivateContract extends Component {
   onActivateContractClicked = () => this.props.contract.activateContract()
 
   validateForm() {
-    const { name, acceptedFiles, blockAmountHasError } = this.props.contract
-    return !blockAmountHasError && (acceptedFiles.length === 1) && !!name
+    const { name, acceptedFiles } = this.props.contract
+    return this.isAmountValid() && (acceptedFiles.length === 1) && !!name
+  }
+
+  isAmountValid() {
+    const { numberOfBlocks, code } = this.props.contract
+    return calcMaxBlocksForContract(this.props.balances.zen, code.length) >= numberOfBlocks
   }
 
   isSubmitButtonDisabled() {
-    const { inprogress, acceptedFiles, blockAmountHasError } = this.props.contract
+    const { inprogress, acceptedFiles } = this.props.contract
     const formIsValid = this.validateForm()
 
     if (formIsValid && inprogress) { return true }
@@ -198,14 +202,15 @@ class ActivateContract extends Component {
   renderCostToActivate() {
     const { contract } = this.props
     const {
-      code, acceptedFiles, numberOfBlocks, activationCost,
+      code, acceptedFiles, numberOfBlocks,
     } = contract
     if (acceptedFiles.length === 1 && code.length > 0 && numberOfBlocks > 0) {
       let unitOfAccountText
-      if (activationCost > 1000000) {
-        unitOfAccountText = `${normalizeTokens(activationCost, true)} ZENP`
+      const activationCostInKalapa = code.length * numberOfBlocks
+      if (activationCostInKalapa > 1000000) {
+        unitOfAccountText = `${normalizeTokens(activationCostInKalapa, true)} ZENP`
       } else {
-        unitOfAccountText = `${activationCost.toLocaleString()} Kalapas`
+        unitOfAccountText = `${activationCostInKalapa.toLocaleString()} Kalapas`
       }
 
       return (
@@ -217,31 +222,14 @@ class ActivateContract extends Component {
     }
   }
 
-  updateActivationCost() {
-    const { contract, balances } = this.props
-    const { code, acceptedFiles, numberOfBlocks } = contract
-    if (acceptedFiles.length == 1 && code.length > 0 && numberOfBlocks > 0) {
-      contract.activationCost = code.length * numberOfBlocks
-      contract.blockAmountHasError = (contract.activationCost > balances.zen)
-    } else {
-      contract.activationCost = ''
-      contract.blockAmountHasError = false
-    }
-  }
-
-
-	// AMOUNT INPUT //
-
-	updateNumberOfBlocks = (data) => {
-	  this.props.contract.numberOfBlocks = data.amount
-	  this.updateActivationCost()
+	updateBlocksAmount = (amount) => {
+	  this.props.contract.numberOfBlocks = amount
 	}
-
 
 	render() {
 	  const {
 	    dragDropText, name, numberOfBlocks,
-	    activationCost, status, blockAmountHasError,
+	    activationCost, status, code,
 	  } = this.props.contract
 
 	  let dropzoneRef
@@ -253,7 +241,7 @@ class ActivateContract extends Component {
       <Flexbox flexDirection="column" className="page-title">
         <h1>Upload a contract to the ACS</h1>
         <h3>
-              By uploading a contract to the <span className="bold">Active Contract Set</span>, other peers can discover and run it for the amount of blocks you pay for.
+          By uploading a contract to the <span className="bold">Active Contract Set</span>, other peers can discover and run it for the amount of blocks you pay for.
         </h3>
       </Flexbox>
 
@@ -295,14 +283,11 @@ class ActivateContract extends Component {
           </Flexbox>
 
           <AmountInput
-            hasError={blockAmountHasError}
-            errorMessage="Insufficient funds for that many blocks"
-
-            normalize={false}
             amount={numberOfBlocks}
-            status={status}
+            maxAmount={String(calcMaxBlocksForContract(this.props.balances.zen, code.length))}
+            exceedingErrorMessage="Insufficient funds for that many blocks"
+            onUpdateParent={this.updateBlocksAmount}
             label="Number Of Blocks"
-            sendData={this.updateNumberOfBlocks}
           />
 
         </Flexbox>
@@ -325,30 +310,19 @@ class ActivateContract extends Component {
           </button>
         </Flexbox>
       </Flexbox>
-
-      {/* <br/>
-					<br/>
-					<br/>
-
-	        <aside>
-	          <h2>Accepted files</h2>
-	          <ul>
-	            {
-	              contract.acceptedFiles.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-	            }
-	          </ul>
-	          <h2>Rejected files</h2>
-	          <ul>
-	            {
-	              contract.rejectedFiles.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-	            }
-	          </ul>
-	        </aside> */}
-
     </Flexbox>
   </Layout>
 	  )
 	}
+
 }
 
 export default ActivateContract
+
+function calcMaxBlocksForContract(zenBalance, codeLength) {
+  if (zenBalance === 0 || codeLength === 0) {
+    return 0
+  }
+	const zenBalanceInKalapas = zenToKalapa(stringToNumber(zenBalance))
+  return parseInt((zenBalanceInKalapas / codeLength), 10)
+}

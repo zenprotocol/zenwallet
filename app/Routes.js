@@ -29,7 +29,7 @@ const Routes = () => (
     <Switch>
       <Route exact path="/portfolio" component={Balances} />
       <Route exact path="/receive" component={Receive} />
-      <Route exact path="/send-tx/:assetHash?" component={SendTx} />
+      <Route exact path="/send-tx" component={SendTx} />
       <Route exact path="/tx-history" component={TxHistory} />
       <Route exact path="/activate-contract" component={ActivateContract} />
       <Route exact path="/run-contract/:contractAddress?" component={RunContract} />

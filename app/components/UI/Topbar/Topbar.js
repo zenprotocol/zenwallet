@@ -5,13 +5,10 @@ import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { normalizeTokens } from '../../../../utils/helpers'
-
 @inject('balances')
 @inject('history')
 @observer
 class Header extends Component {
-
   static propTypes = {
     className: PropTypes.string,
   }
@@ -50,7 +47,7 @@ class Header extends Component {
   }
 
   render() {
-    const { balances } = this.props
+    const { zen } = this.props.balances
     const className = classnames('header', this.props.className)
     return (
       <Flexbox className={className} element="header" >
@@ -60,7 +57,7 @@ class Header extends Component {
             <span className="total-balance">Total Balance</span>
             <span className="zen-symbol">ZENP</span>
           </div>
-          <div className="account-balance" title={`${balances.zen.toLocaleString()} Kalapas`} >{normalizeTokens(balances.zen, true)}</div>
+          <div className="account-balance">{zen}</div>
         </div>
       </Flexbox>
     )
