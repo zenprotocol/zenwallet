@@ -35,16 +35,15 @@ export const truncateString = (string) => {
 }
 
 export const normalizeTokens = (number, isZen) => {
-  if (Number.isInteger(number)) {
-    number = Math.abs(number)
-    if (isZen) {
-      number.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 8,
-      })
-    }
-    return number.toLocaleString()
+  const newNumber = number / ZEN_TO_KALAPA_RATIO
+  if (isZen) {
+    const formattedNumber = newNumber.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 8,
+    })
+    return formattedNumber
   }
+  return number.toLocaleString()
 }
 
 export const stringToNumber = str => str && parseFloat(str.replace(/,/g, ''))

@@ -201,14 +201,13 @@ class ActivateContract extends Component {
 
   renderCostToActivate() {
     const { contract } = this.props
-    const {
-      code, acceptedFiles, numberOfBlocks,
-    } = contract
+    const { code, acceptedFiles, numberOfBlocks } = contract
     if (acceptedFiles.length === 1 && code.length > 0 && numberOfBlocks > 0) {
       let unitOfAccountText
       const activationCostInKalapa = code.length * numberOfBlocks
       if (activationCostInKalapa > 1000000) {
-        unitOfAccountText = `${normalizeTokens(activationCostInKalapa, true)} ZENP`
+        const newValue = normalizeTokens(activationCostInKalapa, true)
+        unitOfAccountText = `${newValue} ZENP`
       } else {
         unitOfAccountText = `${activationCostInKalapa.toLocaleString()} Kalapas`
       }
@@ -323,6 +322,6 @@ function calcMaxBlocksForContract(zenBalance, codeLength) {
   if (zenBalance === 0 || codeLength === 0) {
     return 0
   }
-	const zenBalanceInKalapas = zenToKalapa(stringToNumber(zenBalance))
+  const zenBalanceInKalapas = zenToKalapa(stringToNumber(zenBalance))
   return parseInt((zenBalanceInKalapas / codeLength), 10)
 }
