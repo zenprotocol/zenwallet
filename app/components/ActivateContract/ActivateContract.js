@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Dropzone from 'react-dropzone'
+import PropTypes from 'prop-types'
 import { head } from 'lodash'
 import Highlight from 'react-highlight'
 
@@ -12,6 +13,8 @@ import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 
+const { shell } = require('electron')
+
 const startRegex = /NAME_START:/
 const endRegex = /:NAME_END/
 
@@ -19,6 +22,24 @@ const endRegex = /:NAME_END/
 @inject('balances')
 @observer
 class ActivateContract extends Component {
+  static propTypes = {
+    contract: PropTypes.shape({
+      name: PropTypes.string,
+      status: PropTypes.string,
+      address: PropTypes.string,
+      hash: PropTypes.string,
+      dragDropText: PropTypes.string,
+      inprogress: PropTypes.boolean,
+      acceptedFiles: PropTypes.array,
+      rejectedFiles: PropTypes.array,
+      resetForm: PropTypes.func,
+      activateContract: PropTypes.func,
+    }).isRequired,
+    balances: PropTypes.shape({
+      zen: PropTypes.string,
+    }).isRequired,
+  }
+
   componentWillUnmount() {
     if (this.props.contract.status === 'success') {
       this.props.contract.resetForm()
@@ -113,7 +134,7 @@ class ActivateContract extends Component {
   }
 
   isSubmitButtonDisabled() {
-    const { inprogress, acceptedFiles } = this.props.contract
+    const { inprogress } = this.props.contract
     const formIsValid = this.validateForm()
 
     if (formIsValid && inprogress) { return true }
@@ -170,6 +191,11 @@ class ActivateContract extends Component {
     }
   }
 
+  onLinkClick = (evt) => {
+    evt.preventDefault()
+    shell.openExternal(evt.target.href)
+  }
+
   renderErrorResponse() {
     if (this.props.contract.status !== 'error') {
       return null
@@ -177,9 +203,16 @@ class ActivateContract extends Component {
     return (
       <FormResponseMessage className="error">
         <span>
-          There seems to be a problem with your contract. Please contact your developer and direct them to use the ZEN-SDK to test the contract.
+          There seems to be a problem with your contract. Please contact your
+          developer and direct them to use the ZEN-SDK to test the contract.
           <br />
-          SDK Link: <a target="_blank" href="https://github.com/zenprotocol/ZFS-SDK">https://github.com/zenprotocol/ZFS-SDK</a>
+          SDK Link:
+          <a
+            href="https://github.com/zenprotocol/ZFS-SDK"
+            onClick={this.onLinkClick}
+          >
+            https://github.com/zenprotocol/ZFS-SDK
+          </a>
         </span>
       </FormResponseMessage>
     )
@@ -187,7 +220,7 @@ class ActivateContract extends Component {
 
   renderCodeSnippet() {
     const { code, acceptedFiles } = this.props.contract
-    if (acceptedFiles.length == 1 && code) {
+    if (acceptedFiles.length === 1 && code) {
       return (
         <Flexbox flexDirection="column" className="contract-code form-row">
           <label htmlFor="code">Code</label>
@@ -211,7 +244,6 @@ class ActivateContract extends Component {
       } else {
         unitOfAccountText = `${activationCostInKalapa.toLocaleString()} Kalapas`
       }
-
       return (
         <Flexbox flexGrow={1} flexDirection="row" className="form-response-message">
           <span className="key">Activation cost: </span>
@@ -221,99 +253,97 @@ class ActivateContract extends Component {
     }
   }
 
-	updateBlocksAmount = (amount) => {
-	  this.props.contract.numberOfBlocks = amount
-	}
+  updateBlocksAmount = (amount) => {
+    this.props.contract.numberOfBlocks = amount
+  }
 
-	render() {
-	  const {
-	    dragDropText, name, numberOfBlocks,
-	    activationCost, status, code,
-	  } = this.props.contract
+  render() {
+    const {
+      dragDropText, name, numberOfBlocks, code
+    } = this.props.contract
 
-	  let dropzoneRef
+    let dropzoneRef
 
-	  return (
-  <Layout className="activate-contract">
-    <Flexbox flexDirection="column" className="send-tx-container">
+    return (
+      <Layout className="activate-contract">
+        <Flexbox flexDirection="column" className="send-tx-container">
 
-      <Flexbox flexDirection="column" className="page-title">
-        <h1>Upload a contract to the ACS</h1>
-        <h3>
-          By uploading a contract to the <span className="bold">Active Contract Set</span>, other peers can discover and run it for the amount of blocks you pay for.
-        </h3>
-      </Flexbox>
-
-      <Flexbox flexDirection="column" className="form-container">
-
-        <Flexbox flexDirection="column" className="destination-address-input form-row">
-          <label htmlFor="to">Upload a contract from your computer</label>
-          <Flexbox flexDirection="row" className="upload-contract-dropzone">
-            <Dropzone
-              ref={(node) => { dropzoneRef = node; }}
-              className={this.renderDropZoneClassName()}
-              activeClassName="active"
-              multiple={false}
-              accept=".fst"
-              onDrop={this.onDrop.bind(this)}
-            >
-              <p>{dragDropText}</p>
-            </Dropzone>
-            {this.renderCancelIcon()}
-            <button
-              className="button secondary button-on-right"
-              onClick={() => { dropzoneRef.open() }}
-            >Upload
-            </button>
-          </Flexbox>
-        </Flexbox>
-
-        <Flexbox flexDirection="row" className="contract-name-and-amount form-row">
-
-          <Flexbox flexGrow={2} flexDirection="column" className="contract-name with-input-on-right">
-            <label htmlFor="to">Name Your Contract</label>
-            <input
-              id="contract-name"
-              name="contract-name"
-              type="text"
-              onChange={this.onContractNameChanged}
-              value={name}
-            />
+          <Flexbox flexDirection="column" className="page-title">
+            <h1>Upload a contract to the ACS</h1>
+            <h3>
+              By uploading a contract to the <span className="bold">Active Contract Set</span>, other peers can discover and run it for the amount of blocks you pay for.
+            </h3>
           </Flexbox>
 
-          <AmountInput
-            amount={numberOfBlocks}
-            maxAmount={String(calcMaxBlocksForContract(this.props.balances.zen, code.length))}
-            exceedingErrorMessage="Insufficient funds for that many blocks"
-            onUpdateParent={this.updateBlocksAmount}
-            label="Number Of Blocks"
-          />
+          <Flexbox flexDirection="column" className="form-container">
 
+            <Flexbox flexDirection="column" className="destination-address-input form-row">
+              <label htmlFor="to">Upload a contract from your computer</label>
+              <Flexbox flexDirection="row" className="upload-contract-dropzone">
+                <Dropzone
+                  ref={(node) => { dropzoneRef = node; }}
+                  className={this.renderDropZoneClassName()}
+                  activeClassName="active"
+                  multiple={false}
+                  accept=".fst"
+                  onDrop={this.onDrop.bind(this)}
+                >
+                  <p>{dragDropText}</p>
+                </Dropzone>
+                {this.renderCancelIcon()}
+                <button
+                  className="button secondary button-on-right"
+                  onClick={() => { dropzoneRef.open() }}
+                >Upload
+                </button>
+              </Flexbox>
+            </Flexbox>
+
+            <Flexbox flexDirection="row" className="contract-name-and-amount form-row">
+
+              <Flexbox flexGrow={2} flexDirection="column" className="contract-name with-input-on-right">
+                <label htmlFor="to">Name Your Contract</label>
+                <input
+                  id="contract-name"
+                  name="contract-name"
+                  type="text"
+                  onChange={this.onContractNameChanged}
+                  value={name}
+                />
+              </Flexbox>
+
+              <AmountInput
+                amount={numberOfBlocks}
+                maxAmount={String(calcMaxBlocksForContract(this.props.balances.zen, code.length))}
+                exceedingErrorMessage="Insufficient funds for that many blocks"
+                onUpdateParent={this.updateBlocksAmount}
+                label="Number Of Blocks"
+              />
+
+            </Flexbox>
+
+            {this.renderCodeSnippet()}
+
+          </Flexbox>
+
+          <Flexbox flexDirection="row">
+            { this.renderCostToActivate() }
+            { this.renderSuccessResponse() }
+            { this.renderErrorResponse() }
+            <Flexbox flexGrow={2} />
+            <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
+              <button
+                className={this.renderClassNames()}
+                disabled={this.isSubmitButtonDisabled()}
+                onClick={this.onActivateContractClicked}
+              >{this.renderActivateButtonText()}
+              </button>
+            </Flexbox>
+          </Flexbox>
         </Flexbox>
-
-        {this.renderCodeSnippet()}
-
-      </Flexbox>
-
-      <Flexbox flexDirection="row">
-        { this.renderCostToActivate() }
-        { this.renderSuccessResponse() }
-        { this.renderErrorResponse() }
-        <Flexbox flexGrow={2} />
-        <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-          <button
-            className={this.renderClassNames()}
-            disabled={this.isSubmitButtonDisabled()}
-            onClick={this.onActivateContractClicked}
-          >{this.renderActivateButtonText()}
-          </button>
-        </Flexbox>
-      </Flexbox>
-    </Flexbox>
-  </Layout>
-	  )
-	}
-
+      </Layout>
+    )
+  }
 }
 
 export default ActivateContract
