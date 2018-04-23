@@ -7,7 +7,8 @@ import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import IsValidIcon from '../Icons/IsValidIcon'
-import { validateAddress } from '../../../utils/helpers'
+import { validateAddress, isZenAsset, stringToNumber } from '../../../utils/helpers'
+import { ZENP_MAX_DECIMALS } from '../../constants'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
@@ -17,20 +18,11 @@ import AmountInput from '../UI/AmountInput/AmountInput'
 @inject('transaction')
 @observer
 class SendTx extends Component {
-  
   static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        assetHash: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
     transaction: PropTypes.shape({
       asset: PropTypes.string,
-      amount: PropTypes.number,
-      assetBalance: PropTypes.number,
+      amount: PropTypes.string,
       assetType: PropTypes.string,
-      assetName: PropTypes.string,
-      assetIsValid: PropTypes.bool,
       to: PropTypes.string,
       inprogress: PropTypes.bool,
       status: PropTypes.string,
@@ -45,12 +37,6 @@ class SendTx extends Component {
   state = {
     addressIsValid: false,
     addressError: false,
-  }
-
-  componentWillMount() {
-    const { match, transaction } = this.props
-    const { assetHash } = match.params
-    if (assetHash) { transaction.asset = assetHash }
   }
 
   componentDidMount() {
@@ -95,26 +81,15 @@ class SendTx extends Component {
 
   // HELPER METHODS FOR ASSET AUTO SUGGGEST //
 
-  updateAssetFromSuggestions = (data) => {
-    const { transaction, balances } = this.props
-    transaction.assetBalance = balances.getBalanceFor(data.asset)
-    transaction.asset = data.asset
-    transaction.assetType = data.assetType
-    transaction.assetName = data.assetName
-    transaction.assetIsValid = data.assetIsValid
-  }
-
-  onBlur = () => {
-    this.refs.child.onAssetBlur()
-  }
-
-  onAssetFocus = () => {
-    this.refs.child.onAssetFocus()
-  }
-
-  updateAmount = (data) => {
+  updateAssetFromSuggestions = ({ asset, assetType }) => {
     const { transaction } = this.props
-    transaction.amount = data.amount
+    transaction.asset = asset
+    transaction.assetType = assetType
+    transaction.amount = ''
+  }
+  updateAmount = (amount) => {
+    const { transaction } = this.props
+    transaction.amount = amount
   }
   renderSuccessResponse() {
     if (this.props.transaction.status !== 'success') {
@@ -143,11 +118,15 @@ class SendTx extends Component {
 
   onSubmitButtonClicked = () => {
     this.props.transaction.createTransaction(this.props.transaction)
+    this.AutoSuggestAssets.wrappedInstance.reset() // TODO pass input value as props
   }
 
   validateAmountField() {
-    const { amount, assetBalance, assetIsValid } = this.props.transaction
-    return (assetIsValid && amount <= assetBalance)
+    const { amount, asset } = this.props.transaction
+    if (!amount) {
+      return false
+    }
+    return stringToNumber(amount) <= stringToNumber(this.props.balances.getBalanceFor(asset))
   }
 
   validateDestinationAddressField() {
@@ -169,7 +148,7 @@ class SendTx extends Component {
   }
   render() {
     const {
-      to, asset, assetName, status, amount, assetIsValid, assetBalance,
+      to, asset, status, amount,
     } = this.props.transaction
     const { addressIsValid, addressError } = this.state
 
@@ -221,22 +200,18 @@ class SendTx extends Component {
             </Flexbox>
             <Flexbox flexDirection="row">
               <AutoSuggestAssets
-                sendData={this.updateAssetFromSuggestions}
                 asset={asset}
-                assetName={assetName}
-                onBlur={this.onBlur.bind(this)}
-                onFocus={this.onAssetFocus.bind(this)}
-                status={status}
+                onUpdateParent={this.updateAssetFromSuggestions}
+                ref={(el) => { this.AutoSuggestAssets = el }}
               />
               <AmountInput
-                normalize
+                maxDecimal={isZenAsset(asset) ? ZENP_MAX_DECIMALS : 0}
                 amount={amount}
+                exceedingErrorMessage="Insufficient Funds"
+                maxAmount={asset ? this.props.balances.getBalanceFor(asset) : null}
+                shouldShowMaxAmount
                 label="Amount"
-                asset={asset}
-                assetIsValid={assetIsValid}
-                assetBalance={assetBalance}
-                sendData={this.updateAmount}
-                status={status}
+                onUpdateParent={this.updateAmount}
               />
             </Flexbox>
           </Flexbox>

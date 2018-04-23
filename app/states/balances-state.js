@@ -1,23 +1,23 @@
 import { observable, computed, action, runInAction } from 'mobx'
-import { getBalances } from '../services/api-service'
 import { find } from 'lodash'
+
+import { getBalances } from '../services/api-service'
 import db from '../services/store'
-import { truncateString } from '../../utils/helpers'
 
 const savedContracts = db.get('savedContracts').value()
 const zenAsset = '0000000000000000000000000000000000000000000000000000000000000000'
 
 class BalancesState {
-    assets = observable.array([])
+    @observable assets = []
     @observable searchQuery = ''
+
+    constructor() {
+      this.fetch = this.fetch.bind(this)
+    }
 
     @action
     init() {
       this.searchQuery = ''
-    }
-
-    constructor() {
-      this.fetch = this.fetch.bind(this)
     }
 
     @action
@@ -29,73 +29,38 @@ class BalancesState {
     @action
     async fetch() {
       const result = await getBalances()
-
       runInAction(() =>
         this.assets.replace(result))
     }
 
-    @action
-    getAssetName(asset) {
-      const result = find(savedContracts, contract => contract.hash === asset)
-      const isZenp = asset === zenAsset
-
-      if (result !== undefined && result.name) {
-        return result.name
+    getAssetName(asset) { // eslint-disable-line class-methods-use-this
+      if (asset === zenAsset) { return 'ZENP' }
+      const contractFromDb = savedContracts.find(contract => contract.hash === asset)
+      if (contractFromDb && contractFromDb.name) {
+        return contractFromDb.name
       }
-      if (isZenp) { return 'ZENP' }
       return ''
     }
 
-    @action
     getBalanceFor(asset) {
-      let result = find(this.assets, { asset })
-      if (result !== undefined) {
-        result = result.balance
-      } else {
-        result = 0
-      }
-      return result
+      const result = find(this.assets, { asset })
+      return result ? result.balance : 0
     }
 
     @computed
     get assetsWithNames() {
-      const assetsWithNamesResult = this.assets.map(asset => {
-        const result = find(savedContracts, contract => contract.hash === asset.asset)
-        const isZenp = asset.asset === zenAsset
-
-        if (result !== undefined && result.name) { asset.name = result.name }
-        if (isZenp) { asset.name = 'ZENP' }
-
-        return asset
-      })
-      return assetsWithNamesResult
+      return this.assets.map(asset => ({ ...asset, name: this.getAssetName(asset.asset) }))
     }
 
-    @computed
-    get filtered() {
-      const query = this.searchQuery
-      let inputValue
-      if (query) {
-        inputValue = this.searchQuery.trim().toLowerCase()
-      } else {
-        inputValue = ''
+    filteredBalancesWithNames = query => {
+      if (!this.assetsWithNames.length) {
+        return []
       }
-      const inputLength = inputValue.length
-      const assetsWithNames = this.assetsWithNames
-
-      if (inputLength === 0) {
-        return assetsWithNames
+      if (!query) {
+        return this.assetsWithNames
       }
-      return assetsWithNames.filter(asset =>
-        this.assetMatches(asset, inputValue))
-    }
-
-    assetMatches(asset, value) {
-      let nameMatch
-      let assetMatch
-      if (asset.name) { nameMatch = (asset.name.indexOf(value) > -1) }
-      if (asset.asset) { assetMatch = (asset.asset.indexOf(value) > -1) }
-      return (nameMatch || assetMatch)
+      return this.assetsWithNames.filter(asset => (asset.name.indexOf(query) > -1)
+        || (asset.asset.indexOf(query) > -1))
     }
 
     @computed

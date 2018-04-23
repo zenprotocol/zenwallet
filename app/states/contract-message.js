@@ -67,11 +67,18 @@ class ContractMessageState {
       })
     } catch (err) {
       console.error('err', err.message, err)
-      this.inprogress = false
-      this.status = 'error'
-      setTimeout(() => {
-        this.status = ''
-      }, 15000);
+      runInAction(() => {
+        this.inprogress = false
+        this.status = 'error'
+        // TODO :: refactor after API responses are stable
+        if (err && err.response && err.response.data) {
+          this.errorMessage = err.response.data
+        }
+        setTimeout(() => {
+          this.status = ''
+        }, 15000);
+
+      })
     }
   }
 

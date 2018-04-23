@@ -1,7 +1,5 @@
 @import "styles/Variables";
 
-
-
 button, .button, {
   height: 36px;
   min-width: 120px;
@@ -17,6 +15,8 @@ button, .button, {
   text-decoration: none;
   background: $blue;
 
+  border: 1px solid $blue;
+
   i.fa.fa-spinner { margin-left: 6px; }
 
   &:hover { background-color: $blue-hover; }
@@ -27,9 +27,13 @@ button, .button, {
     pointer-events: none;
     cursor: default;
     color: rgba(255, 255, 255, 0.4);
+    border: 1px solid $blue-disabled;
   }
 
-  &.secondary { background-color: $button-grey; }
+  &.secondary {
+    background-color: $button-grey;
+    border: 1px solid $button-grey;
+  }
   &.secondary:hover { background-color: $button-grey-hover; }
   &.secondary:focus { background-color: $button-grey-focus; }
   &.secondary:disabled { background-color: $button-grey-disabled; }

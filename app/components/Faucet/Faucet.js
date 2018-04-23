@@ -85,7 +85,7 @@ class Faucet extends Component {
             <Flexbox flexGrow={1} flexDirection="row" className="form-response-message warning">
               <FontAwesomeIcon icon={['far', 'exclamation']} />
               <Flexbox flexDirection="column">
-								Tokens have already been redeemed by this key
+                Tokens have already been redeemed by this key
               </Flexbox>
             </Flexbox>
           )
@@ -106,7 +106,7 @@ class Faucet extends Component {
           <Flexbox flexGrow={1} flexDirection="row" className="form-response-message warning">
             <FontAwesomeIcon icon={['far', 'exclamation']} />
             <Flexbox flexDirection="column">
-								This Public Key is not entitled to any tokens
+              This Public Key is not entitled to any tokens
             </Flexbox>
           </Flexbox>
         )
@@ -195,7 +195,7 @@ class Faucet extends Component {
       <Flexbox flexDirection="column" className="form-container">
 
         <Flexbox flexDirection="column" className="destination-address-input form-row">
-          <label htmlFor="to">What is your key?</label>
+          <label htmlFor="to">What is your public key?</label>
           <Flexbox flexDirection="row" className="public-key-input">
 
             <Flexbox flexDirection="column" className="full-width">
