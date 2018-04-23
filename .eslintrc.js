@@ -19,8 +19,8 @@ module.exports = {
     "consistent-return": "off",
     "generator-star-spacing": "off",
     "import/order": ["error", {"newlines-between": "always"}],
-    "import/no-unresolved": "error",// # hack until resolving import properly
-    "import/extensions": "error",// # hack until resolving import properly
+    "import/no-unresolved": "error",
+    "import/extensions": "error",
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/click-events-have-key-events": 0,
@@ -54,7 +54,6 @@ module.exports = {
     'import/resolver': {
       node: {
         paths: [
-          resolve(__dirname),
           resolve(__dirname, 'app', 'vendor'),
           'node_modules',
         ],
