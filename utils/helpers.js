@@ -1,4 +1,7 @@
 import bech32 from 'bech32'
+
+import { ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../app/constants'
+
 import bip39Words from './bip39Words'
 
 const validPrefixes = ['tc', 'zc', 'tp', 'zp']
@@ -32,18 +35,18 @@ export const truncateString = (string) => {
 }
 
 export const normalizeTokens = (number, isZen) => {
-  if (Number.isInteger(number)) {
-    number = Math.abs(number)
-    if (isZen) {
-      number = Math.floor((number / 100000000) * 100000000) / 100000000
-      number.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 8,
-      })
-    }
-    return number.toLocaleString()
+  const newNumber = number / ZEN_TO_KALAPA_RATIO
+  if (isZen) {
+    const formattedNumber = newNumber.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 8,
+    })
+    return formattedNumber
   }
+  return number.toLocaleString()
 }
+
+export const stringToNumber = str => str && parseFloat(str.replace(/,/g, ''))
 
 export const validateAddress = (value) => {
   try {
@@ -57,8 +60,9 @@ export const validateAddress = (value) => {
   }
 }
 
-export const isZenAsset = (asset) => (asset === '0000000000000000000000000000000000000000000000000000000000000000')
+export const isZenAsset = (asset) => asset === ZEN_ASSET_HASH
 
+export const zenToKalapa = zen => zen * ZEN_TO_KALAPA_RATIO
 
 export const getNamefromCodeComment = (code) => {
   const startRegex = /NAME_START:/
@@ -75,4 +79,39 @@ export const getNamefromCodeComment = (code) => {
     return name
   }
   return false
+}
+
+export const validateInputNumber = (str, maxDecimal = 0) => {
+  if (str === '') {
+    return str
+  }
+  // block non numbers/dots
+  if (!str.match(/^[\d.]+$/)) {
+    return false
+  }
+  // block dots
+  if (maxDecimal === 0 && str.match(/\./g)) {
+    return false
+  }
+  // handle more than one dot
+  if (maxDecimal > 0 && (str.match(/\./g) || []).length > 1) {
+    return false
+  }
+  // block non dot after zero
+  if (maxDecimal > 0 && str.length > 1 && str.charAt(0) === '0' && str.charAt(1) !== '.') {
+    return false
+  }
+  // handle leading dot .1
+  if (maxDecimal > 0 && str.match(/^\./)) {
+    return `0${str}`.substr(0, maxDecimal + 2)
+  }
+  // let end with dot pass
+  if (maxDecimal > 0 && str.match(/\.$/)) {
+    return str
+  }
+  // limit decimals
+  if (maxDecimal > 0 && str.match(/\./)) {
+    return str.split('.')[0] + '.' + str.split('.')[1].substr(0, maxDecimal) // eslint-disable-line prefer-template
+  }
+  return str
 }

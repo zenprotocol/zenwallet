@@ -36,6 +36,7 @@ class ActiveContractSet extends Component {
     const activeContractsRows = activeContractSet.activeContracts.map((contract) => {
       const hash = truncateString(contract.contractHash)
       const address = truncateString(contract.address)
+			const formattedBlock = contract.expire.toLocaleString()
 
       let codeSnippetClassNames,
         viewCodeButtonText
@@ -53,7 +54,7 @@ class ActiveContractSet extends Component {
             <td className="text">{getNamefromCodeComment(contract.code)}</td>
             <CopyableTableCell string={contract.contractHash} />
             <CopyableTableCell string={contract.address} />
-            <td>{contract.expire.toLocaleString()}</td>
+            <td title={`Block ${formattedBlock}`}>{formattedBlock}</td>
             <td className="align-right buttons">
               <a
                 title='Show Code Snippet'
@@ -87,7 +88,7 @@ class ActiveContractSet extends Component {
 
           <Flexbox flexDirection="row" className="page-title" justifyContent="space-between">
             <Flexbox flexDirection="column">
-              <h1>Explore Contracts - Active Contract Set</h1>
+              <h1>Active Contract Set</h1>
               <h3>
                 The active contract set (ACS) contains all the contracts which can directly affect the network.
                 <br />
@@ -105,10 +106,10 @@ class ActiveContractSet extends Component {
             <table>
               <thead>
                 <tr>
-                  <th>Contract Name</th>
+                  <th>Name</th>
                   <th>Hash</th>
                   <th>Address</th>
-                  <th>Active Until Block</th>
+                  <th>Active Until</th>
                   <th className="align-right">Actions</th>
                 </tr>
                 <tr className="separator" />

@@ -8,7 +8,6 @@ const { alreadyRedeemedTokens } = db.get('config').value()
 export const load = async () => {
   setTimeout(() => {
     go()
-    resyncWallet()
   }, 2500)
 }
 
