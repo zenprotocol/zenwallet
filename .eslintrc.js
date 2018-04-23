@@ -1,4 +1,6 @@
-{
+const { resolve } = require('path')
+
+module.exports = {
   "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
@@ -17,8 +19,8 @@
     "consistent-return": "off",
     "generator-star-spacing": "off",
     "import/order": ["error", {"newlines-between": "always"}],
-    "import/no-unresolved": [ "error", { "ignore": [ '@fortawesome/' ] } ], # hack until resolving import properly
-    "import/extensions": [ "error", { "ignore": [ '@fortawesome/' ] } ], # hack until resolving import properly
+    "import/no-unresolved": "error",// # hack until resolving import properly
+    "import/extensions": "error",// # hack until resolving import properly
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/click-events-have-key-events": 0,
@@ -47,12 +49,16 @@
     "promise",
     "compat",
     "react"
-  ]
-  # "settings": {
-  #   "import/resolver": {
-  #     "webpack": {
-  #       "config": "webpack.config.eslint.js"
-  #     }
-  #   }
-  # }
+  ],
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: [
+          resolve(__dirname),
+          resolve(__dirname, 'app', 'vendor'),
+          'node_modules',
+        ],
+      },
+    },
+  },
 }
