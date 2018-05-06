@@ -1,6 +1,7 @@
+import { ZEN_ASSET_HASH } from '../../app/constants'
+
 import BalancesState from './balances-state'
 
-const zenAsset = '0000000000000000000000000000000000000000000000000000000000000000'
 const awesomeTokenAsset = '0000000000000000000000000000000000000000000000000000000000000001'
 jest.mock('../services/store', () => ({
   get: (key) => {
@@ -34,7 +35,7 @@ describe('BalancesState', () => {
     expect(cut.assets.length).toEqual(0)
   })
   it('[getAssetName] should return ZENP', () => {
-    expect(cut.getAssetName(zenAsset)).toEqual('ZENP')
+    expect(cut.getAssetName(ZEN_ASSET_HASH)).toEqual('ZENP')
   })
   it('[getAssetName] should return Awesome Token', () => {
     expect(cut.getAssetName(awesomeTokenAsset)).toEqual('Awesome Token')
@@ -54,11 +55,11 @@ describe('BalancesState', () => {
   })
   it('[assetsWithNames] should get asset with names', () => {
     cut.assets = [
-      { asset: zenAsset, balance: 2 },
+      { asset: ZEN_ASSET_HASH, balance: 2 },
       { asset: awesomeTokenAsset, balance: 3 },
     ]
     expect(cut.assetsWithNames).toEqual([
-      { asset: zenAsset, balance: 2, name: 'ZENP' },
+      { asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' },
       { asset: awesomeTokenAsset, balance: 3, name: 'Awesome Token' },
     ])
   })
@@ -69,14 +70,14 @@ describe('BalancesState', () => {
     expect(cut.filteredBalancesWithNames()).toEqual([])
   })
   it('[filteredBalancesWithNames] should return cut.assetsWithNames when query is empty', () => {
-    const mockedAssetsWithNames = [{ asset: zenAsset, balance: 2, name: 'ZENP' }]
+    const mockedAssetsWithNames = [{ asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' }]
     Object.defineProperty(cut, 'assetsWithNames', {
       get: jest.fn(() => mockedAssetsWithNames),
     });
     expect(cut.filteredBalancesWithNames()).toEqual(mockedAssetsWithNames)
   })
   it('[filteredBalancesWithNames] should return [] when no balances matches', () => {
-    const mockedAssetsWithNames = [{ asset: zenAsset, balance: 2, name: 'ZENP' }]
+    const mockedAssetsWithNames = [{ asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' }]
     Object.defineProperty(cut, 'assetsWithNames', {
       get: jest.fn(() => mockedAssetsWithNames),
     });
