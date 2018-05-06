@@ -89,7 +89,7 @@ app.on('ready', async () => {
     if (!mainWindow) { return }
     const { width, height } = mainWindow.getBounds()
     db.get('userPreferences').assign({ width, height }).write()
-  });
+  })
 
   console.log('process.argv', process.argv)
 
@@ -130,13 +130,13 @@ app.on('ready', async () => {
         const log = chunk.toString('utf8')
         console.log(`Received ${log} bytes of data.`)
         event.sender.send('blockchainLogs', log)
-      });
+      })
     })
 
     node.on('exit', () => {
-      console.log('Closed');
-      app.quit();
-    });
+      console.log('Closed')
+      app.quit()
+    })
   }
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
@@ -159,12 +159,12 @@ app.on('ready', async () => {
   menuBuilder.buildMenu()
 
   process.on('SIGINT', () => {
-    console.log('Please close zen-wallet by closing the app window');
+    console.log('Please close zen-wallet by closing the app window')
     if (isUiOnly) {
       app.quit()
     } else {
-      console.log('Sending SIGINT to Node');
-      node.kill('SIGINT');
+      console.log('Sending SIGINT to Node')
+      node.kill('SIGINT')
     }
   })
 })
@@ -175,8 +175,8 @@ app.on('window-all-closed', () => {
     // after all windows have been closed
     app.quit()
   } else if (process.platform !== 'darwin') {
-    console.log('Sending SIGINT to Node');
-    node.kill('SIGINT');
+    console.log('Sending SIGINT to Node')
+    node.kill('SIGINT')
     app.quit()
   }
 })

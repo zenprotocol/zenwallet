@@ -27,7 +27,7 @@ class TransactionState {
         this.status = 'success'
         setTimeout(() => {
           this.status = ''
-        }, 15000);
+        }, 15000)
       })
     } catch (error) {
       runInAction(() => {
@@ -38,7 +38,7 @@ class TransactionState {
       this.status = 'error'
       setTimeout(() => {
         this.status = ''
-      }, 15000);
+      }, 15000)
     }
   }
 

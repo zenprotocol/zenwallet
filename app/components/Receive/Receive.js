@@ -39,7 +39,7 @@ class Receive extends Component {
     }
     this.copyMessageTimeout = setTimeout(() => {
       this.setState({ showCopyMessage: false })
-    }, 3000);
+    }, 3000)
   }
 
   renderCopiedMessage() {

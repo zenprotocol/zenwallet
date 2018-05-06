@@ -7,13 +7,11 @@ import ToggleVisibilityIcon from '../../Icons/ToggleVisibilityIcon'
 import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
-
 import db from '../../../services/store'
 
 @inject('secretPhraseState')
 @observer
 class SetPassword extends Component {
-  
   state = {
     validLength: false,
     validUpper: false,
@@ -82,7 +80,9 @@ class SetPassword extends Component {
   }
 
   validatePassword() {
-    const {passwordsMatch, password, validLength, validUpper, hasNumbers} = this.state
+    const {
+      passwordsMatch, validLength, validUpper, hasNumbers,
+    } = this.state
     return (passwordsMatch === 'match' && validLength && validUpper && hasNumbers)
   }
 
@@ -95,146 +95,146 @@ class SetPassword extends Component {
     history.push('/terms-of-service')
   }
 
-    renderPasswordConfirmInput() {
-      const {password, passwordConfirmation, passwordsMatch} = this.state
+  renderPasswordConfirmInput() {
+    const { password, passwordConfirmation, passwordsMatch } = this.state
 
-      let inputGroupClasses = 'input-group'
-      let iconWrapperClasses = 'input-group-label display-none'
+    let inputGroupClasses = 'input-group'
+    let iconWrapperClasses = 'input-group-label display-none'
 
-      if (password.length > 0 && passwordsMatch == 'match') {
-        inputGroupClasses = 'input-group valid'
-        iconWrapperClasses = 'input-group-label'
-      }
-
-      if (password.length > 0 && passwordsMatch == 'error') {
-        inputGroupClasses = 'input-group error'
-        iconWrapperClasses = 'input-group-label'
-      }
-
-      return (
-        <div className={inputGroupClasses}>
-          <input
-            type="password"
-            value={passwordConfirmation}
-            name="password-confirmation"
-            placeholder="Confirm password"
-            className="input-group-field"
-            onChange={this.onPasswordConfirmationChanged}
-          />
-          <span className={iconWrapperClasses} >
-            <IsValidIcon isValid={passwordsMatch === 'match'} isHidden={password.length === 0} />
-          </span>
-        </div>
-      )
+    if (password.length > 0 && passwordsMatch === 'match') {
+      inputGroupClasses = 'input-group valid'
+      iconWrapperClasses = 'input-group-label'
     }
-    render() {
-      const {
-        password, inputType,
-        autoLogoutMinutes, validLength, validUpper, hasNumbers,
-      } = this.state
 
-      return (
-        <OnBoardingLayout className="set-password-container" progressStep={4}>
-          <h1>Create a password</h1>
-          <h3>Your password gives you a quick access to your wallet.</h3>
+    if (password.length > 0 && passwordsMatch === 'error') {
+      inputGroupClasses = 'input-group error'
+      iconWrapperClasses = 'input-group-label'
+    }
 
-          <div className="devider after-title" />
+    return (
+      <div className={inputGroupClasses}>
+        <input
+          type="password"
+          value={passwordConfirmation}
+          name="password-confirmation"
+          placeholder="Confirm password"
+          className="input-group-field"
+          onChange={this.onPasswordConfirmationChanged}
+        />
+        <span className={iconWrapperClasses} >
+          <IsValidIcon isValid={passwordsMatch === 'match'} isHidden={password.length === 0} />
+        </span>
+      </div>
+    )
+  }
+  render() {
+    const {
+      password, inputType,
+      autoLogoutMinutes, validLength, validUpper, hasNumbers,
+    } = this.state
 
-          <Flexbox flexDirection="column" className="form-container" >
+    return (
+      <OnBoardingLayout className="set-password-container" progressStep={4}>
+        <h1>Create a password</h1>
+        <h3>Your password gives you a quick access to your wallet.</h3>
 
-            <Flexbox flexDirection="row" className="password-form-container" >
+        <div className="devider after-title" />
 
-              <Flexbox flexDirection="column" flexGrow={1} >
-                <h5>Make sure your password includes:</h5>
-                <ol>
-                  <li>
-                    <IsValidIcon isValid={validLength} />
-                    <span>At least 4 characters</span>
-                  </li>
-                  <li>
-                    <IsValidIcon isValid={validUpper} />
-                    <span>Containes upper and lower case characters</span>
-                  </li>
-                  <li>
-                    <IsValidIcon isValid={hasNumbers} />
-                    <span>Contains at least one number</span>
-                  </li>
-                </ol>
-              </Flexbox>
+        <Flexbox flexDirection="column" className="form-container" >
 
-              <Flexbox flexDirection="column" flexGrow={0} justifyContent="flex-end" >
-                <div className="input-group">
-                  <input
-                    name="password"
-                    type={inputType}
-                    value={password}
-                    placeholder="Enter password"
-                    className="input-group-field"
-                    onChange={this.onPasswordChanged}
-                  />
-                  <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
-                    <ToggleVisibilityIcon shouldShow={inputType === 'password'} />
-                  </span>
-                </div>
+          <Flexbox flexDirection="row" className="password-form-container" >
 
-                {this.renderPasswordConfirmInput()}
-
-              </Flexbox>
-
+            <Flexbox flexDirection="column" flexGrow={1} >
+              <h5>Make sure your password includes:</h5>
+              <ol>
+                <li>
+                  <IsValidIcon isValid={validLength} />
+                  <span>At least 4 characters</span>
+                </li>
+                <li>
+                  <IsValidIcon isValid={validUpper} />
+                  <span>Containes upper and lower case characters</span>
+                </li>
+                <li>
+                  <IsValidIcon isValid={hasNumbers} />
+                  <span>Contains at least one number</span>
+                </li>
+              </ol>
             </Flexbox>
 
-            <div className="devider" />
+            <Flexbox flexDirection="column" flexGrow={0} justifyContent="flex-end" >
+              <div className="input-group">
+                <input
+                  name="password"
+                  type={inputType}
+                  value={password}
+                  placeholder="Enter password"
+                  className="input-group-field"
+                  onChange={this.onPasswordChanged}
+                />
+                <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
+                  <ToggleVisibilityIcon shouldShow={inputType === 'password'} />
+                </span>
+              </div>
 
-            <Flexbox flexDirection="row" className="password-form-container" >
-
-              <Flexbox flexDirection="column" flexGrow={1}>
-                <h5>Auto logout</h5>
-                <p>After how many minutes you would like to automatically log out?</p>
-              </Flexbox>
-              <Flexbox flexDirection="column" flexGrow={0} justifyContent="flex-end" >
-                <div className="input-group">
-                  <input
-                    type="number"
-                    name="min-logout"
-                    min="1"
-                    max="120"
-                    className="input-group-field"
-                    value={autoLogoutMinutes}
-                    onChange={this.onMinutesChange}
-                  />
-                  <span className="input-group-label with-background">MIN</span>
-                </div>
-              </Flexbox>
+              {this.renderPasswordConfirmInput()}
 
             </Flexbox>
 
           </Flexbox>
 
-          <div className="devider before-buttons" />
+          <div className="devider" />
 
-          <Flexbox flexDirection="row">
-            <Flexbox flexGrow={1} />
-            <Flexbox flexGrow={2} />
-            <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-              <Link
-                to="/import-or-create-wallet"
-                className="button secondary"
-              >
+          <Flexbox flexDirection="row" className="password-form-container" >
+
+            <Flexbox flexDirection="column" flexGrow={1}>
+              <h5>Auto logout</h5>
+              <p>After how many minutes you would like to automatically log out?</p>
+            </Flexbox>
+            <Flexbox flexDirection="column" flexGrow={0} justifyContent="flex-end" >
+              <div className="input-group">
+                <input
+                  type="number"
+                  name="min-logout"
+                  min="1"
+                  max="120"
+                  className="input-group-field"
+                  value={autoLogoutMinutes}
+                  onChange={this.onMinutesChange}
+                />
+                <span className="input-group-label with-background">MIN</span>
+              </div>
+            </Flexbox>
+
+          </Flexbox>
+
+        </Flexbox>
+
+        <div className="devider before-buttons" />
+
+        <Flexbox flexDirection="row">
+          <Flexbox flexGrow={1} />
+          <Flexbox flexGrow={2} />
+          <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
+            <Link
+              to="/import-or-create-wallet"
+              className="button secondary"
+            >
               Back
-              </Link>
-              <button
-                className="button-on-right"
-                onClick={this.onSubmitClicked}
-                disabled={!this.validatePassword()}
-              >
+            </Link>
+            <button
+              className="button-on-right"
+              onClick={this.onSubmitClicked}
+              disabled={!this.validatePassword()}
+            >
               Continue
-              </button>
-            </Flexbox>
+            </button>
           </Flexbox>
+        </Flexbox>
 
-        </OnBoardingLayout>
-      )
-    }
+      </OnBoardingLayout>
+    )
+  }
 }
 
 

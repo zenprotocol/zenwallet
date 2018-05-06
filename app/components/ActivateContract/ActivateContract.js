@@ -259,7 +259,7 @@ class ActivateContract extends Component {
 
   render() {
     const {
-      dragDropText, name, numberOfBlocks, code
+      dragDropText, name, numberOfBlocks, code,
     } = this.props.contract
 
     let dropzoneRef
@@ -281,7 +281,7 @@ class ActivateContract extends Component {
               <label htmlFor="to">Upload a contract from your computer</label>
               <Flexbox flexDirection="row" className="upload-contract-dropzone">
                 <Dropzone
-                  ref={(node) => { dropzoneRef = node; }}
+                  ref={(node) => { dropzoneRef = node }}
                   className={this.renderDropZoneClassName()}
                   activeClassName="active"
                   multiple={false}

@@ -1,4 +1,5 @@
-import { observable, computed, action, runInAction } from 'mobx'
+import { observable, action, runInAction } from 'mobx'
+
 import { getNetworkStatus, getNetworkConnections } from '../services/api-service'
 
 class NetworkState {
@@ -16,7 +17,7 @@ class NetworkState {
   @action
   initPolling() {
     this.fetch()
-    setInterval(this.fetch, 10000);
+    setInterval(this.fetch, 10000)
   }
 
   @action

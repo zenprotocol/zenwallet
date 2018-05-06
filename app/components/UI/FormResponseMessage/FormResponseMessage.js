@@ -16,7 +16,7 @@ class FormResponseMessage extends Component {
     this.setState({ showFormMessage: true })
     this.formMsgTimeout = setTimeout(() => {
       this.setState({ showFormMessage: false })
-    }, 15000);
+    }, 15000)
   }
 
   componentWillUnmount() {
@@ -36,7 +36,7 @@ class FormResponseMessage extends Component {
         </Flexbox>
       )
     }
-    return (null);
+    return (null)
   }
 }
 

@@ -39,7 +39,7 @@ export const go = async () => {
 
 export const resyncWallet = async () => {
   try {
-    const response = await getWalletResync()
+    await getWalletResync()
   } catch (error) {
     console.log('resync - something went wrong', error)
   }

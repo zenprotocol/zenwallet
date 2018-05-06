@@ -8,7 +8,7 @@ class PublicAddressState {
     @action
     async fetch() {
       const address = await getPublicAddress()
-      runInAction(() => this.address = address)
+      runInAction(() => { this.address = address })
     }
 }
 

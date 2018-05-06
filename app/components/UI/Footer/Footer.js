@@ -7,7 +7,9 @@ class Footer extends Component {
     static propTypes = {
       className: PropTypes.string,
     }
-
+    static defaultProps = {
+      className: '',
+    }
     render() {
       const className = classnames('footer', this.props.className)
 

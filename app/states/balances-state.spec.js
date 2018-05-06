@@ -73,14 +73,14 @@ describe('BalancesState', () => {
     const mockedAssetsWithNames = [{ asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' }]
     Object.defineProperty(cut, 'assetsWithNames', {
       get: jest.fn(() => mockedAssetsWithNames),
-    });
+    })
     expect(cut.filteredBalancesWithNames()).toEqual(mockedAssetsWithNames)
   })
   it('[filteredBalancesWithNames] should return [] when no balances matches', () => {
     const mockedAssetsWithNames = [{ asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' }]
     Object.defineProperty(cut, 'assetsWithNames', {
       get: jest.fn(() => mockedAssetsWithNames),
-    });
+    })
     expect(cut.filteredBalancesWithNames('123')).toEqual([])
   })
   it('[filteredBalancesWithNames] should return matching object by name', () => {
@@ -89,7 +89,7 @@ describe('BalancesState', () => {
     const mockedAssetsWithNames = [assetWithName1, assetWithName2]
     Object.defineProperty(cut, 'assetsWithNames', {
       get: jest.fn(() => mockedAssetsWithNames),
-    });
+    })
     expect(cut.filteredBalancesWithNames('foo')).toEqual([assetWithName1])
   })
   it('[filteredBalancesWithNames] should return matching object by hash', () => {
@@ -98,7 +98,7 @@ describe('BalancesState', () => {
     const mockedAssetsWithNames = [assetWithName1, assetWithName2]
     Object.defineProperty(cut, 'assetsWithNames', {
       get: jest.fn(() => mockedAssetsWithNames),
-    });
+    })
     expect(cut.filteredBalancesWithNames('bar')).toEqual([assetWithName1])
   })
 })

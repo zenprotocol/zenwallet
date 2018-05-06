@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 
-import { truncateString } from '../../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
@@ -42,17 +41,15 @@ class TxHistory extends Component {
   render() {
     const { txhistory } = this.props
 
-    const tableRows = txhistory.transactions.map(tx => {
-      return (
-        [
-          <tr key={tx.txHash}>
-            <CopyableTableCell string={tx.txHash} />
-            { this.renderTransactionsCell(tx) }
-          </tr>,
-          <tr key={`${tx.txHash}-separator`} className="separator" />,
-        ]
-      )
-    })
+    const tableRows = txhistory.transactions.map(tx => (
+      [
+        <tr key={tx.txHash}>
+          <CopyableTableCell string={tx.txHash} />
+          { this.renderTransactionsCell(tx) }
+        </tr>,
+        <tr key={`${tx.txHash}-separator`} className="separator" />,
+      ]
+    ))
 
     return (
       <Layout className="balances">

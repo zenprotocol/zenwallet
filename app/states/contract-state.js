@@ -8,6 +8,8 @@ import db from '../services/store'
 type SecretPhraseState = {
   password: string
 };
+
+// TODO [AdGo] 06/05/19 - change to initialDropTextPlaceholder
 const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
 class ContractState {

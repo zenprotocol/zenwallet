@@ -2,16 +2,18 @@
  * Build config for electron renderer process
  */
 
-import path from 'path';
-import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import merge from 'webpack-merge';
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
-import baseConfig from './webpack.config.base';
-import CheckNodeEnv from './internals/scripts/CheckNodeEnv';
+import path from 'path'
 
-CheckNodeEnv('production');
+import webpack from 'webpack'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import merge from 'webpack-merge'
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
+
+import baseConfig from './webpack.config.base'
+import CheckNodeEnv from './internals/scripts/CheckNodeEnv'
+
+CheckNodeEnv('production')
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
@@ -174,4 +176,4 @@ export default merge.smart(baseConfig, {
       openAnalyzer: process.env.OPEN_ANALYZER === 'true',
     }),
   ],
-});
+})

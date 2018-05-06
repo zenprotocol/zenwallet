@@ -75,7 +75,7 @@ class Sidebar extends Component {
         </div>
         <div className="network-data-point">
           <span className="data-name" title="Node Version">Node Version: </span>
-          <span className="data-point">{pjson["dependencies"]["@zen/zen-node"]}</span>
+          <span className="data-point">{pjson.dependencies['@zen/zen-node']}</span>
         </div>
       </div>
     )

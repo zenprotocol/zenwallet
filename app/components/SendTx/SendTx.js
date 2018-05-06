@@ -148,7 +148,7 @@ class SendTx extends Component {
   }
   render() {
     const {
-      to, asset, status, amount,
+      to, asset, amount,
     } = this.props.transaction
     const { addressIsValid, addressError } = this.state
 

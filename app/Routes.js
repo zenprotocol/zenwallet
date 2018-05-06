@@ -22,7 +22,7 @@ import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
 import SecretPhraseQuiz from './components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz'
 import SetPassword from './components/OnBoarding/SetPassword/SetPassword'
 import TermsOfService from './components/OnBoarding/TermsOfService/TermsOfService'
-import Settings from './components/Settings'
+// import Settings from './components/Settings'
 
 const Routes = () => (
   <Router history={history}>

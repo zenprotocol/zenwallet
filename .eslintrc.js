@@ -13,7 +13,10 @@ module.exports = {
     "node": true
   },
   "rules": {
-    "semi": "off",
+    "semi": ["error", "never"],
+    "no-unexpected-multiline": 2,
+    "no-param-reassign": 0,
+    "class-methods-use-this": "off",
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
