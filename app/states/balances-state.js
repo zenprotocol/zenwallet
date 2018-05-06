@@ -3,9 +3,9 @@ import { find } from 'lodash'
 
 import { getBalances } from '../services/api-service'
 import db from '../services/store'
+import { ZEN_ASSET_HASH } from '../../app/constants'
 
 const savedContracts = db.get('savedContracts').value()
-const zenAsset = '0000000000000000000000000000000000000000000000000000000000000000'
 
 class BalancesState {
     @observable assets = []
@@ -34,7 +34,7 @@ class BalancesState {
     }
 
     getAssetName(asset) { // eslint-disable-line class-methods-use-this
-      if (asset === zenAsset) { return 'ZENP' }
+      if (asset === ZEN_ASSET_HASH) { return 'ZENP' }
       const contractFromDb = savedContracts.find(contract => contract.hash === asset)
       if (contractFromDb && contractFromDb.name) {
         return contractFromDb.name
@@ -65,7 +65,7 @@ class BalancesState {
 
     @computed
     get zen() {
-      let result = find(this.assets, asset => asset.asset === zenAsset)
+      let result = find(this.assets, asset => asset.asset === ZEN_ASSET_HASH)
       if (result !== undefined) {
         result = result.balance
       } else {
