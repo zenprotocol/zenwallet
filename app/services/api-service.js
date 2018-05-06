@@ -1,3 +1,4 @@
+// @flow
 import { get, post } from 'axios'
 
 import { isZenAsset } from '../../utils/helpers'
@@ -5,8 +6,16 @@ import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-ad
 
 const serverAddress = getServerAddress()
 const crowdsaleServerAddress = getCrowdsaleServerAddress()
+type hash = string;
+type address = string;
 
-export async function getBalances() {
+type Asset = {
+  asset: hash,
+  assetType: hash,
+  balance: number
+};
+
+export async function getBalances(): Promise<Asset[]> {
   const response = await get(`${serverAddress}/wallet/balance`)
   return response.data.map(asset => ({
     ...asset,
@@ -14,12 +23,19 @@ export async function getBalances() {
   }))
 }
 
-export async function getPublicAddress() {
+export async function getPublicAddress(): Promise<string> {
   const response = await get(`${serverAddress}/wallet/address`)
   return response.data
 }
 
-export async function postTransaction(tx) {
+type Transaction = {
+  to?: address,
+  asset: hash,
+  assetType: hash,
+  amount: number
+};
+type Password = { password: string };
+export async function postTransaction(tx: Transaction & Password): Promise<string> {
   const {
     password, to, asset, assetType, amount,
   } = tx
@@ -40,8 +56,8 @@ export async function postTransaction(tx) {
   return response.data
 }
 
-export async function postActivateContract({ code, numberOfBlocks, password }) {
-  const data = { code, numberOfBlocks, password }
+type ActivateContractPayload = { code: string, numberOfBlocks: string } & Password;
+export async function postActivateContract(data: ActivateContractPayload) {
   console.log('postActivateContract data', data)
   const response = await post(`${serverAddress}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
@@ -49,12 +65,30 @@ export async function postActivateContract({ code, numberOfBlocks, password }) {
   return response.data
 }
 
-export async function postRunContractMessage(contractMessage) {
+type ContractMessage = {
+  asset: hash,
+  assetType: hash,
+  to: address,
+  amount: number,
+  command: string,
+  data: string
+};
+
+type RunContractPayload = {
+  address: address,
+  options: {
+    returnAddress: boolean
+  },
+  command?: string,
+  data?: string,
+  spends?: Array<{asset: hash, assetType: hash, amount: number}>
+};
+export async function postRunContractMessage(contractMessage: ContractMessage & Password) {
   const {
     password, asset, assetType, to, amount, command, data,
   } = contractMessage
 
-  const finaldata = {
+  const finaldata: RunContractPayload = {
     password,
     address: to,
     options: {
@@ -81,43 +115,61 @@ export async function postRunContractMessage(contractMessage) {
   return response.data
 }
 
-export async function getActiveContractSet() {
+type Contract = {
+  contractHash: hash,
+  address: address,
+  expire: number,
+  code: string,
+  name?: string
+};
+export async function getActiveContractSet(): Promise<Contract[]> {
   const response = await get(`${serverAddress}/contract/active`)
   return response.data
 }
 
-export async function getTxHistory() {
+type TransactionResponse = {
+  txHash: hash,
+  deltas: Transaction[]
+};
+export async function getTxHistory(): Promise<TransactionResponse[]> {
   const response = await get(`${serverAddress}/wallet/transactions`)
   return response.data
 }
 
-export async function getNetworkStatus() {
+type BlockChainInfo = {
+  chain: string,
+  blocks: number,
+  headers: number,
+  difficulty: number,
+  medianTime: number
+};
+export async function getNetworkStatus(): Promise<BlockChainInfo> {
   const response = await get(`${serverAddress}/blockchain/info`)
   return response.data
 }
 
-export async function getNetworkConnections() {
+export async function getNetworkConnections(): Promise<number> {
   const response = await get(`${serverAddress}/network/connections/count`)
   return response.data
 }
 
-export async function getWalletExists() {
+export async function getWalletExists(): Promise<boolean> {
   console.log('getWalletExists()')
   const response = await get(`${serverAddress}/wallet/exists`)
   return response.data
 }
 
-export async function getLockWallet() {
+export async function getLockWallet(): Promise<string> {
   const response = await get(`${serverAddress}/wallet/lock`)
   return response.data
 }
 
-export async function getIsAccountLocked() {
+export async function getIsAccountLocked(): Promise<boolean> {
   const response = await get(`${serverAddress}/wallet/locked`)
   return response.data
 }
 
-export async function postImportWallet(secretPhraseArray, secret) {
+export async function postImportWallet(secretPhraseArray: string[], secret: string) {
   const data = {
     words: secretPhraseArray,
     password: secret,
@@ -129,7 +181,7 @@ export async function postImportWallet(secretPhraseArray, secret) {
   return response
 }
 
-export async function postCheckPassword(password) {
+export async function postCheckPassword(password: string) {
   const data = { password }
   const response = await post(`${serverAddress}/wallet/checkpassword`, data, {
     headers: { 'Content-Type': 'application/json' },
@@ -142,10 +194,10 @@ export async function getWalletResync() {
   return response.data
 }
 
-export function normalizeSendableAmount(asset, amount) {
+export function normalizeSendableAmount(asset: hash, amount: number) {
   return isZenAsset(asset) ? Math.floor(amount * 100000000) : amount
 }
-export function normalizePresentableAmount(asset, amount) {
+export function normalizePresentableAmount(asset: hash, amount: number) {
   if (isZenAsset(asset)) {
     return (amount / 100000000).toLocaleString(undefined, {
       minimumFractionDigits: 2,
@@ -157,7 +209,10 @@ export function normalizePresentableAmount(asset, amount) {
 // CROWDSALE APIS //
 
 /* eslint-disable camelcase */
-export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_base_58) {
+export async function getCheckCrowdsaleTokensEntitlement(
+  pubkey_base_64: string,
+  pubkey_base_58: string,
+) {
   console.log('crowdsaleServerAddress', crowdsaleServerAddress)
 
   const url = `${crowdsaleServerAddress}/check_crowdsale_tokens_entitlement?pubkey_base_64=${pubkey_base_64}&pubkey_base_58=${pubkey_base_58}`
@@ -167,7 +222,7 @@ export async function getCheckCrowdsaleTokensEntitlement(pubkey_base_64, pubkey_
   return response.data
 }
 
-export async function postRedeemCrowdsaleTokens(data) {
+export async function postRedeemCrowdsaleTokens(data: *) {
   const response = await post(`${crowdsaleServerAddress}/redeem_crowdsale_tokens`, data, {
     headers: { 'Content-Type': 'application/json' },
   })

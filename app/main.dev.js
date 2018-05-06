@@ -86,6 +86,7 @@ app.on('ready', async () => {
   })
 
   mainWindow.on('resize', () => {
+    if (!mainWindow) { return }
     const { width, height } = mainWindow.getBounds()
     db.get('userPreferences').assign({ width, height }).write()
   });

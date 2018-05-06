@@ -1,34 +1,40 @@
-import { observable, action, runInAction, computed } from 'mobx'
+// @flow
+import { observable, action, runInAction } from 'mobx'
 import { some } from 'lodash'
 
 import { postActivateContract } from '../services/api-service'
 import db from '../services/store'
 
+type SecretPhraseState = {
+  password: string
+};
 const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
 class ContractState {
-  @observable fileName
+  @observable fileName: string
   @observable dragDropText = dropTextPlaceholder
   @observable name = ''
-  @observable hash
-  @observable address
+  @observable hash: string
+  @observable address: string
   @observable code = ''
   @observable numberOfBlocks = ''
   @observable activationCost = ''
   @observable blockAmountHasError = false
-  @observable status
+  @observable status: string
   @observable inprogress = false
   @observable errorMessage = ''
   @observable acceptedFiles = []
   @observable rejectedFiles = []
 
-  constructor(secretPhraseState) {
+  secretPhraseState: SecretPhraseState
+
+  constructor(secretPhraseState: SecretPhraseState) {
     this.secretPhraseState = secretPhraseState
   }
 
   @action
-  init(dropTextPlaceholder) {
-    this.dragDropText = dropTextPlaceholder
+  init(placeholder: string) {
+    this.dragDropText = placeholder
     this.inprogress = false
   }
 
