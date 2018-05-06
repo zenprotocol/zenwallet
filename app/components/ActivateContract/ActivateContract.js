@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import { inject, observer, PropTypes as PropTypesMobx } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Dropzone from 'react-dropzone'
@@ -30,8 +30,8 @@ class ActivateContract extends Component {
       hash: PropTypes.string,
       dragDropText: PropTypes.string,
       inprogress: PropTypes.boolean,
-      acceptedFiles: PropTypes.array,
-      rejectedFiles: PropTypes.array,
+      acceptedFiles: PropTypesMobx.observableArray,
+      rejectedFiles: PropTypesMobx.observableArray,
       resetForm: PropTypes.func,
       activateContract: PropTypes.func,
     }).isRequired,
@@ -348,8 +348,10 @@ class ActivateContract extends Component {
 
 export default ActivateContract
 
-function calcMaxBlocksForContract(zenBalance, codeLength) {
-  if (zenBalance === 0 || codeLength === 0) {
+export function calcMaxBlocksForContract(zenBalance, codeLength) {
+  // TODO [AdGo] 06/05/18 - fix predicitibility of zen balance to number or string
+  // and enfore triple === check
+  if (zenBalance == 0 || codeLength === 0) {
     return 0
   }
   const zenBalanceInKalapas = zenToKalapa(stringToNumber(zenBalance))
