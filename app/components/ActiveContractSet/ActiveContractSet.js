@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+// @flow
+import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
@@ -6,12 +7,21 @@ import Highlight from 'react-highlight'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import Layout from '../UI/Layout/Layout'
-import { truncateString, getNamefromCodeComment } from '../../../utils/helpers'
+import { getNamefromCodeComment } from '../../../utils/helpers'
 import CopyableTableCell from '../UI/CopyableTableCell'
+import ActiveContractSetState from '../../states/acs-state'
+
+type Props = {
+  activeContractSet: ActiveContractSetState
+};
+
+type State = {
+  showCodeSnippetForContractAddress: string
+};
 
 @inject('activeContractSet')
 @observer
-class ActiveContractSet extends Component {
+class ActiveContractSet extends Component<Props, State> {
   state = {
     showCodeSnippetForContractAddress: '',
   }
@@ -20,7 +30,7 @@ class ActiveContractSet extends Component {
     this.props.activeContractSet.fetch()
   }
 
-  toggleCodeSnippet = (address) => {
+  toggleCodeSnippet = (address: string) => {
     const { showCodeSnippetForContractAddress } = this.state
     if (showCodeSnippetForContractAddress === address) {
       this.setState({ showCodeSnippetForContractAddress: '' })
@@ -31,15 +41,13 @@ class ActiveContractSet extends Component {
 
   render() {
     const { activeContractSet } = this.props
-    const { copyText, showCodeSnippetForContractAddress } = this.state
+    const { showCodeSnippetForContractAddress } = this.state
 
     const activeContractsRows = activeContractSet.activeContracts.map((contract) => {
-      const hash = truncateString(contract.contractHash)
-      const address = truncateString(contract.address)
-			const formattedBlock = contract.expire.toLocaleString()
+      const formattedBlock = contract.expire.toLocaleString()
 
-      let codeSnippetClassNames,
-        viewCodeButtonText
+      let codeSnippetClassNames
+      let viewCodeButtonText
       if (showCodeSnippetForContractAddress === contract.address) {
         codeSnippetClassNames = 'code'
         viewCodeButtonText = 'Hide Code'
@@ -49,7 +57,7 @@ class ActiveContractSet extends Component {
       }
 
       return (
-        <React.Fragment key={contract.contractHash}>
+        <Fragment key={contract.contractHash}>
           <tr>
             <td className="text">{getNamefromCodeComment(contract.code)}</td>
             <CopyableTableCell string={contract.contractHash} />
@@ -57,13 +65,13 @@ class ActiveContractSet extends Component {
             <td title={`Block ${formattedBlock}`}>{formattedBlock}</td>
             <td className="align-right buttons">
               <a
-                title='Show Code Snippet'
+                title="Show Code Snippet"
                 onClick={() => { this.toggleCodeSnippet(contract.address) }}
                 className="button secondary small margin-right code"
               >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">{viewCodeButtonText}</span>
               </a>
-              <Link title='Run Contract' className="button small play" to={`/run-contract/${contract.address}`} >
+              <Link title="Run Contract" className="button small play" to={`/run-contract/${contract.address}`} >
                 <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
               </Link>
             </td>
@@ -78,7 +86,7 @@ class ActiveContractSet extends Component {
             </td>
           </tr>
           <tr className="separator" />
-        </React.Fragment>
+        </Fragment>
       )
     })
 
@@ -90,9 +98,12 @@ class ActiveContractSet extends Component {
             <Flexbox flexDirection="column">
               <h1>Active Contract Set</h1>
               <h3>
-                The active contract set (ACS) contains all the contracts which can directly affect the network.
+                The active contract set (ACS) contains all the contracts which
+                can directly affect the network.
                 <br />
-                The Zen Protocol reduces network load by allowing contracts to leave the set when they are not needed, while still allowing the tokens they generate to move freely.
+                The Zen Protocol reduces network load by allowing contracts to
+                leave the set when they are not needed, while still allowing
+                the tokens they generate to move freely.
               </h3>
             </Flexbox>
             <Flexbox justifyContent="flex-end" className="page-buttons">
