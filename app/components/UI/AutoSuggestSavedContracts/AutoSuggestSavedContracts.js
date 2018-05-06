@@ -48,7 +48,6 @@ class AutoSuggestSavedContracts extends Component {
   )
 
   onSuggestionSelected = (event, { suggestion }) => {
-    const { suggestionValue } = this.state
     this.setState({
       suggestionValue: suggestion.address,
       contractName: suggestion.name,
@@ -57,7 +56,6 @@ class AutoSuggestSavedContracts extends Component {
   }
 
   getSuggestions = value => {
-    const { balances } = this.props
     const searchQuery = value.trim().toLowerCase()
     const inputLength = searchQuery.length
 
@@ -77,13 +75,12 @@ class AutoSuggestSavedContracts extends Component {
 
   onContractAddressBlur = (e) => {
     const val = e.target.value.trim()
-    const suggestions = this.getSuggestions(val)
     const isValid = validateAddress(val)
     const hasError = (val.length > 0 && !isValid)
     this.setState({ assetError: hasError, isValid: false })
   }
 
-  onContractAddressFocus = (e) => {
+  onContractAddressFocus = () => {
     this.validateAndUpdate(this.state.suggestionValue)
   }
 

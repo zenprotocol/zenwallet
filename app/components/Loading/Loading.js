@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import Flexbox from 'flexbox-react'
 
-import {LOADING_GIF_SRC, LOGO_GIF_SRC} from '../../constants/imgSources'
-import {load} from './LoadingUtil'
+import { LOADING_GIF_SRC, LOGO_GIF_SRC } from '../../constants/imgSources'
+
+import { load } from './LoadingUtil'
 
 class Loading extends Component {
   state = {
@@ -16,7 +17,7 @@ class Loading extends Component {
   componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ loadingDotsClass: 'loading-dots' })
-    }, 3650);
+    }, 3650)
   }
 
   componentWillUnmount() {

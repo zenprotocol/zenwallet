@@ -17,8 +17,7 @@ class SecretPhraseQuiz extends Component {
   }
 
   validateQuiz() {
-    return this.props.secretPhraseState.mnemonicPhrase.every(
-      (word, idx) => this.isInputPerfect(idx))
+    return this.props.secretPhraseState.mnemonicPhrase.every((word, idx) => this.isInputPerfect(idx))
   }
 
   onSubmitClicked = () => {
@@ -46,34 +45,32 @@ class SecretPhraseQuiz extends Component {
       .indexOf(this.state.userInputWords[idx]) === 0
 
   renderQuizInputs() {
-    return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => {
-      return (
-        <li
-          key={idx}
-          className={cx({
+    return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => (
+      <li
+        key={idx}
+        className={cx({
             perfect: this.isInputPerfect(idx),
             invalid: this.isInputInvalid(idx),
           })}
-        >
-          <input
-            type="text"
-            onChange={this.registerOnChangeFor(idx)}
-            className={cx({
+      >
+        <input
+          type="text"
+          onChange={this.registerOnChangeFor(idx)}
+          className={cx({
               perfect: this.isInputPerfect(idx),
               invalid: this.isInputInvalid(idx),
               valid: this.isInputValid(idx),
              })}
-            value={this.state.userInputWords[idx]}
-            disabled={this.isInputPerfect(idx)}
-            ref={input => { this[`input${idx}`] = input }}
-          />
-          <IsValidIcon
-            isValid={this.isInputPerfect(idx)}
-            isHidden={!this.isInputPerfect(idx) && !this.isInputInvalid(idx)}
-          />
-        </li>
-      )
-    })
+          value={this.state.userInputWords[idx]}
+          disabled={this.isInputPerfect(idx)}
+          ref={input => { this[`input${idx}`] = input }}
+        />
+        <IsValidIcon
+          isValid={this.isInputPerfect(idx)}
+          isHidden={!this.isInputPerfect(idx) && !this.isInputInvalid(idx)}
+        />
+      </li>
+    ))
   }
 
   render() {

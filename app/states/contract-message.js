@@ -49,7 +49,8 @@ class ContractMessageState {
         console.log('sendContractMessage response', response)
         this.resetForm()
         this.status = 'success'
-        const activeContract = this.activeContractSet.activeContracts.find(ac => ac.address === data.to)
+        const activeContract =
+          this.activeContractSet.activeContracts.find(ac => ac.address === data.to)
         const savedContracts = db.get('savedContracts').value()
         const isInSavedContracts = _.some(savedContracts, { hash: activeContract.contractHash })
 
@@ -76,8 +77,7 @@ class ContractMessageState {
         }
         setTimeout(() => {
           this.status = ''
-        }, 15000);
-
+        }, 15000)
       })
     }
   }

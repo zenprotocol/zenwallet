@@ -1,7 +1,8 @@
-import electron from 'electron'
 import path from 'path'
-import low from 'lowdb'
 import fs from 'fs'
+
+import electron from 'electron'
+import low from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
 
 const electronApp = (electron.app || electron.remote.app)

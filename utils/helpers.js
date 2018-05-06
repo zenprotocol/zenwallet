@@ -6,6 +6,8 @@ import bip39Words from './bip39Words'
 
 const validPrefixes = ['tc', 'zc', 'tp', 'zp']
 
+// TODO [AdGo] 06/05/19 - rewrite this
+/* eslint-disable no-restricted-syntax */
 export const isValidBip39Word = (string) => {
   if (string) {
     for (const word of bip39Words) {
@@ -13,24 +15,25 @@ export const isValidBip39Word = (string) => {
         return true
       }
     }
-    return false;
+    return false
   }
 }
 
 export const isBip39Word = (string) => {
   if (string) {
     for (const word of bip39Words) {
-      if (word == string) {
+      if (word === string) {
         return true
       }
     }
-    return false;
+    return false
   }
 }
+/* eslint-enable no-restricted-syntax */
 
 export const truncateString = (string) => {
   if (string) {
-    return `${string.substr(0, 6)}...${string.substr(string.length - 6)}`;
+    return `${string.substr(0, 6)}...${string.substr(string.length - 6)}`
   }
 }
 
@@ -52,7 +55,8 @@ export const validateAddress = (value) => {
   try {
     const decodedAddress = bech32.decode(value)
     const pkHash = bech32.fromWords(decodedAddress.words)
-    const prefix = decodedAddress.prefix
+    // TODO [AdGo] 06/05/2019 - fix this
+    const prefix = decodedAddress.prefix // eslint-disable-line prefer-destructuring
     const isPrefixValid = (validPrefixes.indexOf(prefix) > -1)
     return (pkHash.length === 33 && isPrefixValid)
   } catch (e) {

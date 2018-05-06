@@ -58,6 +58,34 @@ class Faucet extends Component {
     }
   }
 
+  isSubmitButtonDisabled() {
+    const { inprogress, redeemingTokens } = this.props.redeemTokensState
+
+    if (redeemingTokens) { return true }
+    return !(this.isRedeemable() && !inprogress)
+  }
+
+  isRedeemable() {
+    const {
+      anyOrders, alreadyRedeemed, amountRedeemable, pubkeyIsValid,
+    } = this.props.redeemTokensState
+    return (pubkeyIsValid && anyOrders && !alreadyRedeemed && amountRedeemable > 0)
+  }
+
+  renderRedeemInnerButton() {
+    const { redeemingTokens } = this.props.redeemTokensState
+
+    if (redeemingTokens) {
+      return (
+        <span>
+          Redeeming Tokens
+          <FontAwesomeIcon icon={['far', 'spinner']} spin />
+        </span>
+      )
+    }
+    return 'Redeem Tokens'
+  }
+
   renderErrorMessage() {
     const { redeemTokensState } = this.props
 
@@ -73,9 +101,7 @@ class Faucet extends Component {
 
   renderRedeemMessage() {
     const {
-      anyOrders, alreadyRedeemed,
-      amountRedeemable, inprogress,
-      redeemingTokens, pubkeyIsValid, pubkeyError,
+      anyOrders, alreadyRedeemed, amountRedeemable, inprogress, pubkeyIsValid,
     } = this.props.redeemTokensState
 
     if (pubkeyIsValid && !inprogress) {
@@ -164,123 +190,92 @@ class Faucet extends Component {
   }
 
   render() {
-	  const {
-	    pubkeyBase58, pubkeyError, pubkeyIsValid, inprogress,
-	  } = this.props.redeemTokensState
+    const { pubkeyBase58, pubkeyError, pubkeyIsValid } = this.props.redeemTokensState
 
-	  let pubkeyClassNames = ''
-	  if (pubkeyError) { pubkeyClassNames = classnames('error', pubkeyClassNames) }
-	  if (pubkeyIsValid) { pubkeyClassNames = classnames('is-valid', pubkeyClassNames) }
+    let pubkeyClassNames = ''
+    if (pubkeyError) { pubkeyClassNames = classnames('error', pubkeyClassNames) }
+    if (pubkeyIsValid) { pubkeyClassNames = classnames('is-valid', pubkeyClassNames) }
 
-	  return (
-  <Layout className="faucet">
-    <Flexbox flexDirection="column" className="faucet-container">
+    return (
+      <Layout className="faucet">
+        <Flexbox flexDirection="column" className="faucet-container">
 
-      <Flexbox flexDirection="column" className="page-title">
-        <h1>Get Access to the Zen Protocol Software</h1>
-        <h3>
-							To gain access to the Zen Protocol software insert the key generated using our software sale wallet and redeem your tokens.
-          <br />
-							If you didn't save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we'll help you retrieve it
-          <br />
-							You can also retrieve it by visiting&nbsp;
-          <a
-            href="https://crowdsale.zenprotocol.com/create-wallet/complete"
-            onClick={this.onLinkClick}
-          >this link
-          </a> in the same browser you made your purchase from.
-        </h3>
-      </Flexbox>
+          <Flexbox flexDirection="column" className="page-title">
+            <h1>Get Access to the Zen Protocol Software</h1>
+            <h3>
+              To gain access to the Zen Protocol software insert the key generated using our software sale wallet and redeem your tokens.
+              <br />
+              If you didn&apos;t save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we&apos;ll help you retrieve it
+              <br />
+              You can also retrieve it by visiting&nbsp;
+              <a
+                href="https://crowdsale.zenprotocol.com/create-wallet/complete"
+                onClick={this.onLinkClick}
+              >this link
+              </a> in the same browser you made your purchase from.
+            </h3>
+          </Flexbox>
 
-      <Flexbox flexDirection="column" className="form-container">
+          <Flexbox flexDirection="column" className="form-container">
 
-        <Flexbox flexDirection="column" className="destination-address-input form-row">
-          <label htmlFor="to">What is your public key?</label>
-          <Flexbox flexDirection="row" className="public-key-input">
+            <Flexbox flexDirection="column" className="destination-address-input form-row">
+              <label htmlFor="to">What is your public key?</label>
+              <Flexbox flexDirection="row" className="public-key-input">
 
-            <Flexbox flexDirection="column" className="full-width">
-              <input
-                id="pubkey"
-                ref="pubkey"
-                name="pubkey"
-                type="text"
-                className={pubkeyClassNames}
-                placeholder="Your Public Key"
-                onChange={this.onChange}
-                value={pubkeyBase58}
-                autoFocus
-              />
-              {this.renderErrorMessage()}
-              {this.renderCheckingEntitlementMessage()}
-              {this.renderValidPubkeyMessage()}
+                <Flexbox flexDirection="column" className="full-width">
+                  <input
+                    id="pubkey"
+                    ref="pubkey"
+                    name="pubkey"
+                    type="text"
+                    className={pubkeyClassNames}
+                    placeholder="Your Public Key"
+                    onChange={this.onChange}
+                    value={pubkeyBase58}
+                    autoFocus
+                  />
+                  {this.renderErrorMessage()}
+                  {this.renderCheckingEntitlementMessage()}
+                  {this.renderValidPubkeyMessage()}
+                </Flexbox>
+
+                <button
+                  className="button secondary button-on-right"
+                  onClick={this.onPasteClicked}
+                >Paste
+                </button>
+              </Flexbox>
+            </Flexbox>
+            <Flexbox>
+              <h3 className="agree-to-terms">
+                * By claiming your tokens you agree to the&nbsp;
+                <a
+                  href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf"
+                  onClick={this.onLinkClick}
+                >Software License Terms
+                </a>.
+              </h3>
             </Flexbox>
 
-            <button
-              className="button secondary button-on-right"
-              onClick={this.onPasteClicked}
-            >
-									Paste
-            </button>
           </Flexbox>
+
+          <Flexbox flexDirection="row">
+            { this.renderRedeemMessage() }
+            { this.renderSuccessResponse() }
+            <Flexbox flexGrow={2} />
+            <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
+              <button
+                disabled={this.isSubmitButtonDisabled()}
+                onClick={this.onRedeemButtonClicked}
+              >
+                {this.renderRedeemInnerButton()}
+              </button>
+            </Flexbox>
+          </Flexbox>
+
         </Flexbox>
-        <Flexbox>
-          <h3 className="agree-to-terms">
-            * By claiming your tokens you agree to the&nbsp;
-            <a
-              href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf"
-              onClick={this.onLinkClick}
-            >Software License Terms
-            </a>.
-          </h3>
-        </Flexbox>
-
-      </Flexbox>
-
-      <Flexbox flexDirection="row">
-        { this.renderRedeemMessage() }
-        { this.renderSuccessResponse() }
-        <Flexbox flexGrow={2} />
-        <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-          <button
-            disabled={this.isSubmitButtonDisabled()}
-            onClick={this.onRedeemButtonClicked}
-          >
-            {this.renderRedeemInnerButton()}
-          </button>
-        </Flexbox>
-      </Flexbox>
-
-    </Flexbox>
-  </Layout>
-	  )
-  }
-
-  isRedeemable() {
-	  const {
-	    anyOrders, alreadyRedeemed, amountRedeemable, pubkeyIsValid,
-	  } = this.props.redeemTokensState
-	  return (pubkeyIsValid && anyOrders && !alreadyRedeemed && amountRedeemable > 0)
-  }
-
-  renderRedeemInnerButton() {
-	  const { inprogress, redeemingTokens } = this.props.redeemTokensState
-
-	  if (redeemingTokens) {
-	    return (
-  <span>
-					Redeeming Tokens
-    <FontAwesomeIcon icon={['far', 'spinner']} spin />
-  </span>
-	    )
-	  }
-	  return 'Redeem Tokens'
-  }
-
-  isSubmitButtonDisabled() {
-	  const { inprogress, redeemingTokens } = this.props.redeemTokensState
-
-	  if (redeemingTokens) { return true; }
-	  return !(this.isRedeemable() && !inprogress)
+      </Layout>
+    )
   }
 }
 

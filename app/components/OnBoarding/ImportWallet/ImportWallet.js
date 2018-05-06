@@ -60,21 +60,18 @@ class ImportWallet extends Component {
   render() {
     const { mnemonicPhrase } = this.props.secretPhraseState
 
-    const importPhraseInputs = mnemonicPhrase.map((word, index) => {
-
-  		return (
-    <li key={index} className={word.status} >
-      <input
-        type="text"
-        data-index={index}
-        className={word.status}
-        onChange={this.onChange}
-        value={word.word}
-      />
-      <IsValidIcon isValid={word.status === 'perfect'} isHidden={!word.status.match(/perfect|invliad/)} />
-    </li>
-      )
-  	})
+    const importPhraseInputs = mnemonicPhrase.map((word, index) => (
+      <li key={index} className={word.status} >
+        <input
+          type="text"
+          data-index={index}
+          className={word.status}
+          onChange={this.onChange}
+          value={word.word}
+        />
+        <IsValidIcon isValid={word.status === 'perfect'} isHidden={!word.status.match(/perfect|invliad/)} />
+      </li>
+    ))
 
     return (
       <OnBoardingLayout className="import-wallet-container" progressStep={3}>

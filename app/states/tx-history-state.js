@@ -1,4 +1,5 @@
-import { observable, computed, action, runInAction } from 'mobx'
+import { observable, action, runInAction } from 'mobx'
+
 import { getTxHistory } from '../services/api-service'
 
 // import {find} from 'lodash'

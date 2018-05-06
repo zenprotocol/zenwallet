@@ -11,7 +11,6 @@ import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 @inject('secretPhraseState')
 @observer
 class UnlockWallet extends Component {
-
   static propTypes = {
     secretPhraseState: PropTypes.shape({
       unlockWallet: PropTypes.func.isRequired,
@@ -77,7 +76,7 @@ class UnlockWallet extends Component {
                   placeholder="Enter password"
                   className="input-group-field"
                   onChange={this.onChange}
-									autoFocus
+                  autoFocus
                 />
                 <span className="input-group-label show-password" onClick={this.onClickTogglePasswordVisibility}>
                   <ToggleVisibilityIcon shouldShow={hidePassword} />

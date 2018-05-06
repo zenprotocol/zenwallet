@@ -1,4 +1,5 @@
 import { observable, action, runInAction } from 'mobx'
+
 import { getCheckCrowdsaleTokensEntitlement, postRedeemCrowdsaleTokens } from '../services/api-service'
 import db from '../services/store'
 
@@ -23,7 +24,8 @@ class RedeemTokensState {
     this.checkingTokenEntitlement = true
 
     try {
-      const response = await getCheckCrowdsaleTokensEntitlement(this.pubkeyBase64, this.pubkeyBase58)
+      const response =
+        await getCheckCrowdsaleTokensEntitlement(this.pubkeyBase64, this.pubkeyBase58)
       runInAction(() => {
         console.log('getCheckCrowdsaleTokensEntitlement response', response)
         this.anyOrders = response.any_orders
@@ -59,7 +61,7 @@ class RedeemTokensState {
       runInAction(() => {
         this.inprogress = false
         this.redeemingTokens = false
-        if (response.status == 'success') {
+        if (response.status === 'success') {
           console.log('postRedeemCrowdsaleTokens response.status', response.status)
           db.set('config.alreadyRedeemedTokens', true).write()
           this.resetForm()

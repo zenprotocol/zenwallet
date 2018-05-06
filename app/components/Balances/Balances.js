@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { truncateString, normalizeTokens } from '../../../utils/helpers'
-import IsValidIcon from '../Icons/IsValidIcon'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
