@@ -5,7 +5,7 @@ import { clipboard } from 'electron'
 import { toInteger } from 'lodash'
 import PropTypes from 'prop-types'
 
-import { stringToNumber, isZenAsset } from '../../../utils/helpers'
+import { stringToNumber, isZenAsset } from '../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestSavedContracts from '../UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts'
@@ -120,10 +120,9 @@ class RunContract extends Component {
   onContractAddressFocus = () => this.refs.child.onContractAddressFocus()
 
   // HELPER METHODS FOR ASSET AUTO SUGGGEST //
-  updateAssetFromSuggestions = ({ asset, assetType }) => {
+  updateAssetFromSuggestions = ({ asset }) => {
     const { contractMessage } = this.props
     contractMessage.asset = asset
-    contractMessage.assetType = assetType
     contractMessage.amount = ''
   }
 

@@ -9,12 +9,11 @@ type SecretPhraseState = {
   password: string
 };
 
-// TODO [AdGo] 06/05/19 - change to initialDropTextPlaceholder
-const dropTextPlaceholder = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
+const initialDragDropText = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
 class ContractState {
   @observable fileName: string
-  @observable dragDropText = dropTextPlaceholder
+  @observable dragDropText = initialDragDropText
   @observable name = ''
   @observable hash: string
   @observable address: string
@@ -42,7 +41,7 @@ class ContractState {
 
   @action
   resetDragDropText() {
-    this.dragDropText = dropTextPlaceholder
+    this.dragDropText = initialDragDropText
   }
 
   @action
@@ -55,13 +54,13 @@ class ContractState {
 
       runInAction(() => {
         const savedContracts = db.get('savedContracts').value()
-        const isInSavedContracts = some(savedContracts, { hash: response.hash })
+        const isInSavedContracts = some(savedContracts, { hash: response.contractId })
 
         if (!isInSavedContracts) {
           db.get('savedContracts').push({
             code: this.code,
             name: this.name,
-            hash: response.hash,
+            hash: response.contractId,
             address: response.address,
           }).write()
         }
@@ -84,7 +83,7 @@ class ContractState {
   @action
   resetForm() {
     this.name = ''
-    this.dragDropText = dropTextPlaceholder
+    this.dragDropText = initialDragDropText
     this.code = ''
     this.hash = ''
     this.address = ''

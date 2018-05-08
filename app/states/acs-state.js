@@ -21,7 +21,7 @@ class ActiveContractSetState {
   @computed
   get contractsWithNames(): * {
     const contractsWithNamesResult = this.activeContracts.map(activeContract => {
-      const result = find(savedContracts, contract => contract.hash === activeContract.contractHash)
+      const result = find(savedContracts, contract => contract.hash === activeContract.contractId)
       const name = (result === undefined ? '' : result.name)
       return { ...activeContract, name }
     })

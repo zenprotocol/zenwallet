@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { head } from 'lodash'
 import Highlight from 'react-highlight'
 
-import { normalizeTokens, zenToKalapa, stringToNumber } from '../../../utils/helpers'
+import { normalizeTokens, zenToKalapa, stringToNumber } from '../../utils/helpers'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import IsValidIcon from '../Icons/IsValidIcon'
-import { validateAddress, isZenAsset, stringToNumber } from '../../../utils/helpers'
+import { isValidAddress, isZenAsset, stringToNumber } from '../../utils/helpers'
 import { ZENP_MAX_DECIMALS } from '../../constants'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
@@ -22,7 +22,6 @@ class SendTx extends Component {
     transaction: PropTypes.shape({
       asset: PropTypes.string,
       amount: PropTypes.string,
-      assetType: PropTypes.string,
       to: PropTypes.string,
       inprogress: PropTypes.bool,
       status: PropTypes.string,
@@ -52,7 +51,7 @@ class SendTx extends Component {
   validateAddressStates() {
     const { transaction } = this.props
     const value = transaction.to
-    const addressIsValid = validateAddress(value)
+    const addressIsValid = isValidAddress(value)
     this.setState({
       addressIsValid,
       addressError: (value.length > 0 && !addressIsValid),
@@ -81,10 +80,9 @@ class SendTx extends Component {
 
   // HELPER METHODS FOR ASSET AUTO SUGGGEST //
 
-  updateAssetFromSuggestions = ({ asset, assetType }) => {
+  updateAssetFromSuggestions = ({ asset }) => {
     const { transaction } = this.props
     transaction.asset = asset
-    transaction.assetType = assetType
     transaction.amount = ''
   }
   updateAmount = (amount) => {
@@ -131,7 +129,7 @@ class SendTx extends Component {
 
   validateDestinationAddressField() {
     const value = this.props.transaction.to
-    const addressIsValid = validateAddress(value)
+    const addressIsValid = isValidAddress(value)
     return (value.length > 0) && addressIsValid
   }
 
@@ -184,7 +182,7 @@ class SendTx extends Component {
                     autoFocus
                   />
                   <IsValidIcon
-                    isValid={validateAddress(this.props.transaction.to)}
+                    isValid={isValidAddress(this.props.transaction.to)}
                     className="input-icon"
                     hasColors
                     isHidden={!to}

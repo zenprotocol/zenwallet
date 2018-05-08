@@ -4,7 +4,7 @@ import Flexbox from 'flexbox-react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 
-import { disablePaste } from '../../../utils/helpers'
+import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
 import './Settings.scss'

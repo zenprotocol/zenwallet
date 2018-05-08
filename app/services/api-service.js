@@ -1,7 +1,7 @@
 // @flow
 import { get, post } from 'axios'
 
-import { isZenAsset } from '../../utils/helpers'
+import { isZenAsset } from '../utils/helpers'
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
 
 const serverAddress = getServerAddress()
@@ -10,9 +10,8 @@ type hash = string;
 type address = string;
 
 type Asset = {
-  asset: hash,
-  assetType: hash,
-  balance: number
+  asset: string,
+  balance: string
 };
 
 export async function getBalances(): Promise<Asset[]> {
@@ -29,24 +28,20 @@ export async function getPublicAddress(): Promise<string> {
 }
 
 type Transaction = {
-  to?: address,
+  to: address,
   asset: hash,
-  assetType: hash,
   amount: number
 };
 type Password = { password: string };
 export async function postTransaction(tx: Transaction & Password): Promise<string> {
   const {
-    password, to, asset, assetType, amount,
+    password, to, asset, amount,
   } = tx
   const data = {
+    asset,
     address: to,
     password,
-    spend: {
-      asset,
-      assetType,
-      amount: normalizeSendableAmount(asset, amount),
-    },
+    amount: normalizeSendableAmount(asset, amount),
   }
 
   const response = await post(`${serverAddress}/wallet/send`, data, {
@@ -57,7 +52,9 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
 }
 
 type ActivateContractPayload = { code: string, numberOfBlocks: string } & Password;
-export async function postActivateContract(data: ActivateContractPayload) {
+type contract = { address: address, contractId: string };
+
+export async function postActivateContract(data: ActivateContractPayload): Promise<contract> {
   console.log('postActivateContract data', data)
   const response = await post(`${serverAddress}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
@@ -67,11 +64,10 @@ export async function postActivateContract(data: ActivateContractPayload) {
 
 type ContractMessage = {
   asset: hash,
-  assetType: hash,
   to: address,
   amount: number,
   command: string,
-  data: string
+  data?: ?string
 };
 
 type RunContractPayload = {
@@ -81,11 +77,11 @@ type RunContractPayload = {
   },
   command?: string,
   data?: string,
-  spends?: Array<{asset: hash, assetType: hash, amount: number}>
+  spends?: Array<{asset: hash, amount: number}>
 };
 export async function postRunContractMessage(contractMessage: ContractMessage & Password) {
   const {
-    password, asset, assetType, to, amount, command, data,
+    password, asset, to, amount, command, data,
   } = contractMessage
 
   const finaldata: RunContractPayload = {
@@ -98,11 +94,10 @@ export async function postRunContractMessage(contractMessage: ContractMessage & 
   if (command) { finaldata.command = command }
   if (data) { finaldata.data = data }
 
-  if (asset && assetType && amount) {
+  if (asset && amount) {
     finaldata.spends = [
       {
         asset,
-        assetType,
         amount: normalizeSendableAmount(asset, amount),
       },
     ]
@@ -116,23 +111,38 @@ export async function postRunContractMessage(contractMessage: ContractMessage & 
 }
 
 type Contract = {
-  contractHash: hash,
+  contractId: hash,
   address: address,
   expire: number,
-  code: string,
-  name?: string
+  code: string
 };
 export async function getActiveContractSet(): Promise<Contract[]> {
   const response = await get(`${serverAddress}/contract/active`)
   return response.data
 }
 
+type TransactionRequest = {
+  skip?: number,
+  take?: number
+};
+
 type TransactionResponse = {
   txHash: hash,
-  deltas: Transaction[]
+  deltas: [{
+    asset: string,
+    amount: number
+  }],
+  blockNumber: number
 };
-export async function getTxHistory(): Promise<TransactionResponse[]> {
-  const response = await get(`${serverAddress}/wallet/transactions`)
+
+export async function getTxHistory({
+  skip = 0, take = 50,
+}: ?TransactionRequest = {}): Promise<TransactionResponse[]> {
+  const response = await post(`${serverAddress}/wallet/transactions`, {
+    skip, take,
+  }, {
+    headers: { 'Content-Type': 'application/json' },
+  })
   return response.data
 }
 

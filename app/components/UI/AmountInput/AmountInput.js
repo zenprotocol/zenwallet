@@ -6,7 +6,7 @@ import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { stringToNumber, validateInputNumber } from '../../../../utils/helpers'
+import { stringToNumber, validateInputNumber } from '../../../utils/helpers'
 
 @observer
 class AmountInput extends Component {

@@ -2,7 +2,7 @@ import { observable, action, runInAction } from 'mobx'
 import _ from 'lodash'
 
 import { postRunContractMessage } from '../services/api-service'
-import { getNamefromCodeComment } from '../../utils/helpers'
+import { getNamefromCodeComment } from '../utils/helpers'
 import db from '../services/store'
 
 class ContractMessageState {
@@ -14,7 +14,6 @@ class ContractMessageState {
   @observable status
   @observable inprogress
   @observable asset = ''
-  @observable assetType = ''
   @observable assetIsValid = false
   @observable assetName = ''
   @observable assetBalance
@@ -36,9 +35,8 @@ class ContractMessageState {
       this.inprogress = true
       const data = {
         asset: this.asset,
-        assetType: this.assetType,
         to: this.to,
-        amount: this.amount,
+        amount: Number(this.amount),
         command: this.command,
         data: this.data,
         password: this.secretPhraseState.password,
@@ -52,13 +50,13 @@ class ContractMessageState {
         const activeContract =
           this.activeContractSet.activeContracts.find(ac => ac.address === data.to)
         const savedContracts = db.get('savedContracts').value()
-        const isInSavedContracts = _.some(savedContracts, { hash: activeContract.contractHash })
+        const isInSavedContracts = _.some(savedContracts, { hash: activeContract.contractId })
 
         if (!isInSavedContracts) {
           db.get('savedContracts').push({
             code: activeContract.code,
             name: getNamefromCodeComment(activeContract.code),
-            hash: activeContract.contractHash,
+            hash: activeContract.contractId,
             address: activeContract.address,
           }).write()
         }
@@ -86,7 +84,6 @@ class ContractMessageState {
   resetForm() {
     this.inprogress = false
     this.asset = ''
-    this.assetType = ''
     this.assetName = ''
     this.assetBalance = ''
     this.assetIsValid = false
