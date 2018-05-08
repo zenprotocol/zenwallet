@@ -41,6 +41,7 @@ button, .button, {
   &.alert {
     background: $red;
     color: $off-white;
+    border: 1px solid $red;
     &:hover { background: $red-hover; }
     &:focus { background: $red-focus; }
     &:disabled { background: $red-disabled; }
