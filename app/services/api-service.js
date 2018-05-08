@@ -122,8 +122,8 @@ export async function getActiveContractSet(): Promise<Contract[]> {
 }
 
 type TransactionRequest = {
-  skip?: number,
-  take?: number
+  skip: number,
+  take: number
 };
 
 type TransactionResponse = {
@@ -136,8 +136,8 @@ type TransactionResponse = {
 };
 
 export async function getTxHistory({
-  skip = 0, take = 1000,
-}: ?TransactionRequest = {}): Promise<TransactionResponse[]> {
+  skip, take,
+}: TransactionRequest = {}): Promise<TransactionResponse[]> {
   const response = await post(`${serverAddress}/wallet/transactions`, {
     skip, take,
   }, {

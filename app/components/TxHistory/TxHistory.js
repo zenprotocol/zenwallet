@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 
 import Layout from '../UI/Layout/Layout'
+import OnScrollBottom from '../UI/OnScrollBottom'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
 import SingleTxDelta from './SingleTxDelta'
@@ -42,13 +43,13 @@ class TxHistory extends Component {
     const { txhistory } = this.props
 
     const tableRows = txhistory.transactions.map(tx => (
-      [
-        <tr key={tx.txHash}>
+      <React.Fragment key={tx.txHash}>
+        <tr>
           <CopyableTableCell string={tx.txHash} />
           { this.renderTransactionsCell(tx) }
-        </tr>,
-        <tr key={`${tx.txHash}-separator`} className="separator" />,
-      ]
+        </tr>
+        <tr className="separator" />
+      </React.Fragment>
     ))
 
     return (
@@ -74,7 +75,7 @@ class TxHistory extends Component {
             </tbody>
           </table>
         </Flexbox>
-
+        <OnScrollBottom onScrollBottom={this.props.txhistory.fetch} />
       </Layout>
     )
   }
