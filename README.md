@@ -164,14 +164,6 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 
 # Development
 
-To develop locally install the latest version of [zen-node npm package](https://www.myget.org/feed/zenprotocol/package/npm/@zen/zen-node):
- * `npm install @zen/zen-node -g`
+Run `npm run dev-local`
 
-To run the zen-node locally do the following:
- * Go to the Release folder of the zen-node npm package
- * `cd /home/ubuntu/.nvm/versions/node/v8.9.4/lib/node_modules/@zen/zen-node/Release/`
- * Then run `./zen-node.exe --chain local --miner`
-
-In a separate terminal tab run the zenwallet in UIONLY mode:
-* `cd /yourappsfolder/zenwallet`
-* `UIONLY=1 npm run dev`
+This will run the local node with the `--chain local` argument AND the `--miner` argument
