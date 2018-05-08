@@ -5,7 +5,7 @@ import Flexbox from 'flexbox-react'
 
 import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
-import { isValidBip39Word, isBip39Word } from '../../../../utils/helpers'
+import { isValidBip39Word, isBip39Word } from '../../../utils/helpers'
 import OnBoardingLayout from '../Layout/Layout'
 
 const { shell } = require('electron')

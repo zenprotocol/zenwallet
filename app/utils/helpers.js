@@ -1,6 +1,8 @@
+// @flow
+
 import bech32 from 'bech32'
 
-import { ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../app/constants'
+import { ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../constants'
 
 import bip39Words from './bip39Words'
 
@@ -51,15 +53,17 @@ export const normalizeTokens = (number, isZen) => {
 
 export const stringToNumber = str => str && parseFloat(str.replace(/,/g, ''))
 
-export const validateAddress = (value) => {
+export const isValidAddress = (address: string, type?: 'contract' | 'pubKey' = 'pubKey'): boolean => {
   try {
-    const decodedAddress = bech32.decode(value)
-    const pkHash = bech32.fromWords(decodedAddress.words)
-    // TODO [AdGo] 06/05/2019 - fix this
-    const prefix = decodedAddress.prefix // eslint-disable-line prefer-destructuring
+    const { prefix, words } = bech32.decode(address)
+    const pkHash = bech32.fromWords(words.slice(1))
     const isPrefixValid = (validPrefixes.indexOf(prefix) > -1)
-    return (pkHash.length === 33 && isPrefixValid)
-  } catch (e) {
+    return type === 'contract'
+      ? pkHash.length === 36 && isPrefixValid
+      : pkHash.length === 32 && isPrefixValid
+  } catch (err) {
+    // uncomment for debugging, this throws many errors from the bech32 package
+    // console.error('validateAddress err', err)
     return false
   }
 }

@@ -93,7 +93,7 @@ app.on('ready', async () => {
 
   console.log('process.argv', process.argv)
 
-  const args = []
+  let args = []
   if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1) {
     args.push('--wipe')
     console.log('WIPING DB')
@@ -108,11 +108,9 @@ app.on('ready', async () => {
     console.log('NOT RUNNING A MINER')
   }
 
-  if (process.env.ZEN_LOCAL === 'L1') {
-    args.push('-l1')
-  }
-  if (process.env.ZEN_LOCAL === 'localhost') {
-    args.push('--localhost')
+  if (process.env.ZEN_LOCAL) {
+    console.log('Running locally and mining')
+    args = args.concat(['--chain', 'local', '--miner'])
   }
 
   console.log('process args', args)

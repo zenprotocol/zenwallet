@@ -6,7 +6,7 @@ import Autosuggest from 'react-autosuggest'
 import cx from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { truncateString } from '../../../../utils/helpers'
+import { truncateString } from '../../../utils/helpers'
 
 const getSuggestionValue = suggestion => suggestion.asset
 
@@ -54,14 +54,11 @@ class AutoSuggestAssets extends Component {
   }
   updateParent = () => {
     if (!this.isValid()) {
-      this.props.onUpdateParent({
-        asset: '',
-        assetType: '',
-      })
+      this.props.onUpdateParent({ asset: '' })
       return
     }
-    const { asset, assetType } = this.getChosenAsset()
-    this.props.onUpdateParent({ asset, assetType })
+    const { asset } = this.getChosenAsset()
+    this.props.onUpdateParent({ asset })
   }
   getChosenAsset() {
     return this.props.balances.assets.find(a => a.asset === this.state.suggestionInputValue)

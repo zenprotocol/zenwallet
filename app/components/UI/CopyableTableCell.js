@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { truncateString } from '../../../utils/helpers'
+import { truncateString } from '../../utils/helpers'
 
 const { clipboard } = require('electron')
 

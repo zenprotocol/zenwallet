@@ -4,7 +4,6 @@ import { postTransaction } from '../services/api-service'
 
 class TransactionState {
   @observable asset = ''
-  @observable assetType = ''
   @observable to = ''
   @observable amount = ''
   @observable status = ''
@@ -43,16 +42,14 @@ class TransactionState {
   }
 
   @action
-  updateAsset({ asset, assetType }) {
+  updateAsset({ asset }) {
     this.asset = asset
-    this.assetType = assetType
   }
 
   @action
   resetForm() {
     this.inprogress = false
     this.asset = ''
-    this.assetType = ''
     this.assetName = ''
     this.to = ''
     this.amount = ''

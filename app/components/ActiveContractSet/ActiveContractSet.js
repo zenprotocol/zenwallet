@@ -7,7 +7,7 @@ import Highlight from 'react-highlight'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import Layout from '../UI/Layout/Layout'
-import { getNamefromCodeComment } from '../../../utils/helpers'
+import { getNamefromCodeComment } from '../../utils/helpers'
 import CopyableTableCell from '../UI/CopyableTableCell'
 import ActiveContractSetState from '../../states/acs-state'
 
@@ -57,10 +57,10 @@ class ActiveContractSet extends Component<Props, State> {
       }
 
       return (
-        <Fragment key={contract.contractHash}>
+        <Fragment key={contract.contractId}>
           <tr>
             <td className="text">{getNamefromCodeComment(contract.code)}</td>
-            <CopyableTableCell string={contract.contractHash} />
+            <CopyableTableCell string={contract.contractId} />
             <CopyableTableCell string={contract.address} />
             <td title={`Block ${formattedBlock}`}>{formattedBlock}</td>
             <td className="align-right buttons">

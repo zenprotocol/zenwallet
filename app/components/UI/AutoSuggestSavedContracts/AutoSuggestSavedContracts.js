@@ -6,7 +6,7 @@ import { clipboard } from 'electron'
 import classnames from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { truncateString, validateAddress } from '../../../../utils/helpers'
+import { truncateString, isValidAddress } from '../../../utils/helpers'
 import db from '../../../services/store'
 
 const savedContracts = db.get('savedContracts').value()
@@ -28,7 +28,7 @@ class AutoSuggestSavedContracts extends Component {
   componentDidMount() {
     const { address } = this.props
     if (address) {
-      const isValid = validateAddress(address)
+      const isValid = isValidAddress(address, 'contract')
       this.setState({ suggestionValue: address, assetError: !isValid })
     }
   }
@@ -75,7 +75,7 @@ class AutoSuggestSavedContracts extends Component {
 
   onContractAddressBlur = (e) => {
     const val = e.target.value.trim()
-    const isValid = validateAddress(val)
+    const isValid = isValidAddress(val, 'contract')
     const hasError = (val.length > 0 && !isValid)
     this.setState({ assetError: hasError, isValid: false })
   }
@@ -86,7 +86,7 @@ class AutoSuggestSavedContracts extends Component {
 
   validateAndUpdate(val) {
     const suggestions = this.getSuggestions(val)
-    const isValid = validateAddress(val)
+    const isValid = isValidAddress(val, 'contract')
     if (isValid) {
       if (suggestions.length === 1) {
         this.setState({
