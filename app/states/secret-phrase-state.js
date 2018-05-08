@@ -3,6 +3,7 @@ import bip39 from 'bip39'
 
 import db from '../services/store'
 import history from '../services/history'
+import { isDev } from '../utils/helpers'
 import { postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
 
 const { alreadyRedeemedTokens } = db.get('config').value()
@@ -11,7 +12,7 @@ class SecretPhraseState {
   @observable mnemonicPhrase = []
   @observable autoLogoutMinutes = 30
   @observable inprogress = false
-  @observable password = ''
+  @observable password = isDev() ? '1234' : ''
   @observable importError = ''
   @observable status = ''
 
