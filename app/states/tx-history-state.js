@@ -8,14 +8,23 @@ import { getTxHistory } from '../services/api-service'
 //
 // const savedContracts = db.get('savedContracts').value()
 
+const BATCH_SIZE = 1000
+
 class TxHistoryState {
-  transactions = observable.array([])
+  @observable transactions = observable.array([])
+  @observable skip = 0
+  @observable isFetching = false
 
   @action
-  async fetch(opts) {
-    const result = await getTxHistory(opts)
+  fetch = async () => {
+    this.isFetching = true
+    const result = await getTxHistory({ skip: this.skip, take: BATCH_SIZE })
     runInAction(() => {
-      this.transactions.replace(result.reverse())
+      if (result.length) {
+        this.skip = this.skip + Math.min(BATCH_SIZE, result.length)
+        this.transactions = this.transactions.concat(result)
+      }
+      this.isFetching = false
     })
   }
 }
