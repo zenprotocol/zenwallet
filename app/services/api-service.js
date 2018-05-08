@@ -136,7 +136,7 @@ type TransactionResponse = {
 };
 
 export async function getTxHistory({
-  skip = 0, take = 50,
+  skip = 0, take = 1000,
 }: ?TransactionRequest = {}): Promise<TransactionResponse[]> {
   const response = await post(`${serverAddress}/wallet/transactions`, {
     skip, take,
