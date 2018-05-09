@@ -8,6 +8,8 @@ import bip39Words from './bip39Words'
 
 const validPrefixes = ['tc', 'zc', 'tp', 'zp']
 
+export const isDev = () => process.env.NODE_ENV === 'development'
+
 // TODO [AdGo] 06/05/19 - rewrite this
 /* eslint-disable no-restricted-syntax */
 export const isValidBip39Word = (string) => {
