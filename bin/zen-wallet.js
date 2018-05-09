@@ -7,6 +7,7 @@ let wallet
 const argsArray = ['start']
 
 if (process.argv.indexOf('wipe') > -1 || process.argv.indexOf('wipe') > -1) { argsArray.push('wipe') }
+if (process.argv.indexOf('wipefull') > -1 || process.argv.indexOf('wipefull') > -1) { argsArray.push('wipefull') }
 if (process.argv.indexOf('miner') > -1 || process.argv.indexOf('miner') > -1) { argsArray.push('miner') }
 if (process.argv.indexOf('uionly') > -1 || process.argv.indexOf('uionly') > -1) { argsArray.push('uionly') }
 
