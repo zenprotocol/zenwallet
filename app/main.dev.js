@@ -94,11 +94,19 @@ app.on('ready', async () => {
   console.log('process.argv', process.argv)
 
   let args = []
+
   if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1) {
     args.push('--wipe')
     console.log('WIPING DB')
   } else {
     console.log('NOT WIPING DB')
+  }
+
+  if (process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1) {
+    args = args.concat(['--wipe', 'full'])
+    console.log('FULLY WIPING DB')
+  } else {
+    console.log('NOT FULLY WIPING DB')
   }
 
   if (process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1) {
