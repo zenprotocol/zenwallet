@@ -8,7 +8,7 @@ import { getTxHistory } from '../services/api-service'
 //
 // const savedContracts = db.get('savedContracts').value()
 
-const BATCH_SIZE = 1000
+const BATCH_SIZE = 50
 
 class TxHistoryState {
   @observable transactions = observable.array([])
