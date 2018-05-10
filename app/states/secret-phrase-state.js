@@ -44,13 +44,10 @@ class SecretPhraseState {
         }
       })
     } catch (error) {
-      runInAction(() => {
-        try {
-          console.log('importWallet error.response', error.response)
-        } catch (e) {
-          console.log('importWallet catch e', e)
-        }
-      })
+      console.error(error)
+      if (error && error.response) {
+        console.errror(error.response)
+      }
     }
   }
 

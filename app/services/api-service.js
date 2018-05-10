@@ -1,5 +1,6 @@
 // @flow
 import { get, post } from 'axios'
+import type { observableArray } from 'mobx'
 
 import { isZenAsset } from '../utils/helpers'
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
@@ -179,10 +180,10 @@ export async function getIsAccountLocked(): Promise<boolean> {
   return response.data
 }
 
-export async function postImportWallet(secretPhraseArray: string[], secret: string) {
+export async function postImportWallet(secretPhraseArray: observableArray, password: string) {
   const data = {
     words: secretPhraseArray,
-    password: secret,
+    password,
   }
   console.log('postImportWallet data', data)
   const response = await post(`${serverAddress}/wallet/import`, data, {
