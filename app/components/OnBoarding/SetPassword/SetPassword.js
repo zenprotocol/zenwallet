@@ -14,8 +14,6 @@ import db from '../../../services/store'
 class SetPassword extends Component {
   state = {
     validLength: false,
-    validUpper: false,
-    hasNumbers: false,
     password: '',
     passwordConfirmation: '',
     passwordsMatch: '',
@@ -29,8 +27,6 @@ class SetPassword extends Component {
     this.setState({
       password: newValue,
       validLength: (newValue.length > 3),
-      validUpper: /^(.*[A-Z].*)$/.test(newValue),
-      hasNumbers: /^(.*\d.*)$/.test(newValue),
     }, () => {
       this.validatePasswordConfirmation()
     })
@@ -81,9 +77,9 @@ class SetPassword extends Component {
 
   validatePassword() {
     const {
-      passwordsMatch, validLength, validUpper, hasNumbers,
+      passwordsMatch, validLength,
     } = this.state
-    return (passwordsMatch === 'match' && validLength && validUpper && hasNumbers)
+    return (passwordsMatch === 'match' && validLength)
   }
 
   onSubmitClicked = () => {
@@ -130,7 +126,7 @@ class SetPassword extends Component {
   render() {
     const {
       password, inputType,
-      autoLogoutMinutes, validLength, validUpper, hasNumbers,
+      autoLogoutMinutes, validLength,
     } = this.state
 
     return (
@@ -150,14 +146,6 @@ class SetPassword extends Component {
                 <li>
                   <IsValidIcon isValid={validLength} />
                   <span>At least 4 characters</span>
-                </li>
-                <li>
-                  <IsValidIcon isValid={validUpper} />
-                  <span>Containes upper and lower case characters</span>
-                </li>
-                <li>
-                  <IsValidIcon isValid={hasNumbers} />
-                  <span>Contains at least one number</span>
                 </li>
               </ol>
             </Flexbox>
