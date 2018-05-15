@@ -14,7 +14,7 @@ class SavedContracts extends Component {
     this.props.contractMessage.sendContractMessage()
   }
 
-  onDeleteClicked = (hash) => {
+  onDeleteClicked = (contractId) => {
     swal({ // eslint-disable-line promise/catch-or-return
       title: 'Are you sure?',
       text: 'Are you sure that you want to delete this contract?',
@@ -23,7 +23,7 @@ class SavedContracts extends Component {
     })
       .then(willDelete => {
         if (willDelete) { // eslint-disable-line promise/always-return
-          db.get('savedContracts').remove({ hash }).write()
+          db.get('savedContracts').remove({ contractId }).write()
           swal('Deleted!', 'Your contract has been deleted!', 'success')
           this.forceUpdate()
         }
@@ -33,14 +33,14 @@ class SavedContracts extends Component {
   render() {
     const listOfContracts = contractList.value()
     const savedContracts = listOfContracts.map((contract) => (
-      <React.Fragment key={contract.hash}>
-        <tr key={contract.hash}>
+      <React.Fragment key={contract.contractId}>
+        <tr key={contract.contractId}>
           <td className="text">{contract.name}</td>
-          <CopyableTableCell string={contract.hash} />
+          <CopyableTableCell string={contract.contractId} />
           <CopyableTableCell string={contract.address} />
           <td className="align-right">
             <Link className="button small margin-right" to={`/run-contract/${contract.address}`} >Run</Link>
-            <a className="button small alert" onClick={() => { this.onDeleteClicked(contract.hash) }}>Delete</a>
+            <a className="button small alert" onClick={() => { this.onDeleteClicked(contract.contractId) }}>Delete</a>
           </td>
         </tr>
         <tr className="separator" />

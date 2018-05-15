@@ -6,27 +6,18 @@ import { getNamefromCodeComment } from '../utils/helpers'
 import db from '../services/store'
 
 class ContractMessageState {
-  @observable to = ''
+  @observable address = ''
   @observable contractName = ''
-  @observable amount
+  @observable amount = ''
   @observable command = ''
   @observable data
-  @observable status
+  @observable status = ''
   @observable inprogress
   @observable asset = ''
-  @observable assetIsValid = false
-  @observable assetName = ''
-  @observable assetBalance
 
   constructor(secretPhraseState, activeContractSet) {
     this.secretPhraseState = secretPhraseState
     this.activeContractSet = activeContractSet
-  }
-
-  @action
-  init() {
-    this.asset = ''
-    this.assetIsValid = false
   }
 
   @action
@@ -35,7 +26,7 @@ class ContractMessageState {
       this.inprogress = true
       const data = {
         asset: this.asset,
-        to: this.to,
+        address: this.address,
         amount: Number(this.amount),
         command: this.command,
         data: this.data,
@@ -48,15 +39,15 @@ class ContractMessageState {
         this.resetForm()
         this.status = 'success'
         const activeContract =
-          this.activeContractSet.activeContracts.find(ac => ac.address === data.to)
+          this.activeContractSet.activeContracts.find(ac => ac.address === data.address)
         const savedContracts = db.get('savedContracts').value()
-        const isInSavedContracts = _.some(savedContracts, { hash: activeContract.contractId })
+        const isInSavedContracts = _.some(savedContracts, { contractId: activeContract.contractId })
 
         if (!isInSavedContracts) {
           db.get('savedContracts').push({
             code: activeContract.code,
             name: getNamefromCodeComment(activeContract.code),
-            hash: activeContract.contractId,
+            contractId: activeContract.contractId,
             address: activeContract.address,
           }).write()
         }
@@ -81,14 +72,16 @@ class ContractMessageState {
   }
 
   @action
+  updateAddress(address) {
+    this.address = address
+    this.amount = ''
+  }
+
+  @action
   resetForm() {
     this.inprogress = false
     this.asset = ''
-    this.assetName = ''
-    this.assetBalance = ''
-    this.assetIsValid = false
-    this.to = ''
-    this.contractName = ''
+    this.address = ''
     this.amount = ''
     this.command = ''
     this.data = ''

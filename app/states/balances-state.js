@@ -35,7 +35,7 @@ class BalancesState {
 
     getAssetName(asset) { // eslint-disable-line class-methods-use-this
       if (asset === ZEN_ASSET_HASH) { return 'ZENP' }
-      const contractFromDb = savedContracts.find(contract => contract.hash === asset)
+      const contractFromDb = savedContracts.find(contract => contract.contractId === asset)
       if (contractFromDb && contractFromDb.name) {
         return contractFromDb.name
       }

@@ -12,6 +12,11 @@ module.exports = {
     "browser": true,
     "node": true
   },
+  "globals": {
+    "changeInputValue": true,
+    "sel": true,
+    "flushAllPromises": true
+  },
   "rules": {
     "semi": ["error", "never"],
     "no-unexpected-multiline": 2,

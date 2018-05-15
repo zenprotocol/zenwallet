@@ -7,8 +7,9 @@ import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-ad
 
 const serverAddress = getServerAddress()
 const crowdsaleServerAddress = getCrowdsaleServerAddress()
+
 type hash = string;
-type address = string;
+type addressType = string;
 
 type Asset = {
   asset: string,
@@ -29,7 +30,7 @@ export async function getPublicAddress(): Promise<string> {
 }
 
 type Transaction = {
-  to: address,
+  to: addressType,
   asset: hash,
   amount: number
 };
@@ -52,10 +53,10 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
   return response.data
 }
 
-type ActivateContractPayload = { code: string, numberOfBlocks: string } & Password;
-type contract = { address: address, contractId: string };
+type ActivateContractPayload = { code: string, numberOfBlocks: number } & Password;
+type NewContract = { address: addressType, contractId: string };
 
-export async function postActivateContract(data: ActivateContractPayload): Promise<contract> {
+export async function postActivateContract(data: ActivateContractPayload): Promise<NewContract> {
   console.log('postActivateContract data', data)
   const response = await post(`${serverAddress}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
@@ -65,14 +66,14 @@ export async function postActivateContract(data: ActivateContractPayload): Promi
 
 type ContractMessage = {
   asset: hash,
-  to: address,
+  address: addressType,
   amount: number,
   command: string,
   data?: ?string
 };
 
 type RunContractPayload = {
-  address: address,
+  address: addressType,
   options: {
     returnAddress: boolean
   },
@@ -82,12 +83,12 @@ type RunContractPayload = {
 };
 export async function postRunContractMessage(contractMessage: ContractMessage & Password) {
   const {
-    password, asset, to, amount, command, data,
+    password, asset, address, amount, command, data,
   } = contractMessage
 
   const finaldata: RunContractPayload = {
     password,
-    address: to,
+    address,
     options: {
       returnAddress: true,
     },
@@ -111,13 +112,13 @@ export async function postRunContractMessage(contractMessage: ContractMessage & 
   return response.data
 }
 
-type Contract = {
+type ActiveContract = {
   contractId: hash,
-  address: address,
+  address: addressType,
   expire: number,
   code: string
 };
-export async function getActiveContractSet(): Promise<Contract[]> {
+export async function getActiveContractSet(): Promise<ActiveContract[]> {
   const response = await get(`${serverAddress}/contract/active`)
   return response.data
 }

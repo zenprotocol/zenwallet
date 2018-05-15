@@ -28,6 +28,7 @@ class AutoSuggestAssets extends Component {
     suggestionInputValue: this.props.asset,
     suggestions: [],
   }
+  // used by parent
   reset() {
     this.setState({ suggestionInputValue: '' })
   }

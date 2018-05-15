@@ -5,21 +5,29 @@ import { clipboard } from 'electron'
 import { toInteger } from 'lodash'
 import PropTypes from 'prop-types'
 
+import db from '../../services/store'
 import { stringToNumber, isZenAsset } from '../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
-import AutoSuggestSavedContracts from '../UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts'
+import AutoSuggestActiveContracts from '../UI/AutoSuggestActiveContracts'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 import { ZENP_MAX_DECIMALS } from '../../constants'
 
+// TODO [AdGo] 12/05/2018 - get from contracts store after refactor
+const savedContracts = db.get('savedContracts').value()
+
+@inject('activeContractSet')
 @inject('balances')
 @inject('contractMessage')
 @observer
 class RunContract extends Component {
   static propTypes = {
+    activeContractSet: PropTypes.shape({
+      activeContractsWithNames: PropTypes.array,
+    }).isRequired,
     contractMessage: PropTypes.shape({
-      to: PropTypes.string,
+      address: PropTypes.string,
       asset: PropTypes.string,
       amount: PropTypes.string,
       command: PropTypes.string,
@@ -30,18 +38,10 @@ class RunContract extends Component {
       sendContractMessage: PropTypes.func,
     }).isRequired,
     balances: PropTypes.shape({
-      zen: PropTypes.string,
+      // TODO [AdGo] 14/05/2018 - enfore one type after refactoring types
+      zen: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       getBalanceFor: PropTypes.func,
     }).isRequired,
-  }
-
-  componentWillMount() {
-    const { match, contractMessage } = this.props
-    const { contractAddress } = match.params
-    if (contractAddress) {
-      contractMessage.to = contractAddress
-      contractMessage.amount = ''
-    }
   }
 
   componentWillUnmount() {
@@ -72,12 +72,12 @@ class RunContract extends Component {
 
   onPasteClicked = () => {
     const { contractMessage } = this.props
-    contractMessage.to = clipboard.readText()
+    contractMessage.address = clipboard.readText()
   }
 
   onRunContractClicked = () => {
     this.props.contractMessage.sendContractMessage()
-    this.AutoSuggestAssets.wrappedInstance.reset() // TODO pass input value as props
+    this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
   renderSuccessResponse() {
@@ -109,11 +109,9 @@ class RunContract extends Component {
   }
 
   // HELPER METHODS FOR CONTRACT ADDRESS AUTO SUGGGEST //
-  updateContractAddressFromSuggestions = (data) => {
+  updateContractAddressFromSuggestions = ({ address }) => {
     const { contractMessage } = this.props
-    contractMessage.contractName = data.name
-    contractMessage.to = data.address
-    contractMessage.amount = ''
+    contractMessage.updateAddress(address)
   }
 
   onContractAddressBlur = () => this.refs.child.onContractAddressBlur()
@@ -143,7 +141,7 @@ class RunContract extends Component {
   }
 
   validateForm() {
-    return !!this.props.contractMessage.to && this.isAmountValid()
+    return !!this.props.contractMessage.address && this.isAmountValid()
   }
 
   isSubmitButtonDisabled() {
@@ -155,9 +153,9 @@ class RunContract extends Component {
 
   render() {
     const {
-      to, status, command, amount, asset, inprogress, data, contractName,
+      command, amount, asset, inprogress, data, address,
     } = this.props.contractMessage
-
+    const { activeContractsWithNames } = this.props.activeContractSet
     return (
       <Layout className="run-contract">
         <Flexbox flexDirection="column" className="send-tx-container">
@@ -169,13 +167,12 @@ class RunContract extends Component {
             </h3>
           </Flexbox>
           <Flexbox flexDirection="column" className="form-container">
-            <AutoSuggestSavedContracts
-              sendData={this.updateContractAddressFromSuggestions}
-              address={to}
-              status={status}
-              contractName={contractName}
-              onBlur={this.onContractAddressBlur.bind(this)}
-              onFocus={this.onContractAddressFocus.bind(this)}
+            <AutoSuggestActiveContracts
+              activeContracts={activeContractsWithNames}
+              savedContracts={savedContracts}
+              initialSuggestionInputValue={address}
+              onUpdateParent={this.updateContractAddressFromSuggestions}
+              ref={(el) => { this.AutoSuggestActiveContracts = el }}
             />
             <Flexbox flexDirection="column" className="choose-command form-row">
               <label htmlFor="command">Choose command</label>

@@ -16,9 +16,15 @@ class SecretPhraseState {
   @observable importError = ''
   @observable status = ''
 
-  constructor(networkState, balances) {
+  constructor(networkState, balances, activeContractSet) {
     this.networkState = networkState
     this.balances = balances
+    this.activeContractSet = activeContractSet
+    if (isDev()) {
+      this.balances.initPolling()
+      this.networkState.initPolling()
+      this.activeContractSet.fetch()
+    }
   }
 
   @action.bound
@@ -38,6 +44,7 @@ class SecretPhraseState {
           this.password = password
           this.balances.initPolling()
           this.networkState.initPolling()
+          this.activeContractSet.fetch()
           this.resync()
         } else {
           console.log('importWallet response error', response)
