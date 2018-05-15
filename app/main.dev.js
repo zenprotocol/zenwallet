@@ -26,7 +26,7 @@ db.defaults({
   savedContracts: [
     {
       name: 'Jezreel Valley Adumim 2018 Red',
-      hash: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',
+      contractId: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',
       address: 'tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7',
     },
   ],

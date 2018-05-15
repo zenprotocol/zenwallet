@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 
@@ -24,7 +24,7 @@ class TxHistory extends Component {
 
     if (tx.deltas.length > 1) {
       const deltasRows = tx.deltas.map(tx => (
-        <tr key={tx.hash}><SingleTxDelta tx={tx} /></tr>
+        <tr key={tx.asset}><SingleTxDelta tx={tx} /></tr>
       ))
 
       return (
@@ -39,19 +39,20 @@ class TxHistory extends Component {
     }
   }
 
-  render() {
+  renderRows() {
     const { txhistory } = this.props
-
-    const tableRows = txhistory.transactions.map(tx => (
-      <React.Fragment key={tx.txHash}>
+    return txhistory.transactions.map(tx => (
+      <Fragment key={tx.txHash}>
         <tr>
           <CopyableTableCell string={tx.txHash} />
           { this.renderTransactionsCell(tx) }
         </tr>
         <tr className="separator" />
-      </React.Fragment>
+      </Fragment>
     ))
+  }
 
+  render() {
     return (
       <Layout className="balances">
 
@@ -71,11 +72,12 @@ class TxHistory extends Component {
               <tr className="separator" />
             </thead>
             <tbody>
-              {tableRows}
+              {this.renderRows()}
             </tbody>
           </table>
         </Flexbox>
-        <OnScrollBottom onScrollBottom={this.props.txhistory.fetch} />
+        {/* uncomment when zen node have pagination support for comments */}
+        {/* OnScrollBottom onScrollBottom={this.props.txhistory.fetch} /> */}
       </Layout>
     )
   }

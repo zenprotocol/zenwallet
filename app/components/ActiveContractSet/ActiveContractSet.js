@@ -7,18 +7,20 @@ import Highlight from 'react-highlight'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import Layout from '../UI/Layout/Layout'
-import { getNamefromCodeComment } from '../../utils/helpers'
 import CopyableTableCell from '../UI/CopyableTableCell'
 import ActiveContractSetState from '../../states/acs-state'
+import ContractMessageState from '../../states/contract-message'
 
 type Props = {
-  activeContractSet: ActiveContractSetState
+  activeContractSet: ActiveContractSetState,
+  contractMessage: ContractMessageState
 };
 
 type State = {
   showCodeSnippetForContractAddress: string
 };
 
+@inject('contractMessage')
 @inject('activeContractSet')
 @observer
 class ActiveContractSet extends Component<Props, State> {
@@ -42,8 +44,7 @@ class ActiveContractSet extends Component<Props, State> {
   render() {
     const { activeContractSet } = this.props
     const { showCodeSnippetForContractAddress } = this.state
-
-    const activeContractsRows = activeContractSet.activeContracts.map((contract) => {
+    const activeContractsRows = activeContractSet.activeContractsWithNames.map((contract) => {
       const formattedBlock = contract.expire.toLocaleString()
 
       let codeSnippetClassNames
@@ -59,7 +60,7 @@ class ActiveContractSet extends Component<Props, State> {
       return (
         <Fragment key={contract.contractId}>
           <tr>
-            <td className="text">{getNamefromCodeComment(contract.code)}</td>
+            <td className="text">{contract.name}</td>
             <CopyableTableCell string={contract.contractId} />
             <CopyableTableCell string={contract.address} />
             <td title={`Block ${formattedBlock}`}>{formattedBlock}</td>
@@ -71,7 +72,7 @@ class ActiveContractSet extends Component<Props, State> {
               >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">{viewCodeButtonText}</span>
               </a>
-              <Link title="Run Contract" className="button small play" to={`/run-contract/${contract.address}`} >
+              <Link title="Run Contract" className="button small play" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(contract.address)}>
                 <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
               </Link>
             </td>

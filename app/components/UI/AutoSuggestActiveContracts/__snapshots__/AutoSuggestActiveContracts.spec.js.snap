@@ -1,0 +1,2430 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoSuggestActiveContracts init renders empty input without: [classes, error message, suggestions, chosen asset name] 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue=""
+  onUpdateParent={[MockFunction]}
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={Array []}
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={Array []}
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={false}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value=""
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          />
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`AutoSuggestActiveContracts init renders input with default value, valid class, chosen asset name, no suggestions 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue="tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7"
+  onUpdateParent={[MockFunction]}
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width is-valid",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={Array []}
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width is-valid",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={Array []}
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={false}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width is-valid"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value="tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7"
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          />
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                    <div
+                      className="chosenContractName"
+                    >
+                      Jezreel Valley Adumim 2018 Red
+                    </div>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`should display inactive when contract is inactive 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue=""
+  onUpdateParent={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "address": "",
+          },
+        ],
+      ],
+    }
+  }
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width error",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "0000000000000000000000000000000000000000000000000000000000000002",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={Array []}
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width error",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "0000000000000000000000000000000000000000000000000000000000000002",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={Array []}
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "0000000000000000000000000000000000000000000000000000000000000002",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={false}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width error"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value="0000000000000000000000000000000000000000000000000000000000000002"
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          />
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                    <div
+                      className="input-message error"
+                      data-test="error"
+                    >
+                      <FontAwesomeIcon$1
+                        border={false}
+                        className=""
+                        fixedWidth={false}
+                        flip={null}
+                        icon={
+                          Array [
+                            "far",
+                            "exclamation",
+                          ]
+                        }
+                        listItem={false}
+                        mask={null}
+                        name=""
+                        pull={null}
+                        pulse={false}
+                        rotation={null}
+                        size={null}
+                        spin={false}
+                        symbol={false}
+                        transform={null}
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className="svg-inline--fa fa-exclamation fa-w-8 "
+                          data-icon="exclamation"
+                          data-prefix="far"
+                          role="img"
+                          style={Object {}}
+                          viewBox="0 0 256 512"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M173.854 48c6.874 0 12.343 5.763 11.984 12.628l-11.742 224c-.334 6.375-5.6 11.372-11.984 11.372H93.888c-6.383 0-11.65-4.997-11.984-11.372l-11.742-224C69.802 53.763 75.271 48 82.146 48h91.708M128 336c35.29 0 64 28.71 64 64s-28.71 64-64 64-64-28.71-64-64 28.71-64 64-64M173.854 0H82.146C47.881 0 20.427 28.783 22.228 63.141l11.742 224c.698 13.309 5.689 25.414 13.592 35.001C28.035 342.31 16 369.777 16 400c0 61.757 50.243 112 112 112s112-50.243 112-112c0-30.223-12.035-57.69-31.561-77.858a59.78 59.78 0 0 0 13.592-35.001l11.742-224C235.566 28.922 208.259 0 173.854 0z"
+                            fill="currentColor"
+                            style={Object {}}
+                          />
+                        </svg>
+                      </FontAwesomeIcon$1>
+                      <span>
+                        Contract is not active
+                      </span>
+                    </div>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`should display inactive when contract is inactive: inactive error 1`] = `
+<div
+  className="input-message error"
+  data-test="error"
+>
+  <FontAwesomeIcon$1
+    border={false}
+    className=""
+    fixedWidth={false}
+    flip={null}
+    icon={
+      Array [
+        "far",
+        "exclamation",
+      ]
+    }
+    listItem={false}
+    mask={null}
+    name=""
+    pull={null}
+    pulse={false}
+    rotation={null}
+    size={null}
+    spin={false}
+    symbol={false}
+    transform={null}
+  >
+    <svg
+      aria-hidden="true"
+      className="svg-inline--fa fa-exclamation fa-w-8 "
+      data-icon="exclamation"
+      data-prefix="far"
+      role="img"
+      style={Object {}}
+      viewBox="0 0 256 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M173.854 48c6.874 0 12.343 5.763 11.984 12.628l-11.742 224c-.334 6.375-5.6 11.372-11.984 11.372H93.888c-6.383 0-11.65-4.997-11.984-11.372l-11.742-224C69.802 53.763 75.271 48 82.146 48h91.708M128 336c35.29 0 64 28.71 64 64s-28.71 64-64 64-64-28.71-64-64 28.71-64 64-64M173.854 0H82.146C47.881 0 20.427 28.783 22.228 63.141l11.742 224c.698 13.309 5.689 25.414 13.592 35.001C28.035 342.31 16 369.777 16 400c0 61.757 50.243 112 112 112s112-50.243 112-112c0-30.223-12.035-57.69-31.561-77.858a59.78 59.78 0 0 0 13.592-35.001l11.742-224C235.566 28.922 208.259 0 173.854 0z"
+        fill="currentColor"
+        style={Object {}}
+      />
+    </svg>
+  </FontAwesomeIcon$1>
+  <span>
+    Contract is not active
+  </span>
+</div>
+`;
+
+exports[`should display no match error when no match is found 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue=""
+  onUpdateParent={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "address": "",
+          },
+        ],
+      ],
+    }
+  }
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width error",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "nonsense",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={Array []}
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width error",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "nonsense",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={Array []}
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "nonsense",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={false}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width error"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value="nonsense"
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          />
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                    <div
+                      className="input-message error"
+                      data-test="error"
+                    >
+                      <FontAwesomeIcon$1
+                        border={false}
+                        className=""
+                        fixedWidth={false}
+                        flip={null}
+                        icon={
+                          Array [
+                            "far",
+                            "exclamation",
+                          ]
+                        }
+                        listItem={false}
+                        mask={null}
+                        name=""
+                        pull={null}
+                        pulse={false}
+                        rotation={null}
+                        size={null}
+                        spin={false}
+                        symbol={false}
+                        transform={null}
+                      >
+                        <svg
+                          aria-hidden="true"
+                          className="svg-inline--fa fa-exclamation fa-w-8 "
+                          data-icon="exclamation"
+                          data-prefix="far"
+                          role="img"
+                          style={Object {}}
+                          viewBox="0 0 256 512"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M173.854 48c6.874 0 12.343 5.763 11.984 12.628l-11.742 224c-.334 6.375-5.6 11.372-11.984 11.372H93.888c-6.383 0-11.65-4.997-11.984-11.372l-11.742-224C69.802 53.763 75.271 48 82.146 48h91.708M128 336c35.29 0 64 28.71 64 64s-28.71 64-64 64-64-28.71-64-64 28.71-64 64-64M173.854 0H82.146C47.881 0 20.427 28.783 22.228 63.141l11.742 224c.698 13.309 5.689 25.414 13.592 35.001C28.035 342.31 16 369.777 16 400c0 61.757 50.243 112 112 112s112-50.243 112-112c0-30.223-12.035-57.69-31.561-77.858a59.78 59.78 0 0 0 13.592-35.001l11.742-224C235.566 28.922 208.259 0 173.854 0z"
+                            fill="currentColor"
+                            style={Object {}}
+                          />
+                        </svg>
+                      </FontAwesomeIcon$1>
+                      <span>
+                        Contract address doesn't exist
+                      </span>
+                    </div>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`should display no match error when no match is found: no match error 1`] = `
+<div
+  className="input-message error"
+  data-test="error"
+>
+  <FontAwesomeIcon$1
+    border={false}
+    className=""
+    fixedWidth={false}
+    flip={null}
+    icon={
+      Array [
+        "far",
+        "exclamation",
+      ]
+    }
+    listItem={false}
+    mask={null}
+    name=""
+    pull={null}
+    pulse={false}
+    rotation={null}
+    size={null}
+    spin={false}
+    symbol={false}
+    transform={null}
+  >
+    <svg
+      aria-hidden="true"
+      className="svg-inline--fa fa-exclamation fa-w-8 "
+      data-icon="exclamation"
+      data-prefix="far"
+      role="img"
+      style={Object {}}
+      viewBox="0 0 256 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M173.854 48c6.874 0 12.343 5.763 11.984 12.628l-11.742 224c-.334 6.375-5.6 11.372-11.984 11.372H93.888c-6.383 0-11.65-4.997-11.984-11.372l-11.742-224C69.802 53.763 75.271 48 82.146 48h91.708M128 336c35.29 0 64 28.71 64 64s-28.71 64-64 64-64-28.71-64-64 28.71-64 64-64M173.854 0H82.146C47.881 0 20.427 28.783 22.228 63.141l11.742 224c.698 13.309 5.689 25.414 13.592 35.001C28.035 342.31 16 369.777 16 400c0 61.757 50.243 112 112 112s112-50.243 112-112c0-30.223-12.035-57.69-31.561-77.858a59.78 59.78 0 0 0 13.592-35.001l11.742-224C235.566 28.922 208.259 0 173.854 0z"
+        fill="currentColor"
+        style={Object {}}
+      />
+    </svg>
+  </FontAwesomeIcon$1>
+  <span>
+    Contract address doesn't exist
+  </span>
+</div>
+`;
+
+exports[`should select matching contract and call parent 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue=""
+  onUpdateParent={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "address": "",
+          },
+        ],
+        Array [
+          Object {
+            "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+          },
+        ],
+      ],
+    }
+  }
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width is-valid",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={Array []}
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width is-valid",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={Array []}
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={false}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width is-valid"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value="tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7"
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          />
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                    <div
+                      className="chosenContractName"
+                    >
+                      Jezreel Valley Adumim 2018 Red
+                    </div>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`should suggest all contracts when focused without any value 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue=""
+  onUpdateParent={[MockFunction]}
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={
+                        Array [
+                          Object {
+                            "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                            "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                            "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                            "name": "Jezreel Valley Adumim 2018 Red",
+                          },
+                          Object {
+                            "address": "0000000000000000000000000000000000000000000000000000000000000001",
+                            "code": "code without name",
+                            "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+                            "name": "",
+                          },
+                        ]
+                      }
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={
+                          Array [
+                            Object {
+                              "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                              "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                              "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                              "name": "Jezreel Valley Adumim 2018 Red",
+                            },
+                            Object {
+                              "address": "0000000000000000000000000000000000000000000000000000000000000001",
+                              "code": "code without name",
+                              "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+                              "name": "",
+                            },
+                          ]
+                        }
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container react-autosuggest__container--open"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={true}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value=""
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container react-autosuggest__suggestions-container--open"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          >
+                            <ItemsList
+                              getItemId={[Function]}
+                              highlightedItemIndex={null}
+                              itemProps={[Function]}
+                              items={
+                                Array [
+                                  Object {
+                                    "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                                    "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                                    "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                                    "name": "Jezreel Valley Adumim 2018 Red",
+                                  },
+                                  Object {
+                                    "address": "0000000000000000000000000000000000000000000000000000000000000001",
+                                    "code": "code without name",
+                                    "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+                                    "name": "",
+                                  },
+                                ]
+                              }
+                              keyPrefix="react-autowhatever-1-"
+                              onHighlightedItemChange={[Function]}
+                              renderItem={[Function]}
+                              renderItemData={
+                                Object {
+                                  "query": "",
+                                }
+                              }
+                              sectionIndex={null}
+                              theme={[Function]}
+                            >
+                              <ul
+                                className="react-autosuggest__suggestions-list"
+                                key="react-autowhatever-1-items-list"
+                                role="listbox"
+                              >
+                                <Item
+                                  className="react-autosuggest__suggestion react-autosuggest__suggestion--first"
+                                  data-section-index={null}
+                                  data-suggestion-index={0}
+                                  id="react-autowhatever-1--item-0"
+                                  isHighlighted={false}
+                                  item={
+                                    Object {
+                                      "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                                      "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                                      "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                                      "name": "Jezreel Valley Adumim 2018 Red",
+                                    }
+                                  }
+                                  itemIndex={0}
+                                  key="react-autowhatever-1-item-0"
+                                  onClick={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  renderItem={[Function]}
+                                  renderItemData={
+                                    Object {
+                                      "query": "",
+                                    }
+                                  }
+                                  sectionIndex={null}
+                                >
+                                  <li
+                                    className="react-autosuggest__suggestion react-autosuggest__suggestion--first"
+                                    data-section-index={null}
+                                    data-suggestion-index={0}
+                                    id="react-autowhatever-1--item-0"
+                                    onClick={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseEnter={[Function]}
+                                    onMouseLeave={[Function]}
+                                    onTouchStart={[Function]}
+                                    role="option"
+                                  >
+                                    <div
+                                      className="suggestionItem"
+                                      data-test="suggestionItem"
+                                    >
+                                      Jezreel Valley Adumim 2018 Red
+                                       (
+                                      tc1qn8...2qt6a7
+                                      )
+                                    </div>
+                                  </li>
+                                </Item>
+                                <Item
+                                  className="react-autosuggest__suggestion"
+                                  data-section-index={null}
+                                  data-suggestion-index={1}
+                                  id="react-autowhatever-1--item-1"
+                                  isHighlighted={false}
+                                  item={
+                                    Object {
+                                      "address": "0000000000000000000000000000000000000000000000000000000000000001",
+                                      "code": "code without name",
+                                      "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+                                      "name": "",
+                                    }
+                                  }
+                                  itemIndex={1}
+                                  key="react-autowhatever-1-item-1"
+                                  onClick={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  renderItem={[Function]}
+                                  renderItemData={
+                                    Object {
+                                      "query": "",
+                                    }
+                                  }
+                                  sectionIndex={null}
+                                >
+                                  <li
+                                    className="react-autosuggest__suggestion"
+                                    data-section-index={null}
+                                    data-suggestion-index={1}
+                                    id="react-autowhatever-1--item-1"
+                                    onClick={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseEnter={[Function]}
+                                    onMouseLeave={[Function]}
+                                    onTouchStart={[Function]}
+                                    role="option"
+                                  >
+                                    <div
+                                      className="suggestionItem"
+                                      data-test="suggestionItem"
+                                    >
+                                       (
+                                      000000...000001
+                                      )
+                                    </div>
+                                  </li>
+                                </Item>
+                              </ul>
+                            </ItemsList>
+                          </div>
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`should suggest only matching contract by address 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue=""
+  onUpdateParent={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "address": "",
+          },
+        ],
+      ],
+    }
+  }
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "tc1qn",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={
+                        Array [
+                          Object {
+                            "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                            "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                            "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                            "name": "Jezreel Valley Adumim 2018 Red",
+                          },
+                        ]
+                      }
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "tc1qn",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={
+                          Array [
+                            Object {
+                              "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                              "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                              "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                              "name": "Jezreel Valley Adumim 2018 Red",
+                            },
+                          ]
+                        }
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "tc1qn",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container react-autosuggest__container--open"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={true}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value="tc1qn"
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container react-autosuggest__suggestions-container--open"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          >
+                            <ItemsList
+                              getItemId={[Function]}
+                              highlightedItemIndex={null}
+                              itemProps={[Function]}
+                              items={
+                                Array [
+                                  Object {
+                                    "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                                    "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                                    "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                                    "name": "Jezreel Valley Adumim 2018 Red",
+                                  },
+                                ]
+                              }
+                              keyPrefix="react-autowhatever-1-"
+                              onHighlightedItemChange={[Function]}
+                              renderItem={[Function]}
+                              renderItemData={
+                                Object {
+                                  "query": "tc1qn",
+                                }
+                              }
+                              sectionIndex={null}
+                              theme={[Function]}
+                            >
+                              <ul
+                                className="react-autosuggest__suggestions-list"
+                                key="react-autowhatever-1-items-list"
+                                role="listbox"
+                              >
+                                <Item
+                                  className="react-autosuggest__suggestion react-autosuggest__suggestion--first"
+                                  data-section-index={null}
+                                  data-suggestion-index={0}
+                                  id="react-autowhatever-1--item-0"
+                                  isHighlighted={false}
+                                  item={
+                                    Object {
+                                      "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                                      "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                                      "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                                      "name": "Jezreel Valley Adumim 2018 Red",
+                                    }
+                                  }
+                                  itemIndex={0}
+                                  key="react-autowhatever-1-item-0"
+                                  onClick={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  renderItem={[Function]}
+                                  renderItemData={
+                                    Object {
+                                      "query": "tc1qn",
+                                    }
+                                  }
+                                  sectionIndex={null}
+                                >
+                                  <li
+                                    className="react-autosuggest__suggestion react-autosuggest__suggestion--first"
+                                    data-section-index={null}
+                                    data-suggestion-index={0}
+                                    id="react-autowhatever-1--item-0"
+                                    onClick={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseEnter={[Function]}
+                                    onMouseLeave={[Function]}
+                                    onTouchStart={[Function]}
+                                    role="option"
+                                  >
+                                    <div
+                                      className="suggestionItem"
+                                      data-test="suggestionItem"
+                                    >
+                                      Jezreel Valley Adumim 2018 Red
+                                       (
+                                      tc1qn8...2qt6a7
+                                      )
+                                    </div>
+                                  </li>
+                                </Item>
+                              </ul>
+                            </ItemsList>
+                          </div>
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`should suggest only matching contract by address: matching suggest by address 1`] = `
+<div
+  className="suggestionItem"
+  data-test="suggestionItem"
+>
+  Jezreel Valley Adumim 2018 Red
+   (
+  tc1qn8...2qt6a7
+  )
+</div>
+`;
+
+exports[`should suggest only matching contract by name 1`] = `
+<AutoSuggestActiveContracts
+  activeContracts={
+    Array [
+      Object {
+        "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+        "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+        "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+        "name": "Jezreel Valley Adumim 2018 Red",
+      },
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000001",
+        "code": "code without name",
+        "contractId": "0000000000000000000000000000000000000000000000000000000000000001",
+        "name": "",
+      },
+    ]
+  }
+  initialSuggestionInputValue=""
+  onUpdateParent={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "address": "",
+          },
+        ],
+      ],
+    }
+  }
+  savedContracts={
+    Array [
+      Object {
+        "address": "0000000000000000000000000000000000000000000000000000000000000002",
+        "code": "/* NAME_START:saved contract:NAME_END*/",
+        "contractId": "1234",
+        "name": "saved contract",
+      },
+    ]
+  }
+>
+  <Styled(Component)
+    className="contract-address form-row"
+    display="flex"
+    element="div"
+    flexDirection="column"
+  >
+    <Component
+      className="contract-address form-row sc-bdVaJa hgkmdP"
+      display="flex"
+      element="div"
+      flexDirection="column"
+    >
+      <div
+        className="contract-address form-row sc-bdVaJa hgkmdP"
+      >
+        <label
+          htmlFor="to"
+        >
+          Contract Address
+        </label>
+        <Styled(Component)
+          className="destination-address-input"
+          display="flex"
+          element="div"
+          flexDirection="row"
+        >
+          <Component
+            className="destination-address-input sc-bdVaJa itcDXu"
+            display="flex"
+            element="div"
+            flexDirection="row"
+          >
+            <div
+              className="destination-address-input sc-bdVaJa itcDXu"
+            >
+              <Styled(Component)
+                className="full-width select-contract"
+                display="flex"
+                element="div"
+                flexDirection="column"
+              >
+                <Component
+                  className="full-width select-contract sc-bdVaJa hgkmdP"
+                  display="flex"
+                  element="div"
+                  flexDirection="column"
+                >
+                  <div
+                    className="full-width select-contract sc-bdVaJa hgkmdP"
+                  >
+                    <Autosuggest
+                      alwaysRenderSuggestions={false}
+                      focusInputOnSuggestionClick={true}
+                      getSuggestionValue={[Function]}
+                      highlightFirstSuggestion={false}
+                      id="1"
+                      inputProps={
+                        Object {
+                          "className": "full-width",
+                          "data-test": "input",
+                          "onChange": [Function],
+                          "placeholder": "Start typing the contract name or address",
+                          "type": "search",
+                          "value": "Jez",
+                        }
+                      }
+                      multiSection={false}
+                      onSuggestionSelected={[Function]}
+                      onSuggestionsClearRequested={[Function]}
+                      onSuggestionsFetchRequested={[Function]}
+                      renderSuggestion={[Function]}
+                      renderSuggestionsContainer={[Function]}
+                      shouldRenderSuggestions={[Function]}
+                      suggestions={
+                        Array [
+                          Object {
+                            "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                            "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                            "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                            "name": "Jezreel Valley Adumim 2018 Red",
+                          },
+                        ]
+                      }
+                      theme={
+                        Object {
+                          "container": "react-autosuggest__container",
+                          "containerOpen": "react-autosuggest__container--open",
+                          "input": "react-autosuggest__input",
+                          "inputFocused": "react-autosuggest__input--focused",
+                          "inputOpen": "react-autosuggest__input--open",
+                          "sectionContainer": "react-autosuggest__section-container",
+                          "sectionContainerFirst": "react-autosuggest__section-container--first",
+                          "sectionTitle": "react-autosuggest__section-title",
+                          "suggestion": "react-autosuggest__suggestion",
+                          "suggestionFirst": "react-autosuggest__suggestion--first",
+                          "suggestionHighlighted": "react-autosuggest__suggestion--highlighted",
+                          "suggestionsContainer": "react-autosuggest__suggestions-container",
+                          "suggestionsContainerOpen": "react-autosuggest__suggestions-container--open",
+                          "suggestionsList": "react-autosuggest__suggestions-list",
+                        }
+                      }
+                    >
+                      <Autowhatever
+                        getSectionItems={[Function]}
+                        highlightedItemIndex={null}
+                        highlightedSectionIndex={null}
+                        id="1"
+                        inputProps={
+                          Object {
+                            "className": "full-width",
+                            "data-test": "input",
+                            "onBlur": [Function],
+                            "onChange": [Function],
+                            "onFocus": [Function],
+                            "onKeyDown": [Function],
+                            "placeholder": "Start typing the contract name or address",
+                            "type": "search",
+                            "value": "Jez",
+                          }
+                        }
+                        itemProps={[Function]}
+                        items={
+                          Array [
+                            Object {
+                              "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                              "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                              "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                              "name": "Jezreel Valley Adumim 2018 Red",
+                            },
+                          ]
+                        }
+                        multiSection={false}
+                        renderInputComponent={[Function]}
+                        renderItem={[Function]}
+                        renderItemData={
+                          Object {
+                            "query": "Jez",
+                          }
+                        }
+                        renderItemsContainer={[Function]}
+                        renderSectionTitle={[Function]}
+                        theme={
+                          Object {
+                            "container": "react-autosuggest__container",
+                            "containerOpen": "react-autosuggest__container--open",
+                            "input": "react-autosuggest__input",
+                            "inputFocused": "react-autosuggest__input--focused",
+                            "inputOpen": "react-autosuggest__input--open",
+                            "item": "react-autosuggest__suggestion",
+                            "itemFirst": "react-autosuggest__suggestion--first",
+                            "itemHighlighted": "react-autosuggest__suggestion--highlighted",
+                            "itemsContainer": "react-autosuggest__suggestions-container",
+                            "itemsContainerOpen": "react-autosuggest__suggestions-container--open",
+                            "itemsList": "react-autosuggest__suggestions-list",
+                            "sectionContainer": "react-autosuggest__section-container",
+                            "sectionContainerFirst": "react-autosuggest__section-container--first",
+                            "sectionTitle": "react-autosuggest__section-title",
+                          }
+                        }
+                      >
+                        <div
+                          className="react-autosuggest__container react-autosuggest__container--open"
+                          key="react-autowhatever-1-container"
+                        >
+                          <input
+                            aria-activedescendant={null}
+                            aria-autocomplete="list"
+                            aria-expanded={true}
+                            aria-owns="react-autowhatever-1"
+                            autoComplete="off"
+                            className="full-width"
+                            data-test="input"
+                            key="react-autowhatever-1-input"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            onKeyDown={[Function]}
+                            placeholder="Start typing the contract name or address"
+                            role="combobox"
+                            type="search"
+                            value="Jez"
+                          />
+                          <div
+                            className="react-autosuggest__suggestions-container react-autosuggest__suggestions-container--open"
+                            id="react-autowhatever-1"
+                            key="react-autowhatever-1-items-container"
+                          >
+                            <ItemsList
+                              getItemId={[Function]}
+                              highlightedItemIndex={null}
+                              itemProps={[Function]}
+                              items={
+                                Array [
+                                  Object {
+                                    "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                                    "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                                    "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                                    "name": "Jezreel Valley Adumim 2018 Red",
+                                  },
+                                ]
+                              }
+                              keyPrefix="react-autowhatever-1-"
+                              onHighlightedItemChange={[Function]}
+                              renderItem={[Function]}
+                              renderItemData={
+                                Object {
+                                  "query": "Jez",
+                                }
+                              }
+                              sectionIndex={null}
+                              theme={[Function]}
+                            >
+                              <ul
+                                className="react-autosuggest__suggestions-list"
+                                key="react-autowhatever-1-items-list"
+                                role="listbox"
+                              >
+                                <Item
+                                  className="react-autosuggest__suggestion react-autosuggest__suggestion--first"
+                                  data-section-index={null}
+                                  data-suggestion-index={0}
+                                  id="react-autowhatever-1--item-0"
+                                  isHighlighted={false}
+                                  item={
+                                    Object {
+                                      "address": "tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7",
+                                      "code": "/* NAME_START:Jezreel Valley Code:NAME_END*/",
+                                      "contractId": "99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80",
+                                      "name": "Jezreel Valley Adumim 2018 Red",
+                                    }
+                                  }
+                                  itemIndex={0}
+                                  key="react-autowhatever-1-item-0"
+                                  onClick={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
+                                  onTouchStart={[Function]}
+                                  renderItem={[Function]}
+                                  renderItemData={
+                                    Object {
+                                      "query": "Jez",
+                                    }
+                                  }
+                                  sectionIndex={null}
+                                >
+                                  <li
+                                    className="react-autosuggest__suggestion react-autosuggest__suggestion--first"
+                                    data-section-index={null}
+                                    data-suggestion-index={0}
+                                    id="react-autowhatever-1--item-0"
+                                    onClick={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseEnter={[Function]}
+                                    onMouseLeave={[Function]}
+                                    onTouchStart={[Function]}
+                                    role="option"
+                                  >
+                                    <div
+                                      className="suggestionItem"
+                                      data-test="suggestionItem"
+                                    >
+                                      Jezreel Valley Adumim 2018 Red
+                                       (
+                                      tc1qn8...2qt6a7
+                                      )
+                                    </div>
+                                  </li>
+                                </Item>
+                              </ul>
+                            </ItemsList>
+                          </div>
+                        </div>
+                      </Autowhatever>
+                    </Autosuggest>
+                  </div>
+                </Component>
+              </Styled(Component)>
+              <button
+                className="button secondary button-on-right"
+                onClick={[Function]}
+              >
+                Paste
+              </button>
+            </div>
+          </Component>
+        </Styled(Component)>
+      </div>
+    </Component>
+  </Styled(Component)>
+</AutoSuggestActiveContracts>
+`;
+
+exports[`should suggest only matching contract by name: matching suggest by name 1`] = `
+<div
+  className="suggestionItem"
+  data-test="suggestionItem"
+>
+  Jezreel Valley Adumim 2018 Red
+   (
+  tc1qn8...2qt6a7
+  )
+</div>
+`;

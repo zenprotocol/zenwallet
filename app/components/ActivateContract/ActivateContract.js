@@ -27,7 +27,7 @@ class ActivateContract extends Component {
       name: PropTypes.string,
       status: PropTypes.string,
       address: PropTypes.string,
-      hash: PropTypes.string,
+      contractId: PropTypes.string,
       dragDropText: PropTypes.string,
       inprogress: PropTypes.boolean,
       acceptedFiles: PropTypesMobx.observableArray,
@@ -175,16 +175,16 @@ class ActivateContract extends Component {
   }
 
   renderSuccessResponse() {
-    const { address, hash, status } = this.props.contract
+    const { address, contractId, status } = this.props.contract
 
-    if (address && hash && status === 'success') {
+    if (address && contractId && status === 'success') {
       return (
         <FormResponseMessage className="success">
           <span>
             Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
           </span>
           <div className="devider" />
-          <p>Contract Hash: {hash}</p>
+          <p>Contract Hash: {contractId}</p>
           <p>Contract Address: {address}</p>
         </FormResponseMessage>
       )

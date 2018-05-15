@@ -10,13 +10,13 @@ jest.mock('../services/store', () => ({
         value: () => [
           {
             name: 'Jezreel Valley Adumim 2018 Red',
-            hash: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',
+            contractId: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',
             address: 'tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7',
             code: 'Jezreel Valley Code',
           },
           {
             name: 'Awesome Token',
-            hash: '0000000000000000000000000000000000000000000000000000000000000001',
+            contractId: '0000000000000000000000000000000000000000000000000000000000000001',
             address: '0000000000000000000000000000000000000000000000000000000000000001',
             code: 'Awesome Token Code',
           },
@@ -92,7 +92,7 @@ describe('BalancesState', () => {
     })
     expect(cut.filteredBalancesWithNames('foo')).toEqual([assetWithName1])
   })
-  it('[filteredBalancesWithNames] should return matching object by hash', () => {
+  it('[filteredBalancesWithNames] should return matching object by contractId', () => {
     const assetWithName1 = { name: 'foo', asset: 'bar', balance: 1 }
     const assetWithName2 = { name: 'assetWithName2', asset: 'assetWithName2', balance: 2 }
     const mockedAssetsWithNames = [assetWithName1, assetWithName2]

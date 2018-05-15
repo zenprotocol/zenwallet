@@ -32,7 +32,7 @@ const Routes = () => (
       <Route exact path="/send-tx" component={SendTx} />
       <Route exact path="/tx-history" component={TxHistory} />
       <Route exact path="/activate-contract" component={ActivateContract} />
-      <Route exact path="/run-contract/:contractAddress?" component={RunContract} />
+      <Route exact path="/run-contract" component={RunContract} />
       <Route exact path="/saved-contracts" component={SavedContracts} />
       <Route exact path="/acs" component={ActiveContractSet} />
       <Route exact path="/faucet" component={Faucet} />

@@ -15,7 +15,7 @@ class ContractState {
   @observable fileName: string
   @observable dragDropText = initialDragDropText
   @observable name = ''
-  @observable hash: string
+  @observable contractId: string
   @observable address: string
   @observable code = ''
   @observable numberOfBlocks = ''
@@ -46,21 +46,25 @@ class ContractState {
 
   @action
   async activateContract() {
+    this.inprogress = true
+    this.status = 'inprogress'
+    const data = {
+      code: this.code,
+      numberOfBlocks: Number(this.numberOfBlocks),
+      password: this.secretPhraseState.password,
+    }
     try {
-      this.inprogress = true
-      this.status = 'inprogress'
-      const data = { ...this, password: this.secretPhraseState.password }
       const response = await postActivateContract(data)
 
       runInAction(() => {
         const savedContracts = db.get('savedContracts').value()
-        const isInSavedContracts = some(savedContracts, { hash: response.contractId })
+        const isInSavedContracts = some(savedContracts, { contractId: response.contractId })
 
         if (!isInSavedContracts) {
           db.get('savedContracts').push({
             code: this.code,
             name: this.name,
-            hash: response.contractId,
+            contractId: response.contractId,
             address: response.address,
           }).write()
         }
@@ -72,9 +76,10 @@ class ContractState {
         }, 15000)
       })
     } catch (error) {
-      this.status = 'error'
-      this.inprogress = false
+      console.error(error.response.data)
       runInAction(() => {
+        this.status = 'error'
+        this.inprogress = false
         this.errorMessage = error.response.data
       })
     }
@@ -85,7 +90,7 @@ class ContractState {
     this.name = ''
     this.dragDropText = initialDragDropText
     this.code = ''
-    this.hash = ''
+    this.contractId = ''
     this.address = ''
     this.numberOfBlocks = ''
     this.activationCost = ''
