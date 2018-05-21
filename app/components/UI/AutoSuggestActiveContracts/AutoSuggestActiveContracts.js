@@ -109,6 +109,11 @@ class AutoSuggestActiveContracts extends Component<Props> {
     }, this.updateParent)
   }
 
+  // used by parent
+  reset() {
+    this.setState({ suggestionInputValue: '' })
+  }
+
   renderErrorMessage() {
     const error = this.getError()
     if (!error) {

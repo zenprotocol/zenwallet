@@ -78,6 +78,7 @@ class RunContract extends Component {
   onRunContractClicked = () => {
     this.props.contractMessage.sendContractMessage()
     this.AutoSuggestAssets.wrappedInstance.reset()
+    this.AutoSuggestActiveContracts.reset()
   }
 
   renderSuccessResponse() {
