@@ -10,6 +10,8 @@
  *
  * @flow
  */
+import path from 'path'
+
 import { app, BrowserWindow, ipcMain } from 'electron'
 import zenNode from '@zen/zen-node'
 
@@ -46,7 +48,6 @@ if (process.env.NODE_ENV === 'production') {
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')()
-  const path = require('path')
   const p = path.join(__dirname, '..', 'app', 'node_modules')
   require('module').globalPaths.push(p)
 } else {
@@ -127,22 +128,32 @@ app.on('ready', async () => {
     console.log('OPENING UI ONLY')
   } else {
     console.log('LAUNCHING NODE')
-    node = zenNode(args)
-    node.stderr.pipe(process.stderr)
-    node.stdout.pipe(process.stdout)
-
-    ipcMain.on('init-fetch-logs', (event) => {
-      node.stdout.on('data', (chunk) => {
-        const log = chunk.toString('utf8')
-        console.log(`Received ${log} bytes of data.`)
-        event.sender.send('blockchainLogs', log)
+    try {
+      console.log('getZenNodePath()', getZenNodePath())
+      node = zenNode(args, getZenNodePath())
+      node.stderr.pipe(process.stderr)
+      node.stdout.pipe(process.stdout)
+ 
+      ipcMain.on('init-fetch-logs', (event) => {
+        node.stdout.on('data', (chunk) => {
+          const log = chunk.toString('utf8')
+          console.log(`Received ${log} bytes of data.`)
+          event.sender.send('blockchainLogs', log)
+        })
       })
-    })
 
-    node.on('exit', () => {
-      console.log('Closed')
-      app.quit()
-    })
+      node.on('exit', () => {
+        console.log('Closed')
+        app.quit()
+      })
+    } catch (err) {
+      console.error('error launching zen node', err.message, err)
+      // node.on is called on closing the GUI, which will throw an error
+      // if the method doesn't exist, so we set it to a noop
+      node = {
+        on: () => {},
+      }
+    }
   }
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
@@ -186,3 +197,16 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+function getZenNodePath() {
+  return isInstalledWithInstaller()
+    ? path.join(process.resourcesPath, 'app/node_modules/@zen/zen-node')
+    : undefined
+}
+
+function isInstalledWithInstaller() {
+  return __dirname.includes('app.asar') // tested on linux. below is an alternative
+  // return process.resourcesPath.includes('node_modules/electron/dist')
+  // TODO [AdGo] 15/05/2018 - delete these comments after confirming it works
+  // on os and windows
+}

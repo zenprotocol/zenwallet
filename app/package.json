@@ -1,22 +1,21 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "electron-react-boilerplate",
-  "version": "1.0.0",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "zen-wallet",
+  "version": "0.2.35",
+  "description": "Zen Wallet",
   "main": "./main.prod.js",
-  "author": {
-    "name": "C. T. Lin",
-    "email": "chentsulin@gmail.com",
-    "url": "https://github.com/chentsulin"
-  },
   "scripts": {
     "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
     "postinstall": "npm run electron-rebuild"
   },
-  "license": "MIT",
+  "author": {
+    "name": "Zen Protocol",
+    "email": "info@zenprotocol.com"
+  },
+  "devDependencies": {
+    "electron": "^1.8.4"
+  },
   "dependencies": {
     "@zen/zen-node": "^0.3.2",
-    "cross-env": "^5.1.4",
-    "electron": "^1.8.4"
+    "cross-env": "^5.1.4"
   }
 }
