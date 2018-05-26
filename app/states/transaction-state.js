@@ -18,7 +18,8 @@ class TransactionState {
   async createTransaction(tx) {
     try {
       this.inprogress = true
-      const response = await postTransaction({ ...tx, password: this.secretPhraseState.password })
+      const data = { ...tx, amount: Number(tx.amount), password: this.secretPhraseState.password }
+      const response = await postTransaction(data)
 
       runInAction(() => {
         console.log('createTransaction response', response)
@@ -30,7 +31,7 @@ class TransactionState {
       })
     } catch (error) {
       runInAction(() => {
-        console.log('createTransaction error', error)
+        console.error('createTransaction error', error, error.response)
         this.errorMessage = error.response.data
       })
       this.inprogress = false
