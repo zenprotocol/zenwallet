@@ -12,7 +12,7 @@ export const isDev = () => process.env.NODE_ENV === 'development'
 
 // TODO [AdGo] 06/05/19 - rewrite this
 /* eslint-disable no-restricted-syntax */
-export const isValidBip39Word = (string: string) => {
+export const isValidBip39Word = (string: ?string) => {
   if (string) {
     for (const word of bip39Words) {
       if (word.includes(string)) {
@@ -23,7 +23,7 @@ export const isValidBip39Word = (string: string) => {
   }
 }
 
-export const isBip39Word = (string: string) => {
+export const isBip39Word = (string: ?string) => {
   if (string) {
     for (const word of bip39Words) {
       if (word === string) {
@@ -35,13 +35,13 @@ export const isBip39Word = (string: string) => {
 }
 /* eslint-enable no-restricted-syntax */
 
-export const truncateString = (string: string) => {
+export const truncateString = (string: ?string) => {
   if (string) {
     return `${string.substr(0, 6)}...${string.substr(string.length - 6)}`
   }
 }
 
-export const normalizeTokens = (number: number, isZen: boolean) => {
+export const normalizeTokens = (number: number, isZen: ?boolean) => {
   const newNumber = number / ZEN_TO_KALAPA_RATIO
   if (isZen) {
     const formattedNumber = newNumber.toLocaleString(undefined, {
@@ -53,9 +53,9 @@ export const normalizeTokens = (number: number, isZen: boolean) => {
   return number.toLocaleString()
 }
 
-export const stringToNumber = (str: string) => str && parseFloat(str.replace(/,/g, ''))
+export const stringToNumber = (str: ?string) => str && parseFloat(str.replace(/,/g, ''))
 
-export const isValidAddress = (address: string, type?: 'contract' | 'pubKey' = 'pubKey'): boolean => {
+export const isValidAddress = (address: ?string, type?: 'contract' | 'pubKey' = 'pubKey'): boolean => {
   try {
     const { prefix, words } = bech32.decode(address)
     const pkHash = bech32.fromWords(words.slice(1))
