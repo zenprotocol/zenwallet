@@ -14,6 +14,7 @@ import path from 'path'
 
 import { app, BrowserWindow, ipcMain } from 'electron'
 import zenNode from '@zen/zen-node'
+import _ from 'lodash'
 
 import db from './services/store'
 import MenuBuilder from './menu'
@@ -73,7 +74,12 @@ const installExtensions = async () => {
  * Add event listeners...
  */
 
-let node
+let node = {
+  stderr: { pipe: _.noop },
+  stdout: { pipe: _.noop, on: _.noop },
+  on: _.noop,
+  kill: _.noop,
+}
 
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
@@ -133,7 +139,7 @@ app.on('ready', async () => {
       node = zenNode(args, getZenNodePath())
       node.stderr.pipe(process.stderr)
       node.stdout.pipe(process.stdout)
- 
+
       ipcMain.on('init-fetch-logs', (event) => {
         node.stdout.on('data', (chunk) => {
           const log = chunk.toString('utf8')
@@ -148,11 +154,6 @@ app.on('ready', async () => {
       })
     } catch (err) {
       console.error('error launching zen node', err.message, err)
-      // node.on is called on closing the GUI, which will throw an error
-      // if the method doesn't exist, so we set it to a noop
-      node = {
-        on: () => {},
-      }
     }
   }
 
@@ -200,6 +201,7 @@ app.on('window-all-closed', () => {
 
 function getZenNodePath() {
   return isInstalledWithInstaller()
+    // $FlowFixMe
     ? path.join(process.resourcesPath, 'app/node_modules/@zen/zen-node')
     : undefined
 }

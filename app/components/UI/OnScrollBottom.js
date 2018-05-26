@@ -14,7 +14,9 @@ class OnScrollBottom extends React.Component<Props> {
     window.removeEventListener('scroll', this.onScroll)
   }
   onScroll = () => {
+    // $FlowFixMe
     if (document.documentElement.scrollHeight ===
+      // $FlowFixMe
       window.scrollY + document.documentElement.clientHeight) {
       this.props.onScrollBottom()
     }

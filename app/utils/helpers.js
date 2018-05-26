@@ -12,7 +12,7 @@ export const isDev = () => process.env.NODE_ENV === 'development'
 
 // TODO [AdGo] 06/05/19 - rewrite this
 /* eslint-disable no-restricted-syntax */
-export const isValidBip39Word = (string) => {
+export const isValidBip39Word = (string: string) => {
   if (string) {
     for (const word of bip39Words) {
       if (word.includes(string)) {
@@ -23,7 +23,7 @@ export const isValidBip39Word = (string) => {
   }
 }
 
-export const isBip39Word = (string) => {
+export const isBip39Word = (string: string) => {
   if (string) {
     for (const word of bip39Words) {
       if (word === string) {
@@ -35,13 +35,13 @@ export const isBip39Word = (string) => {
 }
 /* eslint-enable no-restricted-syntax */
 
-export const truncateString = (string) => {
+export const truncateString = (string: string) => {
   if (string) {
     return `${string.substr(0, 6)}...${string.substr(string.length - 6)}`
   }
 }
 
-export const normalizeTokens = (number, isZen) => {
+export const normalizeTokens = (number: number, isZen: boolean) => {
   const newNumber = number / ZEN_TO_KALAPA_RATIO
   if (isZen) {
     const formattedNumber = newNumber.toLocaleString(undefined, {
@@ -53,7 +53,7 @@ export const normalizeTokens = (number, isZen) => {
   return number.toLocaleString()
 }
 
-export const stringToNumber = str => str && parseFloat(str.replace(/,/g, ''))
+export const stringToNumber = (str: string) => str && parseFloat(str.replace(/,/g, ''))
 
 export const isValidAddress = (address: string, type?: 'contract' | 'pubKey' = 'pubKey'): boolean => {
   try {
@@ -70,11 +70,11 @@ export const isValidAddress = (address: string, type?: 'contract' | 'pubKey' = '
   }
 }
 
-export const isZenAsset = (asset) => asset === ZEN_ASSET_HASH
+export const isZenAsset = (asset: string) => asset === ZEN_ASSET_HASH
 
-export const zenToKalapa = zen => zen * ZEN_TO_KALAPA_RATIO
+export const zenToKalapa = (zen: number) => zen * ZEN_TO_KALAPA_RATIO
 
-export const getNamefromCodeComment = (code) => {
+export const getNamefromCodeComment = (code: string) => {
   const startRegex = /NAME_START:/
   const endRegex = /:NAME_END/
 
@@ -91,7 +91,7 @@ export const getNamefromCodeComment = (code) => {
   return false
 }
 
-export const validateInputNumber = (str, maxDecimal = 0) => {
+export const validateInputNumber = (str: string, maxDecimal: number = 0) => {
   if (str === '') {
     return str
   }
