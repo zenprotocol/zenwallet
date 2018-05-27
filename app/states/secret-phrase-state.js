@@ -4,7 +4,7 @@ import bip39 from 'bip39'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
-import { postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
+import { getWalletExists, postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
 
 const { alreadyRedeemedTokens } = db.get('config').value()
 
@@ -12,7 +12,7 @@ class SecretPhraseState {
   @observable mnemonicPhrase = []
   @observable autoLogoutMinutes = 30
   @observable inprogress = false
-  @observable password = isDev() ? '1234' : ''
+  @observable password = ''
   @observable importError = ''
   @observable status = ''
 
@@ -21,9 +21,7 @@ class SecretPhraseState {
     this.balances = balances
     this.activeContractSet = activeContractSet
     if (isDev()) {
-      this.balances.initPolling()
-      this.networkState.initPolling()
-      this.activeContractSet.fetch()
+      this.initDev()
     }
   }
 
@@ -119,6 +117,20 @@ class SecretPhraseState {
         }
       })
     }
+  }
+
+  initDev() {
+    this.password = '1234'
+    getWalletExists()
+      .then(doesWalletExists => {
+        // eslint-disable-next-line promise/always-return
+        if (doesWalletExists) {
+          this.balances.initPolling()
+          this.networkState.initPolling()
+          this.activeContractSet.fetch()
+        }
+      })
+      .catch(err => console.error(err))
   }
 }
 
