@@ -71,8 +71,12 @@ class ContractState {
 
         this.resetForm()
         this.status = 'success'
+        this.address = response.address
+        this.contractId = response.contractId
         setTimeout(() => {
           this.status = ''
+          this.address = ''
+          this.contractId = ''
         }, 15000)
       })
     } catch (error) {
@@ -83,6 +87,13 @@ class ContractState {
         this.errorMessage = error.response.data
       })
     }
+  }
+
+  // when user clicks "upload contract" from saved contracts route
+  @action
+  prepareToUploadSavedContract(name: string, code: string) {
+    this.name = name
+    this.code = code
   }
 
   @action

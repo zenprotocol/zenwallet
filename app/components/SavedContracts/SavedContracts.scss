@@ -1,0 +1,44 @@
+// Copied from ActiveContractSet.scss
+.saved-contracts-container {
+  .play-upload-button {
+    width: 40px;
+    display: inline-block;
+    padding-right: 0;
+    padding-left: 0;
+  }
+    tr.code {
+      position: relative;
+  
+      .contract-code {
+        position: relative;
+        height: 515px;
+      }
+  
+      pre {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: grid;
+        right: 0;
+        height: auto;
+        max-height: 500px;
+      }
+  
+        // position: static;
+        // opacity: 1;
+        // height: 200px;
+        //
+        // transition: height 500ms 0ms, opacity 500ms 500ms;
+        //
+        // &.non-visibal {
+        //   position: absolute;
+        //   transition: height 500ms 500ms, opacity 500ms 0ms;
+        //   opacity: 0;
+        //   height: 0px;
+        //
+        // }
+  
+    }
+  
+  }
+  

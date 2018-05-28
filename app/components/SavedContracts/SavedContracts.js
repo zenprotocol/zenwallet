@@ -1,20 +1,44 @@
+// @flow
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import swal from 'sweetalert'
+import Highlight from 'react-highlight'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import cx from 'classnames'
 
+import ActiveContractSetState from '../../states/acs-state'
+import ContractMessageState from '../../states/contract-message'
+import ContractState from '../../states/contract-state'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 import db from '../../services/store'
 
 const contractList = db.get('savedContracts')
 
-class SavedContracts extends Component {
-  onRemoveContractClicked() {
-    this.props.contractMessage.sendContractMessage()
+type Props = {
+  activeContractSet: ActiveContractSetState,
+  contractMessage: ContractMessageState,
+  contract: ContractState
+};
+
+@inject('contract')
+@inject('contractMessage')
+@inject('activeContractSet')
+@observer
+class SavedContracts extends Component<Props> {
+  state = {
+    showCodeSnippetForContractAddress: '',
   }
 
-  onDeleteClicked = (contractId) => {
+  toggleCodeSnippet = (address: string) => {
+    this.setState(({ showCodeSnippetForContractAddress }) => ({
+      showCodeSnippetForContractAddress: showCodeSnippetForContractAddress === address ? '' : address,
+    }))
+  }
+
+  onDeleteClicked = (contractId: string) => {
     swal({ // eslint-disable-line promise/catch-or-return
       title: 'Are you sure?',
       text: 'Are you sure that you want to delete this contract?',
@@ -30,23 +54,63 @@ class SavedContracts extends Component {
       })
   }
 
-  render() {
+  renderSavedContractsRows() {
+    const { activeContractSet } = this.props
     const listOfContracts = contractList.value()
-    const savedContracts = listOfContracts.map((contract) => (
-      <React.Fragment key={contract.contractId}>
-        <tr key={contract.contractId}>
-          <td className="text">{contract.name}</td>
-          <CopyableTableCell string={contract.contractId} />
-          <CopyableTableCell string={contract.address} />
-          <td className="align-right">
-            <Link className="button small margin-right" to={`/run-contract/${contract.address}`} >Run</Link>
-            <a className="button small alert" onClick={() => { this.onDeleteClicked(contract.contractId) }}>Delete</a>
-          </td>
-        </tr>
-        <tr className="separator" />
-      </React.Fragment>
-    ))
+    const { showCodeSnippetForContractAddress } = this.state
+    return listOfContracts.map((savedContract) => {
+      const isCodeCurrentyViewed = showCodeSnippetForContractAddress === savedContract.address
+      const viewCodeButtonText = isCodeCurrentyViewed ? 'Hide Code' : 'View Code'
+      const isContractActive = activeContractSet.activeContracts
+        .find(ac => ac.contractId === savedContract.contractId)
+      return (
+        <React.Fragment key={savedContract.contractId}>
+          <tr key={savedContract.contractId}>
+            <td className="text">{savedContract.name}</td>
+            <CopyableTableCell string={savedContract.contractId} />
+            <CopyableTableCell string={savedContract.address} />
+            <td>{ isContractActive ? 'Active' : 'Inactive' }</td>
+            <td className="align-right buttons">
+              <a
+                title="Toggle Code Snippet"
+                onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
+                className="button secondary small margin-right code"
+              >
+                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">{viewCodeButtonText}</span>
+              </a>
+              {
+                isContractActive ?
+                  (
+                    <Link title="Run Contract" className="button small play margin-right play-upload-button" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(savedContract.address)}>
+                      <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
+                    </Link>
+                  ) : (
+                    <Link className="button small margin-right play-upload-button" to="/activate-contract" title="Upload Contract" onClick={() => { this.props.contract.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
+                      <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
+                    </Link>
+                  )
+              }
+              <a className="button small alert" onClick={() => { this.onDeleteClicked(savedContract.contractId) }}>
+                <FontAwesomeIcon icon={['far', 'trash']} /> <span className="button-text">Delete</span>
+              </a>
+            </td>
+          </tr>
+          <tr className={cx('code', { 'display-none': !isCodeCurrentyViewed })}>
+            <td colSpan="5">
+              <Flexbox flexDirection="column" className="contract-code form-row">
+                <Highlight className="fsharp">
+                  {savedContract.code}
+                </Highlight>
+              </Flexbox>
+            </td>
+          </tr>
+          <tr className="separator" />
+        </React.Fragment>
+      )
+    })
+  }
 
+  render() {
     return (
       <Layout className="saved-contracts">
         <Flexbox flexDirection="column" className="saved-contracts-container">
@@ -69,12 +133,13 @@ class SavedContracts extends Component {
                   <th>Contract Name</th>
                   <th>Hash</th>
                   <th>Address</th>
+                  <th>Status</th>
                   <th className="align-right">Actions</th>
                 </tr>
                 <tr className="separator" />
               </thead>
               <tbody>
-                {savedContracts}
+                {this.renderSavedContractsRows()}
               </tbody>
             </table>
           </Flexbox>

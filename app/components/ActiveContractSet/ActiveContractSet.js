@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Highlight from 'react-highlight'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import cx from 'classnames'
 
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
@@ -33,40 +34,28 @@ class ActiveContractSet extends Component<Props, State> {
   }
 
   toggleCodeSnippet = (address: string) => {
-    const { showCodeSnippetForContractAddress } = this.state
-    if (showCodeSnippetForContractAddress === address) {
-      this.setState({ showCodeSnippetForContractAddress: '' })
-    } else {
-      this.setState({ showCodeSnippetForContractAddress: address })
-    }
+    this.setState(({ showCodeSnippetForContractAddress }) => ({
+      showCodeSnippetForContractAddress: showCodeSnippetForContractAddress === address ? '' : address,
+    }))
   }
 
-  render() {
+  renderActiveContractRows() {
     const { activeContractSet } = this.props
     const { showCodeSnippetForContractAddress } = this.state
-    const activeContractsRows = activeContractSet.activeContractsWithNames.map((contract) => {
-      const formattedBlock = contract.expire.toLocaleString()
-
-      let codeSnippetClassNames
-      let viewCodeButtonText
-      if (showCodeSnippetForContractAddress === contract.address) {
-        codeSnippetClassNames = 'code'
-        viewCodeButtonText = 'Hide Code'
-      } else {
-        codeSnippetClassNames = 'code display-none'
-        viewCodeButtonText = 'View Code'
-      }
-
+    return activeContractSet.activeContractsWithNames.map((contract) => {
+      const formattedActiveUntil = contract.expire.toLocaleString()
+      const isCodeCurrentyViewed = showCodeSnippetForContractAddress === contract.address
+      const viewCodeButtonText = isCodeCurrentyViewed ? 'Hide Code' : 'View Code'
       return (
         <Fragment key={contract.contractId}>
           <tr>
             <td className="text">{contract.name}</td>
             <CopyableTableCell string={contract.contractId} />
             <CopyableTableCell string={contract.address} />
-            <td title={`Block ${formattedBlock}`}>{formattedBlock}</td>
+            <td title={`Block ${formattedActiveUntil}`}>{formattedActiveUntil}</td>
             <td className="align-right buttons">
               <a
-                title="Show Code Snippet"
+                title="Toggle Code Snippet"
                 onClick={() => { this.toggleCodeSnippet(contract.address) }}
                 className="button secondary small margin-right code"
               >
@@ -77,7 +66,7 @@ class ActiveContractSet extends Component<Props, State> {
               </Link>
             </td>
           </tr>
-          <tr className={codeSnippetClassNames}>
+          <tr className={cx('code', { 'display-none': !isCodeCurrentyViewed })}>
             <td colSpan="5">
               <Flexbox flexDirection="column" className="contract-code form-row">
                 <Highlight className="fsharp">
@@ -90,7 +79,9 @@ class ActiveContractSet extends Component<Props, State> {
         </Fragment>
       )
     })
+  }
 
+  render() {
     return (
       <Layout className="active-contract-set">
         <Flexbox flexDirection="column" className="active-contract-set-container">
@@ -127,7 +118,7 @@ class ActiveContractSet extends Component<Props, State> {
                 <tr className="separator" />
               </thead>
               <tbody>
-                {activeContractsRows}
+                {this.renderActiveContractRows()}
               </tbody>
             </table>
           </Flexbox>

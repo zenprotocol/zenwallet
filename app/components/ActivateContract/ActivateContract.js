@@ -78,7 +78,7 @@ class ActivateContract extends Component {
     const isValidValue = /^[a-z0-9\s]+$/i.test(newValue)
     if (!isValidValue && newValue !== '') { return }
     contract.name = evt.target.value
-    if (contract.acceptedFiles.length > 0 && contract.code) {
+    if (contract.code) {
       contract.code = this.addOrUpdateCodeComment(contract.code, evt.target.value)
     }
   }
@@ -124,8 +124,8 @@ class ActivateContract extends Component {
   onActivateContractClicked = () => this.props.contract.activateContract()
 
   validateForm() {
-    const { name, acceptedFiles } = this.props.contract
-    return this.isAmountValid() && (acceptedFiles.length === 1) && !!name
+    const { name } = this.props.contract
+    return this.isAmountValid() && !!name
   }
 
   isAmountValid() {
@@ -177,7 +177,7 @@ class ActivateContract extends Component {
   renderSuccessResponse() {
     const { address, contractId, status } = this.props.contract
 
-    if (address && contractId && status === 'success') {
+    if (address && status === 'success') {
       return (
         <FormResponseMessage className="success">
           <span>
@@ -219,8 +219,8 @@ class ActivateContract extends Component {
   }
 
   renderCodeSnippet() {
-    const { code, acceptedFiles } = this.props.contract
-    if (acceptedFiles.length === 1 && code) {
+    const { code } = this.props.contract
+    if (code) {
       return (
         <Flexbox flexDirection="column" className="contract-code form-row">
           <label htmlFor="code">Code</label>
@@ -234,8 +234,8 @@ class ActivateContract extends Component {
 
   renderCostToActivate() {
     const { contract } = this.props
-    const { code, acceptedFiles, numberOfBlocks } = contract
-    if (acceptedFiles.length === 1 && code.length > 0 && numberOfBlocks > 0) {
+    const { code, numberOfBlocks } = contract
+    if (code.length > 0 && numberOfBlocks > 0) {
       let unitOfAccountText
       const activationCostInKalapa = code.length * numberOfBlocks
       if (activationCostInKalapa > 1000000) {
