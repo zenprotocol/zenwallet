@@ -1,6 +1,6 @@
 {
-  "name": "@zen/zen-wallet",
-  "version": "0.2.37",
+  "name": "zen-wallet",
+  "version": "0.2.40",
   "description": "Zen Wallet",
   "main": "./main.prod.js",
   "scripts": {
@@ -10,9 +10,6 @@
   "author": {
     "name": "Zen Protocol",
     "email": "info@zenprotocol.com"
-  },
-  "devDependencies": {
-    "electron": "^1.8.4"
   },
   "dependencies": {
     "@zen/zen-node": "^0.3.2",

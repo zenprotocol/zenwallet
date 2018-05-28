@@ -21,6 +21,6 @@ echo "resetting release branch to master"
 git reset --hard master
 echo "pushing release branch"
 git push -f --no-verify --set-upstream origin release
-printf "\n" 
+printf "\n"
 echo "run 'npm run build && npm pack' to create npm package file"
-echo "run 'npm run packackge' to create installer file for your local platform"
+echo "run 'npm run package' to create installer file for your local platform"
