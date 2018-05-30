@@ -43,9 +43,9 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "Zen Protocol Wallet",
+    "productName": "Zen Protoco:l Wallet",
     "extraResources": "app/node_modules/@zen/zen-node",
-    "appId": "com.zenprotocol.ZenWallet",
+    "appId": "com.zenprotocol.wallet",
     "files": [
       "bin/zen-wallet.js",
       "assets/",
@@ -59,12 +59,13 @@
     "dmg": {
       "contents": [
         {
-          "x": 130,
-          "y": 220
+          "x": 200,
+          "y": 308,
+	  "type": "file"
         },
         {
-          "x": 410,
-          "y": 220,
+          "x": 450,
+          "y": 308,
           "type": "link",
           "path": "/Applications"
         }
@@ -77,10 +78,11 @@
     },
     "linux": {
       "target": [
-        "deb",
-        "AppImage"
+        "tar.gz"
       ],
-      "category": "Development"
+      "category": "Development",
+      "icon":"./build/icons"
+
     },
     "directories": {
       "buildResources": "resources",
