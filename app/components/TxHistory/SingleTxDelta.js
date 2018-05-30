@@ -14,9 +14,7 @@ class SingleTxDelta extends Component {
       <React.Fragment>
         <CopyableTableCell string={asset} />
         <td>{isZenAsset(asset) && 'ZENP'}</td>
-        <td className={amountClass}>
-          {finalAmount}
-        </td>
+        <td className={amountClass}>{finalAmount}</td>
       </React.Fragment>
 
     )

@@ -15,8 +15,11 @@ table {
 
   tbody {
     tr { font-size: 0.85rem; }
-    td { padding: 12px 0px 12px 16px; }
-    td:last-child { padding: 12px 16px; }
+    td {
+      width: 220px;
+      padding: 12px 0px 12px 16px;
+    }
+    td.align-right:last-child { padding: 12px 16px; }
   }
 
   th { color: $bright-grey; }
@@ -27,6 +30,12 @@ table {
     &.separator { height: 2px; }
 
     &:hover { background: $table-row-hover; }
+
+    &.with-sub-cells {
+      td {
+        // width: 20%;
+      }
+    }
   }
 
   td {
@@ -36,7 +45,7 @@ table {
   }
 
   td.copyable {
-    min-width: 142px;
+    // min-width: 142px;
 
     svg {
       opacity: 0;
@@ -52,7 +61,9 @@ table {
 
   td.multiple-inner-tx-deltas { padding: 0; }
 
-  tr:hover td.multiple-inner-tx-deltas table tbody tr td { background: $table-row-hover; }
+  tr:hover td.multiple-inner-tx-deltas table tbody tr td {
+    background: $table-row-hover;
+  }
 
 }
 
