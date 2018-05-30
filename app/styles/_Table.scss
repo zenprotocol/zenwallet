@@ -19,7 +19,9 @@ table {
       width: 220px;
       padding: 12px 0px 12px 16px;
     }
-    td.align-right:last-child { padding: 12px 16px; }
+    td.align-right:last-child {
+      padding-right: 16px !important;
+    }
   }
 
   th { color: $bright-grey; }
@@ -38,11 +40,12 @@ table {
     }
   }
 
-  td {
-    td.multiple-inner-tx-deltas table tbody td {
-      background: green;
+  td.multiple-inner-tx-deltas {
+    table tbody td {
+      padding: 3px 0px 12px 16px !important;
     }
   }
+
 
   td.copyable {
     // min-width: 142px;
