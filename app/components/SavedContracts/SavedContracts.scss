@@ -1,12 +1,11 @@
 // Copied from ActiveContractSet.scss
 .saved-contracts-container {
-  td.buttons {
-    display: flex;
-    justify-content: flex-end;
-    .button {
-      height: 29px;
-    }
+
+  table tbody td.buttons {
+    .button { height: 29px; }
+    min-width: 160px;
   }
+
   .play-upload-button {
     display: inline-block;
     padding-right: 0;
@@ -15,16 +14,23 @@
     @media screen and (max-width: 1250px) {
       min-width: 42px;
     }
-    
+
+    .code-button {
+      min-width: 90px;
+      @media screen and (max-width: 1250px) {
+        min-width: 42px;
+      }
+    }
+
   }
     tr.code {
       position: relative;
-  
+
       .contract-code {
         position: relative;
         height: 515px;
       }
-  
+
       pre {
         position: absolute;
         top: 0;
@@ -34,7 +40,7 @@
         height: auto;
         max-height: 500px;
       }
-  
+
         // position: static;
         // opacity: 1;
         // height: 200px;
@@ -48,8 +54,7 @@
         //   height: 0px;
         //
         // }
-  
+
     }
-  
+
   }
-  

@@ -89,7 +89,7 @@ class SavedContracts extends Component<Props, State> {
               <a
                 title="Toggle Code Snippet"
                 onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
-                className="button secondary small margin-right"
+                className="button secondary small margin-right code"
               >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
               </a>
