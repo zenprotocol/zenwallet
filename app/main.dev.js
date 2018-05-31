@@ -126,13 +126,14 @@ app.on('window-all-closed', () => {
 function getZenNodePath() {
   return isInstalledWithInstaller()
     // $FlowFixMe
-    ? path.join(process.resourcesPath, 'app/node_modules/@zen/zen-node')
-    : undefined
+    ? path.join(process.resourcesPath, '/node_modules/@zen/zen-node')
+    : path.join(__dirname, '../node_modules/@zen/zen-node')
 }
 
 function isInstalledWithInstaller() {
-  return __dirname.includes('app.asar') // tested on linux. below is an alternative
-  // return process.resourcesPath.includes('node_modules/electron/dist')
+  return !process.resourcesPath.includes('node_modules/electron/dist')
+
+  //return __dirname.includes('app.asar') // tested on linux. below is an alternative
   // TODO [AdGo] 15/05/2018 - delete these comments after confirming it works
   // on os and windows
 }
