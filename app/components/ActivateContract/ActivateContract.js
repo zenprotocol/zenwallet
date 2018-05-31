@@ -130,7 +130,7 @@ class ActivateContract extends Component {
 
   isAmountValid() {
     const { numberOfBlocks, code } = this.props.contract
-    return calcMaxBlocksForContract(this.props.balances.zen, code.length) >= numberOfBlocks
+    return numberOfBlocks && calcMaxBlocksForContract(this.props.balances.zen, code.length) >= numberOfBlocks
   }
 
   isSubmitButtonDisabled() {

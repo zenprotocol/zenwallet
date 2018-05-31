@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
@@ -23,11 +23,15 @@ type Props = {
   contract: ContractState
 };
 
+type State = {
+  showCodeSnippetForContractAddress: string
+};
+
 @inject('contract')
 @inject('contractMessage')
 @inject('activeContractSet')
 @observer
-class SavedContracts extends Component<Props> {
+class SavedContracts extends Component<Props, State> {
   state = {
     showCodeSnippetForContractAddress: '',
   }
@@ -60,26 +64,18 @@ class SavedContracts extends Component<Props> {
     const { showCodeSnippetForContractAddress } = this.state
     return listOfContracts.map((savedContract) => {
       const isCodeCurrentyViewed = showCodeSnippetForContractAddress === savedContract.address
-      const viewCodeButtonText = isCodeCurrentyViewed ? 'Hide Code' : 'View Code'
-      const isContractActive = activeContractSet.activeContracts
+      const matchingActiveContract = activeContractSet.activeContracts
         .find(ac => ac.contractId === savedContract.contractId)
       return (
-        <React.Fragment key={savedContract.contractId}>
+        <Fragment key={savedContract.contractId}>
           <tr key={savedContract.contractId}>
             <td className="text">{savedContract.name}</td>
             <CopyableTableCell string={savedContract.contractId} />
             <CopyableTableCell string={savedContract.address} />
-            <td>{ isContractActive ? 'Active' : 'Inactive' }</td>
+            <td>{ matchingActiveContract ? matchingActiveContract.expire.toLocaleString() : 'Inactive' }</td>
             <td className="align-right buttons">
-              <a
-                title="Toggle Code Snippet"
-                onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
-                className="button secondary small margin-right code"
-              >
-                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">{viewCodeButtonText}</span>
-              </a>
               {
-                isContractActive ?
+                matchingActiveContract ?
                   (
                     <Link title="Run Contract" className="button small play margin-right play-upload-button" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(savedContract.address)}>
                       <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
@@ -90,8 +86,15 @@ class SavedContracts extends Component<Props> {
                     </Link>
                   )
               }
+              <a
+                title="Toggle Code Snippet"
+                onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
+                className="button secondary small margin-right"
+              >
+                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
+              </a>
               <a className="button small alert" onClick={() => { this.onDeleteClicked(savedContract.contractId) }}>
-                <FontAwesomeIcon icon={['far', 'trash']} /> <span className="button-text">Delete</span>
+                <FontAwesomeIcon icon={['far', 'trash']} />
               </a>
             </td>
           </tr>
@@ -105,7 +108,7 @@ class SavedContracts extends Component<Props> {
             </td>
           </tr>
           <tr className="separator" />
-        </React.Fragment>
+        </Fragment>
       )
     })
   }
@@ -133,7 +136,7 @@ class SavedContracts extends Component<Props> {
                   <th>Contract Name</th>
                   <th>Hash</th>
                   <th>Address</th>
-                  <th>Status</th>
+                  <th>Active Until</th>
                   <th className="align-right">Actions</th>
                 </tr>
                 <tr className="separator" />
