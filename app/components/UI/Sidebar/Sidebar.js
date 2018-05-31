@@ -104,7 +104,7 @@ class Sidebar extends Component {
     return (
       <nav className={`sidebar ${this.props.className}`}>
         <div className="logo">
-          <Link to="/">
+          <Link to="/portfolio">
             <img src={LOGO_SRC} alt="Zen Protocol Logo" />
           </Link>
         </div>
