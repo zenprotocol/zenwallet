@@ -11,8 +11,9 @@ class BalancesState {
     @observable assets = []
     @observable searchQuery = ''
 
-    constructor() {
+    constructor(acsState) {
       this.fetch = this.fetch.bind(this)
+      this.acsState = acsState
     }
 
     @action
@@ -28,9 +29,18 @@ class BalancesState {
 
     @action
     async fetch() {
-      const result = await getBalances()
-      runInAction(() =>
-        this.assets.replace(result))
+      const assets = await getBalances()
+      runInAction(() => this.assets.replace(assets))
+      // if there's a balance without asset name, check ACS if matching contract exists
+      // if it does, save it to DB
+      assets.filter(asset => !this.getAssetName(asset.asset))
+        .forEach(asset => {
+          const matchingActiveContract =
+            this.acsState.activeContractsWithNames.find(ac => ac.contractId === asset.asset)
+          if (matchingActiveContract) {
+            db.get('savedContracts').push(matchingActiveContract).write()
+          }
+        })
     }
 
     getAssetName(asset) { // eslint-disable-line class-methods-use-this

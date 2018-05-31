@@ -11,10 +11,10 @@ import SecretPhraseState from './secret-phrase-state'
 import BlockchainLogsState from './blockchain-logs-state'
 import ModalState from './modal-state'
 
-const balances = new BalancesState()
+const activeContractSet = new ActiveContractSetState()
+const balances = new BalancesState(activeContractSet)
 const publicAddress = new PublicAddressState()
 const networkState = new NetworkState()
-const activeContractSet = new ActiveContractSetState()
 const secretPhraseState = new SecretPhraseState(networkState, balances, activeContractSet)
 const transaction = new TransactionState(secretPhraseState)
 const txhistory = new TxHistoryState()
