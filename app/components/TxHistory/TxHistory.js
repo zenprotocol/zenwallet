@@ -24,7 +24,9 @@ class TxHistory extends Component {
 
     if (tx.deltas.length > 1) {
       const deltasRows = tx.deltas.map(tx => (
-        <tr key={tx.asset}><SingleTxDelta tx={tx} /></tr>
+        <tr key={tx.asset}>
+          <SingleTxDelta tx={tx} />
+        </tr>
       ))
 
       return (

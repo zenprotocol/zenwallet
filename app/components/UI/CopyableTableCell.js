@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { truncateString } from '../../utils/helpers'
+import { truncateString, isZenAsset } from '../../utils/helpers'
 
 const { clipboard } = require('electron')
 
@@ -24,7 +24,10 @@ class CopyableTableCell extends Component {
   render() {
     const { string } = this.props
     const { copyText } = this.state
-    const truncatedString = truncateString(string)
+    let truncatedString = string
+    if (!isZenAsset(string)) {
+      truncatedString = truncateString(string)
+    }
 
     return (
       <td className="align-left copyable" title={string}>
