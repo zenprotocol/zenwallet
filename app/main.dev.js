@@ -21,25 +21,6 @@ import MenuBuilder from './menu'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
 
-db.defaults({
-  userPreferences: {
-    width: 1200,
-    height: 800,
-  },
-  savedContracts: [
-    {
-      name: 'Jezreel Valley Adumim 2018 Red',
-      contractId: '99f1aed539e83caa26467a0143024c197421fdab7bc1aff905fce314c48b7f80',
-      address: 'tc1qn8c6a4feaq725fjx0gq5xqjvr96zrldt00q6l7g9ln33f3yt07qq2qt6a7',
-    },
-  ],
-  config: {
-    alreadyRedeemedTokens: false,
-    autoLogoutMinutes: 30,
-    miner: false,
-  },
-}).write()
-
 let mainWindow = null
 
 if (process.env.NODE_ENV === 'production') {
