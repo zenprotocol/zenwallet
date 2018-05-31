@@ -1,6 +1,6 @@
 // @flow
 import { get, post } from 'axios'
-import type { observableArray } from 'mobx'
+import type { observableArray } from 'mobx-react'
 
 import { isZenAsset } from '../utils/helpers'
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
