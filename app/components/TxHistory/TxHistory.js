@@ -23,7 +23,7 @@ class TxHistory extends Component {
     }
 
     if (tx.deltas.length > 1) {
-      const deltasRows = tx.deltas.map(tx => (
+      const deltasRows = tx.deltas.reverse().map(tx => (
         <tr key={tx.asset}>
           <SingleTxDelta tx={tx} />
         </tr>
