@@ -153,6 +153,7 @@ class SetPassword extends Component {
             <Flexbox flexDirection="column" flexGrow={0} justifyContent="flex-end" >
               <div className="input-group">
                 <input
+                  autoFocus
                   name="password"
                   type={inputType}
                   value={password}
