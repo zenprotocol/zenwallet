@@ -29,8 +29,12 @@ class ActiveContractSet extends Component<Props, State> {
     showCodeSnippetForContractAddress: '',
   }
 
-  componentWillMount() {
-    this.props.activeContractSet.fetch()
+  componentDidMount() {
+    this.props.activeContractSet.initPolling()
+  }
+
+  componentWillUnmount() {
+    this.props.activeContractSet.stopPolling()
   }
 
   toggleCodeSnippet = (address: string) => {
@@ -45,7 +49,6 @@ class ActiveContractSet extends Component<Props, State> {
     return activeContractSet.activeContractsWithNames.map((contract) => {
       const formattedActiveUntil = contract.expire.toLocaleString()
       const isCodeCurrentyViewed = showCodeSnippetForContractAddress === contract.address
-      const viewCodeButtonText = isCodeCurrentyViewed ? 'Hide Code' : 'View Code'
       return (
         <Fragment key={contract.contractId}>
           <tr>
@@ -59,7 +62,7 @@ class ActiveContractSet extends Component<Props, State> {
                 onClick={() => { this.toggleCodeSnippet(contract.address) }}
                 className="button secondary small margin-right code"
               >
-                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">{viewCodeButtonText}</span>
+                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
               </a>
               <Link title="Run Contract" className="button small play" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(contract.address)}>
                 <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>

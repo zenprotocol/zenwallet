@@ -6,13 +6,18 @@ import { getNamefromCodeComment } from '../utils/helpers'
 
 class ActiveContractSetState {
   activeContracts = observable.array([])
+  isPolling = false
+  pollTimeout = null
 
-  @action
+  @action.bound
   async fetch() {
     const result = await getActiveContractSet()
     runInAction(() => {
       this.activeContracts.replace(result)
     })
+    if (this.isPolling) {
+      this.pollTimeout = setTimeout(this.fetch, 3000)
+    }
   }
 
   @computed
@@ -21,6 +26,17 @@ class ActiveContractSetState {
       const name = getNamefromCodeComment(contract.code) || ''
       return { ...contract, name }
     })
+  }
+
+  initPolling() {
+    this.isPolling = true
+    this.fetch()
+  }
+
+  stopPolling() {
+    // $FlowFixMe
+    clearTimeout(this.pollTimeout)
+    this.isPolling = false
   }
 }
 
