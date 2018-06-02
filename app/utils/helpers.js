@@ -49,7 +49,9 @@ export const isBip39Word = (string: ?string) => {
 
 export const truncateString = (string: ?string) => {
   if (string) {
-    return `${string.substr(0, 6)}...${string.substr(string.length - 6)}`
+    return string.length > 12
+      ? `${string.substr(0, 6)}...${string.substr(string.length - 6)}`
+      : string
   }
 }
 
