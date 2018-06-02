@@ -1,52 +1,41 @@
 import React, { Component } from 'react'
-import { inject, observer, PropTypes as PropTypesMobx } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Dropzone from 'react-dropzone'
-import PropTypes from 'prop-types'
 import { head } from 'lodash'
 import Highlight from 'react-highlight'
+import cx from 'classnames'
 
 import { normalizeTokens, zenToKalapa, stringToNumber } from '../../utils/helpers'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
+import ContractState from '../../states/contract-state'
+import BalancesState from '../../states/balances-state'
 
 const { shell } = require('electron')
 
 const startRegex = /NAME_START:/
 const endRegex = /:NAME_END/
 
+type Props = {
+  contract: ContractState,
+  balances: BalancesState
+};
+
 @inject('contract')
 @inject('balances')
 @observer
-class ActivateContract extends Component {
-  static propTypes = {
-    contract: PropTypes.shape({
-      name: PropTypes.string,
-      status: PropTypes.string,
-      address: PropTypes.string,
-      contractId: PropTypes.string,
-      dragDropText: PropTypes.string,
-      inprogress: PropTypes.boolean,
-      acceptedFiles: PropTypesMobx.observableArray,
-      rejectedFiles: PropTypesMobx.observableArray,
-      resetForm: PropTypes.func,
-      activateContract: PropTypes.func,
-    }).isRequired,
-    balances: PropTypes.shape({
-      zen: PropTypes.string,
-    }).isRequired,
-  }
-
+class ActivateContract extends Component<Props> {
   componentWillUnmount() {
     if (this.props.contract.status === 'success') {
       this.props.contract.resetForm()
     }
   }
 
-  onDrop(acceptedFiles, rejectedFiles) {
+  onDrop = (acceptedFiles, rejectedFiles) => {
     const { contract } = this.props
     acceptedFiles.forEach(file => {
       const reader = new FileReader()
@@ -123,33 +112,20 @@ class ActivateContract extends Component {
 
   onActivateContractClicked = () => this.props.contract.activateContract()
 
-  validateForm() {
+  isFormValid() {
     const { name } = this.props.contract
     return this.isAmountValid() && !!name
   }
 
   isAmountValid() {
     const { numberOfBlocks, code } = this.props.contract
-    return numberOfBlocks && calcMaxBlocksForContract(this.props.balances.zen, code.length) >= numberOfBlocks
+    return numberOfBlocks &&
+      calcMaxBlocksForContract(this.props.balances.zen, code.length) >= numberOfBlocks
   }
 
   isSubmitButtonDisabled() {
     const { inprogress } = this.props.contract
-    const formIsValid = this.validateForm()
-
-    if (formIsValid && inprogress) { return true }
-    if (!formIsValid) { return true }
-    if (formIsValid) { return false }
-  }
-
-  renderActivateButtonText() {
-    const { inprogress } = this.props.contract
-    return (inprogress ? 'Activating' : 'Activate')
-  }
-
-  renderClassNames() {
-    const { inprogress } = this.props.contract
-    return (inprogress ? 'button-on-right loading' : 'button-on-right')
+    return !this.isFormValid() || inprogress
   }
 
   renderCancelIcon() {
@@ -259,7 +235,7 @@ class ActivateContract extends Component {
 
   render() {
     const {
-      dragDropText, name, numberOfBlocks, code,
+      dragDropText, name, numberOfBlocks, code, inprogress, resetForm, formIsDirty,
     } = this.props.contract
 
     let dropzoneRef
@@ -286,7 +262,7 @@ class ActivateContract extends Component {
                   activeClassName="active"
                   multiple={false}
                   accept=".fst"
-                  onDrop={this.onDrop.bind(this)}
+                  onDrop={this.onDrop}
                 >
                   <p>{dragDropText}</p>
                 </Dropzone>
@@ -333,10 +309,16 @@ class ActivateContract extends Component {
             <Flexbox flexGrow={2} />
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
               <button
-                className={this.renderClassNames()}
+                className={cx('button-on-right', 'secondary')}
+                disabled={formIsDirty || inprogress}
+                onClick={resetForm}
+              >Clear form
+              </button>
+              <button
+                className={cx('button-on-right', { loading: inprogress })}
                 disabled={this.isSubmitButtonDisabled()}
                 onClick={this.onActivateContractClicked}
-              >{this.renderActivateButtonText()}
+              >{inprogress ? 'Activating' : 'Activate'}
               </button>
             </Flexbox>
           </Flexbox>
@@ -350,8 +332,8 @@ export default ActivateContract
 
 export function calcMaxBlocksForContract(zenBalance, codeLength) {
   // TODO [AdGo] 06/05/18 - fix predicitibility of zen balance to number or string
-  // and enfore triple === check
-  if (zenBalance == 0 || codeLength === 0) {
+  // and remove casting to number
+  if (Number(zenBalance) === 0 || codeLength === 0) {
     return 0
   }
   const zenBalanceInKalapas = zenToKalapa(stringToNumber(zenBalance))

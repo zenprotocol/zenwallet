@@ -96,7 +96,11 @@ class ContractState {
     this.code = code
   }
 
-  @action
+  get formIsDirty(): boolean {
+    return !(this.name || this.code || this.numberOfBlocks)
+  }
+
+  @action.bound
   resetForm() {
     this.name = ''
     this.dragDropText = initialDragDropText
