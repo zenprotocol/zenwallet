@@ -1,1 +1,29 @@
+@import "styles/Variables";
+
 .relative { position: relative; }
+
+.pull-right { float: right; }
+.pull-left { float: left; }
+
+.full-width { width: 100%; }
+
+.devider {
+  width: 100%;
+  margin: 19px 0;
+  border: none;
+  border-bottom: 1px solid $border-color;
+}
+
+.align-left { text-align: left; }
+.align-right { text-align: right; }
+
+.truncate {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bold { font-weight: 500 !important; }
+
+.display-none { display: none !important; }

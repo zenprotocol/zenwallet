@@ -66,69 +66,19 @@ app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
   }
-  const { width: _width, height: _height } = db.get('userPreferences').value()
-  mainWindow = new BrowserWindow({
-    width: _width,
-    height: _height,
-    title: app.getName(),
-  })
-
-  mainWindow.on('resize', () => {
-    if (!mainWindow) { return }
-    const { width, height } = mainWindow.getBounds()
-    db.get('userPreferences').assign({ width, height }).write()
-  })
 
   console.log('process.argv', process.argv)
 
-  let args = []
+  mainWindow = getMainWindow(app.getName())
+  mainWindow.on('resize', saveWindowDimensionsToDb)
 
-  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1) {
-    args.push('--wipe')
-    console.log('WIPING DB')
-  } else {
-    console.log('NOT WIPING DB')
-  }
-
-  if (process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1) {
-    args = args.concat(['--wipe', 'full'])
-    console.log('FULLY WIPING DB')
-  } else {
-    console.log('NOT FULLY WIPING DB')
-  }
-
-  if (process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1) {
-    args.push('--miner')
-    console.log('RUNNING A MINER')
-  } else {
-    console.log('NOT RUNNING A MINER')
-  }
-
-  if (process.env.ZEN_LOCAL) {
-    console.log('Running locally and mining')
-    args = args.concat(['--chain', 'local', '--miner'])
-  }
-
-  console.log('process args', args)
-
-  if (isUiOnly) {
-    console.log('OPENING UI ONLY')
-  } else {
-    console.log('LAUNCHING NODE')
+  if (!isUiOnly) {
+    console.log('LAUNCHING ZEN NODE')
     try {
-      console.log('getZenNodePath()', getZenNodePath())
-      node = zenNode(args, getZenNodePath())
+      node = zenNode(getZenNodeArgs(), getZenNodePath())
       node.stderr.pipe(process.stderr)
       node.stdout.pipe(process.stdout)
-
-      ipcMain.on('init-fetch-logs', (event) => {
-        node.stdout.on('data', (chunk) => {
-          const log = chunk.toString('utf8')
-          console.log(`Received ${log} bytes of data.`)
-          event.sender.send('blockchainLogs', log)
-        })
-      })
-
+      setupLogFetching()
       node.on('exit', () => {
         console.log('Closed')
         app.quit()
@@ -150,18 +100,15 @@ app.on('ready', async () => {
     mainWindow.focus()
   })
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+  mainWindow.on('closed', () => { mainWindow = null })
 
-  const menuBuilder = new MenuBuilder(mainWindow)
-  menuBuilder.buildMenu()
+  buildElectronMenu()
 
   process.on('SIGINT', () => {
     console.log('Please close zen-wallet by closing the app window')
-    if (isUiOnly) {
-      app.quit()
-    } else {
+    app.quit()
+    // this might be redundant, this scenario only happens when it's not UiOnly
+    if (!isUiOnly) {
       console.log('Sending SIGINT to Node')
       node.kill('SIGINT')
     }
@@ -169,14 +116,10 @@ app.on('ready', async () => {
 })
 
 app.on('window-all-closed', () => {
-  if (isUiOnly) {
-    // Respect the OSX convention of having the application in memory even
-    // after all windows have been closed
-    app.quit()
-  } else if (process.platform !== 'darwin') {
+  app.quit()
+  if (!isUiOnly) {
     console.log('Sending SIGINT to Node')
     node.kill('SIGINT')
-    app.quit()
   }
 })
 
@@ -192,4 +135,56 @@ function isInstalledWithInstaller() {
   // return process.resourcesPath.includes('node_modules/electron/dist')
   // TODO [AdGo] 15/05/2018 - delete these comments after confirming it works
   // on os and windows
+}
+
+function getMainWindow(title) {
+  const { width, height } = db.get('userPreferences').value()
+  return new BrowserWindow({
+    width,
+    height,
+    title,
+  })
+}
+
+function saveWindowDimensionsToDb() {
+  if (!mainWindow) { return }
+  const { width, height } = mainWindow.getBounds()
+  db.get('userPreferences').assign({ width, height }).write()
+}
+
+function getZenNodeArgs() {
+  let args = []
+  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1) {
+    console.log('WIPING DB')
+    args.push('--wipe')
+  }
+  if (process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1) {
+    console.log('FULLY WIPING DB')
+    args = [...args, '--wipe', 'full']
+  }
+  if (process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value()) {
+    console.log('RUNNING A MINER')
+    args.push('--miner')
+  }
+  if (process.env.ZEN_LOCAL) {
+    console.log('Running locally and mining')
+    args = [...args, '--chain', 'local', '--miner']
+  }
+  console.log('Zen node args', args)
+  return args
+}
+
+function setupLogFetching() {
+  ipcMain.on('init-fetch-logs', (event) => {
+    node.stdout.on('data', (chunk) => {
+      const log = chunk.toString('utf8')
+      console.log(`Received ${log} bytes of data.`)
+      event.sender.send('blockchainLogs', log)
+    })
+  })
+}
+
+function buildElectronMenu() {
+  const menuBuilder = new MenuBuilder(mainWindow)
+  menuBuilder.buildMenu()
 }

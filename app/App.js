@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider } from 'mobx-react'
 import MobxDevTools from 'mobx-react-devtools'
 
+import Idle from './components/Idle'
 import ModalContainer from './components/ModalContainer'
 import history from './services/history'
 import states from './states'
@@ -14,6 +15,7 @@ export default class App extends React.Component {
       <React.Fragment>
         <Provider history={history} {...states}>
           <React.Fragment>
+            <Idle />
             <Routes />
             <ModalContainer />
           </React.Fragment>
