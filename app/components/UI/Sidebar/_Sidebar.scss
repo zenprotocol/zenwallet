@@ -33,7 +33,10 @@ nav.sidebar {
   }
 
   ul {
-
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    li:last-child { margin-top: auto; }  
     span {
       display: block;
       padding: 15px;
@@ -46,7 +49,7 @@ nav.sidebar {
       position: relative;
       text-transform: uppercase;
       display: block;
-      padding: 10px 10px 10px 24px;
+      padding: 6px 10px 6px 24px;
       color: $bright-grey;
       text-decoration: none;
       line-height: 1.5rem;
@@ -83,12 +86,5 @@ nav.sidebar {
     // li:nth-child(4) a:before { content: '\f024'; }
     // li:nth-child(5) a:before { content: '\f002'; }
     // li:last-child   a:before { content: '\f013'; }
-
-    li.settings {
-      bottom: 0;
-      position: absolute;
-      width: 200px;
-    }
   }
-
 }
