@@ -36,6 +36,14 @@ class SavedContracts extends Component<Props, State> {
     showCodeSnippetForContractAddress: '',
   }
 
+  componentDidMount() {
+    this.props.activeContractSet.initPolling()
+  }
+
+  componentWillUnmount() {
+    this.props.activeContractSet.stopPolling()
+  }
+
   toggleCodeSnippet = (address: string) => {
     this.setState(({ showCodeSnippetForContractAddress }) => ({
       showCodeSnippetForContractAddress: showCodeSnippetForContractAddress === address ? '' : address,
