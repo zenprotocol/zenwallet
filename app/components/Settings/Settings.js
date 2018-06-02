@@ -1,25 +1,30 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
+import Switch from 'react-switch'
 
+import SecretPhraseState from '../../states/secret-phrase-state'
 import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
 import './Settings.scss'
 
+type Props = {
+  secretPhraseState: SecretPhraseState
+};
+
+type State = {
+  isChangePasswordActive: boolean,
+  isPasswordVisible: boolean,
+  password: string,
+  newPassword: string,
+  newPasswordConfirmation: string
+};
+
 @inject(['secretPhraseState'/* , 'modalState' */]) // add modal state once modal PR is merged
 @observer
-class Settings extends Component {
-  static propTypes = {
-    secretPhraseState: PropTypes.shape({
-      autoLogoutMinutes: PropTypes.number.isRequired,
-      password: PropTypes.string.isRequired,
-      setPassword: PropTypes.func.isRequired,
-      setAutoLogout: PropTypes.func.isRequired,
-    }).isRequired,
-  }
+class Settings extends Component<Props, State> {
   state = {
     isChangePasswordActive: false,
     isPasswordVisible: false,
@@ -46,12 +51,14 @@ class Settings extends Component {
     this.setState({ isChangePasswordActive: true })
   }
   onSetNewPassword = () => {
-    this.props.secretPhraseState.setPassword(this.state.newPassword)
+    // this.props.secretPhraseState.setPassword(this.state.newPassword)
   }
-  onAutoLogoutChanged = (evt) => {
-    this.props.secretPhraseState.setAutoLogout(evt.target.value)
+  onAutoLogoutMinutesChanged = (evt) => {
+    this.props.secretPhraseState.setAutoLogoutMinutes(evt.target.value)
   }
+
   render() {
+    const { secretPhraseState } = this.props
     const {
       isPasswordVisible, password, newPassword, newPasswordConfirmation, isChangePasswordActive,
     } = this.state
@@ -62,7 +69,7 @@ class Settings extends Component {
           <h1>General settings</h1>
         </Flexbox>
 
-        <Flexbox className="row">
+        <Flexbox className="row" style={{ display: 'none' }}>
           <Flexbox flexDirection="column" className="description">
             <h2 className="description-title">Password</h2>
             <p>Change your password</p>
@@ -125,14 +132,14 @@ class Settings extends Component {
                 min="1"
                 max="120"
                 className="input-group-field"
-                value={this.props.secretPhraseState.autoLogoutMinutes}
-                onChange={this.onAutoLogoutChanged}
+                value={secretPhraseState.autoLogoutMinutes}
+                onChange={this.onAutoLogoutMinutesChanged}
               />
               <span className="input-group-label with-background">MIN</span>
             </div>
           </Flexbox>
         </Flexbox>
-        <Flexbox className="row">
+        <Flexbox className="row" style={{ display: 'none' }}>
           <Flexbox flexDirection="column" className="description">
             <h2 className="description-title">Show mnemonic</h2>
             <p>Display your mnemonic for account recovery</p>
@@ -143,12 +150,28 @@ class Settings extends Component {
         </Flexbox>
         <Flexbox className="row">
           <Flexbox flexDirection="column" className="description">
-            <h2 className="description-title">Mining</h2>
+            <h2 className="description-title">Resync wallet</h2>
           </Flexbox>
           <Flexbox flexDirection="column" className="actions">
-            <div className="text-right">
-            On
-            </div>
+            <button className="btn-block" onClick={secretPhraseState.resync}>Resync wallet</button>
+          </Flexbox>
+        </Flexbox>
+        <Flexbox className="row">
+          <Flexbox flexDirection="column" className="description">
+            <h2 className="description-title">Mining</h2>
+            {secretPhraseState.isMiningChangedSinceInit && (
+            <p className="mining-text">Please restart the program to complete the process</p>)}
+          </Flexbox>
+          <Flexbox flexDirection="column" className="actions">
+            <label htmlFor="miner-switch">
+              <Switch
+                className="pull-right"
+                onColor="#2f8be6"
+                onChange={secretPhraseState.toggleMining}
+                checked={secretPhraseState.isMining}
+                id="miner-switch"
+              />
+            </label>
           </Flexbox>
         </Flexbox>
       </Layout>

@@ -6,15 +6,16 @@ import history from '../services/history'
 import { isDev } from '../utils/helpers'
 import { getWalletExists, postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
 
-const { alreadyRedeemedTokens } = db.get('config').value()
-
+const { alreadyRedeemedTokens, autoLogoutMinutes, isMining } = db.get('config').value()
 class SecretPhraseState {
   @observable mnemonicPhrase = []
-  @observable autoLogoutMinutes = 30
+  @observable autoLogoutMinutes = autoLogoutMinutes
   @observable inprogress = false
   @observable password = ''
   @observable importError = ''
   @observable status = ''
+  @observable isMining = isMining
+  @observable initialIsMining = isMining
 
   constructor(networkState, balances, activeContractSet) {
     this.networkState = networkState
@@ -23,6 +24,10 @@ class SecretPhraseState {
     if (isDev()) {
       this.initDev()
     }
+  }
+
+  get isLoggedIn() {
+    return !!this.password
   }
 
   @action.bound
@@ -51,7 +56,7 @@ class SecretPhraseState {
     } catch (error) {
       console.error(error)
       if (error && error.response) {
-        console.errror(error.response)
+        console.error(error.response)
       }
     }
   }
@@ -101,24 +106,47 @@ class SecretPhraseState {
   @action
   async resync() { // eslint-disable-line class-methods-use-this
     console.log('wallet resync')
-
     try {
       const response = await getWalletResync()
-
-      runInAction(() => {
-        console.log('resync response', response)
-      })
-    } catch (error) {
-      runInAction(() => {
-        try {
-          console.log('resync error.response', error.response)
-        } catch (e) {
-          console.log('resync catch e', e)
-        }
-      })
+      console.log('resync response', response)
+    } catch (err) {
+      if (err && err.response) {
+        console.log('resync err', err.response)
+      } else {
+        console.log('resync err', err)
+      }
     }
   }
 
+  @action
+  setAutoLogoutMinutes(minutes) {
+    minutes = Number(minutes)
+    if (minutes < 1) { minutes = 1 }
+    if (minutes > 120) { minutes = 120 }
+    this.autoLogoutMinutes = minutes
+    db.set('config.autoLogoutMinutes', minutes).write()
+  }
+
+  @action.bound
+  toggleMining(_isMining) {
+    db.set('config.isMining', _isMining).write()
+    this.isMining = _isMining
+  }
+
+  get isMiningChangedSinceInit() {
+    return this.isMining !== this.initialIsMining
+  }
+
+  @action
+  logout() {
+    this.mnemonicPhrase = []
+    this.password = ''
+    this.importError = ''
+    this.status = ''
+    history.push('/loading')
+  }
+
+  @action
   initDev() {
     this.password = '1234'
     getWalletExists()

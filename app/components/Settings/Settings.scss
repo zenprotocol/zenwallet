@@ -4,7 +4,7 @@
   }
   .description {
     margin-right: 30px;
-    width: 300px;
+    width: 350px;
   }
   .description-title {
     font-size: 18px;
@@ -19,6 +19,9 @@
     letter-spacing: 0.1px;
     color: #808080;
   }
+  .mining-text {
+    color: #2f8be6;
+  }
   .actions {
     width: 210px;
   }
@@ -26,15 +29,11 @@
     margin-left: 10px;
   }
   .activate-password-change-button-container {
-    transition: 0.5s opacity;
-    opacity: 0;
-    &:not(.isVisible) {height: 0; padding: 0;} // HACK :: box sizing should take care of that
-    &.isVisible { opacity: 1; }
+    &:not(.isVisible) { display: none; }
+    &.isVisible { display: block; }
   }
   .password-change-container {
-    transition: 0.5s opacity;
-    opacity: 0;
-    &:not(.isVisible) {height: 0;}
-    &.isVisible { opacity: 1; }
+    &:not(.isVisible) {display: none;}
+    &.isVisible { opacity: block; }
   }
 }
