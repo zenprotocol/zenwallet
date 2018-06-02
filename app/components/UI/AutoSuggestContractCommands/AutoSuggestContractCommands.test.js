@@ -8,7 +8,7 @@ import AutoSuggestContractCommands, { commands } from './AutoSuggestContractComm
 describe('AutoSuggestContractCommands', () => {
   const mockChange = jest.fn()
   const component = shallow(<AutoSuggestContractCommands onChange={mockChange} value="" />)
-  it('renders renders the ReactAutosuggest component', () => {
+  it('passes commands as suggestions to the ReactAutosuggest component', () => {
     expect(component.find(Autosuggest).prop('suggestions')).toEqual(commands)
   })
 
@@ -20,6 +20,17 @@ describe('AutoSuggestContractCommands', () => {
     })
     it('calls mockChange when suggestion is selected', () => {
       expect(mockChange).toBeCalledWith('buy')
+    })
+  })
+
+  describe('when onSuggestionsFetchRequested is called with value "er"', () => {
+    component.setState({ suggestions: commands })
+    component.instance().onSuggestionsFetchRequested({ value: 'er' })
+    it('filters the suggestions correctly', () => {
+      expect(component.state().suggestions).toEqual([
+        'collateralize',
+        'exercise',
+      ])
     })
   })
 })
