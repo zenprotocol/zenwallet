@@ -143,7 +143,7 @@ class SecretPhraseState {
     this.password = ''
     this.importError = ''
     this.status = ''
-    history.push('/loading')
+    history.push('/unlock-wallet')
   }
 
   @action

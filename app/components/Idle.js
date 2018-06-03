@@ -21,10 +21,10 @@ class Idle extends React.Component<Props> {
     }
     swal({ // eslint-disable-line promise/catch-or-return
       title: 'Auto logout',
-      text: 'Due to inactivity, you will be logged out in 15 seconds. Press "OK" to stay logged in',
+      text: 'Due to inactivity, you will be logged out in 10 seconds. Press "OK" to stay logged in',
       icon: 'warning',
       dangerMode: true,
-      timer: 2000,
+      timer: 10000,
     })
       .then(response => {
         if (!response) { // eslint-disable-line promise/always-return
