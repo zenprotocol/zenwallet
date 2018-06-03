@@ -10,6 +10,7 @@ import { stringToNumber, isZenAsset } from '../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestActiveContracts from '../UI/AutoSuggestActiveContracts'
+import AutoSuggestContractCommands from '../UI/AutoSuggestContractCommands'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 import { ZENP_MAX_DECIMALS } from '../../constants'
@@ -65,9 +66,9 @@ class RunContract extends Component {
     }
   }
 
-  onCommandChanged = (evt) => {
+  onCommandChanged = (command) => {
     const { contractMessage } = this.props
-    contractMessage.command = evt.target.value.trim()
+    contractMessage.command = command.trim()
   }
 
   onPasteClicked = () => {
@@ -154,7 +155,7 @@ class RunContract extends Component {
 
   render() {
     const {
-      command, amount, asset, inprogress, data, address,
+      amount, asset, inprogress, data, address,
     } = this.props.contractMessage
     const { activeContractsWithNames } = this.props.activeContractSet
     return (
@@ -177,17 +178,7 @@ class RunContract extends Component {
             />
             <Flexbox flexDirection="column" className="choose-command form-row">
               <label htmlFor="command">Choose command</label>
-              <Flexbox flexDirection="row" className="command-input">
-                <input
-                  id="command"
-                  className="full-width"
-                  name="command"
-                  type="text"
-                  placeholder="Enter Command"
-                  value={command}
-                  onChange={this.onCommandChanged}
-                />
-              </Flexbox>
+              <AutoSuggestContractCommands onChange={this.onCommandChanged} />
             </Flexbox>
             <Flexbox flexDirection="row" className="contract-message-details form-row">
               <AutoSuggestAssets
