@@ -109,7 +109,7 @@ app.on('ready', async () => {
     app.quit()
     // this might be redundant, this scenario only happens when it's not UiOnly
     if (!isUiOnly) {
-      console.log('Sending SIGINT to Node')
+      console.log('Gracefully shutting down the zen-node via the command line')
       node.kill('SIGINT')
     }
   })
@@ -118,7 +118,7 @@ app.on('ready', async () => {
 app.on('window-all-closed', () => {
   app.quit()
   if (!isUiOnly) {
-    console.log('Sending SIGINT to Node')
+    console.log('Gracefully shutting down the zen-node by clicking the close button')
     node.kill('SIGINT')
   }
 })
