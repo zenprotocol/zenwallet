@@ -206,6 +206,15 @@ export async function getWalletResync() {
   return response.data
 }
 
+export async function postWalletMnemonicphrase(password: string): string {
+  const data = { password }
+  const response = await post(`${serverAddress}/wallet/mnemonicphrase`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  // $FlowFixMe
+  return response.data
+}
+
 export function normalizeSendableAmount(asset: hash, amount: number) {
   return isZenAsset(asset) ? Math.floor(amount * 100000000) : amount
 }

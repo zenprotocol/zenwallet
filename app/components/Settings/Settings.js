@@ -9,6 +9,8 @@ import SecretPhraseState from '../../states/secret-phrase-state'
 import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
+
+import { showSeed } from './SettingsUtil'
 import './Settings.scss'
 
 type Props = {
@@ -23,7 +25,7 @@ type State = {
   newPasswordConfirmation: string
 };
 
-@inject(['secretPhraseState'/* , 'modalState' */]) // add modal state once modal PR is merged
+@inject('secretPhraseState')
 @observer
 class Settings extends Component<Props, State> {
   state = {
@@ -143,14 +145,15 @@ class Settings extends Component<Props, State> {
   }
 
   renderShowSeed() {
+    const { secretPhraseState } = this.props
     return (
-      <Flexbox className="row" style={{ display: 'none' }}>
+      <Flexbox className="row">
         <Flexbox flexDirection="column" className="description">
           <h2 className="description-title">Show mnemonic</h2>
           <p>Display your mnemonic for account recovery</p>
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block">Show Mnemonic</button>
+          <button className="btn-block" onClick={() => showSeed(secretPhraseState.password)}>Show Mnemonic</button>
         </Flexbox>
       </Flexbox>
     )

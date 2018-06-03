@@ -48,7 +48,7 @@ const Routes = () => (
       <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
       <Route exact path="/set-password" component={SetPassword} />
       <Route exact path="/terms-of-service" component={TermsOfService} />
-      <Route exact path="/" component={Loading} />
+      <Route exact path="/" component={Settings} />
     </Switch>
   </Router>
 )
