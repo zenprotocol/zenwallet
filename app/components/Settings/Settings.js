@@ -10,7 +10,7 @@ import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
 
-import { showSeed } from './SettingsUtil'
+import showSeed from './showSeedUtil'
 import './Settings.scss'
 
 type Props = {
