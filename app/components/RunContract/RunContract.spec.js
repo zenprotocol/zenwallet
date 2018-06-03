@@ -33,10 +33,10 @@ const defaultDbData = {
   },
 }
 
-mockDb.defaults(defaultDbData).write()
+mockDb.defaults(defaultDbData)
 jest.mock('electron', () => ({
   app: {
-    getPath() { return '' },
+    getPath() { return 'test' },
   },
   ipcRenderer: { send: jest.fn(), on: jest.fn() },
 }))
@@ -60,10 +60,13 @@ describe('RunContract', () => {
       expect(component.find(AutoSuggestContractCommands).length).toBe(1)
     })
 
-    it('updates the contractMessage command with the selected contract command', () => {
-      const { contractMessage } = states
-      component.find(AutoSuggestContractCommands).prop('onChange')('buy')
-      expect(contractMessage.command).toEqual('buy')
+    describe('when the AutoSuggestContractCommands onChange is called with "buy"', () => {
+      it('updates the contractMessage command to "buy"', () => {
+        const { contractMessage } = states
+        contractMessage.command = ''
+        component.find(AutoSuggestContractCommands).prop('onChange')('buy')
+        expect(contractMessage.command).toEqual('buy')
+      })
     })
   })
 })
