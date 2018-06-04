@@ -2,7 +2,7 @@
 
 import React from 'react'
 import ReactIdle from 'react-idle'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import swal from 'sweetalert'
 
 import SecretPhraseState from '../states/secret-phrase-state'
@@ -12,6 +12,7 @@ type Props = {
 };
 
 @inject('secretPhraseState')
+@observer
 class Idle extends React.Component<Props> {
   // eslint-disable-next-line react/no-unused-prop-types
   onChange = ({ idle }: { idle: boolean}) => {
