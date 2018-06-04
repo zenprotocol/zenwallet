@@ -30,9 +30,11 @@
       letter-spacing: 0.3px;
       font-family: Roboto;
       padding: 0;
+      box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.2);
 
       &:not(:last-child) {
-        margin-bottom: 20px;
+        padding-bottom: 25px;
+        margin-bottom: 0;
       }
     }
 

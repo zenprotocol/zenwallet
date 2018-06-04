@@ -28,7 +28,6 @@ export default autoLogoutModal
 class ModalContents extends React.Component {
   state = {
     secondsCountdown: SECONDS_TIMEOUT,
-    // secondsCountdown: 15,
   }
   componentDidMount() {
     this.decreaseSecond()
@@ -59,7 +58,7 @@ class ModalContents extends React.Component {
     const { secondsCountdown } = this.state
     return (
       <div>
-        <p style={{ marginBottom: 10 }}>
+        <p style={{ marginBottom: 25 }}>
         Due to inactivity, you will be logged out in {secondsCountdown} seconds.
         </p>
         <button className="secondary" onClick={this.onLogout}>Logout</button>
