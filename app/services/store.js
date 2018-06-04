@@ -38,7 +38,7 @@ db.defaults({
   ],
   config: {
     alreadyRedeemedTokens: false,
-    autoLogoutMinutes: 30,
+    autoLogoutMinutes: 15,
     isMining: false,
   },
 }).write()

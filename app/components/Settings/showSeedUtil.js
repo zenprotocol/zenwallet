@@ -11,6 +11,7 @@ const showSeed = async (password: string) => {
   HACK_IS_SECURITY_RISK_SWAL_MOUNTED = true
   const doesUserAcceptsRisk = await swal({
     title: 'Security Warning',
+    icon: 'warning',
     text: 'If you lost your previous backup of the seed, and you are not sure who might have access to it, we recommend you to use another account (and transfer all current assets there). \n\n Only keep using this seed if you are sure no one else might have access.',
     content: getSecurityRiskWarningNode(),
     button: false,
@@ -20,16 +21,17 @@ const showSeed = async (password: string) => {
     return
   }
   const submittedPassword = await swal({
+    title: 'Backup Mnemonic Phrase',
     content: {
       element: 'input',
       attributes: {
-        placeholder: 'Type your password',
+        placeholder: 'Type your password to get your mnemonic phrase',
         type: 'password',
       },
     },
   })
   if (submittedPassword !== password) {
-    swal('wrong password!')
+    swal({ title: 'wrong password!' })
   } else {
     const seedString = await postWalletMnemonicphrase(password)
     swal({

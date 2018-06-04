@@ -82,6 +82,13 @@ class SavedContracts extends Component<Props, State> {
             <CopyableTableCell string={savedContract.address} />
             <td>{ matchingActiveContract ? matchingActiveContract.expire.toLocaleString() : 'Inactive' }</td>
             <td className="align-right buttons">
+              <a
+                title="Toggle Code Snippet"
+                onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
+                className="button secondary small margin-right code"
+                >
+                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
+              </a>
               {
                 matchingActiveContract ?
                   (
@@ -94,16 +101,6 @@ class SavedContracts extends Component<Props, State> {
                     </Link>
                   )
               }
-              <a
-                title="Toggle Code Snippet"
-                onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
-                className="button secondary small margin-right code"
-              >
-                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
-              </a>
-              <a className="button small alert" onClick={() => { this.onDeleteClicked(savedContract.contractId) }}>
-                <FontAwesomeIcon icon={['far', 'trash']} />
-              </a>
             </td>
           </tr>
           <tr className={cx('code', { 'display-none': !isCodeCurrentyViewed })}>

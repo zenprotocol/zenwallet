@@ -1,6 +1,4 @@
-@import "styles/Variables";
-
-button, .button, {
+.swal-button, button, .button, {
   height: 36px;
   min-width: 120px;
   box-sizing: border-box;
@@ -9,18 +7,23 @@ button, .button, {
   border-radius: 2px;
   color: white;
   font-size: 14px;
+  font-weight: 400;
   border: none;
   letter-spacing: 0.5px;
   cursor: pointer;
   text-decoration: none;
   background: $blue;
+  box-shadow: none;
 
   border: 1px solid $blue;
 
   i.fa.fa-spinner { margin-left: 6px; }
 
   &:hover { background-color: $blue-hover; }
-  &:focus { background-color: $blue-focus; outline: none; }
+  &:focus {
+    background-color: $blue-focus; outline: none;
+    box-shadow: none;
+  }
 
   &.disabled, &:disabled {
     background-color: $blue-disabled;
@@ -38,7 +41,7 @@ button, .button, {
   &.secondary:focus { background-color: $button-grey-focus; }
   &.secondary:disabled { background-color: $button-grey-disabled; }
 
-  &.alert {
+  &.alert, &.swal-button--cancel {
     background: $red;
     color: $off-white;
     border: 1px solid $red;
