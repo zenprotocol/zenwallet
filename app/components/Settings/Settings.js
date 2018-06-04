@@ -229,7 +229,7 @@ class Settings extends Component<Props, State> {
         {this.renderPassword()}
         {this.renderAutoLogout()}
         {this.renderShowSeed()}
-        {this.renderResyncWallet()}
+        {/*this.renderResyncWallet()*/}
         {this.renderMining()}
         {this.renderLogout()}
       </Layout>
