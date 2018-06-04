@@ -14,7 +14,7 @@ import path from 'path'
 
 import { app, BrowserWindow } from 'electron'
 
-import zenNode from './utils/zenNode'
+import ZenNode from './utils/ZenNode'
 import db from './services/store'
 import MenuBuilder from './menu'
 
@@ -54,6 +54,8 @@ const installExtensions = async () => {
  * Add event listeners...
  */
 
+let zenNode
+
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
@@ -67,15 +69,9 @@ app.on('ready', async () => {
   mainWindow.on('resize', saveWindowDimensionsToDb)
 
   if (!isUiOnly) {
+    zenNode = new ZenNode(app, mainWindow.webContents)
     zenNode.init()
-    zenNode.node.on('exit', (code, signal) => {
-      if (signal === 'SIGUSR1') {
-        console.log('toggle minning through GUI')
-      } else {
-        console.log('Closed')
-        app.quit()
-      }
-    })
+    zenNode.onClose = app.quit
   }
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)

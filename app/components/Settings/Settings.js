@@ -193,8 +193,6 @@ class Settings extends Component<Props, State> {
       <Flexbox className="row">
         <Flexbox flexDirection="column" className="description">
           <h2 className="description-title">Mining</h2>
-          {secretPhraseState.isMiningChangedSinceInit && (
-            <p className="mining-text">Please restart the program to complete the process</p>)}
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
           <label htmlFor="miner-switch">

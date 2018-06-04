@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx'
 import bip39 from 'bip39'
+import { ipcRenderer } from 'electron'
 
 import db from '../services/store'
 import history from '../services/history'
@@ -127,10 +128,7 @@ class SecretPhraseState {
   toggleMining(_isMining) {
     db.set('config.isMining', _isMining).write()
     this.isMining = _isMining
-  }
-
-  get isMiningChangedSinceInit() {
-    return this.isMining !== this.initialIsMining
+    ipcRenderer.send('restartZenNode', { isMining: _isMining })
   }
 
   @action

@@ -6,7 +6,6 @@ class BlockchainLogsState {
   pending = []
 
   constructor() {
-    ipcRenderer.send('init-fetch-logs', null)
     ipcRenderer.on('blockchainLogs', (event, log) => {
       if (!log) { return }
       this.pending.push(log)
