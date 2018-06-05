@@ -9,6 +9,7 @@ class NetworkState {
   @observable difficulty = 0
   @observable medianTime = 0
   @observable connections = 0
+  @observable initialBlockDownload = true
 
   constructor() {
     this.fetch = this.fetch.bind(this)
@@ -29,6 +30,7 @@ class NetworkState {
       this.headers = result.headers
       this.difficulty = result.difficulty
       this.medianTime = result.medianTime
+      this.initialBlockDownload = result.initialBlockDownload
     })
 
     const networkConnectionsResult = await getNetworkConnections()
