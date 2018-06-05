@@ -160,7 +160,7 @@ class ActivateContract extends Component<Props> {
             Contract has been successfully activated and added to your <Link to="/saved-contracts">Saved Contracts</Link>
           </span>
           <div className="devider" />
-          <p>Contract Hash: {contractId}</p>
+          <p>Contract Id: {contractId}</p>
           <p>Contract Address: {address}</p>
         </FormResponseMessage>
       )
