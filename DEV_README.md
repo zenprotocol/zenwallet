@@ -86,3 +86,8 @@ npm start
    - command: 'init'
    - asset: '0000000000000000000000000000000000000000000000000000000000000000' (ZENP)
    - amount: as much as you want to fill up the faucet with
+
+
+# Creating new NPM Package
+1. npm run update-release-branch
+2. 
