@@ -52,4 +52,4 @@ let main txSkeleton context contractId command sender data wallet =
 let cf _ _ _ _ _ wallet =
     (4 + 64 + 2 + (64 + (64 + (64 + 64 + (Zen.Wallet.size wallet * 128 + 192) + 0)) + 25) + 31)
     |> cast nat
-    |> ret
+    |> ret`
