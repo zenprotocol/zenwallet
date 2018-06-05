@@ -58,7 +58,7 @@ class Sidebar extends Component {
           <span className="data-name" title="Syncing">
             <FontAwesomeIcon icon={['fas', 'circle']} className="green" />
           </span>
-          <span className="data-point">Synced</span>
+          <span className="data-point"> Synced</span>
         </div>
       )
     }
