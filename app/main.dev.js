@@ -67,6 +67,8 @@ app.on('ready', async () => {
     await installExtensions()
   }
 
+  console.log('test')
+
   console.log('process.argv', process.argv)
 
   mainWindow = getMainWindow(app.getName())
