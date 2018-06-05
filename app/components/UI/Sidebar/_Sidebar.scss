@@ -30,6 +30,12 @@ nav.sidebar {
     color: $bright-grey;
 
     .data-name { font-weight: 400; }
+
+    .network-data-point.bottom {
+      display: block;
+      position: absolute;
+      bottom: 15px;
+    }
   }
 
   ul {

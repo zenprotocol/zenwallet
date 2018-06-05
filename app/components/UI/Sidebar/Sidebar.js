@@ -21,6 +21,7 @@ class Sidebar extends Component {
       blocks: PropTypes.number.isRequired,
       medianTime: PropTypes.number.isRequired,
       initialBlockDownload: PropTypes.bool.isRequired,
+      connectedToNode: PropTypes.bool.isRequired,
     }).isRequired,
   }
   static defaultProps = {
@@ -35,15 +36,15 @@ class Sidebar extends Component {
   }
 
   renderSyncingStatus() {
-    const { initialBlockDownload, connections } = this.props.networkState
+    const { initialBlockDownload, connections, blocks, headers } = this.props.networkState
 
     if (connections === 0) {
       return
     }
 
-    if (initialBlockDownload) {
+    if (initialBlockDownload || (blocks < headers)) {
       return (
-        <div className="network-data-point">
+        <div className="network-data-point bottom">
           <span className="data-name" title="Syncing">
             <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
           </span>
@@ -54,7 +55,7 @@ class Sidebar extends Component {
 
     if (!initialBlockDownload) {
       return (
-        <div className="network-data-point">
+        <div className="network-data-point bottom">
           <span className="data-name" title="Syncing">
             <FontAwesomeIcon icon={['fas', 'circle']} className="green" />
           </span>
@@ -81,8 +82,22 @@ class Sidebar extends Component {
 
   renderNetworkStatus() {
     const {
-      chain, blocks, headers, difficulty, connections,
+      chain, blocks, headers, difficulty, connections, connectedToNode,
     } = this.props.networkState
+
+    if (!connectedToNode) {
+      return (
+        <div className="network-status">
+          { this.renderVersions() }
+          <div className="network-data-point bottom">
+            <span className="data-name">
+              <FontAwesomeIcon icon={['fas', 'circle']} className="red" />
+            </span>
+            <span className="data-point"> Not Connected to a Node</span>
+          </div>
+        </div>
+      )
+    }
 
     if (connections === 0) {
       return (
