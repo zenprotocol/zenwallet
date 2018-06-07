@@ -9,9 +9,9 @@ import { getWalletExists, postImportWallet, getWalletResync, postCheckPassword }
 const { alreadyRedeemedTokens, autoLogoutMinutes, isMining } = db.get('config').value()
 class SecretPhraseState {
   @observable mnemonicPhrase = []
+  @observable isLoggedIn = false
   @observable autoLogoutMinutes = autoLogoutMinutes
   @observable inprogress = false
-  @observable password = ''
   @observable importError = ''
   @observable status = ''
   @observable isMining = isMining
@@ -24,10 +24,6 @@ class SecretPhraseState {
     if (isDev()) {
       this.initDev()
     }
-  }
-
-  get isLoggedIn() {
-    return !!this.password
   }
 
   @action.bound
@@ -44,7 +40,7 @@ class SecretPhraseState {
         console.log('importWallet response', response)
         if (response.status === 200) {
           console.log('importWallet set password', password)
-          this.password = password
+          this.isLoggedIn = true
           this.balances.initPolling()
           this.networkState.initPolling()
           this.activeContractSet.fetch()
@@ -77,7 +73,7 @@ class SecretPhraseState {
           console.log('isPasswordCorrect this', this)
           return
         }
-        this.password = password
+        this.isLoggedIn = true
         this.balances.initPolling()
         this.networkState.initPolling()
         if (alreadyRedeemedTokens) {
@@ -140,15 +136,15 @@ class SecretPhraseState {
   @action
   logout() {
     this.mnemonicPhrase = []
-    this.password = ''
     this.importError = ''
     this.status = ''
+    this.isLoggedIn = false
+    // TODO: stop polling
     history.push('/unlock-wallet')
   }
 
   @action
   initDev() {
-    this.password = '1234'
     getWalletExists()
       .then(doesWalletExists => {
         // eslint-disable-next-line promise/always-return

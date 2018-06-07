@@ -7,6 +7,7 @@ import { head } from 'lodash'
 import Highlight from 'react-highlight'
 import cx from 'classnames'
 
+import confirmPasswordModal from '../../services/confirmPasswordModal'
 import { normalizeTokens, zenToKalapa, stringToNumber } from '../../utils/helpers'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
@@ -110,7 +111,13 @@ class ActivateContract extends Component<Props> {
     return false
   }
 
-  onActivateContractClicked = () => this.props.contract.activateContract()
+  onActivateContractClicked = async () => {
+    const confirmedPassword = await confirmPasswordModal()
+    if (!confirmedPassword) {
+      return
+    }
+    this.props.contract.activateContract(confirmedPassword)
+  }
 
   isFormValid() {
     const { name } = this.props.contract

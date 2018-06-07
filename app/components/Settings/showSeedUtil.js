@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom'
 import swal from 'sweetalert'
 
 import { postWalletMnemonicphrase } from '../../services/api-service'
+import confirmPasswordModal from '../../services/confirmPasswordModal'
 
 // see issue https://github.com/t4t5/sweetalert/issues/836
 let HACK_IS_SECURITY_RISK_SWAL_MOUNTED = false
 
-const showSeed = async (password: string) => {
+const showSeed = async () => {
   HACK_IS_SECURITY_RISK_SWAL_MOUNTED = true
   const doesUserAcceptsRisk = await swal({
     title: 'Security Warning',
@@ -20,26 +21,20 @@ const showSeed = async (password: string) => {
   if (!doesUserAcceptsRisk) {
     return
   }
-  const submittedPassword = await swal({
-    title: 'Backup Mnemonic Phrase',
-    content: {
-      element: 'input',
-      attributes: {
-        placeholder: 'Type your password to get your mnemonic phrase',
-        type: 'password',
-      },
-    },
-  })
-  if (submittedPassword !== password) {
-    swal({ title: 'wrong password!' })
-  } else {
-    const seedString = await postWalletMnemonicphrase(password)
+  const confirmedPassword = await confirmPasswordModal()
+  if (!confirmedPassword) {
+    return
+  }
+  try {
+    const seedString = await postWalletMnemonicphrase(confirmedPassword)
     swal({
       title: 'Your Mnemonic Passphrase (seed)',
       text: 'Write down the following words in chronological order and save it in a secure place.',
       content: getShowSeedNode(seedString.split(' ')),
       className: 'secret-phrase-container',
     })
+  } catch (err) {
+    console.error('error showing seed', err)
   }
 }
 

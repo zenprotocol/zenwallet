@@ -5,10 +5,6 @@ import { some } from 'lodash'
 import { postActivateContract } from '../services/api-service'
 import db from '../services/store'
 
-type SecretPhraseState = {
-  password: string
-};
-
 const initialDragDropText = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
 class ContractState {
@@ -27,12 +23,6 @@ class ContractState {
   @observable acceptedFiles = []
   @observable rejectedFiles = []
 
-  secretPhraseState: SecretPhraseState
-
-  constructor(secretPhraseState: SecretPhraseState) {
-    this.secretPhraseState = secretPhraseState
-  }
-
   @action
   init(placeholder: string) {
     this.dragDropText = placeholder
@@ -45,13 +35,13 @@ class ContractState {
   }
 
   @action
-  async activateContract() {
+  async activateContract(password: string) {
     this.inprogress = true
     this.status = 'inprogress'
     const data = {
       code: this.code,
       numberOfBlocks: Number(this.numberOfBlocks),
-      password: this.secretPhraseState.password,
+      password,
     }
     try {
       const response = await postActivateContract(data)

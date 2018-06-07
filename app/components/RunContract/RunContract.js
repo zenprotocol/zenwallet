@@ -5,6 +5,7 @@ import { clipboard } from 'electron'
 import { toInteger } from 'lodash'
 import PropTypes from 'prop-types'
 
+import confirmPasswordModal from '../../services/confirmPasswordModal'
 import db from '../../services/store'
 import { stringToNumber, isZenAsset } from '../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
@@ -76,8 +77,13 @@ class RunContract extends Component {
     contractMessage.address = clipboard.readText()
   }
 
-  onRunContractClicked = () => {
-    this.props.contractMessage.sendContractMessage()
+  onRunContractClicked = async () => {
+    const confirmedPassword = await confirmPasswordModal()
+    if (!confirmedPassword) {
+      return
+    }
+    const { contractMessage } = this.props
+    contractMessage.sendContractMessage(confirmedPassword)
     this.AutoSuggestAssets.wrappedInstance.reset()
     this.AutoSuggestActiveContracts.reset()
   }

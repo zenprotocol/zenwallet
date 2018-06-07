@@ -6,6 +6,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import confirmPasswordModal from '../../services/confirmPasswordModal'
 import IsValidIcon from '../Icons/IsValidIcon'
 import { isValidAddress, isZenAsset, stringToNumber } from '../../utils/helpers'
 import { ZENP_MAX_DECIMALS } from '../../constants'
@@ -114,9 +115,13 @@ class SendTx extends Component {
     )
   }
 
-  onSubmitButtonClicked = () => {
-    this.props.transaction.createTransaction(this.props.transaction)
-    this.AutoSuggestAssets.wrappedInstance.reset() // TODO pass input value as props
+  onSubmitButtonClicked = async () => {
+    const confirmedPassword = await confirmPasswordModal()
+    if (!confirmedPassword) {
+      return
+    }
+    this.props.transaction.createTransaction(this.props.transaction, confirmedPassword)
+    this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
   validateAmountField() {
