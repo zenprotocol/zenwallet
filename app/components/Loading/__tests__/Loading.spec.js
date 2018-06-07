@@ -1,10 +1,10 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import Loading from './Loading'
-import { load } from './LoadingUtil'
+import Loading from '../Loading'
+import { load } from '../LoadingUtil'
 
-jest.mock('./LoadingUtil', () => ({
+jest.mock('../LoadingUtil', () => ({
   load: jest.fn(),
 }))
 
