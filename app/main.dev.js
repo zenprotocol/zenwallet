@@ -117,10 +117,18 @@ app.on('ready', async () => {
   })
 })
 
+app.on('window-all-closed', () => {
+  app.quit()
+  if (!isUiOnly) {
+    console.log('Gracefully shutting down the zen-node by clicking the close button (window-all-closed)')
+    node.kill('SIGINT')
+  }
+})
+
 app.on('will-quit', () => {
   app.quit()
   if (!isUiOnly) {
-    console.log('Gracefully shutting down the zen-node by clicking the close button')
+    console.log('Gracefully shutting down the zen-node by clicking the close button (will-quit)')
     node.kill('SIGINT')
   }
 })
