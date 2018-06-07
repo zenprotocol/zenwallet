@@ -16,8 +16,11 @@
       .swal-icon--warning__body {
         height: 22px;
         animation: pulse 2s infinite;
+        background-color: #ff9147;
         .swal-icon--warning__dot {
           animation: pulse 2s infinite;
+          margin-left: -3px;
+          background-color: #ff9147;
         }
       }
     }
