@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import AutoSuggestActiveContracts from './AutoSuggestActiveContracts'
+import AutoSuggestActiveContracts from '../AutoSuggestActiveContracts'
 
 const onUpdateParent = jest.fn()
 

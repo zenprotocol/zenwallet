@@ -1,6 +1,4 @@
-import ContractState from './contract-state'
-
-jest.mock('../services/store', () => ({
+jest.mock('services/store', () => ({
   get: (key) => {
     if (key === 'savedContracts') {
       return {
@@ -22,13 +20,3 @@ jest.mock('../services/store', () => ({
     }
   },
 }))
-
-describe.skip('BalancesState', () => {
-  let cut
-  beforeEach(() => {
-    cut = new ContractState()
-  })
-  it('[activationCost] should return', () => {
-    expect(cut.activationCost).toEqual(0)
-  })
-})

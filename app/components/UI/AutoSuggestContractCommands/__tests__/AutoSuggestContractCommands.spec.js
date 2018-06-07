@@ -2,8 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Autosuggest from 'react-autosuggest'
 
-import AutoSuggestContractCommands, { commands } from './AutoSuggestContractCommands'
-
+import AutoSuggestContractCommands, { commands } from '../AutoSuggestContractCommands'
 
 describe('AutoSuggestContractCommands', () => {
   const mockChange = jest.fn()

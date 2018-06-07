@@ -5,12 +5,13 @@ import low from 'lowdb'
 import Memory from 'lowdb/adapters/Memory'
 import { Router } from 'react-router'
 
-import history from '../../services/history'
-import exampleContractCode from '../../services/exampleContractCode'
-import states from '../../states'
-import AutoSuggestContractCommands from '../UI/AutoSuggestContractCommands'
+import history from '../../../services/history'
+import exampleContractCode from '../../../services/exampleContractCode'
+import states from '../../../states'
+import AutoSuggestContractCommands from '../../UI/AutoSuggestContractCommands'
+import RunContractContainer from '../RunContract'
 
-import RunContractContainer from './RunContract'
+jest.unmock('services/store')
 
 const mockDb = low(new Memory())
 const defaultDbData = {

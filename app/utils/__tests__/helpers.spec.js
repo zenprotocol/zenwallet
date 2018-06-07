@@ -1,4 +1,4 @@
-import { validateInputNumber } from './helpers'
+import { validateInputNumber } from '../helpers'
 
 describe('validateInputNumber', () => {
   it('should only accept numbers and dots', () => {
