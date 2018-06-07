@@ -67,16 +67,16 @@ class Sidebar extends Component {
 
   renderVersions() {
     return (
-      [
+      <React.Fragment>
         <div className="network-data-point">
           <span className="data-name" title="Wallet Version">Wallet Version: </span>
           <span className="data-point">{pjson.version}</span>
-        </div>,
+        </div>
         <div className="network-data-point">
           <span className="data-name" title="Node Version">Node Version: </span>
           <span className="data-point">{pjson.dependencies['@zen/zen-node']}</span>
-        </div>,
-      ]
+        </div>
+      </React.Fragment>
     )
   }
 
