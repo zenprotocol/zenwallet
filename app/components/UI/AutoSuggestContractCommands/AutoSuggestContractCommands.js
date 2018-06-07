@@ -22,11 +22,13 @@ class AutoSuggestContractCommands extends React.Component<Props, State> {
     suggestions: commands,
   }
 
+  // $FlowFixMe
   onSuggestionSelected = (event, { suggestion }) => {
     this.setState({ value: suggestion })
     this.props.onChange(suggestion)
   }
 
+  // $FlowFixMe
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({ suggestions: commands.filter(x => x.includes(value.trim())) })
   }
@@ -35,14 +37,17 @@ class AutoSuggestContractCommands extends React.Component<Props, State> {
     this.setState({ suggestions: [] })
   }
 
+  // $FlowFixMe
   getSuggestionValue = (value) => value
 
+  // $FlowFixMe
   renderSuggestion = suggestion => (
     <div className="suggestionItem">
       {suggestion}
     </div>
   )
 
+  // $FlowFixMe
   onChange = (event, { newValue }) => {
     this.setState({
       value: newValue,

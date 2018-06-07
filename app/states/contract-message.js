@@ -16,12 +16,11 @@ class ContractMessageState {
   @observable asset = ''
 
   constructor(secretPhraseState, activeContractSet) {
-    this.secretPhraseState = secretPhraseState
     this.activeContractSet = activeContractSet
   }
 
   @action
-  async sendContractMessage() {
+  async sendContractMessage(password) {
     try {
       this.inprogress = true
       const data = {
@@ -30,7 +29,7 @@ class ContractMessageState {
         amount: Number(this.amount),
         command: this.command,
         data: this.data,
-        password: this.secretPhraseState.password,
+        password,
       }
       const response = await postRunContractMessage(data)
 

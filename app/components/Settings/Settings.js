@@ -145,7 +145,6 @@ class Settings extends Component<Props, State> {
   }
 
   renderShowSeed() {
-    const { secretPhraseState } = this.props
     return (
       <Flexbox className="row">
         <Flexbox flexDirection="column" className="description">
@@ -153,7 +152,7 @@ class Settings extends Component<Props, State> {
           <p>Display your mnemonic for account recovery</p>
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block" onClick={() => showSeed(secretPhraseState.password)}>Show Mnemonic</button>
+          <button className="btn-block" onClick={() => showSeed()}>Show Mnemonic</button>
         </Flexbox>
       </Flexbox>
     )
@@ -229,7 +228,7 @@ class Settings extends Component<Props, State> {
         {this.renderPassword()}
         {this.renderAutoLogout()}
         {this.renderShowSeed()}
-        {/*this.renderResyncWallet()*/}
+        {/* this.renderResyncWallet() */}
         {this.renderMining()}
         {this.renderLogout()}
       </Layout>

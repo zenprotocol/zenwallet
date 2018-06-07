@@ -10,15 +10,11 @@ class TransactionState {
   @observable inprogress = false
   @observable errorMessage = ''
 
-  constructor(secretPhraseState) {
-    this.secretPhraseState = secretPhraseState
-  }
-
   @action
-  async createTransaction(tx) {
+  async createTransaction(tx, password) {
     try {
       this.inprogress = true
-      const data = { ...tx, amount: Number(tx.amount), password: this.secretPhraseState.password }
+      const data = { ...tx, amount: Number(tx.amount), password }
       const response = await postTransaction(data)
 
       runInAction(() => {

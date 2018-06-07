@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe
 import { get, post } from 'axios'
 import type { observableArray } from 'mobx-react'
 

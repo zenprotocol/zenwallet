@@ -133,6 +133,7 @@ function getZenNodePath() {
 }
 
 function isInstalledWithInstaller() {
+  // $FlowFixMe
   return !process.resourcesPath.includes('node_modules/electron/dist')
 
   // return __dirname.includes('app.asar') // tested on linux. below is an alternative
