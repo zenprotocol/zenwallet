@@ -5,11 +5,7 @@ import swal from 'sweetalert'
 import { postWalletMnemonicphrase } from '../../services/api-service'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 
-// see issue https://github.com/t4t5/sweetalert/issues/836
-let HACK_IS_SECURITY_RISK_SWAL_MOUNTED = false
-
 const showSeed = async () => {
-  HACK_IS_SECURITY_RISK_SWAL_MOUNTED = true
   const doesUserAcceptsRisk = await swal({
     title: 'Security Warning',
     icon: 'warning',
@@ -17,7 +13,6 @@ const showSeed = async () => {
     content: getSecurityRiskWarningNode(),
     button: false,
   })
-  HACK_IS_SECURITY_RISK_SWAL_MOUNTED = false
   if (!doesUserAcceptsRisk) {
     return
   }
@@ -40,14 +35,13 @@ const showSeed = async () => {
 
 class SecurityRiskWarning extends React.Component {
   state = {
-    disabledSecondsCountdown: 30,
+    disabledSecondsCountdown: 3,
   }
   componentDidMount() {
     this.decreaseSecond()
   }
-  // This doens't get triggered, hence the use of HACK_IS_SECURITY_RISK_SWAL_MOUNTED
-  // I'm leaving this here for documentation and in case in the future the author of swal
-  // will fix this problem. see issue https://github.com/t4t5/sweetalert/issues/836
+  // This doens't get triggered, so we have a minor memory leak
+  // see issue https://github.com/t4t5/sweetalert/issues/836
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
@@ -58,7 +52,7 @@ class SecurityRiskWarning extends React.Component {
     this.setState(({ disabledSecondsCountdown }) => ({
       disabledSecondsCountdown: disabledSecondsCountdown - 1,
     }), () => {
-      if (this.countdownOver || !HACK_IS_SECURITY_RISK_SWAL_MOUNTED) {
+      if (this.countdownOver) {
         return
       }
       this.timeout = setTimeout(this.decreaseSecond, 1000)
@@ -90,13 +84,13 @@ class SecurityRiskWarning extends React.Component {
   }
 }
 
-function getSecurityRiskWarningNode() {
+export function getSecurityRiskWarningNode() {
   const wrapper = document.createElement('div')
   ReactDOM.render(<SecurityRiskWarning />, wrapper)
   return wrapper.firstChild
 }
 
-function getShowSeedNode(seedWords) {
+export function getShowSeedNode(seedWords) {
   const wrapper = document.createElement('ol')
   wrapper.className = 'passphrase'
   const listItemsNodes = [...Array(seedWords.length).keys()]

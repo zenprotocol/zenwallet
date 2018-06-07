@@ -11,7 +11,7 @@ import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
 
 import showSeed from './showSeedUtil'
-import importNewSeed from './importNewSeedUtil'
+import newWallet from './newWalletUtil'
 import './Settings.scss'
 
 type Props = {
@@ -159,15 +159,15 @@ class Settings extends Component<Props, State> {
     )
   }
 
-  renderImportNewSeed() {
+  renderNewWallet() {
     return (
       <Flexbox className="row">
         <Flexbox flexDirection="column" className="description">
-          <h2 className="description-title">Import new wallet</h2>
-          <p>Wipe your wallet and import a new one</p>
+          <h2 className="description-title">New wallet</h2>
+          <p>Wipe your wallet and import or create a new one</p>
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block" onClick={importNewSeed}>Import walet</button>
+          <button className="btn-block" onClick={newWallet}>New wallet</button>
         </Flexbox>
       </Flexbox>
     )
@@ -243,7 +243,7 @@ class Settings extends Component<Props, State> {
         {this.renderPassword()}
         {this.renderAutoLogout()}
         {this.renderShowSeed()}
-        {this.renderImportNewSeed()}
+        {this.renderNewWallet()}
         {/* this.renderResyncWallet() */}
         {this.renderMining()}
         {this.renderLogout()}
