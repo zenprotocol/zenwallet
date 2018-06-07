@@ -117,7 +117,7 @@ app.on('ready', async () => {
   })
 })
 
-app.on('window-all-closed', () => {
+app.on('will-quit', () => {
   app.quit()
   if (!isUiOnly) {
     console.log('Gracefully shutting down the zen-node by clicking the close button')
@@ -135,7 +135,7 @@ function getZenNodePath() {
 function isInstalledWithInstaller() {
   return !process.resourcesPath.includes('node_modules/electron/dist')
 
-  //return __dirname.includes('app.asar') // tested on linux. below is an alternative
+  // return __dirname.includes('app.asar') // tested on linux. below is an alternative
   // TODO [AdGo] 15/05/2018 - delete these comments after confirming it works
   // on os and windows
 }
