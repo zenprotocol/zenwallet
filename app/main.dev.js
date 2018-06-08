@@ -107,28 +107,19 @@ app.on('ready', async () => {
   buildElectronMenu()
 
   process.on('SIGINT', () => {
-    console.log('Please close zen-wallet by closing the app window')
+    console.log('Please close zen-wallet by closing the app window. Now calling app.quit() ...')
     app.quit()
-    // this might be redundant, this scenario only happens when it's not UiOnly
-    if (!isUiOnly) {
-      console.log('Gracefully shutting down the zen-node via the command line')
-      node.kill('SIGINT')
-    }
   })
 })
 
 app.on('window-all-closed', () => {
+  console.log('Calling app.quit because (window-all-closed)')
   app.quit()
-  if (!isUiOnly) {
-    console.log('Gracefully shutting down the zen-node by clicking the close button (window-all-closed)')
-    node.kill('SIGINT')
-  }
 })
 
 app.on('will-quit', () => {
-  app.quit()
   if (!isUiOnly) {
-    console.log('Gracefully shutting down the zen-node by clicking the close button (will-quit)')
+    console.log('Gracefully shutting down the zen-node after receiving (will-quit)')
     node.kill('SIGINT')
   }
 })
