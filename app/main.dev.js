@@ -125,14 +125,6 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('will-quit', () => {
-  app.quit()
-  if (!isUiOnly) {
-    console.log('Gracefully shutting down the zen-node by clicking the close button (will-quit)')
-    node.kill('SIGINT')
-  }
-})
-
 function getZenNodePath() {
   return isInstalledWithInstaller()
     // $FlowFixMe
