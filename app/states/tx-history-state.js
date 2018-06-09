@@ -24,7 +24,7 @@ class TxHistoryState {
     const result = await getTxHistory({ skip: this.skip, take: this.currentPageSize + BATCH_SIZE })
     runInAction(() => {
       if (result.length) {
-        this.currentPageSize = this.currentPageSize + Math.min(BATCH_SIZE, result.length)
+        this.currentPageSize = result.length
         this.transactions.replace(result)
       }
       this.isFetching = false
