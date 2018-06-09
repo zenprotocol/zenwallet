@@ -1,21 +1,28 @@
+// @flow
 import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import Layout from '../UI/Layout/Layout'
 import OnScrollBottom from '../UI/OnScrollBottom'
 import CopyableTableCell from '../UI/CopyableTableCell'
+import TransactionHistoryState, { type ObservableTransactionResponse } from '../../states/tx-history-state'
 
 import SingleTxDelta from './SingleTxDelta'
 
+type Props = {
+  txhistory: TransactionHistoryState
+};
+
 @inject('txhistory')
 @observer
-class TxHistory extends Component {
+class TxHistory extends Component<Props> {
   componentDidMount() {
     this.props.txhistory.fetch()
   }
 
-  renderTransactionsCell(tx) {
+  renderTransactionsCell(tx: ObservableTransactionResponse) {
     if (tx.deltas.length === 1) {
       return (
         <SingleTxDelta tx={tx.deltas[0]} />
@@ -23,9 +30,9 @@ class TxHistory extends Component {
     }
 
     if (tx.deltas.length > 1) {
-      const deltasRows = tx.deltas.reverse().map(tx => (
-        <tr key={tx.asset}>
-          <SingleTxDelta tx={tx} />
+      const deltasRows = tx.deltas.reverse().map(t => (
+        <tr key={t.asset}>
+          <SingleTxDelta tx={t} />
         </tr>
       ))
 
@@ -54,7 +61,21 @@ class TxHistory extends Component {
     ))
   }
 
+  renderLoadingTransactions() {
+    return (
+      <tr>
+        <td colSpan={4}>
+          <Flexbox>
+            <span>Loading more transactions ...</span>
+            <Flexbox flexGrow={1} />
+            <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
+          </Flexbox>
+        </td>
+      </tr>
+    )
+  }
   render() {
+    const { txhistory } = this.props
     return (
       <Layout className="balances">
 
@@ -74,12 +95,12 @@ class TxHistory extends Component {
               <tr className="separator" />
             </thead>
             <tbody>
-              {this.renderRows()}
+              { this.renderRows() }
+              { txhistory.isFetching && this.renderLoadingTransactions() }
             </tbody>
           </table>
         </Flexbox>
-        {/* uncomment when zen node have pagination support for comments */}
-        {/* OnScrollBottom onScrollBottom={this.props.txhistory.fetch} /> */}
+        <OnScrollBottom onScrollBottom={txhistory.fetch} />
       </Layout>
     )
   }
