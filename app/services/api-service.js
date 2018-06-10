@@ -1,5 +1,4 @@
 // @flow
-// $FlowFixMe
 import { get, post } from 'axios'
 import type { observableArray } from 'mobx-react'
 
@@ -129,12 +128,14 @@ type TransactionRequest = {
   take: number
 };
 
-type TransactionResponse = {
+export type TransactionDelta = {
+  asset: string,
+  amount: number
+};
+
+export type TransactionResponse = {
   txHash: hash,
-  deltas: [{
-    asset: string,
-    amount: number
-  }],
+  deltas: TransactionDelta[],
   blockNumber: number
 };
 

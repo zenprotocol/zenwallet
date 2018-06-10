@@ -3,7 +3,7 @@
 import React from 'react'
 
 type Props = {
-  onScrollBottom: () => void
+  onScrollBottom: () => Promise<void>
 };
 
 class OnScrollBottom extends React.Component<Props> {
@@ -14,10 +14,9 @@ class OnScrollBottom extends React.Component<Props> {
     window.removeEventListener('scroll', this.onScroll)
   }
   onScroll = () => {
-    // $FlowFixMe
-    if (document.documentElement.scrollHeight ===
-      // $FlowFixMe
-      window.scrollY + document.documentElement.clientHeight) {
+    const { documentElement } = document
+    if (!documentElement) { return }
+    if (documentElement.scrollHeight === window.scrollY + documentElement.clientHeight) {
       this.props.onScrollBottom()
     }
   }

@@ -1,27 +1,32 @@
-import { observable, action, runInAction } from 'mobx'
+// @flow
+import { observable, action, runInAction, type IObservableArray } from 'mobx'
 
-import { getTxHistory } from '../services/api-service'
+import { getTxHistory, type TransactionDelta } from '../services/api-service'
 
-// uncomment when zen node have pagination support for comments
-// const BATCH_SIZE = 50
+export type ObservableTransactionResponse = {
+  txHash: string,
+  // $FlowFixMe
+  deltas: IObservableArray<TransactionDelta>,
+  blockNumber: number
+};
+
+const BATCH_SIZE = 20
 
 class TxHistoryState {
-  @observable transactions = observable.array([])
+  @observable transactions: IObservableArray<ObservableTransactionResponse> = observable.array([])
   @observable skip = 0
+  @observable currentPageSize = 0
   @observable isFetching = false
 
   @action
   fetch = async () => {
     this.isFetching = true
-    const result = await getTxHistory({ skip: 0, take: 999999999 })
-    // const result = await getTxHistory({ skip: this.skip, take: BATCH_SIZE })
+    const result = await getTxHistory({ skip: this.skip, take: this.currentPageSize + BATCH_SIZE })
     runInAction(() => {
-      this.transactions.replace(result)
-      // use below version when zen node have pagination support
-      // if (result.length) {
-      // this.skip = this.skip + Math.min(BATCH_SIZE, result.length)
-      // this.transactions = this.transactions.concat(result)
-      // }
+      if (result.length) {
+        this.currentPageSize = result.length
+        this.transactions.replace(result)
+      }
       this.isFetching = false
     })
   }
