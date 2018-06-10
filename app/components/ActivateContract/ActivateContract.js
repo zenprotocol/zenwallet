@@ -310,7 +310,7 @@ class ActivateContract extends Component<Props> {
           </Flexbox>
 
           <Flexbox flexDirection="row">
-            { this.renderCostToActivate() }
+            {/* this.renderCostToActivate() */}
             { this.renderSuccessResponse() }
             { this.renderErrorResponse() }
             <Flexbox flexGrow={2} />
