@@ -15,8 +15,6 @@ import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 import db from '../../services/store'
 
-const contractList = db.get('savedContracts')
-
 type Props = {
   activeContractSet: ActiveContractSetState,
   contractMessage: ContractMessageState,
@@ -50,25 +48,23 @@ class SavedContracts extends Component<Props, State> {
     }))
   }
 
-  onDeleteClicked = (contractId: string) => {
-    swal({ // eslint-disable-line promise/catch-or-return
+  onDeleteClicked = async (contractId: string) => {
+    const userConfirmedDelete = await swal({
       title: 'Are you sure?',
       text: 'Are you sure that you want to delete this contract?',
       icon: 'warning',
+      buttons: true,
       dangerMode: true,
     })
-      .then(willDelete => {
-        if (willDelete) { // eslint-disable-line promise/always-return
-          db.get('savedContracts').remove({ contractId }).write()
-          swal('Deleted!', 'Your contract has been deleted!', 'success')
-          this.forceUpdate()
-        }
-      })
+    if (userConfirmedDelete) {
+      db.get('savedContracts').remove({ contractId }).write()
+      swal('Deleted!', 'Your contract has been deleted!', 'success')
+    }
   }
 
   renderSavedContractsRows() {
     const { activeContractSet } = this.props
-    const listOfContracts = contractList.value()
+    const listOfContracts = db.get('savedContracts').value()
     const { showCodeSnippetForContractAddress } = this.state
     return listOfContracts.map((savedContract) => {
       const isCodeCurrentyViewed = showCodeSnippetForContractAddress === savedContract.address
@@ -86,7 +82,7 @@ class SavedContracts extends Component<Props, State> {
                 title="Toggle Code Snippet"
                 onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
                 className="button secondary small margin-right code"
-                >
+              >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
               </a>
               {
@@ -101,6 +97,9 @@ class SavedContracts extends Component<Props, State> {
                     </Link>
                   )
               }
+              <a className="button small alert" onClick={() => { this.onDeleteClicked(savedContract.contractId) }}>
+                <FontAwesomeIcon icon={['far', 'trash']} />
+              </a>
             </td>
           </tr>
           <tr className={cx('code', { 'display-none': !isCodeCurrentyViewed })}>
