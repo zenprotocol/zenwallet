@@ -14,7 +14,7 @@ export const isDev = () => process.env.NODE_ENV === 'development'
 const savedContracts = db.get('savedContracts').value()
 
 export const getAssetName = (asset: ?string) => {
-  if (asset === ZEN_ASSET_HASH) { return 'ZENP' }
+  if (asset === ZEN_ASSET_HASH) { return 'ZP' }
   const contractFromDb = savedContracts.find(contract => contract.contractId === asset)
   if (contractFromDb && contractFromDb.name) {
     return contractFromDb.name

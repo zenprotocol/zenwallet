@@ -55,7 +55,7 @@ class Header extends Component {
         <div className="balance">
           <div className="balance-and-ticker">
             <span className="total-balance">Total Balance</span>
-            <span className="zen-symbol">ZENP</span>
+            <span className="zen-symbol">ZP</span>
           </div>
           <div className="account-balance">{zen}</div>
         </div>

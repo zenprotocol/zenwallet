@@ -223,7 +223,7 @@ class ActivateContract extends Component<Props> {
       const activationCostInKalapa = code.length * numberOfBlocks
       if (activationCostInKalapa > 1000000) {
         const newValue = normalizeTokens(activationCostInKalapa, true)
-        unitOfAccountText = `${newValue} ZENP`
+        unitOfAccountText = `${newValue} ZP`
       } else {
         unitOfAccountText = `${activationCostInKalapa.toLocaleString()} Kalapas`
       }
