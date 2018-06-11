@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import swal from 'sweetalert'
 
+import withCountdown from '../../hocs/withCountdown'
 import { postWalletMnemonicphrase } from '../../services/api-service'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 
@@ -26,57 +27,39 @@ const showSeed = async () => {
       title: 'Your Mnemonic Passphrase (seed)',
       text: 'Write down the following words in chronological order and save it in a secure place.',
       content: getShowSeedNode(seedString.split(' ')),
-      className: 'secret-phrase-container',
+      className: 'secret-phrase-modal',
     })
   } catch (err) {
     console.error('error showing seed', err)
   }
 }
 
-class SecurityRiskWarning extends React.Component {
-  state = {
-    disabledSecondsCountdown: 3,
-  }
-  componentDidMount() {
-    this.decreaseSecond()
-  }
-  // This doens't get triggered, so we have a minor memory leak
-  // see issue https://github.com/t4t5/sweetalert/issues/836
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-  get countdownOver() {
-    return this.state.disabledSecondsCountdown === 0
-  }
-  decreaseSecond = () => {
-    this.setState(({ disabledSecondsCountdown }) => ({
-      disabledSecondsCountdown: disabledSecondsCountdown - 1,
-    }), () => {
-      if (this.countdownOver) {
-        return
-      }
-      this.timeout = setTimeout(this.decreaseSecond, 1000)
-    })
-  }
+type Props = {
+  isCountdownOver: boolean,
+  secondsLeft: number
+};
+
+class SecurityRiskWarning extends React.Component<Props> {
   onConfirm = () => {
     swal.setActionValue({ cancel: true })
     swal.close()
   }
   onCancel = () => swal.close()
   renderCountdownSeconds() {
-    const { disabledSecondsCountdown } = this.state
-    if (!this.countdownOver) {
-      return <span>({ disabledSecondsCountdown })</span>
+    const { isCountdownOver, secondsLeft } = this.props
+    if (!isCountdownOver) {
+      return <span>({ secondsLeft })</span>
     }
   }
   render() {
+    const { isCountdownOver } = this.props
     return (
       <div>
         <button className="secondary" onClick={this.onCancel}>Cancel</button>
         <button
           className="button-on-right"
           onClick={this.onConfirm}
-          disabled={!this.countdownOver}
+          disabled={!isCountdownOver}
         >I understand {this.renderCountdownSeconds()}
         </button>
       </div>
@@ -84,9 +67,11 @@ class SecurityRiskWarning extends React.Component {
   }
 }
 
-export function getSecurityRiskWarningNode() {
+const SecurityRiskWarningCountdown = withCountdown(SecurityRiskWarning)
+
+function getSecurityRiskWarningNode() {
   const wrapper = document.createElement('div')
-  ReactDOM.render(<SecurityRiskWarning />, wrapper)
+  ReactDOM.render(<SecurityRiskWarningCountdown countdownSeconds={30} />, wrapper)
   return wrapper.firstChild
 }
 
