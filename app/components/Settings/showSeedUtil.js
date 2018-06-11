@@ -35,7 +35,7 @@ const showSeed = async () => {
 
 class SecurityRiskWarning extends React.Component {
   state = {
-    disabledSecondsCountdown: 3,
+    disabledSecondsCountdown: 30,
   }
   componentDidMount() {
     this.decreaseSecond()
@@ -45,14 +45,14 @@ class SecurityRiskWarning extends React.Component {
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
-  get countdownOver() {
+  get isCountdownOver() {
     return this.state.disabledSecondsCountdown === 0
   }
   decreaseSecond = () => {
     this.setState(({ disabledSecondsCountdown }) => ({
       disabledSecondsCountdown: disabledSecondsCountdown - 1,
     }), () => {
-      if (this.countdownOver) {
+      if (this.isCountdownOver) {
         return
       }
       this.timeout = setTimeout(this.decreaseSecond, 1000)
@@ -65,7 +65,7 @@ class SecurityRiskWarning extends React.Component {
   onCancel = () => swal.close()
   renderCountdownSeconds() {
     const { disabledSecondsCountdown } = this.state
-    if (!this.countdownOver) {
+    if (!this.isCountdownOver) {
       return <span>({ disabledSecondsCountdown })</span>
     }
   }
@@ -76,7 +76,7 @@ class SecurityRiskWarning extends React.Component {
         <button
           className="button-on-right"
           onClick={this.onConfirm}
-          disabled={!this.countdownOver}
+          disabled={!this.isCountdownOver}
         >I understand {this.renderCountdownSeconds()}
         </button>
       </div>
