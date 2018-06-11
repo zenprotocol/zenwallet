@@ -91,19 +91,22 @@ app.on('ready', async () => {
   buildElectronMenu()
 
   process.on('SIGINT', () => {
+    console.log('******* [PROCESS SIGINT] *******')
     console.log('Please close zen-wallet by closing the app window. Now calling app.quit() ...')
     app.quit()
   })
 })
 
 app.on('window-all-closed', () => {
+  console.log('******* [window-all-closed] *******')
   console.log('Calling app.quit because (window-all-closed)')
   app.quit()
 })
 
 app.on('will-quit', () => {
+  console.log('******* [will-quit] *******')
   if (!isUiOnly) {
-    console.log('Gracefully shutting down the zen-node by clicking the close button')
+    console.log('Gracefully shutting down the zen-node')
     zenNode.node.kill('SIGINT')
   }
 })
