@@ -27,7 +27,7 @@ const showSeed = async () => {
       title: 'Your Mnemonic Passphrase (seed)',
       text: 'Write down the following words in chronological order and save it in a secure place.',
       content: getShowSeedNode(seedString.split(' ')),
-      className: 'secret-phrase-container',
+      className: 'secret-phrase-modal',
     })
   } catch (err) {
     console.error('error showing seed', err)
@@ -69,7 +69,7 @@ class SecurityRiskWarning extends React.Component<Props> {
 
 const SecurityRiskWarningCountdown = withCountdown(SecurityRiskWarning)
 
-export function getSecurityRiskWarningNode() {
+function getSecurityRiskWarningNode() {
   const wrapper = document.createElement('div')
   ReactDOM.render(<SecurityRiskWarningCountdown countdownSeconds={30} />, wrapper)
   return wrapper.firstChild
