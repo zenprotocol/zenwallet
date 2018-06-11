@@ -39,9 +39,10 @@ function withCountdown(Component) {
       })
     }
     render() {
+      const { onCountdownOver, countdownSeconds, ...remainingProps } = this.props
       return (
         <Component
-          {...this.props}
+          {...remainingProps}
           ref={this.ref}
           isCountdownOver={this.isCountdownOver}
           secondsLeft={this.state.secondsLeft}
