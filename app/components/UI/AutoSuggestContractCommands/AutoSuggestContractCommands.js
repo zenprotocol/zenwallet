@@ -21,7 +21,10 @@ class AutoSuggestContractCommands extends React.Component<Props, State> {
     value: '',
     suggestions: commands,
   }
-
+  // used by parent
+  reset() {
+    this.setState({ value: '' })
+  }
   // $FlowFixMe
   onSuggestionSelected = (event, { suggestion }) => {
     this.setState({ value: suggestion })

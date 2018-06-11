@@ -86,6 +86,7 @@ class RunContract extends Component {
     contractMessage.sendContractMessage(confirmedPassword)
     this.AutoSuggestAssets.wrappedInstance.reset()
     this.AutoSuggestActiveContracts.reset()
+    this.AutoSuggestContractsCommands.reset()
   }
 
   renderSuccessResponse() {
@@ -121,9 +122,6 @@ class RunContract extends Component {
     const { contractMessage } = this.props
     contractMessage.updateAddress(address)
   }
-
-  onContractAddressBlur = () => this.refs.child.onContractAddressBlur()
-  onContractAddressFocus = () => this.refs.child.onContractAddressFocus()
 
   // HELPER METHODS FOR ASSET AUTO SUGGGEST //
   updateAssetFromSuggestions = ({ asset }) => {
@@ -184,7 +182,10 @@ class RunContract extends Component {
             />
             <Flexbox flexDirection="column" className="choose-command form-row">
               <label htmlFor="command">Choose command</label>
-              <AutoSuggestContractCommands onChange={this.onCommandChanged} />
+              <AutoSuggestContractCommands
+                onChange={this.onCommandChanged}
+                ref={(el) => { this.AutoSuggestContractsCommands = el }}
+              />
             </Flexbox>
             <Flexbox flexDirection="row" className="contract-message-details form-row">
               <AutoSuggestAssets
