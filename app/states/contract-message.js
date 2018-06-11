@@ -15,7 +15,7 @@ class ContractMessageState {
   @observable inprogress
   @observable asset = ''
 
-  constructor(secretPhraseState, activeContractSet) {
+  constructor(activeContractSet) {
     this.activeContractSet = activeContractSet
   }
 
