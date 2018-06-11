@@ -11,6 +11,8 @@ export type ObservableTransactionResponse = {
 };
 
 const BATCH_SIZE = 20
+const POLLING_INTERVAL = 5000
+let intervalId = -1
 
 class TxHistoryState {
   @observable transactions: IObservableArray<ObservableTransactionResponse> = observable.array([])
@@ -19,16 +21,40 @@ class TxHistoryState {
   @observable isFetching = false
 
   @action
-  fetch = async () => {
-    this.isFetching = true
-    const result = await getTxHistory({ skip: this.skip, take: this.currentPageSize + BATCH_SIZE })
+  initPolling() {
+    this.fetch()
+    intervalId = window.setInterval(this.fetch, POLLING_INTERVAL)
+  }
+
+  @action
+  reset() {
+    window.clearInterval(intervalId)
     runInAction(() => {
-      if (result.length) {
-        this.currentPageSize = result.length
-        this.transactions.replace(result)
-      }
+      this.skip = 0
+      this.currentPageSize = 0
       this.isFetching = false
+      this.transactions.replace([])
     })
+  }
+
+  @action
+  fetch = async () => {
+    if (this.isFetching) { return }
+    this.isFetching = true
+    try {
+      const result = await getTxHistory({
+        skip: this.skip, take: this.currentPageSize + BATCH_SIZE,
+      })
+      runInAction(() => {
+        if (result.length) {
+          this.currentPageSize = result.length
+          this.transactions.replace(result)
+        }
+        this.isFetching = false
+      })
+    } catch (error) {
+      this.isFetching = false
+    }
   }
 }
 

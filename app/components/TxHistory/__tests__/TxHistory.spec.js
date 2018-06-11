@@ -28,6 +28,7 @@ describe('TxHistory', () => {
     it('renders Loading transactions text ', () => {
       const { txhistory } = states
       txhistory.isFetching = true
+      component.update()
       expect(component.find('.loading-transactions').text()).toBe('Loading transactions ...')
     })
   })
