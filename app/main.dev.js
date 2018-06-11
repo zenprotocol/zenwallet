@@ -16,7 +16,6 @@ import { app, BrowserWindow } from 'electron'
 
 import ZenNode from './utils/ZenNode'
 import db from './services/store'
-import MenuBuilder from './menu'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
 
@@ -31,9 +30,10 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   require('electron-debug')()
   const p = path.join(__dirname, '..', 'app', 'node_modules')
   require('module').globalPaths.push(p)
-} else {
-  require('electron-context-menu')()
 }
+
+// Enable inspect element on right click
+require('electron-context-menu')()
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer')
@@ -67,6 +67,7 @@ app.on('ready', async () => {
 
   mainWindow = getMainWindow(app.getName())
   mainWindow.on('resize', saveWindowDimensionsToDb)
+  mainWindow.setMenu(null)
 
   if (!isUiOnly) {
     zenNode = new ZenNode(app, mainWindow.webContents)
@@ -87,8 +88,6 @@ app.on('ready', async () => {
   })
 
   mainWindow.on('closed', () => { mainWindow = null })
-
-  buildElectronMenu()
 
   process.on('SIGINT', () => {
     console.log('******* [PROCESS SIGINT] *******')
@@ -124,9 +123,4 @@ function saveWindowDimensionsToDb() {
   if (!mainWindow) { return }
   const { width, height } = mainWindow.getBounds()
   db.get('userPreferences').assign({ width, height }).write()
-}
-
-function buildElectronMenu() {
-  const menuBuilder = new MenuBuilder(mainWindow)
-  menuBuilder.buildMenu()
 }
