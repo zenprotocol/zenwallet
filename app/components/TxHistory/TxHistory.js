@@ -19,7 +19,11 @@ type Props = {
 @observer
 class TxHistory extends Component<Props> {
   componentDidMount() {
-    this.props.txhistory.fetch()
+    this.props.txhistory.initPolling()
+  }
+
+  componentWillUnmount() {
+    this.props.txhistory.reset()
   }
 
   renderTransactionsCell(tx: ObservableTransactionResponse) {
