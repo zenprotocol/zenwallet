@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import swal from 'sweetalert'
+import { ipcRenderer } from 'electron'
 
 import withCountdown from '../../hocs/withCountdown'
 import { postWalletMnemonicphrase } from '../../services/api-service'
+import history from '../../services/history'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 
 import { getShowSeedNode } from './showSeedUtil'
@@ -23,8 +25,7 @@ const wipeBlockchain = async () => {
   }
   // user wants to wipe blockchain only
   if (usersInitialResponse === USER_RESPONSE_WIPE_BLOCKCHAIN_ONLY) {
-    console.log('TODO :: wipe blockchain only')
-    // call wipe blockchain only
+    ipcRenderer.send('restartZenNode', { wipe: true })
     return
   }
   // user wants to wipe blockchain AND wllet
@@ -38,9 +39,8 @@ const wipeBlockchain = async () => {
       return
     }
   }
-  console.log('TODO :: wipe blockchain and wallet')
-  console.log('TODO :: go to import or create wallet')
-  // history.push('/import-or-create-wallet')
+  ipcRenderer.send('restartZenNode', { wipeFull: true })
+  history.push('/import-or-create-wallet')
 }
 
 /* ************ Initial modal ************* */

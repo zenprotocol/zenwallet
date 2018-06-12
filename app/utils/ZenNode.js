@@ -6,8 +6,6 @@ import zenNode from '@zen/zen-node'
 
 import db from '../services/store'
 
-let isMiningFlag = db.get('config.isMining').value()
-
 class ZenNode {
   node = {
     stderr: { pipe: _.noop },
@@ -19,10 +17,18 @@ class ZenNode {
   constructor(webContents) {
     this.webContents = webContents
   }
+  zenNodeArgs = {
+    isMining: db.get('config.isMining').value(),
+    wipe: false,
+    wipeFull: false,
+  }
   init() {
     console.log('[ZEN NODE]: LAUNCHING ZEN NODE')
     try {
-      this.node = zenNode(getNodeArgs(), getZenNodePath())
+      this.node = zenNode(getNodeArgs(this.zenNodeArgs), getZenNodePath())
+      // reset wipe/wipefull args in case node was restarted with them
+      this.zenNodeArgs.wipe = false
+      this.zenNodeArgs.wipeFull = false
       this.node.stderr.pipe(process.stderr)
       this.node.stdout.pipe(process.stdout)
       this.setupLogFetching()
@@ -42,10 +48,8 @@ class ZenNode {
   }
 
   setupRestartListener() {
-    ipcMain.once('restartZenNode', (event, arg) => {
-      if (arg.isMining !== undefined) {
-        isMiningFlag = arg.isMining
-      }
+    ipcMain.once('restartZenNode', (event, args) => {
+      this.zenNodeArgs = { ...this.zenNodeArgs, args }
       this.node.kill('SIGUSR1')
     })
   }
@@ -78,17 +82,17 @@ function isInstalledWithInstaller() {
   return !process.resourcesPath.includes('node_modules/electron/dist')
 }
 
-function getNodeArgs() {
+function getNodeArgs(passedArgs) {
   let args = []
-  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1) {
+  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || passedArgs.wipe) {
     console.log('[ZEN NODE]: WIPING DB')
     args.push('--wipe')
   }
-  if (process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1) {
+  if (process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1 || passedArgs.wipeFull) {
     console.log('[ZEN NODE]: FULLY WIPING DB')
     args = [...args, '--wipe', 'full']
   }
-  if (process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || isMiningFlag) {
+  if (process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || passedArgs.isMining) {
     console.log('[ZEN NODE]: RUNNING A MINER')
     args.push('--miner')
   }
