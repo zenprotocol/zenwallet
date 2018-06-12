@@ -70,7 +70,7 @@ app.on('ready', async () => {
   mainWindow.setMenu(null)
 
   if (!isUiOnly) {
-    zenNode = new ZenNode(app, mainWindow.webContents)
+    zenNode = new ZenNode(mainWindow.webContents)
     zenNode.init()
     zenNode.onClose = app.quit
   }

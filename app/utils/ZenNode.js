@@ -16,8 +16,7 @@ class ZenNode {
     kill: _.noop,
   }
   onClose = _.noop
-  constructor(app, webContents) {
-    this.app = app
+  constructor(webContents) {
     this.webContents = webContents
   }
   init() {
