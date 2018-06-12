@@ -2,28 +2,24 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { inject, observer } from 'mobx-react'
 import { Link, NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import cx from 'classnames'
 
 import pjson from '../../../../package.json'
 import { LOGO_SRC } from '../../../constants/imgSources'
+import NetworkState from '../../../states/network-state'
+import SecretPhraseState from '../../../states/secret-phrase-state'
 
+type Props = {
+  className?: string,
+  networkState: NetworkState,
+  secretPhraseState: SecretPhraseState
+};
+
+@inject('secretPhraseState')
 @inject('networkState')
 @observer
-class Sidebar extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    networkState: PropTypes.shape({
-      headers: PropTypes.number.isRequired,
-      difficulty: PropTypes.number.isRequired,
-      connections: PropTypes.number.isRequired,
-      chain: PropTypes.string.isRequired,
-      blocks: PropTypes.number.isRequired,
-      medianTime: PropTypes.number.isRequired,
-      initialBlockDownload: PropTypes.bool.isRequired,
-      connectedToNode: PropTypes.bool.isRequired,
-    }).isRequired,
-  }
+class Sidebar extends Component<Props> {
   static defaultProps = {
     className: '',
   }
@@ -36,7 +32,9 @@ class Sidebar extends Component {
   }
 
   renderSyncingStatus() {
-    const { initialBlockDownload, connections, blocks, headers } = this.props.networkState
+    const {
+      initialBlockDownload, connections, blocks, headers,
+    } = this.props.networkState
 
     if (connections === 0) {
       return
@@ -44,7 +42,7 @@ class Sidebar extends Component {
 
     if (initialBlockDownload || (blocks < headers)) {
       return (
-        <div className="network-data-point bottom">
+        <div>
           <span className="data-name" title="Syncing">
             <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
           </span>
@@ -55,7 +53,7 @@ class Sidebar extends Component {
 
     if (!initialBlockDownload) {
       return (
-        <div className="network-data-point bottom">
+        <div>
           <span className="data-name" title="Syncing">
             <FontAwesomeIcon icon={['fas', 'circle']} className="green" />
           </span>
@@ -63,6 +61,18 @@ class Sidebar extends Component {
         </div>
       )
     }
+  }
+
+  renderMiningStatus() {
+    const { isMining } = this.props.secretPhraseState
+    return (
+      <div>
+        <span className="data-name" title="Mining">
+          <FontAwesomeIcon icon={['fas', 'circle']} className={cx({ green: isMining })} />
+        </span>
+        <span className="data-point"> {isMining ? 'Mining' : 'Not mining'}</span>
+      </div>
+    )
   }
 
   renderVersions() {
@@ -89,7 +99,7 @@ class Sidebar extends Component {
       return (
         <div className="network-status">
           { this.renderVersions() }
-          <div className="network-data-point bottom">
+          <div>
             <span className="data-name">
               <FontAwesomeIcon icon={['fas', 'circle']} className="red" />
             </span>
@@ -140,7 +150,10 @@ class Sidebar extends Component {
           <span className="data-point">{connections}</span>
         </div>
         { this.renderVersions() }
-        { this.renderSyncingStatus() }
+        <div className="network-data-point bottom">
+          { this.renderSyncingStatus() }
+          { this.renderMiningStatus() }
+        </div>
       </div>
     )
   }
