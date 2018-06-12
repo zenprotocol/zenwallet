@@ -5,26 +5,28 @@
     background-color: $light-grey;
     border-radius: 2px;
 
+    &.new-wallet-modal { width: 45%; }
+    &.secret-phrase-modal { width: 90%; }
+
     .swal-icon {
-      width: 50px;
-      height: 50px;
-      border-width: 2px;
+      &.swal-icon--success:after,
+      &.swal-icon--success:before,
+      .swal-icon--success__hide-corners {
+        background: $light-grey;
+      }
 
       &.swal-icon--warning {
         animation: pulse 2s infinite;
       }
       .swal-icon--warning__body {
-        height: 22px;
         animation: pulse 2s infinite;
         background-color: #ff9147;
         .swal-icon--warning__dot {
           animation: pulse 2s infinite;
-          margin-left: -3px;
           background-color: #ff9147;
         }
       }
     }
-
 
     .swal-title {
       color: $light-white;
