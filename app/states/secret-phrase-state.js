@@ -5,18 +5,17 @@ import { ipcRenderer } from 'electron'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
+import { IPC_RESTART_ZEN_NODE, getInitialIsMining } from '../utils/ZenNode'
 import { getWalletExists, postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
 
-const { alreadyRedeemedTokens, autoLogoutMinutes, isMining } = db.get('config').value()
 class SecretPhraseState {
   @observable mnemonicPhrase = []
   @observable isLoggedIn = false
-  @observable autoLogoutMinutes = autoLogoutMinutes
+  @observable autoLogoutMinutes = db.get('config.autoLogoutMinutes').value()
   @observable inprogress = false
   @observable importError = ''
   @observable status = ''
-  @observable isMining = isMining
-  @observable initialIsMining = isMining
+  @observable isMining = getInitialIsMining()
 
   constructor(networkState, balances, activeContractSet) {
     this.networkState = networkState
@@ -77,6 +76,7 @@ class SecretPhraseState {
         this.isLoggedIn = true
         this.balances.initPolling()
         this.networkState.initPolling()
+        const alreadyRedeemedTokens = db.get('config.alreadyRedeemedTokens').value()
         if (alreadyRedeemedTokens) {
           history.push('/portfolio')
         } else {
@@ -125,10 +125,10 @@ class SecretPhraseState {
   }
 
   @action.bound
-  toggleMining(_isMining) {
-    db.set('config.isMining', _isMining).write()
-    this.isMining = _isMining
-    ipcRenderer.send('restartZenNode', { isMining: _isMining })
+  toggleMining(isMining) {
+    db.set('config.isMining', isMining).write()
+    this.isMining = isMining
+    ipcRenderer.send(IPC_RESTART_ZEN_NODE, { isMining })
   }
 
   @action

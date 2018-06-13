@@ -6,6 +6,10 @@ import zenNode from '@zen/zen-node'
 
 import db from '../services/store'
 
+export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
+export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
+export const ZEN_NODE_RESTART_SIGNAL = 'SIGUSR1'
+
 class ZenNode {
   node = {
     stderr: { pipe: _.noop },
@@ -17,55 +21,72 @@ class ZenNode {
   constructor(webContents) {
     this.webContents = webContents
   }
-  zenNodeArgs = {
-    isMining: db.get('config.isMining').value(),
-    wipe: false,
-    wipeFull: false,
+
+  config = {
+    wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1,
+    wipeFull: process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1,
+    isMining: getInitialIsMining(),
+    isLocalZenNode: process.env.ZEN_LOCAL,
   }
+
   init() {
     console.log('[ZEN NODE]: LAUNCHING ZEN NODE')
     try {
-      this.node = zenNode(getNodeArgs(this.zenNodeArgs), getZenNodePath())
+      this.node = zenNode(this.zenNodeArgs, getZenNodePath())
       // reset wipe/wipefull args in case node was restarted with them
-      this.zenNodeArgs.wipe = false
-      this.zenNodeArgs.wipeFull = false
+      this.config.wipe = false
+      this.config.wipeFull = false
       this.node.stderr.pipe(process.stderr)
       this.node.stdout.pipe(process.stdout)
-      this.setupLogFetching()
-      this.setupRestartListener()
-      this.setupOnExit()
+      this.node.stdout.on('data', this.onBlockchainLog)
+      ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)
+      this.node.on('exit', this.onZenNodeExit)
     } catch (err) {
       console.error('[ZEN NODE]: launching error', err.message, err)
     }
   }
 
-  setupLogFetching() {
-    this.node.stdout.on('data', (chunk) => {
-      const log = chunk.toString('utf8')
-      console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
-      this.webContents.send('blockchainLogs', log)
-    })
+  onBlockchainLog = (chunk) => {
+    const log = chunk.toString('utf8')
+    console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
+    this.webContents.send(IPC_BLOCKCHAIN_LOGS, log)
   }
 
-  setupRestartListener() {
-    ipcMain.once('restartZenNode', (event, args) => {
-      this.zenNodeArgs = { ...this.zenNodeArgs, args }
-      this.node.kill('SIGUSR1')
-    })
+  onRestartZenNode = (event, args) => {
+    this.config = { ...this.config, ...args }
+    this.node.kill(ZEN_NODE_RESTART_SIGNAL)
   }
 
-  setupOnExit() {
-    this.node.on('exit', (code, signal) => {
-      if (signal === 'SIGUSR1') {
-        console.log('\n\n\n\n****************')
-        console.log('[ZEN NODE]: Restart through GUI')
-        console.log('****************\n\n\n\n')
-        this.init()
-      } else {
-        console.log('[ZEN NODE]: Closed')
-        this.onClose()
-      }
-    })
+  onZenNodeExit = (code, signal) => {
+    if (signal === ZEN_NODE_RESTART_SIGNAL) {
+      console.log('\n\n\n\n****************')
+      console.log('[ZEN NODE]: Restart through GUI')
+      console.log('****************\n\n\n\n')
+      this.init()
+    } else {
+      console.log('[ZEN NODE]: Closed')
+      this.onClose()
+    }
+  }
+
+  get zenNodeArgs() {
+    const {
+      isMining, wipe, wipeFull, isLocalZenNode,
+    } = this.config
+    const args = []
+    if (wipe) {
+      args.push('--wipe')
+    } else if (wipeFull) {
+      args.push('--wipe', 'full')
+    }
+    if (isMining) {
+      args.push('--miner')
+    }
+    if (isLocalZenNode) {
+      args.push('--chain', 'local')
+    }
+    console.log('[ZEN NODE]:\n******** Zen node args ********\n', args, '\n******** Zen node args ********\n')
+    return args
   }
 }
 
@@ -82,24 +103,6 @@ function isInstalledWithInstaller() {
   return !process.resourcesPath.includes('node_modules/electron/dist')
 }
 
-function getNodeArgs(passedArgs) {
-  let args = []
-  if (process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || passedArgs.wipe) {
-    console.log('[ZEN NODE]: WIPING DB')
-    args.push('--wipe')
-  }
-  if (process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1 || passedArgs.wipeFull) {
-    console.log('[ZEN NODE]: FULLY WIPING DB')
-    args = [...args, '--wipe', 'full']
-  }
-  if (process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || passedArgs.isMining) {
-    console.log('[ZEN NODE]: RUNNING A MINER')
-    args.push('--miner')
-  }
-  if (process.env.ZEN_LOCAL) {
-    console.log('[ZEN NODE]: Running locally and mining')
-    args = [...args, '--chain', 'local', '--miner']
-  }
-  console.log('\n******** Zen node args ********\n', args, '\n******** Zen node args ********\n')
-  return args
+export function getInitialIsMining() {
+  return process.env.ZEN_LOCAL || process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value()
 }
