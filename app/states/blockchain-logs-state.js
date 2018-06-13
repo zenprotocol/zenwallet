@@ -1,12 +1,14 @@
 import { observable, runInAction } from 'mobx'
 import { ipcRenderer } from 'electron'
 
+import { IPC_BLOCKCHAIN_LOGS } from '../utils/ZenNode'
+
 class BlockchainLogsState {
   @observable logs = []
   pending = []
 
   constructor() {
-    ipcRenderer.on('blockchainLogs', (event, log) => {
+    ipcRenderer.on(IPC_BLOCKCHAIN_LOGS, (event, log) => {
       if (!log) { return }
       this.pending.push(log)
     })

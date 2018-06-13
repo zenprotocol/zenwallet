@@ -10,6 +10,7 @@ import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
 
+import wipeBlockchain from './wipeBlockchainUtil'
 import showSeed from './showSeedUtil'
 import newWallet from './newWalletUtil'
 import './Settings.scss'
@@ -145,6 +146,20 @@ class Settings extends Component<Props, State> {
     )
   }
 
+  renderWipe() {
+    return (
+      <Flexbox className="row">
+        <Flexbox flexDirection="column" className="description">
+          <h2 className="description-title">Wipe blockchain</h2>
+          <p>Wipe your local copy of the blockchain, with an option to wipe your wallet as well</p>
+        </Flexbox>
+        <Flexbox flexDirection="column" className="actions">
+          <button className="btn-block" onClick={wipeBlockchain}>Wipe Blockchain</button>
+        </Flexbox>
+      </Flexbox>
+    )
+  }
+
   renderShowSeed() {
     return (
       <Flexbox className="row">
@@ -240,6 +255,7 @@ class Settings extends Component<Props, State> {
         </Flexbox>
         {this.renderPassword()}
         {this.renderAutoLogout()}
+        {this.renderWipe()}
         {this.renderShowSeed()}
         {this.renderNewWallet()}
         {/* this.renderResyncWallet() */}
