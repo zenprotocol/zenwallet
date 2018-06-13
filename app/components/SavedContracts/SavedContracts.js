@@ -25,6 +25,16 @@ type State = {
   showCodeSnippetForContractAddress: string
 };
 
+type SavedContract = {
+  contractId: string,
+  address: string,
+  code: string,
+  isActive?: boolean,
+  isCodeCurrentlyViewed?: boolean,
+  expire?: number,
+  name?: string
+};
+
 @inject('contract')
 @inject('contractMessage')
 @inject('activeContractSet')
@@ -62,61 +72,73 @@ class SavedContracts extends Component<Props, State> {
     }
   }
 
-  renderSavedContractsRows() {
-    const { activeContractSet } = this.props
-    const listOfContracts = db.get('savedContracts').value()
-    const { showCodeSnippetForContractAddress } = this.state
-    return listOfContracts.map((savedContract) => {
-      const isCodeCurrentyViewed = showCodeSnippetForContractAddress === savedContract.address
-      const matchingActiveContract = activeContractSet.activeContracts
-        .find(ac => ac.contractId === savedContract.contractId)
-      return (
-        <Fragment key={savedContract.contractId}>
-          <tr key={savedContract.contractId}>
-            <td className="text">{savedContract.name}</td>
-            <CopyableTableCell string={savedContract.contractId} />
-            <CopyableTableCell string={savedContract.address} />
-            <td>{ matchingActiveContract ? matchingActiveContract.expire.toLocaleString() : 'Inactive' }</td>
-            <td className="align-right buttons">
-              <a
-                title="Toggle Code Snippet"
-                onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
-                className="button secondary small margin-right code"
-              >
-                <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
-              </a>
-              {
-                matchingActiveContract ?
-                  (
-                    <Link title="Run Contract" className="button small play margin-right play-upload-button" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(savedContract.address)}>
-                      <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
-                    </Link>
-                  ) : (
-                    <Link className="button small margin-right play-upload-button" to="/activate-contract" title="Upload Contract" onClick={() => { this.props.contract.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
-                      <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
-                    </Link>
-                  )
-              }
-              <a className="button small alert" onClick={() => { this.onDeleteClicked(savedContract.contractId) }}>
-                <FontAwesomeIcon icon={['far', 'trash']} />
-              </a>
-            </td>
-          </tr>
-          <tr className={cx('code', { 'display-none': !isCodeCurrentyViewed })}>
-            <td colSpan="5">
-              <Flexbox flexDirection="column" className="contract-code form-row">
-                <Highlight className="fsharp">
-                  {savedContract.code}
-                </Highlight>
-              </Flexbox>
-            </td>
-          </tr>
-          <tr className="separator" />
-        </Fragment>
-      )
-    })
+  addExpiryToSavedContract = (savedContract: SavedContract) => {
+    const matchingActiveContract = this.props.activeContractSet.activeContracts
+      .find(ac => ac.contractId === savedContract.contractId) || {}
+    return {
+      ...savedContract,
+      expire: matchingActiveContract.expire,
+      isActive: !!matchingActiveContract.expire,
+    }
   }
+  addIsCodeCurrentlyViewedToSavedContract = (savedContract: SavedContract) => ({
+    ...savedContract,
+    isCodeCurrentlyViewed: this.state.showCodeSnippetForContractAddress === savedContract.address,
+  })
+  sortSavedContractsByExpiry = (a: SavedContract, b: SavedContract) => a.expire > b.expire
 
+  renderSavedContractRow = (savedContract: SavedContract) => (
+    <Fragment key={savedContract.contractId}>
+      <tr key={savedContract.contractId}>
+        <td className="text">{savedContract.name}</td>
+        <CopyableTableCell string={savedContract.contractId} />
+        <CopyableTableCell string={savedContract.address} />
+        <td>{ savedContract.isActive ? savedContract.expire.toLocaleString() : 'Inactive' }</td>
+        <td className="align-right buttons">
+          <a
+            title="Toggle Code Snippet"
+            onClick={() => { this.toggleCodeSnippet(savedContract.address) }}
+            className="button secondary small margin-right code"
+          >
+            <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
+          </a>
+          {
+            savedContract.isActive ?
+              (
+                <Link title="Run Contract" className="button small play margin-right play-upload-button" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(savedContract.address)}>
+                  <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
+                </Link>
+              ) : (
+                <Link className="button small margin-right play-upload-button" to="/activate-contract" title="Upload Contract" onClick={() => { this.props.contract.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
+                  <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
+                </Link>
+              )
+          }
+          <a className="button small alert" onClick={() => { this.onDeleteClicked(savedContract.contractId) }}>
+            <FontAwesomeIcon icon={['far', 'trash']} />
+          </a>
+        </td>
+      </tr>
+      <tr className={cx('code', { 'display-none': !savedContract.isCodeCurrentlyViewed })}>
+        <td colSpan="5">
+          <Flexbox flexDirection="column" className="contract-code form-row">
+            <Highlight className="fsharp">
+              {savedContract.code}
+            </Highlight>
+          </Flexbox>
+        </td>
+      </tr>
+      <tr className="separator" />
+    </Fragment>
+  )
+  renderSavedContractsRows() {
+    const savedContracts = db.get('savedContracts').value()
+    return savedContracts.concat({ name: '', expire: 20, code: 'code', address: 'address', contractId: 'id' })
+      .map(this.addExpiryToSavedContract)
+      .map(this.addIsCodeCurrentlyViewedToSavedContract)
+      .sort(this.sortSavedContractsByExpiry)
+      .map(this.renderSavedContractRow)
+  }
   render() {
     return (
       <Layout className="saved-contracts">
