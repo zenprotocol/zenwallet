@@ -75,7 +75,7 @@ function getZenNodePath() {
 }
 
 function isInstalledWithInstaller() {
-  return process.resourcesPath.includes('node_modules/electron/dist')
+  return !process.resourcesPath.includes('node_modules/electron/dist')
 }
 
 function getNodeArgs() {
