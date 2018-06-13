@@ -104,5 +104,5 @@ function isInstalledWithInstaller() {
 }
 
 export function getInitialIsMining() {
-  return process.env.ZEN_LOCAL || process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value()
+  return !!(process.env.ZEN_LOCAL || process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value())
 }
