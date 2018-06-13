@@ -15,6 +15,7 @@ class SingleTxDelta extends Component {
       <React.Fragment>
         <CopyableTableCell string={asset} />
         <td>{assetName}</td>
+        <td>{confirmations}</td>
         <td className={amountClass}>{finalAmount}</td>
       </React.Fragment>
 
