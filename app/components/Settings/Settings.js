@@ -255,12 +255,12 @@ class Settings extends Component<Props, State> {
         </Flexbox>
         {this.renderPassword()}
         {this.renderAutoLogout()}
-        {this.renderWipe()}
+        {this.renderMining()}
         {this.renderShowSeed()}
         {this.renderNewWallet()}
-        {/* this.renderResyncWallet() */}
-        {this.renderMining()}
+        {this.renderWipe()}
         {this.renderLogout()}
+        {/* this.renderResyncWallet() */}
       </Layout>
     )
   }
