@@ -75,10 +75,7 @@ function getZenNodePath() {
 }
 
 function isInstalledWithInstaller() {
-  return __dirname.includes('app.asar') // tested on linux. below is an alternative
-  // return process.resourcesPath.includes('node_modules/electron/dist')
-  // TODO [AdGo] 15/05/2018 - delete these comments after confirming it works
-  // on os and windows
+  return process.resourcesPath.includes('node_modules/electron/dist')
 }
 
 function getNodeArgs() {
