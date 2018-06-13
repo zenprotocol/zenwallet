@@ -40,10 +40,12 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
     password, to, asset, amount,
   } = tx
   const data = {
-    asset,
-    address: to,
+    outputs: [{
+      asset,
+      address: to,
+      amount: normalizeSendableAmount(asset, amount),
+    }],
     password,
-    amount: normalizeSendableAmount(asset, amount),
   }
 
   const response = await post(`${serverAddress}/wallet/send`, data, {
@@ -142,9 +144,7 @@ export type TransactionResponse = {
 export async function getTxHistory({
   skip, take,
 }: TransactionRequest = {}): Promise<TransactionResponse[]> {
-  const response = await post(`${serverAddress}/wallet/transactions`, {
-    skip, take,
-  }, {
+  const response = await get(`${serverAddress}/wallet/transactions?skip=${skip}&take=${take}`, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
