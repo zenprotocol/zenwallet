@@ -58,7 +58,7 @@ class TxHistory extends Component<Props> {
       <Fragment key={tx.txHash}>
         <tr>
           <CopyableTableCell string={tx.txHash} />
-          { this.renderTransactionsCell(tx) }
+          <SingleTxDelta tx={tx} />
         </tr>
         <tr className="separator" />
       </Fragment>

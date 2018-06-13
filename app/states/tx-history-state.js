@@ -5,9 +5,9 @@ import { getTxHistory, type TransactionDelta } from '../services/api-service'
 
 export type ObservableTransactionResponse = {
   txHash: string,
-  // $FlowFixMe
-  deltas: IObservableArray<TransactionDelta>,
-  blockNumber: number
+  asset: string,
+  amount: number,
+  confirmations: number
 };
 
 const BATCH_SIZE = 20
@@ -39,6 +39,7 @@ class TxHistoryState {
 
   @action
   fetch = async () => {
+    console.log('this.isFetching', this.isFetching)
     if (this.isFetching) { return }
     this.isFetching = true
     try {
@@ -46,6 +47,7 @@ class TxHistoryState {
         skip: this.skip, take: this.currentPageSize + BATCH_SIZE,
       })
       runInAction(() => {
+        console.log('result', result)
         if (result.length) {
           this.currentPageSize = result.length
           this.transactions.replace(result)
@@ -53,6 +55,7 @@ class TxHistoryState {
         this.isFetching = false
       })
     } catch (error) {
+      console.log('error', error)
       this.isFetching = false
     }
   }

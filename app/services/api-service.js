@@ -137,8 +137,9 @@ export type TransactionDelta = {
 
 export type TransactionResponse = {
   txHash: hash,
-  deltas: TransactionDelta[],
-  blockNumber: number
+  asset: string,
+  amount: number,
+  confirmations: number
 };
 
 export async function getTxHistory({
