@@ -70,8 +70,8 @@ export default ZenNode
 function getZenNodePath() {
   return isInstalledWithInstaller()
     // $FlowFixMe
-    ? path.join(process.resourcesPath, 'app/node_modules/@zen/zen-node')
-    : undefined
+    ? path.join(process.resourcesPath, '/node_modules/@zen/zen-node')
+    : path.join(__dirname, '../../node_modules/@zen/zen-node')
 }
 
 function isInstalledWithInstaller() {
