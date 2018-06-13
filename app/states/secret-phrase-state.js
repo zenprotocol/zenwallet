@@ -1,7 +1,9 @@
 import { observable, action, runInAction } from 'mobx'
 import bip39 from 'bip39'
 import { ipcRenderer } from 'electron'
+import swal from 'sweetalert'
 
+import { BUG_REPORT_EMAIL } from '../constants'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
@@ -13,6 +15,7 @@ class SecretPhraseState {
   @observable isLoggedIn = false
   @observable autoLogoutMinutes = db.get('config.autoLogoutMinutes').value()
   @observable inprogress = false
+  @observable isImporting = false
   @observable importError = ''
   @observable status = ''
   @observable isMining = getInitialIsMining()
@@ -33,11 +36,12 @@ class SecretPhraseState {
 
   @action
   async importWallet(password) {
+    this.isImporting = true
     try {
       const response = await postImportWallet(this.mnemonicPhrase, password)
-
       runInAction(() => {
         console.log('importWallet response', response)
+        this.isImporting = false
         if (response.status === 200) {
           console.log('importWallet set password', password)
           this.isLoggedIn = true
@@ -45,8 +49,11 @@ class SecretPhraseState {
           this.networkState.initPolling()
           this.activeContractSet.fetch()
           this.resync()
+          this.mnemonicPhrase = []
+          history.push('/terms-of-service')
         } else {
           console.log('importWallet response error', response)
+          errorSwalForImportWallet()
         }
       })
     } catch (error) {
@@ -54,6 +61,10 @@ class SecretPhraseState {
       if (error && error.response) {
         console.error(error.response)
       }
+      runInAction(() => {
+        this.isImporting = false
+      })
+      errorSwalForImportWallet()
     }
   }
 
@@ -157,3 +168,7 @@ class SecretPhraseState {
 }
 
 export default SecretPhraseState
+
+function errorSwalForImportWallet() {
+  swal('Error importing wallet', `please try again, and if the error persists, email us at ${BUG_REPORT_EMAIL}`, 'error')
+}

@@ -5,7 +5,6 @@ import Flexbox from 'flexbox-react'
 
 import ToggleVisibilityIcon from '../../Icons/ToggleVisibilityIcon'
 import IsValidIcon from '../../Icons/IsValidIcon'
-import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 import db from '../../../services/store'
 
@@ -85,10 +84,6 @@ class SetPassword extends Component {
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
     secretPhraseState.importWallet(this.state.password)
-
-    secretPhraseState.mnemonicPhrase = []
-
-    history.push('/terms-of-service')
   }
 
   renderPasswordConfirmInput() {
@@ -124,6 +119,7 @@ class SetPassword extends Component {
     )
   }
   render() {
+    const { isImporting } = this.props.secretPhraseState
     const {
       password, inputType,
       autoLogoutMinutes, validLength,
@@ -214,9 +210,9 @@ class SetPassword extends Component {
             <button
               className="button-on-right"
               onClick={this.onSubmitClicked}
-              disabled={!this.validatePassword()}
+              disabled={!this.validatePassword() || isImporting}
             >
-              Continue
+              { isImporting ? 'importing ...' : 'Continue' }
             </button>
           </Flexbox>
         </Flexbox>
