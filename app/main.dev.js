@@ -33,6 +33,9 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   require('module').globalPaths.push(p)
 }
 
+// Enable inspect element on right click
+require('electron-context-menu')()
+
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer')
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
