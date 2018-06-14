@@ -127,7 +127,7 @@ const SecurityRiskWarningCountdown = withCountdown(SecurityRiskWarning)
 
 function getSecurityRiskWarningNode() {
   const wrapper = document.createElement('div')
-  ReactDOM.render(<SecurityRiskWarningCountdown countdownSeconds={30} />, wrapper)
+  ReactDOM.render(<SecurityRiskWarningCountdown countdownSeconds={10} />, wrapper)
   return wrapper.firstChild
 }
 /* ************ /Does user wants to backup seed modal ************* */
