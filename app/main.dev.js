@@ -14,7 +14,7 @@ import path from 'path'
 
 import { app, BrowserWindow } from 'electron'
 
-import ZenNode from './utils/ZenNode'
+import ZenNode from './ZenNode'
 import db from './services/store'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)

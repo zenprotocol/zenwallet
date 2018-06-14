@@ -1,7 +1,7 @@
 import { observable, runInAction } from 'mobx'
 import { ipcRenderer } from 'electron'
 
-import { IPC_BLOCKCHAIN_LOGS } from '../utils/ZenNode'
+import { IPC_BLOCKCHAIN_LOGS } from '../ZenNode'
 
 class BlockchainLogsState {
   @observable logs = []

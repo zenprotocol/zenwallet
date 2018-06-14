@@ -1,10 +1,13 @@
+// DO NOT MOVE THIS FILE
+// This file must be in the same folder as the main.dev.js
+// otherwise packing for npm breaks the path for the zen node
 import path from 'path'
 
 import _ from 'lodash'
 import { ipcMain } from 'electron'
 import zenNode from '@zen/zen-node'
 
-import db from '../services/store'
+import db from './services/store'
 
 export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
 export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
@@ -96,7 +99,7 @@ function getZenNodePath() {
   return isInstalledWithInstaller()
     // $FlowFixMe
     ? path.join(process.resourcesPath, '/node_modules/@zen/zen-node')
-    : path.join(__dirname, '../../node_modules/@zen/zen-node')
+    : path.join(__dirname, '../node_modules/@zen/zen-node')
 }
 
 function isInstalledWithInstaller() {

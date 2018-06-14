@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import swal from 'sweetalert'
 import { ipcRenderer } from 'electron'
 
-import { IPC_RESTART_ZEN_NODE } from '../../utils/ZenNode'
+import { IPC_RESTART_ZEN_NODE } from '../../ZenNode'
 import withCountdown from '../../hocs/withCountdown'
 import { postWalletMnemonicphrase } from '../../services/api-service'
 import history from '../../services/history'
