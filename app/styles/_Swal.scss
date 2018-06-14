@@ -6,7 +6,7 @@
     border-radius: 2px;
 
     &.new-wallet-modal { width: 45%; }
-    &.secret-phrase-modal { width: 90%; }
+    &.secret-phrase-container { width: 600px; }
 
     .swal-icon {
       &.swal-icon--success:after,
