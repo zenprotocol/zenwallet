@@ -257,9 +257,9 @@ class Settings extends Component<Props, State> {
         {this.renderAutoLogout()}
         {this.renderMining()}
         {this.renderShowSeed()}
-        {this.renderNewWallet()}
         {this.renderWipe()}
         {this.renderLogout()}
+        {/* this.renderNewWallet() */}
         {/* this.renderResyncWallet() */}
       </Layout>
     )
