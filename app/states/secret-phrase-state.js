@@ -7,7 +7,7 @@ import { BUG_REPORT_EMAIL } from '../constants'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
-import { IPC_RESTART_ZEN_NODE, getInitialIsMining } from '../utils/ZenNode'
+import { IPC_RESTART_ZEN_NODE, getInitialIsMining } from '../ZenNode'
 import { getWalletExists, postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
 
 class SecretPhraseState {

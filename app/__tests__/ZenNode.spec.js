@@ -23,6 +23,15 @@ jest.mock('services/store', () => ({
   },
 }))
 
+// mock resourcesPath for isInstalledWithInstaller function
+const originalProcessResourcePath = process.resourcesPath
+beforeAll(() => {
+  process.resourcesPath = 'node_modules/electron/dist'
+})
+afterAll(() => {
+  process.resourcesPath = originalProcessResourcePath
+})
+
 afterEach(() => {
   jest.clearAllMocks()
   delete process.env.WIPE
@@ -43,6 +52,7 @@ test('init', () => {
   const zenNode = new ZenNode(mockedWebContents)
   // action
   zenNode.init()
+  console.log(zenNode.node)
   // assertion
   expect(zenNode.node.stderr.pipe).toHaveBeenCalledTimes(1)
   expect(zenNode.node.stderr.pipe).toHaveBeenCalledWith(process.stderr)
