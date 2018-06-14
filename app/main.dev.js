@@ -26,14 +26,12 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install()
 }
 
+require('electron-debug')({ enabled: true })
+
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-  require('electron-debug')()
   const p = path.join(__dirname, '..', 'app', 'node_modules')
   require('module').globalPaths.push(p)
 }
-
-// Enable inspect element on right click
-require('electron-context-menu')()
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer')

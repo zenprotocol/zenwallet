@@ -62,15 +62,18 @@ class Sidebar extends Component<Props> {
       )
     }
   }
-
   renderMiningStatus() {
+
     const { isMining } = this.props.secretPhraseState
+    if (!isMining) {
+      return
+    }
     return (
       <div>
         <span className="data-name" title="Mining">
-          <FontAwesomeIcon icon={['fas', 'circle']} className={cx({ green: isMining })} />
+          <FontAwesomeIcon icon={['fas', 'circle']} className="green" />
         </span>
-        <span className="data-point"> {isMining ? 'Mining' : 'Not mining'}</span>
+        <span className="data-point"> Mining</span>
       </div>
     )
   }
@@ -99,7 +102,7 @@ class Sidebar extends Component<Props> {
       return (
         <div className="network-status">
           { this.renderVersions() }
-          <div>
+          <div className="network-data-point bottom">
             <span className="data-name">
               <FontAwesomeIcon icon={['fas', 'circle']} className="red" />
             </span>
@@ -113,7 +116,7 @@ class Sidebar extends Component<Props> {
       return (
         <div className="network-status">
           { this.renderVersions() }
-          <div className="network-data-point">
+          <div className="network-data-point bottom">
             <span className="data-name">
               <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
             </span>
@@ -151,8 +154,8 @@ class Sidebar extends Component<Props> {
         </div>
         { this.renderVersions() }
         <div className="network-data-point bottom">
-          { this.renderSyncingStatus() }
           { this.renderMiningStatus() }
+          { this.renderSyncingStatus() }
         </div>
       </div>
     )
