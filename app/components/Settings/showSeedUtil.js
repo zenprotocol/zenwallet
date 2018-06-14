@@ -27,7 +27,7 @@ const showSeed = async () => {
       title: 'Your Mnemonic Passphrase (seed)',
       text: 'Write down the following words in chronological order and save it in a secure place.',
       content: getShowSeedNode(seedString.split(' ')),
-      className: 'secret-phrase-modal',
+      className: 'secret-phrase-container',
     })
   } catch (err) {
     console.error('error showing seed', err)
