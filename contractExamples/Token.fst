@@ -57,5 +57,4 @@ let main txSkeleton _ contractId command sender messageBody wallet state =
 
 let cf _ _ _ _ _ wallet _ =
     4 + 64 + 2 + (64 + (64 + (64 + 64 + (Zen.Wallet.size wallet * 128 + 192) + 0)) + 33) + 31
-    |> cast nat
-    |> C.ret
+    |> C.ret #nat
