@@ -77,7 +77,7 @@ class SavedContracts extends Component<Props, State> {
       .find(ac => ac.contractId === savedContract.contractId) || {}
     return {
       ...savedContract,
-      expire: matchingActiveContract.expire,
+      expire: matchingActiveContract.expire || 0,
       isActive: !!matchingActiveContract.expire,
     }
   }
@@ -85,7 +85,8 @@ class SavedContracts extends Component<Props, State> {
     ...savedContract,
     isCodeCurrentlyViewed: this.state.showCodeSnippetForContractAddress === savedContract.address,
   })
-  sortSavedContractsByExpiry = (a: SavedContract, b: SavedContract) => a.expire > b.expire
+  // $FlowFixMe
+  sortSavedContractsByExpiry = (a: SavedContract, b: SavedContract) => a.expire < b.expire
 
   renderSavedContractRow = (savedContract: SavedContract) => (
     <Fragment key={savedContract.contractId}>
@@ -93,6 +94,7 @@ class SavedContracts extends Component<Props, State> {
         <td className="text">{savedContract.name}</td>
         <CopyableTableCell string={savedContract.contractId} />
         <CopyableTableCell string={savedContract.address} />
+        {/* $FlowFixMe */}
         <td>{ savedContract.isActive ? savedContract.expire.toLocaleString() : 'Inactive' }</td>
         <td className="align-right buttons">
           <a
@@ -133,7 +135,7 @@ class SavedContracts extends Component<Props, State> {
   )
   renderSavedContractsRows() {
     const savedContracts = db.get('savedContracts').value()
-    return savedContracts.concat({ name: '', expire: 20, code: 'code', address: 'address', contractId: 'id' })
+    return savedContracts
       .map(this.addExpiryToSavedContract)
       .map(this.addIsCodeCurrentlyViewedToSavedContract)
       .sort(this.sortSavedContractsByExpiry)
