@@ -12,7 +12,8 @@
  */
 import path from 'path'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { autoUpdater } from 'electron-updater'
 
 import ZenNode from './ZenNode'
 import db from './services/store'
@@ -86,6 +87,15 @@ app.on('ready', async () => {
     }
     mainWindow.show()
     mainWindow.focus()
+
+    if (process.env.NODE_ENV === 'development') {
+      autoUpdater.updateConfigPath = path.join(__dirname, '../dev-app-update.yml')
+    }
+    autoUpdater.checkForUpdates()
+
+    ipcMain.on('quitAndInstall', () => {
+      autoUpdater.quitAndInstall()
+    })
   })
 
   mainWindow.on('closed', () => { mainWindow = null })
@@ -95,6 +105,12 @@ app.on('ready', async () => {
     console.log('Please close zen-wallet by closing the app window. Now calling app.quit() ...')
     app.quit()
   })
+})
+
+autoUpdater.on('update-downloaded', () => {
+  if (mainWindow) {
+    mainWindow.webContents.send('updateReady')
+  }
 })
 
 app.on('window-all-closed', () => {
