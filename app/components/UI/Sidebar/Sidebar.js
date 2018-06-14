@@ -62,8 +62,8 @@ class Sidebar extends Component<Props> {
       )
     }
   }
-  renderMiningStatus() {
 
+  renderMiningStatus() {
     const { isMining } = this.props.secretPhraseState
     if (!isMining) {
       return
@@ -71,7 +71,7 @@ class Sidebar extends Component<Props> {
     return (
       <div>
         <span className="data-name" title="Mining">
-          <FontAwesomeIcon icon={['fas', 'circle']} className="green" />
+          <FontAwesomeIcon icon={['fas', 'cog']} spin />
         </span>
         <span className="data-point"> Mining</span>
       </div>
