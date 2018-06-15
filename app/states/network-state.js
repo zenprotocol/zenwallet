@@ -9,7 +9,7 @@ class NetworkState {
   @observable difficulty = 0
   @observable medianTime = 0
   @observable connections = 0
-  @observable initialBlockDownload = true
+  @observable isSynced = true
   @observable connectedToNode = false
 
   constructor() {
@@ -32,7 +32,7 @@ class NetworkState {
         this.headers = result.headers
         this.difficulty = result.difficulty
         this.medianTime = result.medianTime
-        this.initialBlockDownload = result.initialBlockDownload
+        this.isSynced = result.initialBlockDownload
         this.connectedToNode = true
       })
     } catch (error) {
@@ -45,6 +45,10 @@ class NetworkState {
     runInAction(() => {
       this.connections = networkConnectionsResult
     })
+  }
+
+  get isSyncing() {
+    return this.isSynced || (this.blocks < this.headers)
   }
 }
 
