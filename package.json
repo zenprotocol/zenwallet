@@ -48,7 +48,8 @@
     "extraResources": "node_modules/@zen/zen-node",
     "appId": "com.zenprotocol.wallet",
     "publish": {
-      "provider": "github"
+      "provider": "github",
+      "publishAutoUpdate": false
     },
     "dmg": {
       "contents": [
