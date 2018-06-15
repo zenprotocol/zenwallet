@@ -1,5 +1,22 @@
 ul { list-style: none; }
 
+.network-status {
+  padding: 5px 0px 0px 20px;
+  border-top: 1px solid $almost-black;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.42;
+  color: $bright-grey;
+
+  .data-name { font-weight: 400; }
+
+  .network-data-point.bottom {
+    display: block;
+    position: absolute;
+    bottom: 15px;
+  }
+}
+
 nav.sidebar {
   position: fixed;
   left: 0;
@@ -19,23 +36,6 @@ nav.sidebar {
   .menu {
     height: calc(100% - 285px);
     position: relative;
-  }
-
-  .network-status {
-    padding: 5px 0px 0px 20px;
-    border-top: 1px solid $almost-black;
-    font-size: 12px;
-    font-weight: 300;
-    line-height: 1.42;
-    color: $bright-grey;
-
-    .data-name { font-weight: 400; }
-
-    .network-data-point.bottom {
-      display: block;
-      position: absolute;
-      bottom: 15px;
-    }
   }
 
   ul {

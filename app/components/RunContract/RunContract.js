@@ -6,6 +6,7 @@ import { toInteger } from 'lodash'
 import PropTypes from 'prop-types'
 
 import confirmPasswordModal from '../../services/confirmPasswordModal'
+import enforceSynced from '../../services/enforceSynced'
 import db from '../../services/store'
 import { stringToNumber, isZenAsset } from '../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
@@ -224,7 +225,7 @@ class RunContract extends Component {
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
               <button
                 disabled={this.isSubmitButtonDisabled()}
-                onClick={this.onRunContractClicked}
+                onClick={enforceSynced(this.onRunContractClicked)}
               >
                 {inprogress ? 'Running' : 'Run'}
               </button>

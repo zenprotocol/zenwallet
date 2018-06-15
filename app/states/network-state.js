@@ -32,7 +32,7 @@ class NetworkState {
         this.headers = result.headers
         this.difficulty = result.difficulty
         this.medianTime = result.medianTime
-        this.isSynced = result.initialBlockDownload
+        this.isSynced = !result.initialBlockDownload
         this.connectedToNode = true
       })
     } catch (error) {
@@ -48,7 +48,7 @@ class NetworkState {
   }
 
   get isSyncing() {
-    return this.isSynced || (this.blocks < this.headers)
+    return !this.isSynced || (this.blocks < this.headers)
   }
 }
 

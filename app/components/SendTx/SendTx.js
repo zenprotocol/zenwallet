@@ -6,6 +6,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import enforceSynced from '../../services/enforceSynced'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 import IsValidIcon from '../Icons/IsValidIcon'
 import { isValidAddress, isZenAsset, stringToNumber } from '../../utils/helpers'
@@ -226,7 +227,7 @@ class SendTx extends Component {
               <button
                 className={cx('button-on-right', { loading: this.props.transaction.inprogress })}
                 disabled={this.isSubmitButtonDisabled()}
-                onClick={this.onSubmitButtonClicked}
+                onClick={enforceSynced(this.onSubmitButtonClicked)}
               >
                 {this.props.transaction.inprogress ? 'Sending' : 'Send'}
               </button>

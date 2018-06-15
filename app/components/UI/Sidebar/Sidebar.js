@@ -50,7 +50,7 @@ class Sidebar extends Component<Props> {
       )
     }
 
-    if (!isSynced) {
+    if (isSynced) {
       return (
         <div>
           <span className="data-name" title="Syncing">
