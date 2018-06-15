@@ -2,10 +2,10 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import AppUpdater from '../AppUpdater'
-import { checkForUpdates } from '../../../services/app-update'
 import appUpdateModal from '../AppUpdateModal'
+import { checkForUpdates } from '../appUpdate'
 
-jest.mock('../../../services/app-update', () => ({
+jest.mock('../appUpdate', () => ({
   checkForUpdates: jest.fn(),
 }))
 

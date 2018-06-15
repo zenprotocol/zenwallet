@@ -1,8 +1,7 @@
 // @flow
 import React from 'react'
 
-import { checkForUpdates } from '../../services/app-update'
-
+import { checkForUpdates } from './appUpdate'
 import appUpdateModal from './AppUpdateModal'
 
 const POLL_INTERVAL = 1000 * 5 * 60
