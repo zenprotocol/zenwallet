@@ -3,6 +3,8 @@ import React from 'react'
 import swal from 'sweetalert'
 import ReactDOM from 'react-dom'
 
+import ExternalLink from '../UI/ExternalLink'
+
 function getModalNode(link: string) {
   const wrapper = document.createElement('div')
   ReactDOM.render(<AppUpdateModal link={link} />, wrapper)
@@ -35,8 +37,8 @@ class AppUpdateModal extends React.Component<Props> {
          A new version of the wallet is available!
         </p>
         <button className="secondary" onClick={this.onDismiss}>Close</button>
-        <button className="button-on-right" onClick={this.onDownload} >
-          <a href={link} style={{ color: 'white', textDecoration: 'none' }}>Download</a>
+        <button className="button-on-right" onClick={this.onDownload}>
+          <ExternalLink link={link} style={{ color: 'white', textDecoration: 'none' }}>Download</ExternalLink>
         </button>
       </div>
     )
