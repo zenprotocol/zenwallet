@@ -7,6 +7,7 @@ import { head } from 'lodash'
 import Highlight from 'react-highlight'
 import cx from 'classnames'
 
+import enforceSynced from '../../services/enforceSynced'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 import { normalizeTokens, zenToKalapa, stringToNumber } from '../../utils/helpers'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
@@ -324,7 +325,7 @@ class ActivateContract extends Component<Props> {
               <button
                 className={cx('button-on-right', { loading: inprogress })}
                 disabled={this.isSubmitButtonDisabled()}
-                onClick={this.onActivateContractClicked}
+                onClick={enforceSynced(this.onActivateContractClicked)}
               >{inprogress ? 'Activating' : 'Activate'}
               </button>
             </Flexbox>
