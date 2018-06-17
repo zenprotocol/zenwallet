@@ -237,6 +237,7 @@
     "react-switch": "^2.3.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "semver-compare": "^1.0.0",
     "source-map-support": "^0.5.3",
     "sweetalert": "^2.1.0"
   },

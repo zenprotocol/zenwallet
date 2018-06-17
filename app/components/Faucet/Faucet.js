@@ -6,10 +6,9 @@ import classnames from 'classnames'
 import base58 from 'bs58check'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import ExternalLink from '../UI/ExternalLink'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
-
-const { shell } = require('electron')
 
 @inject('redeemTokensState')
 @inject('publicAddress')
@@ -184,11 +183,6 @@ class Faucet extends Component {
     }
   }
 
-  onLinkClick = (evt) => {
-    evt.preventDefault()
-    shell.openExternal(evt.target.href)
-  }
-
   render() {
     const { pubkeyBase58, pubkeyError, pubkeyIsValid } = this.props.redeemTokensState
 
@@ -208,11 +202,10 @@ class Faucet extends Component {
               If you didn&apos;t save your key contact our support team at <a href="mailto:info@zenprotocol.com">info@zenprotocol.com</a> and we&apos;ll help you retrieve it
               <br />
               You can also retrieve it by visiting&nbsp;
-              <a
-                href="https://crowdsale.zenprotocol.com/create-wallet/complete"
-                onClick={this.onLinkClick}
+              <ExternalLink
+                link="https://crowdsale.zenprotocol.com/create-wallet/complete"
               >this link
-              </a> in the same browser you made your purchase from.
+              </ExternalLink> in the same browser you made your purchase from.
             </h3>
           </Flexbox>
 
@@ -249,11 +242,10 @@ class Faucet extends Component {
             <Flexbox>
               <h3 className="agree-to-terms">
                 * By claiming your tokens you agree to the&nbsp;
-                <a
-                  href="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf"
-                  onClick={this.onLinkClick}
+                <ExternalLink
+                  link="https://www.zenprotocol.com/legal/zen_protocol_token_sale_agreement.pdf"
                 >Software License Terms
-                </a>.
+                </ExternalLink>.
               </h3>
             </Flexbox>
 
