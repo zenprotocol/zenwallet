@@ -1,6 +1,7 @@
 {
   "javascript.validate.enable": false,
   "flow.useNPMPackagedFlow": true,
+  "eslint.autoFixOnSave": true,
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,
