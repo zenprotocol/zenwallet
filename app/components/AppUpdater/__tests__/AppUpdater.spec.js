@@ -30,10 +30,6 @@ describe('AppUpdater', () => {
       it('calls appUpdateModal with some link', () => {
         expect(appUpdateModal).toHaveBeenCalledWith('some link')
       })
-
-      it('calls setTimeout with some function and poll interval', () => {
-        expect(window.setTimeout).toHaveBeenCalledWith(expect.any(Function), 5000 * 60)
-      })
     })
 
     describe('and download is clicked on appUpdateModal', () => {
