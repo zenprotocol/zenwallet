@@ -10,7 +10,7 @@ $ npm run dev # first time it will take a while to sync the blockchain
 # Updating zen node
 It's best to update the zen node and commit ONLY that change, to make it easy to trace in the repo's graph
 ```bash
-$ npm run update-zen-node
+$ npm install --save @zen/zen-node
 $ git commit -am "update zen-node x.xx.xx"
 $ git push # after QA!
 ```
