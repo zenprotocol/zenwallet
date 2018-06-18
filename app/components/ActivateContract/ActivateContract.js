@@ -14,10 +14,9 @@ import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
+import ExternalLink from '../UI/ExternalLink'
 import ContractState from '../../states/contract-state'
 import BalancesState from '../../states/balances-state'
-
-const { shell } = require('electron')
 
 const startRegex = /NAME_START:/
 const endRegex = /:NAME_END/
@@ -32,7 +31,7 @@ type Props = {
 @observer
 class ActivateContract extends Component<Props> {
   componentWillUnmount() {
-    if (this.props.contract.status === 'success') {
+    if (this.props.contract.status.match(/success|error/)) {
       this.props.contract.resetForm()
     }
   }
@@ -175,11 +174,6 @@ class ActivateContract extends Component<Props> {
     }
   }
 
-  onLinkClick = (evt) => {
-    evt.preventDefault()
-    shell.openExternal(evt.target.href)
-  }
-
   renderErrorResponse() {
     if (this.props.contract.status !== 'error') {
       return null
@@ -190,13 +184,10 @@ class ActivateContract extends Component<Props> {
           There seems to be a problem with your contract. Please contact your
           developer and direct them to use the ZEN-SDK to test the contract.
           <br />
-          SDK Link:
-          <a
-            href="https://github.com/zenprotocol/ZFS-SDK"
-            onClick={this.onLinkClick}
-          >
+          SDK Link:{' '}
+          <ExternalLink link="https://github.com/zenprotocol/ZFS-SDK">
             https://github.com/zenprotocol/ZFS-SDK
-          </a>
+          </ExternalLink>
         </span>
       </FormResponseMessage>
     )
