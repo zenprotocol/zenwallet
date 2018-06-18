@@ -17,7 +17,7 @@ class ContractState {
   @observable numberOfBlocks = ''
   @observable activationCost = ''
   @observable blockAmountHasError = false
-  @observable status: string
+  @observable status: 'inprogress' | 'success' | 'error' | ''
   @observable inprogress = false
   @observable errorMessage = ''
   @observable acceptedFiles = []
