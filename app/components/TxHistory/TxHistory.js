@@ -27,6 +27,7 @@ class TxHistory extends Component<Props> {
   }
 
   renderTransactionsCell(tx: ObservableTransactionResponse) {
+    // $FlowFixMe
     if (tx.deltas.length === 1) {
       return (
         <SingleTxDelta tx={tx.deltas[0]} />
