@@ -1,3 +1,8 @@
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
 environment:
   GH_TOKEN:
     secure: CLmIAAjz8+SAxpE4XPGV0W6muQvaZLijIxm0Tvph8ZcKMQwNa1gNrkBlloqRZ1/S
