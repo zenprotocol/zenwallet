@@ -111,6 +111,7 @@ class SavedContracts extends Component<Props, State> {
                   <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
                 </Link>
               ) : (
+                // $FlowFixMe
                 <Link className="button small margin-right play-upload-button" to="/activate-contract" title="Upload Contract" onClick={() => { this.props.contract.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
                   <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
                 </Link>

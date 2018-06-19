@@ -40,15 +40,6 @@ describe('TxHistoryState', () => {
     })
   })
 
-  describe('when initPolling is called', () => {
-    beforeEach(() => {
-      txHistoryState.initPolling()
-    })
-    it('calls setInterval with the fetch function', () => {
-      expect(window.setInterval).toHaveBeenCalledWith(expect.any(Function), 5000)
-    })
-  })
-
   describe('when reset is called', () => {
     beforeEach(() => {
       txHistoryState.currentPageSize = 90
@@ -64,10 +55,6 @@ describe('TxHistoryState', () => {
       expect(txHistoryState.transactions).toEqual([])
       expect(txHistoryState.currentPageSize).toBe(0)
       expect(txHistoryState.isFetching).toBe(false)
-    })
-
-    it('calls clearInterval', () => {
-      expect(window.clearInterval).toHaveBeenCalled()
     })
   })
 

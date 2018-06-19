@@ -6,12 +6,12 @@ import { toInteger } from 'lodash'
 import PropTypes from 'prop-types'
 
 import confirmPasswordModal from '../../services/confirmPasswordModal'
+import enforceSynced from '../../services/enforceSynced'
 import db from '../../services/store'
 import { stringToNumber, isZenAsset } from '../../utils/helpers'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestActiveContracts from '../UI/AutoSuggestActiveContracts'
-import AutoSuggestContractCommands from '../UI/AutoSuggestContractCommands'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 import { ZENP_MAX_DECIMALS } from '../../constants'
@@ -67,9 +67,9 @@ class RunContract extends Component {
     }
   }
 
-  onCommandChanged = (command) => {
+  onCommandChanged = (evt) => {
     const { contractMessage } = this.props
-    contractMessage.command = command.trim()
+    contractMessage.command = evt.target.value.trim()
   }
 
   onPasteClicked = () => {
@@ -86,7 +86,6 @@ class RunContract extends Component {
     contractMessage.sendContractMessage(confirmedPassword)
     this.AutoSuggestAssets.wrappedInstance.reset()
     this.AutoSuggestActiveContracts.reset()
-    this.AutoSuggestContractsCommands.reset()
   }
 
   renderSuccessResponse() {
@@ -159,7 +158,7 @@ class RunContract extends Component {
 
   render() {
     const {
-      amount, asset, inprogress, data, address,
+      command, amount, asset, inprogress, data, address,
     } = this.props.contractMessage
     const { activeContractsWithNames } = this.props.activeContractSet
     return (
@@ -182,10 +181,17 @@ class RunContract extends Component {
             />
             <Flexbox flexDirection="column" className="choose-command form-row">
               <label htmlFor="command">Choose command</label>
-              <AutoSuggestContractCommands
-                onChange={this.onCommandChanged}
-                ref={(el) => { this.AutoSuggestContractsCommands = el }}
-              />
+              <Flexbox flexDirection="row" className="command-input">
+                <input
+                  id="command"
+                  className="full-width"
+                  name="command"
+                  type="text"
+                  placeholder="Enter Command"
+                  value={command}
+                  onChange={this.onCommandChanged}
+                />
+              </Flexbox>
             </Flexbox>
             <Flexbox flexDirection="row" className="contract-message-details form-row">
               <AutoSuggestAssets
@@ -224,7 +230,7 @@ class RunContract extends Component {
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
               <button
                 disabled={this.isSubmitButtonDisabled()}
-                onClick={this.onRunContractClicked}
+                onClick={enforceSynced(this.onRunContractClicked)}
               >
                 {inprogress ? 'Running' : 'Run'}
               </button>

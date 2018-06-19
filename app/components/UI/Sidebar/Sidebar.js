@@ -3,7 +3,6 @@ import moment from 'moment'
 import { inject, observer } from 'mobx-react'
 import { Link, NavLink } from 'react-router-dom'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import cx from 'classnames'
 
 import pjson from '../../../../package.json'
 import { LOGO_SRC } from '../../../constants/imgSources'
@@ -33,14 +32,14 @@ class Sidebar extends Component<Props> {
 
   renderSyncingStatus() {
     const {
-      initialBlockDownload, connections, blocks, headers,
+      isSynced, connections, isSyncing,
     } = this.props.networkState
 
     if (connections === 0) {
       return
     }
 
-    if (initialBlockDownload || (blocks < headers)) {
+    if (isSyncing) {
       return (
         <div>
           <span className="data-name" title="Syncing">
@@ -51,7 +50,7 @@ class Sidebar extends Component<Props> {
       )
     }
 
-    if (!initialBlockDownload) {
+    if (isSynced) {
       return (
         <div>
           <span className="data-name" title="Syncing">
@@ -142,7 +141,7 @@ class Sidebar extends Component<Props> {
         </div>
         <div className="network-data-point truncate">
           <span className="data-name">Mining Difficulty: </span>
-          <span className="data-point">{difficulty}</span>
+          <span className="data-point" title={difficulty}>{difficulty}</span>
         </div>
         <div className="network-data-point">
           <span className="data-name" title="Median Time Past">MTP: </span>

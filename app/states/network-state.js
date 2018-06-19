@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx'
 
+import PollManager from '../utils/PollManager'
 import { getNetworkStatus, getNetworkConnections } from '../services/api-service'
 
 class NetworkState {
@@ -9,20 +10,28 @@ class NetworkState {
   @observable difficulty = 0
   @observable medianTime = 0
   @observable connections = 0
-  @observable initialBlockDownload = true
+  @observable isSynced = true
   @observable connectedToNode = false
+  fetchPollManager: PollManager
 
   constructor() {
-    this.fetch = this.fetch.bind(this)
+    this.fetchPollManager = new PollManager({
+      name: 'ACS fetch',
+      fnToPoll: this.fetch,
+      timeoutInterval: 2500,
+    })
   }
 
   @action
   initPolling() {
-    this.fetch()
-    setInterval(this.fetch, 2500)
+    this.fetchPollManager.initPolling()
+  }
+  @action
+  stopPolling() {
+    this.fetchPollManager.stopPolling()
   }
 
-  @action
+  @action.bound
   async fetch() {
     try {
       const result = await getNetworkStatus()
@@ -32,7 +41,7 @@ class NetworkState {
         this.headers = result.headers
         this.difficulty = result.difficulty
         this.medianTime = result.medianTime
-        this.initialBlockDownload = result.initialBlockDownload
+        this.isSynced = !result.initialBlockDownload
         this.connectedToNode = true
       })
     } catch (error) {
@@ -45,6 +54,10 @@ class NetworkState {
     runInAction(() => {
       this.connections = networkConnectionsResult
     })
+  }
+
+  get isSyncing() {
+    return !this.isSynced || (this.blocks < this.headers)
   }
 }
 
