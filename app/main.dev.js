@@ -14,8 +14,11 @@ import path from 'path'
 
 import { app, BrowserWindow } from 'electron'
 
+import initCrashReporterForMain from './utils/crashReporter/crashReporterMainProcess'
 import ZenNode from './ZenNode'
 import db from './services/store'
+
+initCrashReporterForMain()
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
 
@@ -125,3 +128,4 @@ function saveWindowDimensionsToDb() {
   const { width, height } = mainWindow.getBounds()
   db.get('userPreferences').assign({ width, height }).write()
 }
+
