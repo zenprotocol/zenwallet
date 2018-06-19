@@ -12,6 +12,7 @@
  @import "styles/Reset";
  @import "styles/Variables";
  @import "styles/Shared";
+ @import "styles/KeyFrames";
  @import "styles/Swal";
  @import "styles/Table";
  @import "styles/Buttons";
@@ -48,5 +49,10 @@
  @import "components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz";
  @import "components/OnBoarding/SetPassword/SetPassword";
  @import "components/OnBoarding/TermsOfService/TermsOfService";
- //
+ 
  #root { height: 100%; }
+
+.app-wrapper {
+  height: 100%;
+  animation: fadein 0.5s;
+}

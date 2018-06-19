@@ -117,6 +117,7 @@ function getMainWindow(title) {
     width,
     height,
     title,
+    backgroundColor: '#121212',
   })
 }
 
