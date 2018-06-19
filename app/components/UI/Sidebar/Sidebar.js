@@ -141,7 +141,7 @@ class Sidebar extends Component<Props> {
         </div>
         <div className="network-data-point truncate">
           <span className="data-name">Mining Difficulty: </span>
-          <span className="data-point">{difficulty}</span>
+          <span className="data-point" title={difficulty}>{difficulty}</span>
         </div>
         <div className="network-data-point">
           <span className="data-name" title="Median Time Past">MTP: </span>
