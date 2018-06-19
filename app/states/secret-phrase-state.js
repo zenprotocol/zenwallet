@@ -148,7 +148,8 @@ class SecretPhraseState {
     this.importError = ''
     this.status = ''
     this.isLoggedIn = false
-    // TODO: stop polling
+    this.networkState.stopPolling()
+    this.balances.stopPolling()
     history.push('/unlock-wallet')
   }
 
