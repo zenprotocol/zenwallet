@@ -50,3 +50,7 @@
  @import "components/OnBoarding/TermsOfService/TermsOfService";
  //
  #root { height: 100%; }
+
+ html {
+  overflow-y: scroll;
+}
