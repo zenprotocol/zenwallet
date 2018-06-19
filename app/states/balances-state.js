@@ -1,6 +1,7 @@
 import { observable, computed, action, runInAction } from 'mobx'
 import { find } from 'lodash'
 
+import PollManager from '../utils/PollManager'
 import { getBalances } from '../services/api-service'
 import db from '../services/store'
 import { ZEN_ASSET_HASH } from '../../app/constants'
@@ -10,10 +11,15 @@ const savedContracts = db.get('savedContracts').value()
 class BalancesState {
     @observable assets = []
     @observable searchQuery = ''
+    fetchPollManager: PollManager
 
     constructor(acsState) {
-      this.fetch = this.fetch.bind(this)
       this.acsState = acsState
+      this.fetchPollManager = new PollManager({
+        name: 'Balances fetch',
+        fnToPoll: this.fetch,
+        timeoutInterval: 5000,
+      })
     }
 
     @action
@@ -23,11 +29,14 @@ class BalancesState {
 
     @action
     initPolling() {
-      this.fetch()
-      setInterval(this.fetch, 5000)
+      this.fetchPollManager.initPolling()
+    }
+    @action
+    stopPolling() {
+      this.fetchPollManager.stopPolling()
     }
 
-    @action
+    @action.bound
     async fetch() {
       const assets = await getBalances()
       runInAction(() => this.assets.replace(assets))

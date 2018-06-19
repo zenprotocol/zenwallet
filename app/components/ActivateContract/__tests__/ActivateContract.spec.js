@@ -5,6 +5,9 @@ import ContractState from '../../../states/contract-state'
 import BalancesState from '../../../states/balances-state'
 import ActivateContractContainer, { calcMaxBlocksForContract } from '../ActivateContract'
 
+jest.mock('electron', () => ({
+  ipcRenderer: { on: jest.fn() },
+}))
 
 describe('calcMaxBlocksForContract', () => {
   let zenBalance

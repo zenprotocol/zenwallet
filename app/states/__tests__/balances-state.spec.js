@@ -11,8 +11,8 @@ describe('BalancesState', () => {
   it('[init] should initialize the class', () => {
     expect(cut.assets.length).toEqual(0)
   })
-  it('[getAssetName] should return ZENP', () => {
-    expect(cut.getAssetName(ZEN_ASSET_HASH)).toEqual('ZENP')
+  it('[getAssetName] should return ZP', () => {
+    expect(cut.getAssetName(ZEN_ASSET_HASH)).toEqual('ZP')
   })
   it('[getAssetName] should return Awesome Token', () => {
     expect(cut.getAssetName(awesomeTokenAsset)).toEqual('Awesome Token')
@@ -36,7 +36,7 @@ describe('BalancesState', () => {
       { asset: awesomeTokenAsset, balance: 3 },
     ]
     expect(cut.assetsWithNames).toEqual([
-      { asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' },
+      { asset: ZEN_ASSET_HASH, balance: 2, name: 'ZP' },
       { asset: awesomeTokenAsset, balance: 3, name: 'Awesome Token' },
     ])
   })

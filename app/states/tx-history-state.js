@@ -2,6 +2,7 @@
 import { observable, action, runInAction, type IObservableArray } from 'mobx'
 
 import { getTxHistory, type TransactionDelta } from '../services/api-service'
+import PollManager from '../utils/PollManager'
 
 export type ObservableTransactionResponse = {
   txHash: string,
@@ -11,24 +12,33 @@ export type ObservableTransactionResponse = {
 };
 
 const BATCH_SIZE = 20
-const POLLING_INTERVAL = 5000
-let intervalId = -1
 
 class TxHistoryState {
   @observable transactions: IObservableArray<ObservableTransactionResponse> = observable.array([])
   @observable skip = 0
   @observable currentPageSize = 0
   @observable isFetching = false
+  fetchPollManager: PollManager
 
+  constructor() {
+    this.fetchPollManager = new PollManager({
+      name: 'ACS fetch',
+      fnToPoll: this.fetch,
+      timeoutInterval: 5000,
+    })
+  }
   @action
   initPolling() {
-    this.fetch()
-    intervalId = window.setInterval(this.fetch, POLLING_INTERVAL)
+    this.fetchPollManager.initPolling()
+  }
+  @action
+  stopPolling() {
+    this.fetchPollManager.stopPolling()
   }
 
   @action
   reset() {
-    window.clearInterval(intervalId)
+    this.stopPolling()
     runInAction(() => {
       this.skip = 0
       this.currentPageSize = 0
@@ -37,7 +47,7 @@ class TxHistoryState {
     })
   }
 
-  @action
+  @action.bound
   fetch = async () => {
     console.log('this.isFetching', this.isFetching)
     if (this.isFetching) { return }
