@@ -1,6 +1,6 @@
 {
   "name": "zen-wallet",
-  "version": "0.2.63",
+  "version": "0.2.70",
   "description": "Zen Wallet",
   "main": "./main.prod.js",
   "scripts": {
