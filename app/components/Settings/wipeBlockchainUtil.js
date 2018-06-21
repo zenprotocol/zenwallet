@@ -48,7 +48,7 @@ const wipeBlockchain = async () => {
 function initialModal() {
   return swal({
     title: 'Wipe local saved blockchain',
-    text: 'Your local copy of the blockchain will be wiped. It usually takes up to 15 minutes to resync it again from the network. You can choose to wipe your wallet as well.',
+    text: 'Your local copy of the blockchain will be wiped. It will need to resync again after we wipe it. You can choose to wipe your wallet as well, You will need to create or import a new one afterwards.',
     className: 'wipe-blockchain-modal',
     buttons: {
       abort: {
