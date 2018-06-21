@@ -169,8 +169,8 @@ export async function getNetworkConnections(): Promise<number> {
 }
 
 export async function getWalletExists(): Promise<boolean> {
-  console.log('getWalletExists()')
   const response = await axios.get(`${serverAddress}/wallet/exists`)
+  console.log('getWalletExists()', response.data)
   return response.data
 }
 
