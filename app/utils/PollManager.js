@@ -34,7 +34,12 @@ export default class PollManager {
     if (!this.isPolling) {
       return
     }
-    await this.fnToPoll()
+    try {
+      await this.fnToPoll()
+    } catch (err) {
+      // TODO [AdGo] 21/06/2018 - remove (err || {}) after API responses are standardized
+      console.warn(`[${this.name}]: error polling`, (err || {}).message, err)
+    }
     this.pollTimeout = setTimeout(this.poll, this.timeoutInterval)
   }
 

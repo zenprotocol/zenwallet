@@ -11,7 +11,7 @@ export type ObservableTransactionResponse = {
   confirmations: number
 };
 
-const BATCH_SIZE = 20
+const BATCH_SIZE = 100
 
 class TxHistoryState {
   @observable transactions: IObservableArray<ObservableTransactionResponse> = observable.array([])

@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.2.63",
+  "version": "0.2.74",
   "description": "Zen Wallet",
   "main": "app/main.prod.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "lint-fix": "npm run lint -- --fix",
     "lint-styles": "stylelint app/*.css app/components/*.css --syntax scss",
     "lint-styles-fix": "stylefmt -r app/*.css app/components/*.css",
+    "print-zen-node-version": "node -r babel-register ./internals/scripts/PrintZenNodeVersion",
     "package": "npm run build && build --publish never",
     "package-only": "build --publish never",
     "package-all": "npm run build && build -mwl",
@@ -194,7 +195,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "@zen/zen-node": "0.3.28",
+    "@zen/zen-node": "0.3.33",
     "axios": "^0.18.0",
     "bech32": "^1.1.3",
     "bip39": "^2.5.0",
