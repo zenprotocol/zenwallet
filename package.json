@@ -20,6 +20,7 @@
     "lint-fix": "npm run lint -- --fix",
     "lint-styles": "stylelint app/*.css app/components/*.css --syntax scss",
     "lint-styles-fix": "stylefmt -r app/*.css app/components/*.css",
+    "print-zen-node-version": "node -r babel-register ./internals/scripts/PrintZenNodeVersion",
     "package": "npm run build && build --publish never",
     "package-only": "build --publish never",
     "package-all": "npm run build && build -mwl",
