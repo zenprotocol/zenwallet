@@ -31,7 +31,7 @@ type Props = {
 @observer
 class ActivateContract extends Component<Props> {
   componentWillUnmount() {
-    if (this.props.contract.status.match(/success|error/)) {
+    if (this.props.contract.status && this.props.contract.status.match(/success|error/)) {
       this.props.contract.resetForm()
     }
   }
