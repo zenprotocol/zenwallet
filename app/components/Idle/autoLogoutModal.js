@@ -29,6 +29,9 @@ class AutoLogoutModal extends React.Component<Props> {
 
   render() {
     const { secondsLeft } = this.props
+    if (secondsLeft === 0) {
+      return null
+    }
     return (
       <div>
         <p style={{ marginBottom: 25 }}>
