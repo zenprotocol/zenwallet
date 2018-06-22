@@ -67,7 +67,7 @@ class TxHistory extends Component<Props> {
   }
 
   renderLoadingTransactions() {
-    return (
+		return (
       <tr className="loading-transactions">
         <td colSpan={5}>
           <Flexbox>
@@ -101,7 +101,7 @@ class TxHistory extends Component<Props> {
             </thead>
             <tbody>
               { this.renderRows() }
-              { txhistory.isFetching && this.renderLoadingTransactions() }
+              { txhistory.isFetching && (txhistory.transactions.length > 20) && this.renderLoadingTransactions() }
             </tbody>
           </table>
         </Flexbox>
