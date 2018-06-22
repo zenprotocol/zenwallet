@@ -2,8 +2,11 @@ import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
+import initCrashReporterForRenderer from './utils/crashReporter/crashReporterRendererProcess'
 import App from './App'
 import './app.scss'
+
+initCrashReporterForRenderer()
 
 render(
   <AppContainer>

@@ -21,7 +21,9 @@ export default class App extends React.Component {
             <React.Fragment>
               <AppUpdater />
               <Idle />
-              <Routes />
+              <div className="app-wrapper">
+                <Routes />
+              </div>
               <ModalContainer />
             </React.Fragment>
           </Provider>

@@ -16,7 +16,7 @@ class NetworkState {
 
   constructor() {
     this.fetchPollManager = new PollManager({
-      name: 'ACS fetch',
+      name: 'Network fetch',
       fnToPoll: this.fetch,
       timeoutInterval: 2500,
     })
