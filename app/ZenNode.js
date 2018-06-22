@@ -7,6 +7,7 @@ import _ from 'lodash'
 import { ipcMain } from 'electron'
 import zenNode from '@zen/zen-node'
 
+import { shout } from './utils/dev'
 import db from './services/store'
 
 export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
@@ -21,8 +22,10 @@ class ZenNode {
     kill: _.noop,
   }
   onClose = _.noop
-  constructor(webContents) {
+  constructor({ webContents, onClose, onError }) {
     this.webContents = webContents
+    this.onClose = onClose
+    this.onError = onError
   }
 
   config = {
@@ -46,6 +49,7 @@ class ZenNode {
       this.node.on('exit', this.onZenNodeExit)
     } catch (err) {
       console.error('[ZEN NODE]: launching error', err.message, err)
+      this.onError(err, { errorType: 'launching zen node' })
     }
   }
 
@@ -62,9 +66,7 @@ class ZenNode {
 
   onZenNodeExit = (code, signal) => {
     if (signal === ZEN_NODE_RESTART_SIGNAL) {
-      console.log('\n\n\n\n****************')
-      console.log('[ZEN NODE]: Restart through GUI')
-      console.log('****************\n\n\n\n')
+      shout('[ZEN NODE]: Restart through GUI')
       this.init()
     } else {
       console.log('[ZEN NODE]: Closed')
@@ -88,7 +90,7 @@ class ZenNode {
     if (isLocalZenNode) {
       args.push('--chain', 'local')
     }
-    console.log('[ZEN NODE]:\n******** Zen node args ********\n', args, '\n******** Zen node args ********\n')
+    shout('[ZEN NODE]: Zen node args', args)
     return args
   }
 }

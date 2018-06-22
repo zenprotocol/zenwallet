@@ -4,14 +4,14 @@ import low from 'lowdb'
 import Memory from 'lowdb/adapters/Memory'
 
 import states from '../../../states'
-import defaultDbData from '../../../../test/defaultDbData'
+import mockDbDefaultData from '../../../../test/mockDbDefaultData'
 import TxHistory from '../TxHistory'
 import { withHistoryAndState } from '../../../../test/mountHelpers'
 
 jest.unmock('services/store')
 
 const mockDb = low(new Memory())
-mockDb.defaults(defaultDbData)
+mockDb.defaults(mockDbDefaultData)
 jest.mock('electron', () => ({
   app: {
     getPath() { return 'test' },

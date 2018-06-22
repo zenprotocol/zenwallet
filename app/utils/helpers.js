@@ -8,10 +8,9 @@ import { ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../constants'
 import bip39Words from './bip39Words'
 
 const validPrefixes = ['tc', 'zc', 'tp', 'zp']
+const savedContracts = db.get('savedContracts').value()
 
 export const isDev = () => process.env.NODE_ENV === 'development'
-
-const savedContracts = db.get('savedContracts').value()
 
 export const getAssetName = (asset: ?string) => {
   if (asset === ZEN_ASSET_HASH) { return 'ZP' }

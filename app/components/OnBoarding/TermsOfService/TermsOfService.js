@@ -4,11 +4,19 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
+import { observer, inject } from 'mobx-react'
 
+import ErrorReportingState from '../../../states/error-reporting-state'
 import OnBoardingLayout from '../Layout/Layout'
 import history from '../../../services/history'
 
-class TermsOfService extends Component {
+type Props = {
+  errorReportingState: ErrorReportingState
+};
+
+@inject('errorReportingState')
+@observer
+class TermsOfService extends Component<Props> {
   state = {
     checked: false,
   }
@@ -18,7 +26,11 @@ class TermsOfService extends Component {
   }
 
   onNext = () => {
-    history.push('/portfolio')
+    const { errorReportingState } = this.props
+    const nextPage = errorReportingState.isReporting ?
+      '/portfolio' :
+      '/error-reporting-opt-in'
+    history.push(nextPage)
   }
 
   render() {

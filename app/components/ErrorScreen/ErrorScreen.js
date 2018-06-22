@@ -1,20 +1,26 @@
 // @flow
 
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 
 import Container from '../UI/Container/Container'
 import EmailBugReportLink from '../UI/EmailBugReportLink'
+import ErrorReportingState from '../../states/error-reporting-state'
 
 type Props = {
   error: Error,
-  componentStack: string
+  componentStack: string,
+  errorReportingState: ErrorReportingState
 };
 
+@inject('errorReportingState')
+@observer
 class ErrorScreen extends Component<Props> {
   componentDidMount() {
-    const { error, componentStack } = this.props
+    const { error, componentStack, errorReportingState } = this.props
     console.error('error', error)
     console.error('componentStack', componentStack)
+    errorReportingState.report(error, { errorType: 'React Error Boundary' })
   }
   render() {
     const { error } = this.props
