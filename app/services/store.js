@@ -40,6 +40,8 @@ db.defaults({
     alreadyRedeemedTokens: false,
     autoLogoutMinutes: 15,
     isMining: false,
+    isReportingErrors: false,
+    dontAskToReportErrors: false,
   },
 }).write()
 

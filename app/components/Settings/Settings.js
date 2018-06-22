@@ -4,8 +4,10 @@ import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import Switch from 'react-switch'
 import swal from 'sweetalert'
+import Checkbox from 'rc-checkbox'
 
 import SecretPhraseState from '../../states/secret-phrase-state'
+import ErrorReportingState from '../../states/error-reporting-state'
 import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
@@ -14,9 +16,11 @@ import wipeBlockchain from './wipeBlockchainUtil'
 import showSeed from './showSeedUtil'
 import newWallet from './newWalletUtil'
 import './Settings.scss'
+import toggleUserIsOptedIn from './toggleUserIsOptedInUtil'
 
 type Props = {
-  secretPhraseState: SecretPhraseState
+  secretPhraseState: SecretPhraseState,
+  errorReportingState: ErrorReportingState
 };
 
 type State = {
@@ -27,7 +31,7 @@ type State = {
   newPasswordConfirmation: string
 };
 
-@inject('secretPhraseState')
+@inject('secretPhraseState', 'errorReportingState')
 @observer
 class Settings extends Component<Props, State> {
   state = {
@@ -223,6 +227,36 @@ class Settings extends Component<Props, State> {
       </Flexbox>
     )
   }
+  renderErrorReporting() {
+    const { errorReportingState } = this.props
+    return (
+      <Flexbox className="row">
+        <Flexbox flexDirection="column" className="description">
+          <h2 className="description-title">Reporting errors anonymously</h2>
+          {errorReportingState.restartNeededToStopReporting &&
+            <span style={{ color: 'red' }}>Restart the app to stop sending error reports</span>
+          }
+        </Flexbox>
+        <Flexbox flexDirection="column" className="actions">
+          <label htmlFor="error-reporting-switch">
+            <Switch
+              className="pull-right"
+              onColor="#2f8be6"
+              onChange={toggleUserIsOptedIn}
+              checked={errorReportingState.userIsOptedIn}
+              id="error-reporting-switch"
+            />
+          </label>
+          <label className={cx('checkbox align-right', { hidden: errorReportingState.userIsOptedIn })}>
+            <Checkbox type="checkbox" checked={errorReportingState.dontAskToReport} onChange={evt => errorReportingState.setDontAskToReport(evt.target.checked)} />
+            <span className="checkbox-text">
+              {' '} Do not ask me to report
+            </span>
+          </label>
+        </Flexbox>
+      </Flexbox>
+    )
+  }
   renderLogout() {
     return (
       <Flexbox className="row">
@@ -256,6 +290,7 @@ class Settings extends Component<Props, State> {
         {this.renderPassword()}
         {this.renderAutoLogout()}
         {this.renderMining()}
+        {this.renderErrorReporting()}
         {this.renderShowSeed()}
         {this.renderWipe()}
         {this.renderLogout()}

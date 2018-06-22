@@ -17,5 +17,7 @@ export default {
     alreadyRedeemedTokens: false,
     autoLogoutMinutes: 30,
     miner: false,
+    isReportingErrors: false,
+    dontAskToReportErrors: false,
   },
 }

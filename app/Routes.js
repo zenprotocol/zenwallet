@@ -23,6 +23,7 @@ import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
 import SecretPhraseQuiz from './components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz'
 import SetPassword from './components/OnBoarding/SetPassword/SetPassword'
 import TermsOfService from './components/OnBoarding/TermsOfService/TermsOfService'
+import ErrorReportingOptIn from './components/OnBoarding/ErrorReportingOptIn'
 
 const Routes = () => (
   <Router history={history}>
@@ -48,6 +49,7 @@ const Routes = () => (
       <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
       <Route exact path="/set-password" component={SetPassword} />
       <Route exact path="/terms-of-service" component={TermsOfService} />
+      <Route exact path="/error-reporting-opt-in" component={ErrorReportingOptIn} />
       <Route exact path="/" component={Loading} />
     </Switch>
   </Router>

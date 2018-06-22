@@ -14,11 +14,9 @@ import path from 'path'
 
 import { app, BrowserWindow } from 'electron'
 
-import initCrashReporterForMain from './utils/crashReporter/crashReporterMainProcess'
 import ZenNode from './ZenNode'
 import db from './services/store'
-
-initCrashReporterForMain()
+import MainProcessErrorReporter from './utils/errorReporting/MainProcessErrorReporter'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
 
@@ -53,30 +51,31 @@ const installExtensions = async () => {
     .catch(console.log)
 }
 
+let zenNode
 
 /**
  * Add event listeners...
  */
-
-let zenNode
 
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
   }
 
-  console.log('test')
-
   console.log('process.argv', process.argv)
 
   mainWindow = getMainWindow(app.getName())
   mainWindow.on('resize', saveWindowDimensionsToDb)
   mainWindow.setMenu(null)
-
+  const mainProcessErrorReporter = new MainProcessErrorReporter(mainWindow.webContents)
+  mainProcessErrorReporter.init()
   if (!isUiOnly) {
-    zenNode = new ZenNode(mainWindow.webContents)
+    zenNode = new ZenNode({
+      webContents: mainWindow.webContents,
+      onClose: app.quit,
+      onError: mainProcessErrorReporter.report,
+    })
     zenNode.init()
-    zenNode.onClose = app.quit
   }
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
