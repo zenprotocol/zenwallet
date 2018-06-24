@@ -73,8 +73,8 @@ class SavedContracts extends Component<Props, State> {
     const cannotDelete = this.contractExistsInAssets(contractId)
     if (cannotDelete) {
       await swal({
-        title: 'can\'t delete contract',
-        text: 'you have a matching asset for this contract in your portfolio',
+        title: 'Can\'t delete contract',
+        text: 'You have a matching asset for this contract in your portfolio.',
         icon: 'warning',
       })
       return
