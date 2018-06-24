@@ -5,10 +5,8 @@
     .button {
       height: 29px;
       &[aria-disabled="true"] {
-        background-color: $button-grey-disabled;
-        color: white;
         cursor: not-allowed;
-        border: 1px solid $button-grey-disabled;
+        opacity: 0.5;
       }
     }
     min-width: 220px;

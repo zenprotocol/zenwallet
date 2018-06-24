@@ -70,6 +70,15 @@ class SavedContracts extends Component<Props, State> {
   }
 
   onDeleteClicked = async (contractId: string) => {
+    const cannotDelete = this.contractExistsInAssets(contractId)
+    if (cannotDelete) {
+      await swal({
+        title: 'can\'t delete contract',
+        text: 'you have a matching asset for this contract in your portfolio',
+        icon: 'warning',
+      })
+      return
+    }
     const userConfirmedDelete = await swal({
       title: 'Are you sure?',
       text: 'Are you sure that you want to delete this contract?',
@@ -102,15 +111,11 @@ class SavedContracts extends Component<Props, State> {
     return aExpire - bExpire
   }
 
-  contractExistsInAssets = (contract: SavedContract): boolean =>
-    this.props.balances.assets.find(a => a.asset === contract.contractId) !== undefined
+  contractExistsInAssets = (contractId: string): boolean =>
+    !!this.props.balances.assets.find(a => a.asset === contractId)
 
   renderSavedContractRow = (savedContract: SavedContract) => {
-    const cannotDelete = this.contractExistsInAssets(savedContract)
-    const callDeleteContract = cannotDelete ? null : () => {
-      this.onDeleteClicked(savedContract.contractId)
-    }
-
+    const cannotDelete = this.contractExistsInAssets(savedContract.contractId)
     return (
       <Fragment key={savedContract.contractId}>
         <tr key={savedContract.contractId}>
@@ -141,8 +146,9 @@ class SavedContracts extends Component<Props, State> {
             {
               <a
                 className="button small alert"
-                aria-disabled={cannotDelete ? 'true' : 'false'}
-                onClick={callDeleteContract}
+                aria-disabled={String(cannotDelete)}
+                onClick={() => this.onDeleteClicked(savedContract.contractId)}
+                title={cannotDelete ? 'Cant delete contract with matching asset (click for details)' : ''}
               >
                 <FontAwesomeIcon icon={['far', 'trash']} />
               </a>
