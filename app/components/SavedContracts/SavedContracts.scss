@@ -2,7 +2,15 @@
 .saved-contracts-container {
 
   table tbody td.buttons {
-    .button { height: 29px; }
+    .button {
+      height: 29px;
+      &[aria-disabled="true"] {
+        background-color: $button-grey-disabled;
+        color: white;
+        cursor: not-allowed;
+        border: 1px solid $button-grey-disabled;
+      }
+    }
     min-width: 220px;
   }
 
