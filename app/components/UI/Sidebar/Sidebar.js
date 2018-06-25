@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react'
 import { Link, NavLink } from 'react-router-dom'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import pjson from '../../../../package.json'
+import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../../constants/versions'
 import { LOGO_SRC } from '../../../constants/imgSources'
 import NetworkState from '../../../states/network-state'
 import SecretPhraseState from '../../../states/secret-phrase-state'
@@ -82,11 +82,11 @@ class Sidebar extends Component<Props> {
       <React.Fragment>
         <div className="network-data-point">
           <span className="data-name" title="Wallet Version">Wallet Version: </span>
-          <span className="data-point">{pjson.version}</span>
+          <span className="data-point">{WALLET_VERSION}</span>
         </div>
         <div className="network-data-point">
           <span className="data-name" title="Node Version">Node Version: </span>
-          <span className="data-point">{pjson.dependencies['@zen/zen-node']}</span>
+          <span className="data-point">{ZEN_NODE_VERSION}</span>
         </div>
       </React.Fragment>
     )

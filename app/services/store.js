@@ -43,6 +43,11 @@ db.defaults({
     isReportingErrors: false,
     dontAskToReportErrors: false,
   },
+  lastWipe: {
+    timestamp: null,
+    walletVersion: null,
+    zenNodeVersion: null,
+  },
 }).write()
 
 export default db

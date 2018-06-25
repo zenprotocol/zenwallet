@@ -1,3 +1,3 @@
-import pjson from '../../package.json'
+import { ZEN_NODE_VERSION } from '../../app/constants/versions'
 
-console.log('zen node version:', pjson.dependencies['@zen/zen-node'])
+console.log('zen node version:', ZEN_NODE_VERSION)
