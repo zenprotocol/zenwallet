@@ -7,7 +7,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import Layout from '../UI/Layout/Layout'
 import OnScrollBottom from '../UI/OnScrollBottom'
 import CopyableTableCell from '../UI/CopyableTableCell'
-import TransactionHistoryState, { type ObservableTransactionResponse } from '../../states/tx-history-state'
+import TransactionHistoryState from '../../states/tx-history-state'
 
 import SingleTxDelta from './SingleTxDelta'
 
@@ -26,37 +26,10 @@ class TxHistory extends Component<Props> {
     this.props.txhistory.reset()
   }
 
-  renderTransactionsCell(tx: ObservableTransactionResponse) {
-    // $FlowFixMe
-    if (tx.deltas.length === 1) {
-      return (
-        <SingleTxDelta tx={tx.deltas[0]} />
-      )
-    }
-
-    if (tx.deltas.length > 1) {
-      const deltasRows = tx.deltas.reverse().map(t => (
-        <tr key={t.asset}>
-          <SingleTxDelta tx={t} />
-        </tr>
-      ))
-
-      return (
-        <td colSpan="3" className="multiple-inner-tx-deltas">
-          <table>
-            <tbody>
-              {deltasRows}
-            </tbody>
-          </table>
-        </td>
-      )
-    }
-  }
-
   renderRows() {
     const { txhistory } = this.props
-    return txhistory.transactions.map(tx => (
-      <Fragment key={tx.txHash}>
+    return txhistory.transactions.map((tx, index) => (
+      <Fragment key={`${tx.txHash}-${index}`}>
         <tr>
           <CopyableTableCell string={tx.txHash} />
           <SingleTxDelta tx={tx} />
@@ -67,7 +40,7 @@ class TxHistory extends Component<Props> {
   }
 
   renderLoadingTransactions() {
-		return (
+    return (
       <tr className="loading-transactions">
         <td colSpan={5}>
           <Flexbox>
@@ -101,7 +74,8 @@ class TxHistory extends Component<Props> {
             </thead>
             <tbody>
               { this.renderRows() }
-              { txhistory.isFetching && (txhistory.transactions.length > 20) && this.renderLoadingTransactions() }
+              { txhistory.isFetching &&
+                (txhistory.transactions.length > 20) && this.renderLoadingTransactions() }
             </tbody>
           </table>
         </Flexbox>
