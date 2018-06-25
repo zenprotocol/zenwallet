@@ -5,6 +5,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import ErrorScreen from './components/ErrorScreen'
 import AppUpdater from './components/AppUpdater/AppUpdater'
+import WipeModal from './components/UI/WipeModal'
 import Idle from './components/Idle'
 import ModalContainer from './components/ModalContainer'
 import history from './services/history'
@@ -20,6 +21,7 @@ export default class App extends React.Component {
           <Provider history={history} {...states}>
             <React.Fragment>
               <AppUpdater />
+              <WipeModal />
               <Idle />
               <div className="app-wrapper">
                 <Routes />

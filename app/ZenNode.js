@@ -3,16 +3,22 @@
 // otherwise packing for npm breaks the path for the zen node
 import path from 'path'
 
+import compare from 'semver-compare'
 import _ from 'lodash'
 import { ipcMain } from 'electron'
 import zenNode from '@zen/zen-node'
 
 import { shout } from './utils/dev'
 import db from './services/store'
+import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
 
+export const IPC_ASK_IF_WIPED_DUE_TO_VERSION = 'askIfWipedDueToVersion'
+export const IPC_ANSWER_IF_WIPED_DUE_TO_VERSION = 'answerIfWipedDueToVersion'
 export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
 export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
 export const ZEN_NODE_RESTART_SIGNAL = 'SIGUSR1'
+
+export const zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
 
 class ZenNode {
   node = {
@@ -26,10 +32,13 @@ class ZenNode {
     this.webContents = webContents
     this.onClose = onClose
     this.onError = onError
+    ipcMain.once(IPC_ASK_IF_WIPED_DUE_TO_VERSION, () => {
+      this.webContents.send(IPC_ANSWER_IF_WIPED_DUE_TO_VERSION, zenNodeVersionRequiredWipe)
+    })
   }
 
   config = {
-    wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1,
+    wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || zenNodeVersionRequiredWipe,
     wipeFull: process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1,
     isMining: getInitialIsMining(),
     isLocalZenNode: process.env.ZEN_LOCAL,
@@ -39,6 +48,9 @@ class ZenNode {
     console.log('[ZEN NODE]: LAUNCHING ZEN NODE')
     try {
       this.node = zenNode(this.zenNodeArgs, getZenNodePath())
+      if (this.config.wipe || this.config.wipeFull) {
+        this.updateLastWipeInDb()
+      }
       // reset wipe/wipefull args in case node was restarted with them
       this.config.wipe = false
       this.config.wipeFull = false
@@ -73,7 +85,13 @@ class ZenNode {
       this.onClose()
     }
   }
-
+  updateLastWipeInDb() {
+    db.set('lastWipe', {
+      timestamp: Date.now(),
+      walletVersion: WALLET_VERSION,
+      zenNodeVersion: ZEN_NODE_VERSION,
+    }).write()
+  }
   get zenNodeArgs() {
     const {
       isMining, wipe, wipeFull, isLocalZenNode,
@@ -110,4 +128,22 @@ function isInstalledWithInstaller() {
 
 export function getInitialIsMining() {
   return !!(process.env.ZEN_LOCAL || process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value())
+}
+
+function doesZenNodeVersionRequiredWipe() {
+  const latestZenNodeVersionRequiringWipe = '0.3.33'
+  // first time user installs a version of the wallet with this flag feature,
+  // or when user resets his local DB for any reason, we use the mocked version 0.0.0
+  // to make sure wipe will happen, in case user has non valid chain
+  const mockNoWipeRecordVersion = '0.0.0'
+  const lastWipedOnZenNodeVersion = db.get('lastWipe.zenNodeVersion').value() || mockNoWipeRecordVersion
+  const isWipeNeeded = compare(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVersion) === 1
+  console.log(`
+********** WIPE DUE TO ZEN NODE VERSION NEEDED? **********
+${isWipeNeeded ? 'Yes' : 'No'}
+Last version requiring wipe: ${latestZenNodeVersionRequiringWipe}
+Last wiped on version: ${lastWipedOnZenNodeVersion === mockNoWipeRecordVersion ? 'no local record of wiping found' : lastWipedOnZenNodeVersion}
+********** WIPE DUE TO ZEN NODE VERSION NEEDED? **********
+`)
+  return isWipeNeeded
 }
