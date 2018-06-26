@@ -45,13 +45,13 @@ class ErrorReportingOptIn extends Component<Props> {
         <div className="devider after-title" />
 
         <Flexbox flexDirection="row" className="body-section">
-          <Flexbox flexDirection="column" className="bullet-points" flexGrow={2}>
-            <p>Help us reduce errors and provide you a better
-          functioning app by anonymously sending error reports if they arise.
+          <Flexbox flexDirection="column" className="bullet-points" flexGrow={1}>
+            <p className="reduce-errors">
+              Help us reduce errors and provide you a better functioning app by anonymously sending error reports if they arise.
             </p>
           </Flexbox>
           <Flexbox className="bullet-image" flexGrow={1} justifyContent="flex-end">
-            <img alt="Bug" src={BUG_SRC} style={{ maxWidth: 200, maxHeight: 100 }} />
+            <img className="bug-img" alt="Bug" src={BUG_SRC} style={{ maxWidth: 360, maxHeight: 180 }} />
           </Flexbox>
         </Flexbox>
 

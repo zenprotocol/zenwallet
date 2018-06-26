@@ -32,6 +32,21 @@
     color: $bright-grey;
   }
 
+  .bullet-points {
+    p.reduce-errors {
+      margin: 40px 20px 0 0;
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 25px;
+    }
+  }
+
+  .bullet-image {
+    img.bug-img {
+      padding: 0 40px;
+    }
+  }
+
   p {
     font-weight: 500;
     margin-bottom: 14px;
