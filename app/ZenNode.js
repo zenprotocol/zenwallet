@@ -12,7 +12,7 @@ import db from './services/store'
 
 export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
 export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
-export const ZEN_NODE_RESTART_SIGNAL = 'SIGUSR1'
+export const ZEN_NODE_RESTART_SIGNAL = 'SIGKILL'
 
 class ZenNode {
   node = {
@@ -100,12 +100,12 @@ export default ZenNode
 function getZenNodePath() {
   return isInstalledWithInstaller()
     // $FlowFixMe
-    ? path.join(process.resourcesPath, '/node_modules/@zen/zen-node')
-    : path.join(__dirname, '../node_modules/@zen/zen-node')
+    ? path.join(process.resourcesPath, 'node_modules', '@zen', 'zen-node')
+    : path.join(__dirname, '..', 'node_modules', '@zen', 'zen-node')
 }
 
 function isInstalledWithInstaller() {
-  return !process.resourcesPath.includes('node_modules/electron/dist')
+  return !process.resourcesPath.includes(path.join('node_modules', 'electron', 'dist'))
 }
 
 export function getInitialIsMining() {
