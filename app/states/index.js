@@ -12,6 +12,9 @@ import BlockchainLogsState from './blockchain-logs-state'
 import ModalState from './modal-state'
 import ErrorReportingState from './error-reporting-state'
 
+const errorReportingState = new ErrorReportingState()
+errorReportingState.init()
+
 const activeContractSet = new ActiveContractSetState()
 const balances = new BalancesState(activeContractSet)
 const publicAddress = new PublicAddressState()
@@ -24,9 +27,6 @@ const contractMessage = new ContractMessage(activeContractSet)
 const redeemTokensState = new RedeemTokensState()
 const blockchainLogsState = new BlockchainLogsState()
 const modalState = new ModalState()
-const errorReportingState = new ErrorReportingState()
-
-errorReportingState.init()
 
 export default {
   balances,
