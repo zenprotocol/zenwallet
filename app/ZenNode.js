@@ -16,7 +16,7 @@ export const IPC_ASK_IF_WIPED_DUE_TO_VERSION = 'askIfWipedDueToVersion'
 export const IPC_ANSWER_IF_WIPED_DUE_TO_VERSION = 'answerIfWipedDueToVersion'
 export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
 export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
-export const ZEN_NODE_RESTART_SIGNAL = 'SIGUSR1'
+export const ZEN_NODE_RESTART_SIGNAL = 'SIGKILL'
 
 export const zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
 
@@ -118,12 +118,12 @@ export default ZenNode
 function getZenNodePath() {
   return isInstalledWithInstaller()
     // $FlowFixMe
-    ? path.join(process.resourcesPath, '/node_modules/@zen/zen-node')
-    : path.join(__dirname, '../node_modules/@zen/zen-node')
+    ? path.join(process.resourcesPath, 'node_modules', '@zen', 'zen-node')
+    : path.join(__dirname, '..', 'node_modules', '@zen', 'zen-node')
 }
 
 function isInstalledWithInstaller() {
-  return !process.resourcesPath.includes('node_modules/electron/dist')
+  return !process.resourcesPath.includes(path.join('node_modules', 'electron', 'dist'))
 }
 
 export function getInitialIsMining() {
