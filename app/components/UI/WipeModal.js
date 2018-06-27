@@ -17,7 +17,7 @@ class WipeModal extends React.Component {
   initModal() {
     swal({
       title: 'Local wipe occured',
-      text: `Your new version of the zen wallet (${WALLET_VERSION}) requires a local chain wipe, so we automatically did it for you. Sit back while your local node is being synced with the network (see syncing progress in the bottom left portion of the secreen)`,
+      text: `Your new version of the zen wallet (${WALLET_VERSION}) requires a local chain wipe, so we automatically did it for you. Sit back while your local node is being synced with the network (see syncing progress in the bottom left portion of the screen)`,
     })
   }
   render() {
