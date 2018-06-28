@@ -131,7 +131,7 @@ export function getInitialIsMining() {
 }
 
 function doesZenNodeVersionRequiredWipe() {
-  const latestZenNodeVersionRequiringWipe = '0.3.33'
+  const latestZenNodeVersionRequiringWipe = '0.3.43'
   // first time user installs a version of the wallet with this flag feature,
   // or when user resets his local DB for any reason, we use the mocked version 0.0.0
   // to make sure wipe will happen, in case user has non valid chain
