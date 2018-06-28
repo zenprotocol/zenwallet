@@ -7,7 +7,7 @@ import { ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../constants'
 
 import bip39Words from './bip39Words'
 
-const validPrefixes = ['tc', 'zc', 'tp', 'zp']
+const validPrefixes = ['zen', 'tzn', 'czen', 'ctzn']
 const savedContracts = db.get('savedContracts').value()
 
 export const isDev = () => process.env.NODE_ENV === 'development'
