@@ -1,17 +1,19 @@
-import { observable, action, runInAction } from 'mobx'
+import { observable, action, runInAction, computed } from 'mobx'
 
 import PollManager from '../utils/PollManager'
 import { getNetworkStatus, getNetworkConnections } from '../services/api-service'
 
+const initialState = getInitialState()
+
 class NetworkState {
-  @observable chain = ''
-  @observable blocks = 0
-  @observable headers = 0
-  @observable difficulty = 0
-  @observable medianTime = 0
-  @observable connections = 0
-  @observable isSynced = true
-  @observable connectedToNode = false
+  @observable chain = initialState.chain
+  @observable blocks = initialState.blocks
+  @observable headers = initialState.headers
+  @observable difficulty = initialState.difficulty
+  @observable medianTime = initialState.medianTime
+  @observable connections = initialState.connections
+  @observable initialBlockDownload = initialState.initialBlockDownload
+  @observable connectedToNode = initialState.connectedToNode
   fetchPollManager: PollManager
 
   constructor() {
@@ -34,14 +36,14 @@ class NetworkState {
   @action.bound
   async fetch() {
     try {
-      const result = await getNetworkStatus()
+      const result = this.protectResult(await getNetworkStatus())
       runInAction(() => {
         this.chain = result.chain
         this.blocks = result.blocks
         this.headers = result.headers
         this.difficulty = result.difficulty
         this.medianTime = result.medianTime
-        this.isSynced = !result.initialBlockDownload
+        this.initialBlockDownload = result.initialBlockDownload
         this.connectedToNode = true
       })
     } catch (error) {
@@ -59,6 +61,37 @@ class NetworkState {
   get isSyncing() {
     return !this.isSynced || (this.blocks < this.headers)
   }
+
+  get isSynced() {
+    return !this.initialBlockDownload
+  }
+
+  protectResult(result) {
+    this.expectedNonUndefinedKeys.forEach(key => {
+      if (result[key] === undefined) {
+        console.warn(`network response is undefined for key - ${key}. This is unexpected. Falling back to default value ${initialState[key]}`)
+        result[key] = initialState[key]
+      }
+    })
+    return result
+  }
+  @computed
+  get expectedNonUndefinedKeys() {
+    return ['blocks', 'chain', 'difficulty', 'headers', 'initialBlockDownload', 'medianTime', 'tip']
+  }
 }
 
 export default NetworkState
+
+function getInitialState() {
+  return {
+    chain: '',
+    blocks: 0,
+    headers: 0,
+    difficulty: 0,
+    medianTime: 0,
+    connections: 0,
+    initialBlockDownload: false,
+    connectedToNode: false,
+  }
+}
