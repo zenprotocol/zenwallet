@@ -4,7 +4,7 @@
   .swal-modal {
     background-color: $light-grey;
     border-radius: 2px;
-
+    &.enfore-synced-modal .swal-text { text-align: center }
     &.new-wallet-modal { width: 45%; }
     &.secret-phrase-container { width: 600px; }
 
