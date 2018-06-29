@@ -14,6 +14,7 @@ export default function enforceSynced(fnToProtect) {
         text: 'Must be fully synced to perform this operation!',
         icon: 'info',
         content: getModalContent(),
+        className: 'enfore-synced-modal',
         buttons: false,
       })
       if (!canContinue) {
