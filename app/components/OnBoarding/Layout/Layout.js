@@ -32,7 +32,7 @@ class OnBoardingLayout extends Component {
     const { hideSteps, className } = this.props
     return (
       <Flexbox flexDirection="column" className={`onboarding-container ${className}`}>
-        <Flexbox flexDirection="row" className="header">
+        <Flexbox flexDirection="row" className="onboarding-header">
           <Flexbox className="zen-logo" width="100px">
             <Link to="/">
               <img src={LOGO_SRC} alt="Zen Protocol Logo" />
