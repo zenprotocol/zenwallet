@@ -144,13 +144,18 @@ class SecretPhraseState {
 
   @action
   logout() {
+    this.reset()
+    history.push('/unlock-wallet')
+  }
+
+  @action
+  reset() {
     this.mnemonicPhrase = []
     this.importError = ''
     this.status = ''
     this.isLoggedIn = false
     this.networkState.stopPolling()
     this.balances.stopPolling()
-    history.push('/unlock-wallet')
   }
 
   @action

@@ -1,23 +1,29 @@
+// @flow
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { inject, observer } from 'mobx-react'
 import cx from 'classnames'
 
 import NonMainNetBottomBar from '../UI/NonMainNetBottomBar'
+import SecretPhraseState from '../../states/secret-phrase-state'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
+
+import forgotPasswordModal from './forgotPasswordModal'
+
+type Props = {
+  secretPhraseState: SecretPhraseState
+};
+
+type State = {
+  password: string,
+  hidePassword: boolean
+};
 
 @inject('secretPhraseState')
 @observer
-class UnlockWallet extends Component {
-  static propTypes = {
-    secretPhraseState: PropTypes.shape({
-      unlockWallet: PropTypes.func.isRequired,
-    }).isRequired,
-  }
-
+class UnlockWallet extends Component<Props, State> {
   state = {
     password: '',
     hidePassword: true,
@@ -27,12 +33,12 @@ class UnlockWallet extends Component {
     this.setState({ hidePassword: !this.state.hidePassword })
   }
 
-  onChange = (evt) => {
-    this.setState({ password: evt.target.value.trim() })
+  onChange = (evt: Object) => {
+    this.setState({ password: evt.currentTarget.value.trim() })
     this.props.secretPhraseState.unlockWalletClearForm()
   }
 
-  onSubmit = (evt) => {
+  onSubmit = (evt: Object) => {
     evt.preventDefault()
     this.props.secretPhraseState.unlockWallet(this.state.password)
   }
@@ -95,9 +101,9 @@ class UnlockWallet extends Component {
             </button>
           </form>
 
-          <Link className="forgot-password" to="/import-or-create-wallet">
-            Forgot your password? Import you wallet again
-          </Link>
+          <a style={{ textDecoration: 'underline' }} onClick={forgotPasswordModal} className="forgot-password">
+            Forgot your password? Import your wallet again or create a new one
+          </a>
 
           <NonMainNetBottomBar />
         </Flexbox>
