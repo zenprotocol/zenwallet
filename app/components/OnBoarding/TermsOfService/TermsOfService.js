@@ -478,7 +478,7 @@ class TermsOfService extends Component<Props> {
 
         <div className="devider before-buttons" />
 
-        <Flexbox flexDirection="row">
+        <Flexbox flexDirection="row" className="terms-checkbox">
           <Flexbox flexGrow={1} flexDirection="row">
             <label className="checkbox">
               <Checkbox type="checkbox" checked={checked} onChange={this.onChange} />

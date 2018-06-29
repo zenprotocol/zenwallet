@@ -1,4 +1,11 @@
 .terms-of-service-container {
+
+	.terms-checkbox {
+		label.checkbox {
+			line-height: 30px;
+		}
+	}
+
 	.terms-of-service-content {
 	  border-radius: 2px;
 	  overflow: auto;
