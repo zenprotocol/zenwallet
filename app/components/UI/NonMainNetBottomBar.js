@@ -46,11 +46,11 @@ function style(width) {
     left: 0,
     bottom: 0,
     width: width || '100%',
-    background: 'rgba(253, 58, 58, 0.5)',
+    background: '#fd3a3a',
     textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',
-    paddingTop: 2,
-    paddingBottom: 2,
+    paddingTop: 6,
+    paddingBottom: 6,
   }
 }
