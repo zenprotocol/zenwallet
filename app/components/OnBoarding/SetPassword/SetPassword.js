@@ -212,7 +212,7 @@ class SetPassword extends Component {
               onClick={this.onSubmitClicked}
               disabled={!this.validatePassword() || isImporting}
             >
-              { isImporting ? 'importing ...' : 'Continue' }
+              { isImporting ? 'Importing ...' : 'Continue' }
             </button>
           </Flexbox>
         </Flexbox>
