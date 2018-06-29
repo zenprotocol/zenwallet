@@ -1,7 +1,7 @@
 // @flow
 import { observable, action, runInAction, type IObservableArray } from 'mobx'
 
-import { getTxHistory, type TransactionDelta } from '../services/api-service'
+import { getTxHistory } from '../services/api-service'
 import PollManager from '../utils/PollManager'
 
 export type ObservableTransactionResponse = {
@@ -11,9 +11,8 @@ export type ObservableTransactionResponse = {
   confirmations: number
 };
 
-const BATCH_SIZE = 100
-
 class TxHistoryState {
+  @observable batchSize = 100
   @observable transactions: IObservableArray<ObservableTransactionResponse> = observable.array([])
   @observable skip = 0
   @observable currentPageSize = 0
@@ -22,7 +21,7 @@ class TxHistoryState {
 
   constructor() {
     this.fetchPollManager = new PollManager({
-      name: 'ACS fetch',
+      name: 'tx history fetch',
       fnToPoll: this.fetch,
       timeoutInterval: 5000,
     })
@@ -54,7 +53,7 @@ class TxHistoryState {
     this.isFetching = true
     try {
       const result = await getTxHistory({
-        skip: this.skip, take: this.currentPageSize + BATCH_SIZE,
+        skip: this.skip, take: this.currentPageSize + this.batchSize,
       })
       runInAction(() => {
         console.log('result', result)
