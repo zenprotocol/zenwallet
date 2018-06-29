@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
+import cx from 'classnames'
 
 import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
@@ -34,7 +35,10 @@ class ImportWallet extends Component {
 
     this.forceUpdate()
   }
-
+  isWordIncomplete(index) {
+    const { word, status } = this.props.secretPhraseState.mnemonicPhrase[index]
+    return word.length && status !== 'perfect'
+  }
   validateSecretPhrase() {
     const { mnemonicPhrase } = this.props.secretPhraseState
     const statuses = mnemonicPhrase.map(word => word.status)
@@ -65,7 +69,7 @@ class ImportWallet extends Component {
         <input
           type="text"
           data-index={index}
-          className={word.status}
+          className={cx(word.status, { incomplete: this.isWordIncomplete(index) })}
           onChange={this.onChange}
           value={word.word}
         />

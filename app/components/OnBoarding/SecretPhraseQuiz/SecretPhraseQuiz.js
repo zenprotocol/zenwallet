@@ -43,7 +43,10 @@ class SecretPhraseQuiz extends Component {
   isInputValid = idx => this.state.userInputWords[idx]
     && this.props.secretPhraseState.mnemonicPhrase[idx]
       .indexOf(this.state.userInputWords[idx]) === 0
-
+  isInputIncomplete(idx) {
+    const word = this.state.userInputWords[idx]
+    return word.length && !this.isInputPerfect(idx)
+  }
   renderQuizInputs() {
     return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => (
       <li
@@ -60,6 +63,7 @@ class SecretPhraseQuiz extends Component {
               perfect: this.isInputPerfect(idx),
               invalid: this.isInputInvalid(idx),
               valid: this.isInputValid(idx),
+              incomplete: this.isInputIncomplete(idx),
              })}
           value={this.state.userInputWords[idx]}
           disabled={this.isInputPerfect(idx)}
