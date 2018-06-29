@@ -124,7 +124,7 @@ class ProtectWhenSyncincModal extends React.Component<Props> {
         <button
           className="button-on-right"
           onClick={this.onContinue}
-          disabled={false}
+          disabled={!isSynced}
         >Continue {!isSynced && <FontAwesomeIcon icon={['far', 'spinner-third']} spin />}
         </button>
       </div>

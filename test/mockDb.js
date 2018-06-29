@@ -18,5 +18,11 @@ jest.mock('services/store', () => ({
         ],
       }
     }
+    return ({
+      value: () => undefined,
+    })
   },
+  set: jest.fn(() => ({
+    write: jest.fn(),
+  })),
 }))

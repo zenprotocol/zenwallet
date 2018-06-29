@@ -18,9 +18,8 @@ export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
 export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
 export const ZEN_NODE_RESTART_SIGNAL = 'SIGKILL'
 
-export const zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
-
 class ZenNode {
+  static zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
   node = {
     stderr: { pipe: _.noop },
     stdout: { pipe: _.noop, on: _.noop },
@@ -32,16 +31,18 @@ class ZenNode {
     this.webContents = webContents
     this.onClose = onClose
     this.onError = onError
-    ipcMain.once(IPC_ASK_IF_WIPED_DUE_TO_VERSION, () => {
-      this.webContents.send(IPC_ANSWER_IF_WIPED_DUE_TO_VERSION, zenNodeVersionRequiredWipe)
-    })
+    ipcMain.once(IPC_ASK_IF_WIPED_DUE_TO_VERSION, this.answerIfWipedDueToVersion)
+  }
+
+  answerIfWipedDueToVersion = () => {
+    this.webContents.send(IPC_ANSWER_IF_WIPED_DUE_TO_VERSION, ZenNode.zenNodeVersionRequiredWipe)
   }
 
   config = {
-    wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || zenNodeVersionRequiredWipe,
+    wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || ZenNode.zenNodeVersionRequiredWipe,
     wipeFull: process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1,
     isMining: getInitialIsMining(),
-    isLocalZenNode: process.env.ZEN_LOCAL,
+    net: getInitialNet(),
   }
 
   init() {
@@ -94,7 +95,7 @@ class ZenNode {
   }
   get zenNodeArgs() {
     const {
-      isMining, wipe, wipeFull, isLocalZenNode,
+      isMining, wipe, wipeFull, net,
     } = this.config
     const args = []
     if (wipe) {
@@ -105,8 +106,8 @@ class ZenNode {
     if (isMining) {
       args.push('--miner')
     }
-    if (isLocalZenNode) {
-      args.push('--chain', 'local')
+    if (net) {
+      args.push('--chain', net)
     }
     shout('[ZEN NODE]: Zen node args', args)
     return args
@@ -127,7 +128,17 @@ function isInstalledWithInstaller() {
 }
 
 export function getInitialIsMining() {
-  return !!(process.env.ZEN_LOCAL || process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value())
+  return !!(process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value())
+}
+
+export function getInitialNet() {
+  if (process.env.ZEN_LOCAL_NET) {
+    return 'local'
+  }
+  if (process.env.ZEN_TEST_NET) {
+    return 'test'
+  }
+  return ''
 }
 
 function doesZenNodeVersionRequiredWipe() {

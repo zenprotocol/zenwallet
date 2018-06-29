@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import cx from 'classnames'
 
+import NonMainNetBottomBar from '../../UI/NonMainNetBottomBar'
 import { LOGO_SRC } from '../../../constants/imgSources'
 
 class OnBoardingLayout extends Component {
@@ -47,6 +48,7 @@ class OnBoardingLayout extends Component {
         <Flexbox flexDirection="column" className="body">
           {this.props.children}
         </Flexbox>
+        <NonMainNetBottomBar />
       </Flexbox>
     )
   }

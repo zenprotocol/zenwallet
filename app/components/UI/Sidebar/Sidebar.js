@@ -3,8 +3,11 @@ import moment from 'moment'
 import { inject, observer } from 'mobx-react'
 import { Link, NavLink } from 'react-router-dom'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import cx from 'classnames'
 
+import NonMainNetBottomBar from '../../UI/NonMainNetBottomBar'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../../constants/versions'
+import { LOCALNET, MAINNET } from '../../../constants'
 import { LOGO_SRC } from '../../../constants/imgSources'
 import NetworkState from '../../../states/network-state'
 import SecretPhraseState from '../../../states/secret-phrase-state'
@@ -22,7 +25,12 @@ class Sidebar extends Component<Props> {
   static defaultProps = {
     className: '',
   }
-
+  get isBottomBarPresent() {
+    return this.props.networkState.chain !== MAINNET
+  }
+  get bottomDataClassName() {
+    return cx('network-data-point bottom', { 'with-bottom-bar': this.isBottomBarPresent })
+  }
   formattedBlockchainTime() {
     const { medianTime } = this.props.networkState
     return medianTime
@@ -101,7 +109,7 @@ class Sidebar extends Component<Props> {
       return (
         <div className="network-status">
           { this.renderVersions() }
-          <div className="network-data-point bottom">
+          <div className={this.bottomDataClassName}>
             <span className="data-name">
               <FontAwesomeIcon icon={['fas', 'circle']} className="red" />
             </span>
@@ -111,11 +119,11 @@ class Sidebar extends Component<Props> {
       )
     }
 
-    if (connections === 0) {
+    if (connections === 0 && chain !== LOCALNET) {
       return (
         <div className="network-status">
           { this.renderVersions() }
-          <div className="network-data-point bottom">
+          <div className={this.bottomDataClassName}>
             <span className="data-name">
               <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
             </span>
@@ -152,7 +160,7 @@ class Sidebar extends Component<Props> {
           <span className="data-point">{connections}</span>
         </div>
         { this.renderVersions() }
-        <div className="network-data-point bottom">
+        <div className={this.bottomDataClassName}>
           { this.renderMiningStatus() }
           { this.renderSyncingStatus() }
         </div>
@@ -181,6 +189,7 @@ class Sidebar extends Component<Props> {
     )
   }
   render() {
+    const SIDEBAR_WIDTH = 230
     return (
       <nav className={`sidebar ${this.props.className}`}>
         <div className="logo">
@@ -190,6 +199,7 @@ class Sidebar extends Component<Props> {
         </div>
         {this.renderMenu()}
         {this.renderNetworkStatus()}
+        <NonMainNetBottomBar width={SIDEBAR_WIDTH} />
       </nav>
     )
   }

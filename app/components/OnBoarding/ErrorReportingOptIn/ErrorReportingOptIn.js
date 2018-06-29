@@ -47,7 +47,7 @@ class ErrorReportingOptIn extends Component<Props> {
         <Flexbox flexDirection="row" className="body-section">
           <Flexbox flexDirection="column" className="bullet-points" flexGrow={1}>
             <p className="reduce-errors">
-              Help us reduce errors and provide you a better functioning app by anonymously sending error reports if they arise.
+              Help us reduce errors and provide you a better functioning app by anonymously sending error reports.
             </p>
           </Flexbox>
           <Flexbox className="bullet-image" flexGrow={1} justifyContent="flex-end">
@@ -61,7 +61,7 @@ class ErrorReportingOptIn extends Component<Props> {
           <Flexbox flexGrow={1} />
           <Flexbox flexGrow={2} />
           <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-            <button className="secondary" onClick={this.onNoThanks}>No thanks</button>
+            <button onClick={this.onNoThanks}>No</button>
             <button className="button-on-right" onClick={this.onAgree}>Sure, happy to help</button>
           </Flexbox>
         </Flexbox>

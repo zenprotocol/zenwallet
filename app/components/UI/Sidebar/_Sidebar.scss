@@ -14,6 +14,9 @@ ul { list-style: none; }
     display: block;
     position: absolute;
     bottom: 15px;
+    &.with-bottom-bar {
+      bottom: 22px;
+    }
   }
 }
 
@@ -34,7 +37,7 @@ nav.sidebar {
   }
 
   .menu {
-    height: calc(100% - 285px);
+    height: calc(100% - 315px);
     position: relative;
   }
 

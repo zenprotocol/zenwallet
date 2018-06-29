@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.2.83",
+  "version": "0.2.85",
   "description": "Zen Wallet",
   "main": "app/main.prod.js",
   "scripts": {
@@ -10,7 +10,8 @@
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
     "dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 npm run start-renderer-dev",
     "dev-ui-only": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 UIONLY=1 npm run start-renderer-dev",
-    "dev-local": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 ZEN_LOCAL=1 npm run start-renderer-dev",
+    "dev-local": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 ZEN_LOCAL_NET=1 npm run start-renderer-dev",
+    "dev-testnet": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 ZEN_TEST_NET=1 npm run start-renderer-dev",
     "dev-wipe": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 WIPE=1 npm run start-renderer-dev",
     "dev-miner": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 MINER=1 npm run start-renderer-dev",
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
@@ -195,7 +196,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "@zen/zen-node": "0.3.43",
+    "@zen/zen-node": "0.3.45",
     "axios": "^0.18.0",
     "backtrace-js": "0.0.10",
     "backtrace-node": "^0.7.3",
