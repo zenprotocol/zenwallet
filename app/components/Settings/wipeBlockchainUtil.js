@@ -8,6 +8,7 @@ import withCountdown from '../../hocs/withCountdown'
 import { postWalletMnemonicphrase } from '../../services/api-service'
 import history from '../../services/history'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
+import { secretPhraseState } from '../../states'
 
 import { getShowSeedNode } from './showSeedUtil'
 
@@ -41,6 +42,7 @@ const wipeBlockchain = async () => {
     }
   }
   ipcRenderer.send(IPC_RESTART_ZEN_NODE, { wipeFull: true })
+  secretPhraseState.reset()
   history.push('/import-or-create-wallet')
 }
 
