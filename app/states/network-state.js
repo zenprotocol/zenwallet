@@ -1,6 +1,7 @@
 import { observable, action, runInAction, computed } from 'mobx'
 
 import PollManager from '../utils/PollManager'
+import { LOCALNET, TESTNET, MAINNET } from '../constants'
 import { getNetworkStatus, getNetworkConnections } from '../services/api-service'
 
 const initialState = getInitialState()
@@ -38,7 +39,9 @@ class NetworkState {
     try {
       const result = this.protectResult(await getNetworkStatus())
       runInAction(() => {
-        this.chain = result.chain
+        // since the API returns 'main' for mainnet but 'testnet' for testnet, we
+        // normalize the value we save on this.chain, for consistency in the UI
+        this.chain = this.formatChainResult(result.chain)
         this.blocks = result.blocks
         this.headers = result.headers
         this.difficulty = result.difficulty
@@ -78,6 +81,21 @@ class NetworkState {
   @computed
   get expectedNonUndefinedKeys() {
     return ['blocks', 'chain', 'difficulty', 'headers', 'initialBlockDownload', 'medianTime', 'tip']
+  }
+  get otherChain() {
+    return this.chain === TESTNET ? MAINNET : TESTNET
+  }
+
+  formatChainResult(chainResult) {
+    if (chainResult === 'main') {
+      return MAINNET
+    }
+    if (chainResult === 'local') {
+      return LOCALNET
+    }
+    if (chainResult === 'testnet') {
+      return TESTNET
+    }
   }
 }
 

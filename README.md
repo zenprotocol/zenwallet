@@ -163,7 +163,4 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 
 
 # Development
-
-Run `npm run dev-local`
-
-This will run the local node with the `--chain local` argument AND the `--miner` argument
+See [DEV_README](./DEV_README.md)

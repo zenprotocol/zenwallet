@@ -3,11 +3,12 @@ import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import Switch from 'react-switch'
-import swal from 'sweetalert'
 import Checkbox from 'rc-checkbox'
 
+import { MAINNET } from '../../constants'
 import SecretPhraseState from '../../states/secret-phrase-state'
 import ErrorReportingState from '../../states/error-reporting-state'
+import NetworkState from '../../states/network-state'
 import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../Icons/ToggleVisibilityIcon'
 import Layout from '../UI/Layout/Layout'
@@ -15,12 +16,15 @@ import Layout from '../UI/Layout/Layout'
 import wipeBlockchain from './wipeBlockchainUtil'
 import showSeed from './showSeedUtil'
 import newWallet from './newWalletUtil'
-import './Settings.scss'
+import logout from './logoutUtil'
+import switchChain from './switchChain'
 import toggleUserIsOptedIn from './toggleUserIsOptedInUtil'
+import './Settings.scss'
 
 type Props = {
   secretPhraseState: SecretPhraseState,
-  errorReportingState: ErrorReportingState
+  errorReportingState: ErrorReportingState,
+  networkState: NetworkState
 };
 
 type State = {
@@ -31,7 +35,7 @@ type State = {
   newPasswordConfirmation: string
 };
 
-@inject('secretPhraseState', 'errorReportingState')
+@inject('secretPhraseState', 'errorReportingState', 'networkState')
 @observer
 class Settings extends Component<Props, State> {
   state = {
@@ -253,12 +257,34 @@ class Settings extends Component<Props, State> {
               checkedIcon={false}
             />
           </label>
-          <label className={cx('checkbox align-right', { hidden: errorReportingState.userIsOptedIn })}>
-            <Checkbox type="checkbox" checked={errorReportingState.dontAskToReport} onChange={evt => errorReportingState.setDontAskToReport(evt.target.checked)} />
-            <span className="checkbox-text">
-              {' '} Do not ask me to report
-            </span>
-          </label>
+          {!errorReportingState.userIsOptedIn &&
+            <label className="checkbox align-right">
+              <Checkbox type="checkbox" checked={errorReportingState.dontAskToReport} onChange={evt => errorReportingState.setDontAskToReport(evt.target.checked)} />
+              <span className="checkbox-text">
+                {' '} Do not ask me to report
+              </span>
+            </label>}
+        </Flexbox>
+      </Flexbox>
+    )
+  }
+
+  renderChain() {
+    const { networkState } = this.props
+    return (
+      <Flexbox className="row">
+        <Flexbox flexDirection="column" className="description">
+          <h2 className="description-title">Switch Network</h2>
+          <p>
+            You are currently on {networkState.chain}.
+            Switch to {networkState.otherChain} to
+            {' '} {networkState.otherChain === MAINNET
+          ? 'interact with the main network'
+        : 'test your actions'}
+          </p>
+        </Flexbox>
+        <Flexbox flexDirection="column" className="actions">
+          <button className="btn-block" onClick={switchChain}>Switch to {networkState.otherChain}</button>
         </Flexbox>
       </Flexbox>
     )
@@ -270,22 +296,10 @@ class Settings extends Component<Props, State> {
           <h2 className="description-title">Logout</h2>
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block" onClick={this.promptLogout}>Logout</button>
+          <button className="btn-block" onClick={logout}>Logout</button>
         </Flexbox>
       </Flexbox>
     )
-  }
-  promptLogout = async () => {
-    const { secretPhraseState } = this.props
-    const shouldLogout = await swal({
-      title: 'Confirm Logout',
-      icon: 'warning',
-      dangerMode: true,
-      buttons: true,
-    })
-    if (shouldLogout) {
-      secretPhraseState.logout()
-    }
   }
   render() {
     return (
@@ -297,6 +311,7 @@ class Settings extends Component<Props, State> {
         {this.renderAutoLogout()}
         {this.renderMining()}
         {this.renderErrorReporting()}
+        {this.renderChain()}
         {this.renderShowSeed()}
         {this.renderWipe()}
         {this.renderLogout()}
