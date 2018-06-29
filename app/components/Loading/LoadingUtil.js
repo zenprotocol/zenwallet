@@ -1,7 +1,7 @@
 import { getWalletExists, getWalletResync } from '../../services/api-service'
 import db from '../../services/store'
 import history from '../../services/history'
-import { secretPhraseState } from '../../states'
+import { secretPhraseState, networkState } from '../../states'
 
 const { alreadyRedeemedTokens } = db.get('config').value()
 
@@ -13,6 +13,7 @@ export const load = async () => {
 
 export const go = async () => {
   try {
+    networkState.fetch()
     if (!await getWalletExists()) {
       history.push('/welcome-messages')
       return

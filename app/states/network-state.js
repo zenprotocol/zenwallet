@@ -103,7 +103,7 @@ export default NetworkState
 
 function getInitialState() {
   return {
-    chain: '',
+    chain: 'main',
     blocks: 0,
     headers: 0,
     difficulty: 0,
