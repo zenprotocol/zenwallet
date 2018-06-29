@@ -81,8 +81,8 @@ describe('TxHistoryState', () => {
           txHistoryState.fetch()
         })
 
-        it('calls getTxHistory with skip: 0 and take: 20', () => {
-          expect(getTxHistory).toHaveBeenCalledWith({ skip: 0, take: 20 })
+        it('calls getTxHistory with skip: 0 and take: txHistoryState.batchSize', () => {
+          expect(getTxHistory).toHaveBeenCalledWith({ skip: 0, take: txHistoryState.batchSize })
         })
         it('sets isFetching to true', () => {
           expect(txHistoryState.isFetching).toBe(true)
