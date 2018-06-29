@@ -218,9 +218,12 @@ class Settings extends Component<Props, State> {
             <Switch
               className="pull-right"
               onColor="#2f8be6"
+              offColor="#333333"
               onChange={secretPhraseState.toggleMining}
               checked={secretPhraseState.isMining}
               id="miner-switch"
+              uncheckedIcon={false}
+              checkedIcon={false}
             />
           </label>
         </Flexbox>
@@ -242,9 +245,12 @@ class Settings extends Component<Props, State> {
             <Switch
               className="pull-right"
               onColor="#2f8be6"
+              offColor="#333333"
               onChange={toggleUserIsOptedIn}
               checked={errorReportingState.userIsOptedIn}
               id="error-reporting-switch"
+              uncheckedIcon={false}
+              checkedIcon={false}
             />
           </label>
           <label className={cx('checkbox align-right', { hidden: errorReportingState.userIsOptedIn })}>
