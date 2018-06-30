@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import cx from 'classnames'
+import bip39 from 'bip39'
 
 import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
@@ -39,10 +40,14 @@ class ImportWallet extends Component {
     const { word, status } = this.props.secretPhraseState.mnemonicPhrase[index]
     return word.length && status !== 'perfect'
   }
+
   validateSecretPhrase() {
     const { mnemonicPhrase } = this.props.secretPhraseState
     const statuses = mnemonicPhrase.map(word => word.status)
-    return statuses.every(val => val === 'perfect')
+
+    const all = mnemonicPhrase.map(word => word.word).join(' ')
+
+    return statuses.every(val => val === 'perfect') && bip39.validateMnemonic(all)
   }
 
   onLinkClick = (evt) => {
