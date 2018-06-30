@@ -179,7 +179,7 @@ class Sidebar extends Component<Props> {
             { to: 'tx-history', text: 'Transactions' },
             { to: 'acs', text: 'Active Contracts' },
             { to: 'saved-contracts', text: 'Saved Contracts' },
-            { to: 'faucet', text: 'Access Software' },
+            // { to: 'faucet', text: 'Access Software' },
             { to: 'blockchain-logs', text: 'Blockchain Logs' },
             { to: 'settings', text: 'Settings' }, // doens't fit in the sidebar
           ].map(({ to, text }) => <li key={to}><NavLink activeClassName="active" to={`/${to}`}>{text}</NavLink></li>)
