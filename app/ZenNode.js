@@ -73,6 +73,9 @@ class ZenNode {
   }
 
   onRestartZenNode = (event, args) => {
+    if ('net' in args) {
+      this.webContents.send('switchChain', args.net)
+    }
     this.config = { ...this.config, ...args }
     this.node.kill(ZEN_NODE_RESTART_SIGNAL)
   }

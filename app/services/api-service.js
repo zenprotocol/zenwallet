@@ -5,7 +5,6 @@ import type { observableArray } from 'mobx-react'
 import { isZenAsset } from '../utils/helpers'
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
 
-const serverAddress = getServerAddress()
 const crowdsaleServerAddress = getCrowdsaleServerAddress()
 
 type hash = string;
@@ -17,7 +16,7 @@ type Asset = {
 };
 
 export async function getBalances(): Promise<Asset[]> {
-  const response = await axios.get(`${serverAddress}/wallet/balance`)
+  const response = await axios.get(`${getServerAddress()}/wallet/balance`)
   return response.data.map(asset => ({
     ...asset,
     balance: normalizePresentableAmount(asset.asset, asset.balance),
@@ -25,7 +24,7 @@ export async function getBalances(): Promise<Asset[]> {
 }
 
 export async function getPublicAddress(): Promise<string> {
-  const response = await axios.get(`${serverAddress}/wallet/address`)
+  const response = await axios.get(`${getServerAddress()}/wallet/address`)
   return response.data
 }
 
@@ -48,7 +47,7 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
     password,
   }
 
-  const response = await axios.post(`${serverAddress}/wallet/send`, data, {
+  const response = await axios.post(`${getServerAddress()}/wallet/send`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
 
@@ -60,7 +59,7 @@ type NewContract = { address: addressType, contractId: string };
 
 export async function postActivateContract(data: ActivateContractPayload): Promise<NewContract> {
   console.log('postActivateContract data', data)
-  const response = await axios.post(`${serverAddress}/wallet/contract/activate`, data, {
+  const response = await axios.post(`${getServerAddress()}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
@@ -107,7 +106,7 @@ export async function postRunContractMessage(contractMessage: ContractMessage & 
     ]
   }
 
-  const response = await axios.post(`${serverAddress}/wallet/contract/execute`, finaldata, {
+  const response = await axios.post(`${getServerAddress()}/wallet/contract/execute`, finaldata, {
     headers: { 'Content-Type': 'application/json' },
   })
 
@@ -121,7 +120,7 @@ type ActiveContract = {
   code: string
 };
 export async function getActiveContractSet(): Promise<ActiveContract[]> {
-  const response = await axios.get(`${serverAddress}/contract/active`)
+  const response = await axios.get(`${getServerAddress()}/contract/active`)
   return response.data
 }
 
@@ -145,7 +144,7 @@ export type TransactionResponse = {
 export async function getTxHistory({
   skip, take,
 }: TransactionRequest = {}): Promise<TransactionResponse[]> {
-  const response = await axios.get(`${serverAddress}/wallet/transactions?skip=${skip}&take=${take}`, {
+  const response = await axios.get(`${getServerAddress()}/wallet/transactions?skip=${skip}&take=${take}`, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
@@ -159,28 +158,28 @@ type BlockChainInfo = {
   medianTime: number
 };
 export async function getNetworkStatus(): Promise<BlockChainInfo> {
-  const response = await axios.get(`${serverAddress}/blockchain/info`)
+  const response = await axios.get(`${getServerAddress()}/blockchain/info`)
   return response.data
 }
 
 export async function getNetworkConnections(): Promise<number> {
-  const response = await axios.get(`${serverAddress}/network/connections/count`)
+  const response = await axios.get(`${getServerAddress()}/network/connections/count`)
   return response.data
 }
 
 export async function getWalletExists(): Promise<boolean> {
-  const response = await axios.get(`${serverAddress}/wallet/exists`)
+  const response = await axios.get(`${getServerAddress()}/wallet/exists`)
   console.log('getWalletExists()', response.data)
   return response.data
 }
 
 export async function getLockWallet(): Promise<string> {
-  const response = await axios.get(`${serverAddress}/wallet/lock`)
+  const response = await axios.get(`${getServerAddress()}/wallet/lock`)
   return response.data
 }
 
 export async function getIsAccountLocked(): Promise<boolean> {
-  const response = await axios.get(`${serverAddress}/wallet/locked`)
+  const response = await axios.get(`${getServerAddress()}/wallet/locked`)
   return response.data
 }
 
@@ -190,7 +189,7 @@ export async function postImportWallet(secretPhraseArray: observableArray, passw
     password,
   }
   console.log('postImportWallet data', data)
-  const response = await axios.post(`${serverAddress}/wallet/import`, data, {
+  const response = await axios.post(`${getServerAddress()}/wallet/import`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response
@@ -198,20 +197,20 @@ export async function postImportWallet(secretPhraseArray: observableArray, passw
 
 export async function postCheckPassword(password: string) {
   const data = { password }
-  const response = await axios.post(`${serverAddress}/wallet/checkpassword`, data, {
+  const response = await axios.post(`${getServerAddress()}/wallet/checkpassword`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
 }
 
 export async function getWalletResync() {
-  const response = await axios.get(`${serverAddress}/wallet/resync`)
+  const response = await axios.get(`${getServerAddress()}/wallet/resync`)
   return response.data
 }
 
 export async function postWalletMnemonicphrase(password: string): string {
   const data = { password }
-  const response = await axios.post(`${serverAddress}/wallet/mnemonicphrase`, data, {
+  const response = await axios.post(`${getServerAddress()}/wallet/mnemonicphrase`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   // $FlowFixMe
