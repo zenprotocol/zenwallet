@@ -15,10 +15,10 @@ class BlockchainLogsState {
 
     setInterval(() => {
       runInAction(() => {
-        this.logs = this.logs.concat(this.pending).slice(-250)
+        this.logs = this.logs.concat(this.pending).slice(-200)
         this.pending = []
       })
-    }, 1000)
+    }, 2000)
   }
 }
 
