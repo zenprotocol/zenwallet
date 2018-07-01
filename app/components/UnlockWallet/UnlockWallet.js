@@ -57,7 +57,7 @@ class UnlockWallet extends Component<Props, State> {
       return (
         <div className="error input-message">
           <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
-          <span>Password is invalid</span>
+          <span>Password is incorrect</span>
         </div>
       )
     }
