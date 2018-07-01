@@ -5,12 +5,11 @@ import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import bip39 from 'bip39'
 
+import ExternalLink from '../../UI/ExternalLink'
 import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import { isValidBip39Word, isBip39Word } from '../../../utils/helpers'
 import OnBoardingLayout from '../Layout/Layout'
-
-const { shell } = require('electron')
 
 @inject('secretPhraseState')
 @observer
@@ -42,19 +41,25 @@ class ImportWallet extends Component {
   }
 
   validateSecretPhrase() {
+    return this.isEachWordIsValidBip39Word && this.isValidBip39Mnemonic
+  }
+
+  get isEachWordIsValidBip39Word() {
     const { mnemonicPhrase } = this.props.secretPhraseState
     const statuses = mnemonicPhrase.map(word => word.status)
-
-    const all = mnemonicPhrase.map(word => word.word).join(' ')
-
-    return statuses.every(val => val === 'perfect') && bip39.validateMnemonic(all)
+    return statuses.every(val => val === 'perfect')
   }
-
-  onLinkClick = (evt) => {
-    evt.preventDefault()
-    shell.openExternal(evt.target.href)
+  get isValidBip39Mnemonic() {
+    const { mnemonicPhrase } = this.props.secretPhraseState
+    const mnemonicPhraseString = mnemonicPhrase.map(word => word.word).join(' ')
+    return bip39.validateMnemonic(mnemonicPhraseString)
   }
-
+  get notValidBip39PhraseMessage() {
+    if (!this.isEachWordIsValidBip39Word || this.isValidBip39Mnemonic) {
+      return
+    }
+    return <p className="is-error">This is not a valid bip39 Mnemonic Passphrase</p>
+  }
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
     const wordArray = secretPhraseState.mnemonicPhrase.map((word) => word.word)
@@ -89,11 +94,10 @@ class ImportWallet extends Component {
           Please enter your 24 word secret phrase (seed).
           <br />
           A blue check will apear if the text you entered is a valid&nbsp;
-          <a
-            href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt"
-            onClick={this.onLinkClick}
+          <ExternalLink
+            link="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt"
           >bip39 word
-          </a>.
+          </ExternalLink>.
         </h3>
 
         <div className="devider after-title" />
@@ -101,7 +105,7 @@ class ImportWallet extends Component {
         <ol className="passphrase-quiz">
           {importPhraseInputs}
         </ol>
-
+        {this.notValidBip39PhraseMessage}
         <div className="devider before-buttons" />
 
         <Flexbox flexDirection="row">
