@@ -3,7 +3,7 @@ import bip39 from 'bip39'
 import { ipcRenderer } from 'electron'
 import swal from 'sweetalert'
 
-import { BUG_REPORT_EMAIL } from '../constants'
+import { BUG_REPORT_EMAIL, MAINNET } from '../constants'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
@@ -87,11 +87,10 @@ class SecretPhraseState {
         this.isLoggedIn = true
         this.balances.initPolling()
         this.networkState.initPolling()
-        const alreadyRedeemedTokens = db.get('config.alreadyRedeemedTokens').value()
-        if (alreadyRedeemedTokens) {
-          history.push('/portfolio')
-        } else {
+        if (this.shouldRedeemNonMainnetTokens) {
           history.push('/faucet')
+        } else {
+          history.push('/portfolio')
         }
       })
     } catch (error) {
@@ -170,6 +169,11 @@ class SecretPhraseState {
         }
       })
       .catch(err => console.error(err))
+  }
+
+  get shouldRedeemNonMainnetTokens() {
+    const alreadyRedeemedTokens = db.get('config.alreadyRedeemedTokens').value()
+    return this.networkState.chain !== MAINNET && !alreadyRedeemedTokens
   }
 }
 

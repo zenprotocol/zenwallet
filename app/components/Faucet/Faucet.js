@@ -6,18 +6,22 @@ import classnames from 'classnames'
 import base58 from 'bs58check'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import history from '../../services/history'
+import { MAINNET } from '../../constants'
 import ExternalLink from '../UI/ExternalLink'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 
-@inject('redeemTokensState')
-@inject('publicAddress')
+@inject('redeemTokensState', 'publicAddress', 'networkState')
 @observer
 class Faucet extends Component {
   componentDidMount() {
-    const { publicAddress } = this.props
+    const { publicAddress, redeemTokensState, networkState } = this.props
+    if (networkState.chain === MAINNET) {
+      console.warn('Main net should not access faucet, redirecting to balances')
+      history.push('/portfolio')
+    }
     publicAddress.fetch()
-    const { redeemTokensState } = this.props
     redeemTokensState.walletPublicAddress = publicAddress.address
   }
 

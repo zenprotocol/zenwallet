@@ -3,21 +3,20 @@ import Flexbox from 'flexbox-react'
 
 import { LOADING_GIF_SRC, LOGO_GIF_SRC } from '../../constants/imgSources'
 
-import { load } from './LoadingUtil'
+import load from './loadUtil'
+
+const TIME_TO_DISPLAY_LOADING = 3650
 
 class Loading extends Component {
   state = {
-    loadingDotsClass: 'loading-dots display-none',
-  }
-
-  componentWillMount() {
-    load()
+    shouldDisplayLoading: false,
   }
 
   componentDidMount() {
+    load()
     this.timeout = setTimeout(() => {
-      this.setState({ loadingDotsClass: 'loading-dots' })
-    }, 3650)
+      this.setState({ shouldDisplayLoading: true })
+    }, TIME_TO_DISPLAY_LOADING)
   }
 
   componentWillUnmount() {
@@ -25,13 +24,14 @@ class Loading extends Component {
   }
 
   render() {
+    const { shouldDisplayLoading } = this.state
     return (
       <Flexbox flexDirection="column" className="loading-container">
         <Flexbox flexDirection="column" className="center">
           <img className="zen-logo" src={LOGO_GIF_SRC} alt="Zen Protocol Logo" />
           <h1>Welcome to Zen Protocol</h1>
           <p>Loading, please wait</p>
-          <img className={this.state.loadingDotsClass} src={LOADING_GIF_SRC} alt="Loading Gif" />
+          {shouldDisplayLoading && <img className="loading-dots" src={LOADING_GIF_SRC} alt="Loading Gif" />}
         </Flexbox>
       </Flexbox>
     )
