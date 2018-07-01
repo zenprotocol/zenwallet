@@ -3,7 +3,7 @@
 import bech32 from 'bech32'
 
 import db from '../services/store'
-import { ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../constants'
+import { ZEN_ASSET_NAME, ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../constants'
 
 import bip39Words from './bip39Words'
 
@@ -13,7 +13,7 @@ const savedContracts = db.get('savedContracts').value()
 export const isDev = () => process.env.NODE_ENV === 'development'
 
 export const getAssetName = (asset: ?string) => {
-  if (asset === ZEN_ASSET_HASH) { return 'ZP' }
+  if (asset === ZEN_ASSET_HASH) { return ZEN_ASSET_NAME }
   const contractFromDb = savedContracts.find(contract => contract.contractId === asset)
   if (contractFromDb && contractFromDb.name) {
     return contractFromDb.name

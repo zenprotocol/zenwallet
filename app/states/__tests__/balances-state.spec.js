@@ -1,4 +1,4 @@
-import { ZEN_ASSET_HASH } from '../../../app/constants'
+import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../../app/constants'
 import BalancesState from '../balances-state'
 
 const awesomeTokenAsset = '0000000000000000000000000000000000000000000000000000000000000001'
@@ -12,7 +12,7 @@ describe('BalancesState', () => {
     expect(cut.assets.length).toEqual(0)
   })
   it('[getAssetName] should return ZP', () => {
-    expect(cut.getAssetName(ZEN_ASSET_HASH)).toEqual('ZP')
+    expect(cut.getAssetName(ZEN_ASSET_HASH)).toEqual(ZEN_ASSET_NAME)
   })
   it('[getAssetName] should return Awesome Token', () => {
     expect(cut.getAssetName(awesomeTokenAsset)).toEqual('Awesome Token')
@@ -36,7 +36,7 @@ describe('BalancesState', () => {
       { asset: awesomeTokenAsset, balance: 3 },
     ]
     expect(cut.assetsWithNames).toEqual([
-      { asset: ZEN_ASSET_HASH, balance: 2, name: 'ZP' },
+      { asset: ZEN_ASSET_HASH, balance: 2, name: ZEN_ASSET_NAME },
       { asset: awesomeTokenAsset, balance: 3, name: 'Awesome Token' },
     ])
   })

@@ -7,6 +7,7 @@ import { head } from 'lodash'
 import Highlight from 'react-highlight'
 import cx from 'classnames'
 
+import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../constants'
 import enforceSynced from '../../services/enforceSynced'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 import { normalizeTokens, zenToKalapa, stringToNumber } from '../../utils/helpers'
@@ -72,7 +73,11 @@ class ActivateContract extends Component<Props> {
       contract.code = this.addOrUpdateCodeComment(contract.code, evt.target.value)
     }
   }
-
+  get isContractNameReserved() {
+    const { contract } = this.props
+    const reg = new RegExp(`^(${ZEN_ASSET_NAME}|${ZEN_ASSET_HASH})$`, 'i')
+    return contract.name.match(reg)
+  }
   addOrUpdateCodeComment(code, name) {
     const nameCommentIsPresent = this.nameCommentIsPresent(code)
     if (nameCommentIsPresent) {
@@ -121,7 +126,7 @@ class ActivateContract extends Component<Props> {
 
   isFormValid() {
     const { name } = this.props.contract
-    return this.isAmountValid() && !!name
+    return this.isAmountValid() && !!name && !this.isContractNameReserved
   }
 
   isAmountValid() {
@@ -285,6 +290,8 @@ class ActivateContract extends Component<Props> {
                   onChange={this.onContractNameChanged}
                   value={name}
                 />
+                {this.isContractNameReserved &&
+                <span className="error-msg">This name is reserved</span>}
               </Flexbox>
 
               <AmountInput

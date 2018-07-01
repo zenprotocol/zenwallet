@@ -4,7 +4,7 @@ import { find } from 'lodash'
 import PollManager from '../utils/PollManager'
 import { getBalances } from '../services/api-service'
 import db from '../services/store'
-import { ZEN_ASSET_HASH } from '../../app/constants'
+import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../app/constants'
 
 const savedContracts = db.get('savedContracts').value()
 
@@ -53,7 +53,7 @@ class BalancesState {
     }
 
     getAssetName(asset) { // eslint-disable-line class-methods-use-this
-      if (asset === ZEN_ASSET_HASH) { return 'ZP' }
+      if (asset === ZEN_ASSET_HASH) { return ZEN_ASSET_NAME }
       const contractFromDb = savedContracts.find(contract => contract.contractId === asset)
       if (contractFromDb && contractFromDb.name) {
         return contractFromDb.name

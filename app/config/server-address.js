@@ -16,7 +16,6 @@ function onSwitchChain(evt, newChain) {
 }
 
 export const getServerAddress = () => {
-  console.log('getServerAddress', 'chain is', chain)
   if (chain === 'local') {
     return `${localhost}:${LOCAL_NET_PORT}`
   }
