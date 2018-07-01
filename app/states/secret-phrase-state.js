@@ -81,7 +81,6 @@ class SecretPhraseState {
         if (!isPasswordCorrect) {
           this.inprogress = false
           this.status = 'error'
-          console.log('isPasswordCorrect this', this)
           return
         }
         this.isLoggedIn = true
