@@ -12,7 +12,7 @@
  */
 import path from 'path'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog } from 'electron'
 
 import ZenNode from './ZenNode'
 import db from './services/store'
@@ -69,10 +69,11 @@ app.on('ready', async () => {
   mainWindow.setMenu(null)
   const mainProcessErrorReporter = new MainProcessErrorReporter(mainWindow.webContents)
   mainProcessErrorReporter.init()
+  process.on('uncaughtException', registerUncaughtException(mainProcessErrorReporter))
   if (!isUiOnly) {
     zenNode = new ZenNode({
       webContents: mainWindow.webContents,
-      onClose: app.quit,
+      onClose: () => { app.quit() },
       onError: mainProcessErrorReporter.report,
     })
     zenNode.init()
@@ -109,7 +110,7 @@ app.on('will-quit', () => {
   console.log('******* [will-quit] *******')
   if (!isUiOnly) {
     console.log('Gracefully shutting down the zen-node')
-    zenNode.node.kill('SIGINT')
+    zenNode.node.kill()
   }
 })
 
@@ -129,3 +130,14 @@ function saveWindowDimensionsToDb() {
   db.get('userPreferences').assign({ width, height }).write()
 }
 
+// TODO move logic into mainProcessErrorReporter
+function registerUncaughtException(mainProcessErrorReporter) {
+  return (error) => {
+    console.error('main process uncaughtException', error)
+    dialog.showErrorBox(
+      `${error.message} (We suggest you restart the app)`,
+      error.stack,
+    )
+    mainProcessErrorReporter.report(error)
+  }
+}

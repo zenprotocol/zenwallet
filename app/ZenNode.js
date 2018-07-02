@@ -5,8 +5,8 @@ import path from 'path'
 
 import compare from 'semver-compare'
 import _ from 'lodash'
-import { ipcMain } from 'electron'
-import zenNode from '@zen/zen-node'
+import { ipcMain, dialog } from 'electron'
+import spwanZenNodeChildProcess from '@zen/zen-node'
 
 import { shout } from './utils/dev'
 import db from './services/store'
@@ -48,7 +48,14 @@ class ZenNode {
   init() {
     console.log('[ZEN NODE]: LAUNCHING ZEN NODE')
     try {
-      this.node = zenNode(this.zenNodeArgs, getZenNodePath())
+      const { error, zenNode } = spwanZenNodeChildProcess(this.zenNodeArgs, getZenNodePath())
+      if (error) {
+        this.onSpawnError(error)
+        return
+      }
+      this.node = zenNode
+      this.node.on('error', this.onNonSpawnError)
+      this.node.on('message', this.onMessage)
       if (this.config.wipe || this.config.wipeFull) {
         this.updateLastWipeInDb()
       }
@@ -84,6 +91,11 @@ class ZenNode {
     if (signal === ZEN_NODE_RESTART_SIGNAL) {
       shout('[ZEN NODE]: Restart through GUI')
       this.init()
+    } else if (code === 1) {
+      shout('zen node had uncaught error')
+      dialog.showErrorBox('zen node had uncaught error (Wallet will shutdown)', 'we appologize for inconvenience')
+      this.onError(new Error('uncaught exception code 1'))
+      this.onClose()
     } else {
       console.log('[ZEN NODE]: Closed')
       this.onClose()
@@ -95,6 +107,27 @@ class ZenNode {
       walletVersion: WALLET_VERSION,
       zenNodeVersion: ZEN_NODE_VERSION,
     }).write()
+  }
+  onSpawnError = (error) => {
+    shout('[ZEN NODE]: init error\n', error)
+    dialog.showErrorBox(
+      `${error.message} (Wallet will shutdown)`,
+      error.stack,
+    )
+    this.onError(error)
+    this.onClose()
+  }
+  onNonSpawnError = (error) => {
+    shout('[ZEN NODE]: uncaught error\n', error)
+    dialog.showErrorBox(
+      `${error.message} (Wallet will shutdown)`,
+      error.stack,
+    )
+    this.onError(error)
+    this.onClose()
+  }
+  onMessage = (message) => {
+    shout('[ZEN NODE]: message:\n', message)
   }
   get zenNodeArgs() {
     const {
