@@ -16,6 +16,9 @@ function onSwitchChain(evt, newChain) {
 }
 
 export const getServerAddress = () => {
+  if (process.env.ZEN_NODE_API_PORT) {
+    return `${localhost}:${process.env.ZEN_NODE_API_PORT}`
+  }
   if (chain === 'local') {
     return `${localhost}:${LOCAL_NET_PORT}`
   }

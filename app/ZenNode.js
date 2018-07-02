@@ -112,6 +112,11 @@ class ZenNode {
     if (net) {
       args.push('--chain', net)
     }
+    if (process.env.ZEN_NODE_API_PORT) {
+      args.push('--api', `127.0.0.1:${process.env.ZEN_NODE_API_PORT}`)
+    }
+
+
     shout('[ZEN NODE]: Zen node args', args)
     return args
   }
