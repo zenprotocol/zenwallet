@@ -196,7 +196,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "@zen/zen-node": "0.9.2",
+    "@zen/zen-node": "0.9.3",
     "axios": "^0.18.0",
     "backtrace-js": "0.0.10",
     "backtrace-node": "^0.7.3",
