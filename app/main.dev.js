@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install()
 }
 
-require('electron-debug')({ enabled: true })
+require('electron-debug')({ enabled: true, showDevTools: process.env.SHOW_DEV_TOOLS })
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   const p = path.join(__dirname, '..', 'app', 'node_modules')
