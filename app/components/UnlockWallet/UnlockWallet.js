@@ -35,7 +35,7 @@ class UnlockWallet extends Component<Props, State> {
 
   onChange = (evt: Object) => {
     this.setState({ password: evt.currentTarget.value.trim() })
-    this.props.secretPhraseState.unlockWalletClearForm()
+    this.props.secretPhraseState.unlockWalletResetError()
   }
 
   onSubmit = (evt: Object) => {
@@ -52,12 +52,12 @@ class UnlockWallet extends Component<Props, State> {
   }
 
   renderErrorMessage() {
-    const { status } = this.props.secretPhraseState
-    if (status === 'error') {
+    const { unlockWalletError } = this.props.secretPhraseState
+    if (unlockWalletError) {
       return (
         <div className="error input-message">
           <FontAwesomeIcon icon={['far', 'exclamation-circle']} />
-          <span>Password is incorrect</span>
+          <span>{unlockWalletError}</span>
         </div>
       )
     }
@@ -104,7 +104,7 @@ class UnlockWallet extends Component<Props, State> {
           <a style={{ textDecoration: 'underline' }} onClick={forgotPasswordModal} className="forgot-password">
             Forgot your password? Import your wallet again or create a new one
           </a>
-
+          {/* $FlowFixMe */}
           <NonMainNetBottomBar />
         </Flexbox>
       </Flexbox>

@@ -58,7 +58,6 @@ type ActivateContractPayload = { code: string, numberOfBlocks: number } & Passwo
 type NewContract = { address: addressType, contractId: string };
 
 export async function postActivateContract(data: ActivateContractPayload): Promise<NewContract> {
-  console.log('postActivateContract data', data)
   const response = await axios.post(`${getServerAddress()}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
@@ -169,7 +168,6 @@ export async function getNetworkConnections(): Promise<number> {
 
 export async function getWalletExists(): Promise<boolean> {
   const response = await axios.get(`${getServerAddress()}/wallet/exists`)
-  console.log('getWalletExists()', response.data)
   return response.data
 }
 
@@ -188,7 +186,6 @@ export async function postImportWallet(secretPhraseArray: observableArray, passw
     words: secretPhraseArray,
     password,
   }
-  console.log('postImportWallet data', data)
   const response = await axios.post(`${getServerAddress()}/wallet/import`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
@@ -237,11 +234,8 @@ export async function getCheckCrowdsaleTokensEntitlement(
   pubkey_base_58: string,
 ) {
   console.log('crowdsaleServerAddress', crowdsaleServerAddress)
-
   const url = `${crowdsaleServerAddress}/check_crowdsale_tokens_entitlement?pubkey_base_64=${pubkey_base_64}&pubkey_base_58=${pubkey_base_58}`
-
   const response = await axios.get(url)
-  console.log('getCheckCrowdsaleTokensEntitlement response', response)
   return response.data
 }
 

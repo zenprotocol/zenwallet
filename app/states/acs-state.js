@@ -1,6 +1,7 @@
 // @flow
 import { observable, computed, action, runInAction } from 'mobx'
 
+import { logApiError } from '../utils/apiUtils'
 import { getActiveContractSet } from '../services/api-service'
 import PollManager from '../utils/PollManager'
 import { getNamefromCodeComment } from '../utils/helpers'
@@ -27,10 +28,14 @@ class ActiveContractSetState {
   }
   @action.bound
   async fetch() {
-    const result = await getActiveContractSet()
-    runInAction(() => {
-      this.activeContracts.replace(result)
-    })
+    try {
+      const result = await getActiveContractSet()
+      runInAction(() => {
+        this.activeContracts.replace(result)
+      })
+    } catch (err) {
+      logApiError('fetch active contracts', err)
+    }
   }
 
   @computed

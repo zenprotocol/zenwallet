@@ -168,7 +168,7 @@ class Sidebar extends Component<Props> {
     )
   }
 
-  renderMenu() { // eslint-disable-line class-methods-use-this
+  renderMenu() {
     return (
       <div className="menu">
         <ul>

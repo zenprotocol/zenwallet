@@ -7,6 +7,7 @@ import { BUG_REPORT_EMAIL, MAINNET } from '../constants'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
+import { logApiError } from '../utils/apiUtils'
 import { IPC_RESTART_ZEN_NODE, getInitialIsMining } from '../ZenNode'
 import { getWalletExists, postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
 
@@ -16,8 +17,7 @@ class SecretPhraseState {
   @observable autoLogoutMinutes = db.get('config.autoLogoutMinutes').value()
   @observable inprogress = false
   @observable isImporting = false
-  @observable importError = ''
-  @observable status = ''
+  @observable unlockWalletError = ''
   @observable isMining = getInitialIsMining()
 
   constructor(networkState, balances, activeContractSet) {
@@ -39,28 +39,24 @@ class SecretPhraseState {
     this.isImporting = true
     try {
       const response = await postImportWallet(this.mnemonicPhrase, password)
+      console.log('importWallet response', response)
       runInAction(() => {
-        console.log('importWallet response', response)
         this.isImporting = false
-        if (response.status === 200) {
-          console.log('importWallet set password', password)
-          this.isLoggedIn = true
-          this.balances.initPolling()
-          this.networkState.initPolling()
-          this.activeContractSet.fetch()
-          this.resync()
-          this.mnemonicPhrase = []
-          history.push('/terms-of-service')
-        } else {
-          console.log('importWallet response error', response)
+        if (response.status !== 200) {
+          logApiError('importWallet status !== 200', response)
           errorSwalForImportWallet()
+          return
         }
+        this.isLoggedIn = true
+        this.balances.initPolling()
+        this.networkState.initPolling()
+        this.activeContractSet.fetch()
+        this.resync()
+        this.mnemonicPhrase = []
+        history.push('/terms-of-service')
       })
-    } catch (error) {
-      console.error(error)
-      if (error && error.response) {
-        console.error(error.response)
-      }
+    } catch (err) {
+      logApiError('importWallet catch', err)
       runInAction(() => {
         this.isImporting = false
       })
@@ -71,16 +67,13 @@ class SecretPhraseState {
   @action
   async unlockWallet(password) {
     this.inprogress = true
-
     try {
       const isPasswordCorrect = await postCheckPassword(password)
-
       runInAction(() => {
         this.inprogress = false
-        console.log('isPasswordCorrect', isPasswordCorrect)
         if (!isPasswordCorrect) {
           this.inprogress = false
-          this.status = 'error'
+          this.unlockWalletError = 'Password is incorrect'
           return
         }
         this.isLoggedIn = true
@@ -92,35 +85,27 @@ class SecretPhraseState {
           history.push('/portfolio')
         }
       })
-    } catch (error) {
+    } catch (err) {
+      logApiError('unlock wallet', err)
       runInAction(() => {
         this.inprogress = false
-        try {
-          console.log('unlockWallet error.response', error.response)
-        } catch (e) {
-          console.log('unlockWallet catch e', e)
-        }
+        this.unlockWalletError = (err && err.message) || 'Unknown error'
       })
     }
   }
 
   @action
-  unlockWalletClearForm() {
-    this.status = ''
+  unlockWalletResetError() {
+    this.unlockWalletError = ''
   }
 
   @action
-  async resync() { // eslint-disable-line class-methods-use-this
-    console.log('wallet resync')
+  async resync() {
     try {
       const response = await getWalletResync()
-      console.log('resync response', response)
+      console.log('resync success', response)
     } catch (err) {
-      if (err && err.response) {
-        console.log('resync err', err.response)
-      } else {
-        console.log('resync err', err)
-      }
+      logApiError('resync', err)
     }
   }
 
@@ -149,8 +134,6 @@ class SecretPhraseState {
   @action
   reset() {
     this.mnemonicPhrase = []
-    this.importError = ''
-    this.status = ''
     this.isLoggedIn = false
     this.networkState.stopPolling()
     this.balances.stopPolling()

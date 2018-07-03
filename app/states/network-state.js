@@ -1,6 +1,7 @@
 import { observable, action, runInAction, computed } from 'mobx'
 
 import PollManager from '../utils/PollManager'
+import { logApiError } from '../utils/apiUtils'
 import { LOCALNET, TESTNET, MAINNET } from '../constants'
 import { getNetworkStatus, getNetworkConnections } from '../services/api-service'
 
@@ -49,16 +50,21 @@ class NetworkState {
         this.initialBlockDownload = result.initialBlockDownload
         this.connectedToNode = true
       })
-    } catch (error) {
+    } catch (err) {
+      logApiError('fetch network status', err)
       runInAction(() => {
         this.connectedToNode = false
       })
     }
 
-    const networkConnectionsResult = await getNetworkConnections()
-    runInAction(() => {
-      this.connections = networkConnectionsResult
-    })
+    try {
+      const networkConnectionsResult = await getNetworkConnections()
+      runInAction(() => {
+        this.connections = networkConnectionsResult
+      })
+    } catch (err) {
+      logApiError('fetch network connections', err)
+    }
   }
 
   get isSyncing() {

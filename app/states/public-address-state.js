@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx'
 
+import { logApiError } from '../utils/apiUtils'
 import { getPublicAddress } from '../services/api-service'
 
 class PublicAddressState {
@@ -7,8 +8,12 @@ class PublicAddressState {
 
     @action
     async fetch() {
-      const address = await getPublicAddress()
-      runInAction(() => { this.address = address })
+      try {
+        const address = await getPublicAddress()
+        runInAction(() => { this.address = address })
+      } catch (err) {
+        logApiError('fetch public address', err)
+      }
     }
 }
 

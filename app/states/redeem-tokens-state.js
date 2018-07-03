@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx'
 
+import { logApiError } from '../utils/apiUtils'
 import { getCheckCrowdsaleTokensEntitlement, postRedeemCrowdsaleTokens } from '../services/api-service'
 import db from '../services/store'
 
@@ -34,11 +35,11 @@ class RedeemTokensState {
         this.inprogress = false
         this.checkingTokenEntitlement = false
       })
-    } catch (error) {
-      this.checkingTokenEntitlement = false
-      this.inprogress = false
+    } catch (err) {
+      logApiError('check crowdsale tokens entitlement', err)
       runInAction(() => {
-        console.log('getCheckCrowdsaleTokensEntitlement error', error)
+        this.checkingTokenEntitlement = false
+        this.inprogress = false
       })
     }
   }
@@ -48,10 +49,8 @@ class RedeemTokensState {
   async redeemCrowdsaleTokens() {
     this.inprogress = true
     this.redeemingTokens = true
-
     this.anyOrders = false
     this.alreadyRedeemed = false
-
     try {
       const response = await postRedeemCrowdsaleTokens({
         pubkey_base_64: this.pubkeyBase64,
@@ -62,7 +61,6 @@ class RedeemTokensState {
         this.inprogress = false
         this.redeemingTokens = false
         if (response.status === 'success') {
-          console.log('postRedeemCrowdsaleTokens response.status', response.status)
           db.set('config.alreadyRedeemedTokens', true).write()
           this.resetForm()
           this.status = response.status
@@ -71,15 +69,14 @@ class RedeemTokensState {
             this.status = ''
           }, 15000)
         } else {
-          console.log('postRedeemCrowdsaleTokens error')
+          logApiError('redeem crowdsale tokens response', response)
         }
-        console.log('postRedeemCrowdsaleTokens response', response)
       })
-    } catch (error) {
+    } catch (err) {
       runInAction(() => {
         this.inprogress = false
         this.redeemingTokens = false
-        console.log('postRedeemCrowdsaleTokens error', error)
+        logApiError('redeem crowdsale tokens catch', err)
       })
     }
   }
@@ -95,7 +92,6 @@ class RedeemTokensState {
     this.inprogress = false
     this.checkingTokenEntitlement = false
     this.redeemingTokens = false
-
     this.pubkey = false
     this.pubkeyIsValid = false
   }

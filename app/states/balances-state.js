@@ -3,6 +3,7 @@ import { find } from 'lodash'
 
 import PollManager from '../utils/PollManager'
 import { getBalances } from '../services/api-service'
+import { logApiError } from '../utils/apiUtils'
 import db from '../services/store'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../app/constants'
 
@@ -38,21 +39,25 @@ class BalancesState {
 
     @action.bound
     async fetch() {
-      const assets = await getBalances()
-      runInAction(() => this.assets.replace(assets))
-      // if there's a balance without asset name, check ACS if matching contract exists
-      // if it does, save it to DB
-      assets.filter(asset => !this.getAssetName(asset.asset))
-        .forEach(asset => {
-          const matchingActiveContract =
-            this.acsState.activeContractsWithNames.find(ac => ac.contractId === asset.asset)
-          if (matchingActiveContract) {
-            db.get('savedContracts').push(matchingActiveContract).write()
-          }
-        })
+      try {
+        const assets = await getBalances()
+        runInAction(() => this.assets.replace(assets))
+        // if there's a balance without asset name, check ACS if matching contract exists
+        // if it does, save it to DB
+        assets.filter(asset => !this.getAssetName(asset.asset))
+          .forEach(asset => {
+            const matchingActiveContract =
+              this.acsState.activeContractsWithNames.find(ac => ac.contractId === asset.asset)
+            if (matchingActiveContract) {
+              db.get('savedContracts').push(matchingActiveContract).write()
+            }
+          })
+      } catch (err) {
+        logApiError('fetch balances', err)
+      }
     }
 
-    getAssetName(asset) { // eslint-disable-line class-methods-use-this
+    getAssetName(asset) {
       if (asset === ZEN_ASSET_HASH) { return ZEN_ASSET_NAME }
       const contractFromDb = savedContracts.find(contract => contract.contractId === asset)
       if (contractFromDb && contractFromDb.name) {

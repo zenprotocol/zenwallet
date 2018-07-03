@@ -28,7 +28,7 @@ export const checkForUpdates = async (platform: string = process.platform): Prom
       default:
         return LATEST_RELEASE_URL
     }
-  } catch (error) {
-    console.error(error)
+  } catch (err) {
+    console.error(err)
   }
 }

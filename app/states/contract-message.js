@@ -1,6 +1,7 @@
 import { observable, action, runInAction } from 'mobx'
 import _ from 'lodash'
 
+import { logApiError } from '../utils/apiUtils'
 import { postRunContractMessage } from '../services/api-service'
 import { getNamefromCodeComment } from '../utils/helpers'
 import db from '../services/store'
@@ -21,27 +22,25 @@ class ContractMessageState {
 
   @action
   async sendContractMessage(password) {
+    this.inprogress = true
+    const data = {
+      asset: this.asset,
+      address: this.address,
+      amount: Number(this.amount),
+      command: this.command,
+      data: this.data,
+      password,
+    }
     try {
-      this.inprogress = true
-      const data = {
-        asset: this.asset,
-        address: this.address,
-        amount: Number(this.amount),
-        command: this.command,
-        data: this.data,
-        password,
-      }
       const response = await postRunContractMessage(data)
-
+      console.log('sendContractMessage response', response)
       runInAction(() => {
-        console.log('sendContractMessage response', response)
         this.resetForm()
         this.status = 'success'
         const activeContract =
           this.activeContractSet.activeContracts.find(ac => ac.address === data.address)
         const savedContracts = db.get('savedContracts').value()
         const isInSavedContracts = _.some(savedContracts, { contractId: activeContract.contractId })
-
         if (!isInSavedContracts) {
           db.get('savedContracts').push({
             code: activeContract.code,
@@ -55,14 +54,11 @@ class ContractMessageState {
         }, 15000)
       })
     } catch (err) {
-      console.error('err', err.message, err)
+      logApiError('run contract', err)
       runInAction(() => {
         this.inprogress = false
         this.status = 'error'
-        // TODO :: refactor after API responses are stable
-        if (err && err.response && err.response.data) {
-          this.errorMessage = err.response.data
-        }
+        this.errorMessage = (err && err.response && err.response.data) || 'Unknown error'
         setTimeout(() => {
           this.status = ''
         }, 15000)

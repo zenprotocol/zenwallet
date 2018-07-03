@@ -63,8 +63,6 @@ class ImportWallet extends Component {
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
     const wordArray = secretPhraseState.mnemonicPhrase.map((word) => word.word)
-    console.log('onSubmitClicked wordArray', wordArray)
-
     if (this.validateSecretPhrase()) {
       secretPhraseState.mnemonicPhrase = wordArray
       history.push('/set-password')

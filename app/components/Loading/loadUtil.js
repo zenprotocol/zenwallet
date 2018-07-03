@@ -1,4 +1,5 @@
 import { getWalletExists } from '../../services/api-service'
+import { logApiError } from '../../utils/apiUtils'
 import history from '../../services/history'
 import { networkState } from '../../states'
 
@@ -12,9 +13,8 @@ const load = async () => {
     } else {
       history.push('/unlock-wallet')
     }
-  } catch (error) {
-    const errMsg = (error && error.response) ? error.response : error
-    console.error('error loading wallet', errMsg)
+  } catch (err) {
+    logApiError('load wallet', err)
     setTimeout(load, LOADING_INTERVAL)
   }
 }

@@ -3,6 +3,7 @@ import { observable, action, runInAction, type IObservableArray } from 'mobx'
 
 import { getTxHistory } from '../services/api-service'
 import PollManager from '../utils/PollManager'
+import { logApiError } from '../utils/apiUtils'
 
 export type ObservableTransactionResponse = {
   txHash: string,
@@ -48,8 +49,9 @@ class TxHistoryState {
 
   @action.bound
   fetch = async () => {
-    console.log('this.isFetching', this.isFetching)
-    if (this.isFetching) { return }
+    if (this.isFetching) {
+      return
+    }
     this.isFetching = true
     try {
       const result = await getTxHistory({
@@ -63,8 +65,8 @@ class TxHistoryState {
         }
         this.isFetching = false
       })
-    } catch (error) {
-      console.log('error', error)
+    } catch (err) {
+      logApiError('fetch transactions', err)
       this.isFetching = false
     }
   }

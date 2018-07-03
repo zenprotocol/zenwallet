@@ -1,6 +1,7 @@
 import { observable, action, runInAction } from 'mobx'
 
 import { postTransaction } from '../services/api-service'
+import { logApiError } from '../utils/apiUtils'
 
 class TransactionState {
   @observable asset = ''
@@ -16,25 +17,24 @@ class TransactionState {
       this.inprogress = true
       const data = { ...tx, amount: Number(tx.amount), password }
       const response = await postTransaction(data)
-
+      console.log('createTransaction response', response)
       runInAction(() => {
-        console.log('createTransaction response', response)
         this.resetForm()
         this.status = 'success'
         setTimeout(() => {
           this.status = ''
         }, 15000)
       })
-    } catch (error) {
+    } catch (err) {
+      logApiError('create transaction', err)
       runInAction(() => {
-        console.error('createTransaction error', error, error.response)
-        this.errorMessage = error.response.data
+        this.errorMessage = (err && err.response && err.response.data) || 'Unknown erorr'
+        this.inprogress = false
+        this.status = 'error'
+        setTimeout(() => {
+          this.status = ''
+        }, 15000)
       })
-      this.inprogress = false
-      this.status = 'error'
-      setTimeout(() => {
-        this.status = ''
-      }, 15000)
     }
   }
 
