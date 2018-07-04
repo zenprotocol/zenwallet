@@ -157,7 +157,7 @@ In order to run a node with a miner run the wallet with the `miner` argument lik
 
 ### Please join us for updates and discussions:
 
-[Telegram](https://t.me/zenprotocol) | [Twitter](https://twitter.com/zen_protocol) | [Blog](https://blog.zenprotocol.com/) | [Facebook](https://www.facebook.com/thezenprotocol) | [Instagram](https://www.instagram.com/zenprotocol/) | [Reddit] (https://www.reddit.com/r/zenprotocol/)
+[Telegram](https://t.me/zenprotocol) | [Twitter](https://twitter.com/zen_protocol) | [Blog](https://blog.zenprotocol.com/) | [Facebook](https://www.facebook.com/thezenprotocol) | [Instagram](https://www.instagram.com/zenprotocol/) | [Reddit](https://www.reddit.com/r/zenprotocol/)
 
 
 
