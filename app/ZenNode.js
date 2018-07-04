@@ -20,6 +20,7 @@ export const ZEN_NODE_RESTART_SIGNAL = 'SIGKILL'
 
 class ZenNode {
   static zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
+  logs = []
   node = {
     stderr: { pipe: _.noop },
     stdout: { pipe: _.noop, on: _.noop },
@@ -48,12 +49,12 @@ class ZenNode {
   init() {
     console.log('[ZEN NODE]: LAUNCHING ZEN NODE')
     try {
-      const { error, zenNode } = spwanZenNodeChildProcess(this.zenNodeArgs, getZenNodePath())
-      if (error) {
-        this.onSpawnError(error)
+      const { err, node } = spwanZenNodeChildProcess(this.zenNodeArgs, getZenNodePath())
+      if (err) {
+        this.onSpawnError(err)
         return
       }
-      this.node = zenNode
+      this.node = node
       this.node.on('error', this.onNonSpawnError)
       this.node.on('message', this.onMessage)
       if (this.config.wipe || this.config.wipeFull) {
@@ -75,6 +76,7 @@ class ZenNode {
 
   onBlockchainLog = (chunk) => {
     const log = chunk.toString('utf8')
+    this.logs = [...this.logs, log].slice(-50)
     console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
     this.webContents.send(IPC_BLOCKCHAIN_LOGS, log)
   }
@@ -93,7 +95,7 @@ class ZenNode {
       this.init()
     } else if (code === 1) {
       shout('zen node had uncaught error')
-      dialog.showErrorBox('zen node had uncaught error (Wallet will shutdown)', 'we appologize for inconvenience')
+      dialog.showErrorBox('zen node had uncaught error (Wallet will shutdown)', this.logs.join(''))
       this.onError(new Error('uncaught exception code 1'))
       this.onClose()
     } else {
