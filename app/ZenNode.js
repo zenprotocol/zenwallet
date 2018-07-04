@@ -51,11 +51,11 @@ class ZenNode {
     try {
       const { err, node } = spwanZenNodeChildProcess(this.zenNodeArgs, getZenNodePath())
       if (err) {
-        this.onSpawnError(err)
+        this.onZenNodeError('spawn returned error', err)
         return
       }
       this.node = node
-      this.node.on('error', this.onNonSpawnError)
+      this.node.on('error', () => this.onZenNodeError('this.node.on(\'error\')', err))
       this.node.on('message', this.onMessage)
       if (this.config.wipe || this.config.wipeFull) {
         this.updateLastWipeInDb()
@@ -69,8 +69,7 @@ class ZenNode {
       ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)
       this.node.on('exit', this.onZenNodeExit)
     } catch (err) {
-      console.error('[ZEN NODE]: launching error', err.message, err)
-      this.onError(err, { errorType: 'launching zen node' })
+      this.onZenNodeError('init catch', err)
     }
   }
 
@@ -110,22 +109,13 @@ class ZenNode {
       zenNodeVersion: ZEN_NODE_VERSION,
     }).write()
   }
-  onSpawnError = (error) => {
-    shout('[ZEN NODE]: init error\n', error)
+  onZenNodeError(identifier, err) {
+    shout(`[ZEN NODE]: ${identifier}\n`, err)
     dialog.showErrorBox(
-      `${error.message} (Wallet will shutdown)`,
-      error.stack,
+      `${err.message} (Wallet will shutdown)`,
+      err.stack,
     )
-    this.onError(error)
-    this.onClose()
-  }
-  onNonSpawnError = (error) => {
-    shout('[ZEN NODE]: uncaught error\n', error)
-    dialog.showErrorBox(
-      `${error.message} (Wallet will shutdown)`,
-      error.stack,
-    )
-    this.onError(error)
+    this.onError(err, { errorType: `zen node: ${identifier}` })
     this.onClose()
   }
   onMessage = (message) => {
