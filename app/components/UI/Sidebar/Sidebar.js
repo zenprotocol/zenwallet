@@ -151,6 +151,10 @@ class Sidebar extends Component<Props> {
           <span className="data-name">Mining Difficulty: </span>
           <span className="data-point" title={difficulty}>{difficulty}</span>
         </div>
+				<div className="network-data-point truncate">
+          <span className="data-name">Network Hashrate: </span>
+          <span className="data-point" title={difficulty/50}>{Math.floor(difficulty/50)} GH/s</span>
+        </div>
         <div className="network-data-point">
           <span className="data-name" title="Median Time Past">MTP: </span>
           <span className="data-point">{this.formattedBlockchainTime()}</span>
