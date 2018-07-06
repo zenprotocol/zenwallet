@@ -38,7 +38,7 @@ function text(chain) {
   if (chain === TESTNET) {
     return 'TEST NET CHAIN'
   }
-  return 'UNKONWN CHAIN'
+	  return 'UNKNOWN CHAIN'
 }
 function style(width) {
   return {
