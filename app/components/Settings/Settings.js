@@ -142,7 +142,7 @@ class Settings extends Component<Props, State> {
             <input
               type="number"
               min="1"
-              max="120"
+              max="240"
               className="input-group-field"
               value={secretPhraseState.autoLogoutMinutes}
               onChange={this.onAutoLogoutMinutesChanged}
