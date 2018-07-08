@@ -7,6 +7,9 @@
     &.enfore-synced-modal .swal-text { text-align: center }
     &.new-wallet-modal { width: 45%; }
     &.secret-phrase-container { width: 600px; }
+    &.zen-node-non-zero-exit-modal {
+      width: 90%;
+    }
 
     .swal-icon {
       &.swal-icon--success:after,

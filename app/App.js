@@ -9,6 +9,7 @@ import WipeModal from './components/UI/WipeModal'
 import Idle from './components/Idle'
 import ModalContainer from './components/ModalContainer'
 import history from './services/history'
+import './services/rendererZenNodeNonZeroExit'
 import states from './states'
 import Routes from './Routes'
 import './fontawesome'
@@ -16,9 +17,9 @@ import './fontawesome'
 export default class App extends React.Component {
   render() {
     return (
-      <ErrorBoundary FallbackComponent={ErrorScreen}>
-        <React.Fragment>
-          <Provider history={history} {...states}>
+      <Provider history={history} {...states}>
+        <ErrorBoundary FallbackComponent={ErrorScreen}>
+          <React.Fragment>
             <React.Fragment>
               <AppUpdater />
               <WipeModal />
@@ -28,10 +29,10 @@ export default class App extends React.Component {
               </div>
               <ModalContainer />
             </React.Fragment>
-          </Provider>
-          {process.env.NODE_ENV !== 'production' && <MobxDevTools />}
-        </React.Fragment>
-      </ErrorBoundary>
+            {process.env.NODE_ENV !== 'production' && <MobxDevTools />}
+          </React.Fragment>
+        </ErrorBoundary>
+      </Provider>
     )
   }
 }
