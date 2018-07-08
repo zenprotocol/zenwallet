@@ -69,7 +69,7 @@
       ]
     },
     "win": {
-      "requestedExecutionLevel": "highestAvailable",
+      "requestedExecutionLevel": "requireAdministrator",
       "target": [
         "nsis"
       ]
