@@ -31,7 +31,7 @@ class TxHistory extends Component<Props> {
     return txhistory.transactions.map((tx, index) => (
       <Fragment key={`${tx.txHash}-${index}`}>
         <tr>
-          <CopyableTableCell string={tx.txHash} />
+          <CopyableTableCell string={tx.txHash} istx />
           <SingleTxDelta tx={tx} />
         </tr>
         <tr className="separator" />

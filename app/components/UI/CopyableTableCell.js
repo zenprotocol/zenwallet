@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import ExternalLink from '../UI/ExternalLink'
 
 import { truncateString, isZenAsset } from '../../utils/helpers'
 
@@ -21,8 +22,25 @@ class CopyableTableCell extends Component {
     }, 1250)
   }
 
+	renderString() {
+		const { string, istx } = this.props
+		let truncatedString = string
+		if (!isZenAsset(string)) {
+      truncatedString = truncateString(string)
+    }
+
+		if (istx) {
+			return (
+				<ExternalLink link={`https://zp.io/tx/${string}`}>
+					{truncatedString}
+				</ExternalLink>
+			)
+		}
+		return (truncatedString)
+	}
+
   render() {
-    const { string } = this.props
+    const { string, istx } = this.props
     const { copyText } = this.state
     let truncatedString = string
     if (!isZenAsset(string)) {
@@ -32,7 +50,9 @@ class CopyableTableCell extends Component {
     return (
       <td className="align-left copyable" title={string}>
 
-        <span title={string}>{truncatedString} </span>
+        <span title={string}>
+					{ this.renderString() }&nbsp;
+				</span>
         <span
           onClick={() => { this.copyToClipboard(string) }}
           data-balloon={copyText}
