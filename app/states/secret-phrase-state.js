@@ -3,7 +3,7 @@ import bip39 from 'bip39'
 import { ipcRenderer } from 'electron'
 import swal from 'sweetalert'
 
-import { BUG_REPORT_EMAIL, MAINNET } from '../constants'
+import { BUG_BOUNTY_URL, MAINNET } from '../constants'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
@@ -179,5 +179,5 @@ class SecretPhraseState {
 export default SecretPhraseState
 
 function errorSwalForImportWallet() {
-  swal('Error importing wallet', `please try again, and if the error persists, email us at ${BUG_REPORT_EMAIL}`, 'error')
+  swal('Error importing wallet', `please try again, and if the error persists, follow the steps at ${BUG_BOUNTY_URL}`, 'error')
 }

@@ -12,6 +12,7 @@ import { shout } from './utils/dev'
 import db from './services/store'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
 
+export const IPC_ZEN_NODE_NON_ZERO_EXIT = 'zenNodeNonZeroExit'
 export const IPC_ASK_IF_WIPED_DUE_TO_VERSION = 'askIfWipedDueToVersion'
 export const IPC_ANSWER_IF_WIPED_DUE_TO_VERSION = 'answerIfWipedDueToVersion'
 export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
@@ -20,7 +21,9 @@ export const ZEN_NODE_RESTART_SIGNAL = 'SIGKILL'
 
 class ZenNode {
   static zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
+  ipcMessagesToSendOnFinishedLoad = []
   logs = []
+  webContentsFinishedLoad = false
   node = {
     stderr: { pipe: _.noop },
     stdout: { pipe: _.noop, on: _.noop },
@@ -49,13 +52,9 @@ class ZenNode {
   init() {
     console.log('[ZEN NODE]: LAUNCHING ZEN NODE')
     try {
-      const { err, node } = spwanZenNodeChildProcess(this.zenNodeArgs, getZenNodePath())
-      if (err) {
-        this.onZenNodeError('spawn returned error', err)
-        return
-      }
+      const node = spwanZenNodeChildProcess(this.zenNodeArgs, getZenNodePath())
       this.node = node
-      this.node.on('error', () => this.onZenNodeError('this.node.on(\'error\')', err))
+      this.node.on('error', (err) => this.onZenNodeError('this.node.on(error)', err))
       this.node.on('message', this.onMessage)
       if (this.config.wipe || this.config.wipeFull) {
         this.updateLastWipeInDb()
@@ -63,7 +62,7 @@ class ZenNode {
       // reset wipe/wipefull args in case node was restarted with them
       this.config.wipe = false
       this.config.wipeFull = false
-      this.node.stderr.pipe(process.stderr)
+      this.node.stderr.on('data', this.onZenNodeStderr)
       this.node.stdout.pipe(process.stdout)
       this.node.stdout.on('data', this.onBlockchainLog)
       ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)
@@ -75,9 +74,14 @@ class ZenNode {
 
   onBlockchainLog = (chunk) => {
     const log = chunk.toString('utf8')
-    this.logs = [...this.logs, log].slice(-50)
+    this.logs = [...this.logs, log].slice(-100)
     console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
     this.webContents.send(IPC_BLOCKCHAIN_LOGS, log)
+  }
+  onZenNodeStderr = (chunk) => {
+    const log = chunk.toString('utf8')
+    this.logs = [...this.logs, log].slice(-100)
+    shout('zen node stderr', log)
   }
 
   onRestartZenNode = (event, args) => {
@@ -93,10 +97,20 @@ class ZenNode {
       shout('[ZEN NODE]: Restart through GUI')
       this.init()
     } else if (code === 1) {
-      shout('zen node had uncaught error')
-      dialog.showErrorBox('zen node had uncaught error (Wallet will shutdown)', this.logs.join(''))
-      this.onError(new Error('uncaught exception code 1'))
-      this.onClose()
+      shout('zen node non zero exit code')
+      dialog.showErrorBox(
+        'Zen node uncaught error',
+        'Non zero exit code (app will shutdown)',
+      )
+      if (this.webContentsFinishedLoad) {
+        this.webContents.send(IPC_ZEN_NODE_NON_ZERO_EXIT, this.logs)
+      } else {
+        this.ipcMessagesToSendOnFinishedLoad.push({
+          signal: IPC_ZEN_NODE_NON_ZERO_EXIT,
+          data: this.logs,
+        })
+      }
+      this.onError(new Error(`zen node non zero exit code. logs: ${this.logs.join('\n')}`))
     } else {
       console.log('[ZEN NODE]: Closed')
       this.onClose()
@@ -120,6 +134,12 @@ class ZenNode {
   }
   onMessage = (message) => {
     shout('[ZEN NODE]: message:\n', message)
+  }
+  onWebContentsFinishLoad() {
+    this.webContentsFinishedLoad = true
+    this.ipcMessagesToSendOnFinishedLoad.forEach(({ signal, data }) => {
+      this.webContents.send(signal, data)
+    })
   }
   get zenNodeArgs() {
     const {
