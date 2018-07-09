@@ -23,10 +23,13 @@ class SecretPhrase extends Component {
     checked: false,
     shouldShowCopyMessage: false,
   }
-
   componentWillMount() {
     this.props.secretPhraseState.generateSeed()
   }
+  componentWillUnmount() {
+    clearTimeout(this.copyTimeout)
+  }
+  copyTimeout = null
 
   onToggleSecuredPassphrase = (evt) => {
     this.setState({ checked: evt.target.checked })

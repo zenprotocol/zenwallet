@@ -77,7 +77,7 @@ class ImportWallet extends Component {
     if (!this.isEachWordAPerfectBip39Word || this.isValidBip39Mnemonic) {
       return
     }
-    return <p className="is-error">This is not a valid bip39 Mnemonic Passphrase</p>
+    return <p className="is-error" style={{ marginTop: 10 }}>This is not a valid bip39 Mnemonic Passphrase</p>
   }
   reset = () => {
     this.setState({ userInputWords: getInitialInputsState() })
@@ -136,7 +136,7 @@ class ImportWallet extends Component {
         <div>
           <PasteButton onClick={this.paste} />
           <button onClick={this.reset} className="secondary button-on-right">
-            <FontAwesomeIcon icon={['far', 'trash']} />  Reset
+            <FontAwesomeIcon icon={['far', 'trash']} /> Reset
           </button>
         </div>
         {this.notValidBip39PhraseMessage}

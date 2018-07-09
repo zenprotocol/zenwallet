@@ -108,7 +108,7 @@ class SecretPhraseQuiz extends Component {
         <div>
           <PasteButton onClick={this.paste} />
           <button onClick={this.reset} className="secondary button-on-right">
-            <FontAwesomeIcon icon={['far', 'trash']} />  Reset
+            <FontAwesomeIcon icon={['far', 'trash']} /> Reset
           </button>
         </div>
         <div className="devider before-buttons" />
