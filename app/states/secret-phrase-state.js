@@ -3,7 +3,7 @@ import bip39 from 'bip39'
 import { ipcRenderer } from 'electron'
 import swal from 'sweetalert'
 
-import { BUG_BOUNTY_URL, MAINNET } from '../constants'
+import { BUG_BOUNTY_URL } from '../constants'
 import db from '../services/store'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
@@ -20,10 +20,11 @@ class SecretPhraseState {
   @observable status = ''
   @observable isMining = getInitialIsMining()
 
-  constructor(networkState, balances, activeContractSet) {
+  constructor(networkState, balances, activeContractSet, redeemTokensState) {
     this.networkState = networkState
     this.balances = balances
     this.activeContractSet = activeContractSet
+    this.redeemTokensState = redeemTokensState
     if (isDev()) {
       this.initDev()
     }
@@ -86,7 +87,7 @@ class SecretPhraseState {
         this.isLoggedIn = true
         this.balances.initPolling()
         this.networkState.initPolling()
-        if (this.shouldRedeemNonMainnetTokens) {
+        if (this.redeemTokensState.shouldRedeemNonMainnetTokens) {
           history.push('/faucet')
         } else {
           history.push('/portfolio')
@@ -168,11 +169,6 @@ class SecretPhraseState {
         }
       })
       .catch(err => console.error(err))
-  }
-
-  get shouldRedeemNonMainnetTokens() {
-    const alreadyRedeemedTokens = db.get('config.alreadyRedeemedTokens').value()
-    return this.networkState.chain !== MAINNET && !alreadyRedeemedTokens
   }
 }
 

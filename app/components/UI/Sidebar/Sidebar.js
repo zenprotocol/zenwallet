@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { inject, observer } from 'mobx-react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import cx from 'classnames'
+
 
 import NonMainNetBottomBar from '../../UI/NonMainNetBottomBar'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../../constants/versions'
@@ -12,14 +13,15 @@ import { LOGO_SRC } from '../../../constants/imgSources'
 import NetworkState from '../../../states/network-state'
 import SecretPhraseState from '../../../states/secret-phrase-state'
 
+import SidebarMenu from './SidebarMenu'
+
 type Props = {
   className?: string,
   networkState: NetworkState,
   secretPhraseState: SecretPhraseState
 };
 
-@inject('secretPhraseState')
-@inject('networkState')
+@inject('secretPhraseState', 'networkState')
 @observer
 class Sidebar extends Component<Props> {
   static defaultProps = {
@@ -151,9 +153,9 @@ class Sidebar extends Component<Props> {
           <span className="data-name">Mining Difficulty: </span>
           <span className="data-point" title={difficulty}>{difficulty}</span>
         </div>
-				<div className="network-data-point truncate">
+        <div className="network-data-point truncate">
           <span className="data-name">Network Hashrate: </span>
-          <span className="data-point" title={difficulty/50}>{Math.floor(difficulty/50)} GH/s</span>
+          <span className="data-point" title={difficulty / 50}>{Math.floor(difficulty / 50)} GH/s</span>
         </div>
         <div className="network-data-point">
           <span className="data-name" title="Median Time Past">MTP: </span>
@@ -172,26 +174,6 @@ class Sidebar extends Component<Props> {
     )
   }
 
-  renderMenu() { // eslint-disable-line class-methods-use-this
-    return (
-      <div className="menu">
-        <ul>
-          {[
-            { to: 'portfolio', text: 'Portfolio' },
-            { to: 'send-tx', text: 'Send' },
-            { to: 'receive', text: 'Receive' },
-            { to: 'tx-history', text: 'Transactions' },
-            { to: 'acs', text: 'Active Contracts' },
-            { to: 'saved-contracts', text: 'Saved Contracts' },
-            // { to: 'faucet', text: 'Access Software' },
-            { to: 'blockchain-logs', text: 'Blockchain Logs' },
-            { to: 'settings', text: 'Settings' }, // doens't fit in the sidebar
-          ].map(({ to, text }) => <li key={to}><NavLink activeClassName="active" to={`/${to}`}>{text}</NavLink></li>)
-        }
-        </ul>
-      </div>
-    )
-  }
   render() {
     const SIDEBAR_WIDTH = 230
     return (
@@ -201,7 +183,7 @@ class Sidebar extends Component<Props> {
             <img src={LOGO_SRC} alt="Zen Protocol Logo" />
           </Link>
         </div>
-        {this.renderMenu()}
+        <SidebarMenu />
         {this.renderNetworkStatus()}
         <NonMainNetBottomBar width={SIDEBAR_WIDTH} />
       </nav>
