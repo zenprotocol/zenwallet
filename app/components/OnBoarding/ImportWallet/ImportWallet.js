@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
-import cx from 'classnames'
 import bip39 from 'bip39'
 
+import SeedInput from '../../UI/SeedInput'
 import ExternalLink from '../../UI/ExternalLink'
-import IsValidIcon from '../../Icons/IsValidIcon'
 import history from '../../../services/history'
 import { isValidBip39Word, isBip39Word } from '../../../utils/helpers'
 import OnBoardingLayout from '../Layout/Layout'
@@ -14,17 +13,16 @@ import OnBoardingLayout from '../Layout/Layout'
 @inject('secretPhraseState')
 @observer
 class ImportWallet extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { secretPhraseState } = this.props
     secretPhraseState.mnemonicPhrase = [...Array(24).keys()].map(() => (
       { word: '', status: '' }
     ))
   }
 
-  onChange = (evt) => {
-    const index = Number(evt.target.getAttribute('data-index'))
+  onChangeIdx = (evt, idx) => {
     const newWord = evt.target.value.trim().toLowerCase()
-    const object = this.props.secretPhraseState.mnemonicPhrase[index]
+    const object = this.props.secretPhraseState.mnemonicPhrase[idx]
     object.word = newWord
 
     object.status = ''
@@ -63,8 +61,6 @@ class ImportWallet extends Component {
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
     const wordArray = secretPhraseState.mnemonicPhrase.map((word) => word.word)
-    console.log('onSubmitClicked wordArray', wordArray)
-
     if (this.validateSecretPhrase()) {
       secretPhraseState.mnemonicPhrase = wordArray
       history.push('/set-password')
@@ -73,18 +69,16 @@ class ImportWallet extends Component {
 
   render() {
     const { mnemonicPhrase } = this.props.secretPhraseState
-
-    const importPhraseInputs = mnemonicPhrase.map((word, index) => (
-      <li key={index} className={word.status} >
-        <input
-          type="text"
-          data-index={index}
-          className={cx(word.status, { incomplete: this.isWordIncomplete(index) })}
-          onChange={this.onChange}
-          value={word.word}
-        />
-        <IsValidIcon isValid={word.status === 'perfect'} isHidden={!word.status.match(/perfect|invliad/)} />
-      </li>
+    const importPhraseInputs = mnemonicPhrase.map((word, idx) => (
+      <SeedInput
+        key={`${idx}`}
+        value={word.word}
+        isPerfect={word.status.includes('perfect')}
+        isInvalid={word.status.includes('invalid')}
+        isValid={word.status.includes('valid')}
+        isIncomplete={this.isWordIncomplete(idx)}
+        onChange={evt => this.onChangeIdx(evt, idx)}
+      />
     ))
 
     return (
