@@ -62,11 +62,7 @@ class ImportWallet extends Component {
     return !!(word.length && !this.isInputPerfect(idx))
   }
 
-  validateSecretPhrase() {
-    return this.isEachWordAPerfectBip39Word && this.isValidBip39Mnemonic
-  }
-
-  get isEachWordAPerfectBip39Word() {
+  get areAllInputsPerfect() {
     return this.state.userInputWords.every(isBip39Word)
   }
   get isValidBip39Mnemonic() {
@@ -74,10 +70,10 @@ class ImportWallet extends Component {
     return bip39.validateMnemonic(mnemonicPhraseString)
   }
   get notValidBip39PhraseMessage() {
-    if (!this.isEachWordAPerfectBip39Word || this.isValidBip39Mnemonic) {
+    if (!this.areAllInputsPerfect || this.isValidBip39Mnemonic) {
       return
     }
-    return <p className="is-error" style={{ marginTop: 10 }}>This is not a valid bip39 Mnemonic Passphrase</p>
+    return <p className="is-error" style={{ marginTop: 10 }}>Each word is a valid bip39 word, but this is not a valid bip39 Mnemonic Passphrase</p>
   }
   reset = () => {
     this.setState({ userInputWords: getInitialInputsState() })
@@ -150,7 +146,7 @@ class ImportWallet extends Component {
             <button
               className="button-on-right"
               onClick={this.onSubmitClicked}
-              disabled={!this.validateSecretPhrase()}
+              disabled={!this.isValidBip39Mnemonic}
             >
               Continue
             </button>
