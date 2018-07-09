@@ -3,9 +3,8 @@ import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import _ from 'lodash'
-import cx from 'classnames'
 
-import IsValidIcon from '../../Icons/IsValidIcon'
+import SeedInput from '../../UI/SeedInput'
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
 
@@ -39,41 +38,28 @@ class SecretPhraseQuiz extends Component {
 
   isInputPerfect = idx =>
     this.props.secretPhraseState.mnemonicPhrase[idx] === this.state.userInputWords[idx]
-  isInputInvalid = idx => !this.isInputValid(idx) && this.state.userInputWords[idx]
-  isInputValid = idx => this.state.userInputWords[idx]
+  isInputInvalid = idx => !!(!this.isInputValid(idx) && this.state.userInputWords[idx])
+  isInputValid = idx => !!(this.state.userInputWords[idx]
     && this.props.secretPhraseState.mnemonicPhrase[idx]
-      .indexOf(this.state.userInputWords[idx]) === 0
+      .indexOf(this.state.userInputWords[idx]) === 0)
   isInputIncomplete(idx) {
     const word = this.state.userInputWords[idx]
-    return word.length && !this.isInputPerfect(idx)
+    return !!(word.length && !this.isInputPerfect(idx))
   }
   renderQuizInputs() {
     return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => (
-      <li
-        key={idx}
-        className={cx({
-            perfect: this.isInputPerfect(idx),
-            invalid: this.isInputInvalid(idx),
-          })}
-      >
-        <input
-          type="text"
-          onChange={this.registerOnChangeFor(idx)}
-          className={cx({
-              perfect: this.isInputPerfect(idx),
-              invalid: this.isInputInvalid(idx),
-              valid: this.isInputValid(idx),
-              incomplete: this.isInputIncomplete(idx),
-             })}
-          value={this.state.userInputWords[idx]}
-          disabled={this.isInputPerfect(idx)}
-          ref={input => { this[`input${idx}`] = input }}
-        />
-        <IsValidIcon
-          isValid={this.isInputPerfect(idx)}
-          isHidden={!this.isInputPerfect(idx) && !this.isInputInvalid(idx)}
-        />
-      </li>
+      <SeedInput
+        key={`${idx}`}
+        idx={idx}
+        value={this.state.userInputWords[idx]}
+        isPerfect={this.isInputPerfect(idx)}
+        isInvalid={this.isInputInvalid(idx)}
+        isValid={this.isInputValid(idx)}
+        isIncomplete={this.isInputIncomplete(idx)}
+        isDisabled={this.isInputPerfect(idx)}
+        inputRef={input => { this[`input${idx}`] = input }}
+        onChange={this.registerOnChangeFor(idx)}
+      />
     ))
   }
 

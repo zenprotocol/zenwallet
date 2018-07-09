@@ -8,7 +8,7 @@ const IsValidIcon = ({
 }) => (
   <FontAwesomeIcon
     icon={['far', isValid ? 'check' : 'times']}
-    className={cx(className, { 'display-none': isHidden, error: hasColors && !isValid, valid: hasColors && isValid })}
+    className={cx(className, 'is-valid-icon', { 'display-none': isHidden, error: hasColors && !isValid, valid: hasColors && isValid })}
     {...rest}
   />
 )
