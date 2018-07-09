@@ -2,27 +2,11 @@ import bip39 from 'bip39'
 
 import bip39Words from './bip39Words'
 
-export const isValidBip39Word = (string: ?string) => {
-  if (string) {
-    for (const word of bip39Words) {
-      if (word.includes(string)) {
-        return true
-      }
-    }
-  }
-  return false
-}
+export const isValidBip39Word = (string: ?string) =>
+  !!(string && bip39Words.find(word => word.includes(string)))
 
-export const isBip39Word = (string: ?string) => {
-  if (string) {
-    for (const word of bip39Words) {
-      if (word === string) {
-        return true
-      }
-    }
-  }
-  return false
-}
+export const isBip39Word = (string: ?string) =>
+  !!(string && bip39Words.find(word => word === string))
 
 export const parseSeedFromClipboard = (clipboardContents) => {
   if (!clipboardContents) {
