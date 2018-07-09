@@ -5,8 +5,6 @@ import bech32 from 'bech32'
 import db from '../services/store'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../constants'
 
-import bip39Words from './bip39Words'
-
 const validPrefixes = ['zen', 'tzn', 'czen', 'ctzn']
 const savedContracts = db.get('savedContracts').value()
 
@@ -20,31 +18,6 @@ export const getAssetName = (asset: ?string) => {
   }
   return ''
 }
-
-// TODO [AdGo] 06/05/19 - rewrite this
-/* eslint-disable no-restricted-syntax */
-export const isValidBip39Word = (string: ?string) => {
-  if (string) {
-    for (const word of bip39Words) {
-      if (word.includes(string)) {
-        return true
-      }
-    }
-    return false
-  }
-}
-
-export const isBip39Word = (string: ?string) => {
-  if (string) {
-    for (const word of bip39Words) {
-      if (word === string) {
-        return true
-      }
-    }
-  }
-  return false
-}
-/* eslint-enable no-restricted-syntax */
 
 export const truncateString = (string: ?string) => {
   if (string) {
