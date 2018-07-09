@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx'
 
+import { MAINNET } from '../constants'
 import { getCheckCrowdsaleTokensEntitlement, postRedeemCrowdsaleTokens } from '../services/api-service'
 import db from '../services/store'
 
@@ -17,7 +18,9 @@ class RedeemTokensState {
   @observable pubkey = false
   @observable pubkeyIsValid = false
 
-
+  constructor(networkState) {
+    this.networkState = networkState
+  }
   @action
   async checkCrowdsaleTokensEntitlement() {
     this.inprogress = true
@@ -98,6 +101,14 @@ class RedeemTokensState {
 
     this.pubkey = false
     this.pubkeyIsValid = false
+  }
+
+  get shouldRedeemNonMainnetTokens() {
+    const alreadyRedeemedTokens = db.get('config.alreadyRedeemedTokens').value()
+    return this.isFaucetActive && !alreadyRedeemedTokens
+  }
+  get isFaucetActive() {
+    return this.networkState.chain !== MAINNET
   }
 }
 
