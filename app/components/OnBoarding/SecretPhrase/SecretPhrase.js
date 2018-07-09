@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
+import { clipboard } from 'electron'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
@@ -19,6 +21,7 @@ class SecretPhrase extends Component {
   }
   state = {
     checked: false,
+    shouldShowCopyMessage: false,
   }
 
   componentWillMount() {
@@ -32,9 +35,16 @@ class SecretPhrase extends Component {
   onNextClicked = () => {
     history.push('/secret-phrase-quiz')
   }
-
+  copyToClipboard = () => {
+    const { mnemonicPhrase } = this.props.secretPhraseState
+    clipboard.writeText(JSON.stringify(mnemonicPhrase))
+    this.setState({ shouldShowCopyMessage: true })
+    this.copyTimeout = setTimeout(() => {
+      this.setState({ shouldShowCopyMessage: false })
+    }, 2000)
+  }
   render() {
-    const { checked } = this.state
+    const { checked, shouldShowCopyMessage } = this.state
     const { mnemonicPhrase } = this.props.secretPhraseState
     return (
       <OnBoardingLayout className="secret-phrase-container" progressStep={2}>
@@ -48,6 +58,12 @@ class SecretPhrase extends Component {
           {mnemonicPhrase.map((word, idx) => (<li key={idx}>{word}</li>))}
         </ol>
         <p className="warning">If you lose this passphrase you will lose all assets in the wallet!</p>
+        <div>
+          <button onClick={this.copyToClipboard} className="secondary" style={{ marginRight: 10 }}>
+            <FontAwesomeIcon icon={['far', 'copy']} /> Copy to clipboard
+          </button>
+          {shouldShowCopyMessage && 'Copied!'}
+        </div>
         <div className="devider before-buttons" />
 
         <Flexbox flexDirection="row">

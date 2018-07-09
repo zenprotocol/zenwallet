@@ -4,20 +4,36 @@ import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import bip39 from 'bip39'
 import _ from 'lodash'
+import swal from 'sweetalert'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { clipboard } from 'electron'
 
+import { isAnyInputActive } from '../../../utils/domUtils'
+import PasteButton from '../../UI/PasteButton'
 import SeedInput from '../../UI/SeedInput'
 import ExternalLink from '../../UI/ExternalLink'
-import history from '../../../services/history'
-import { isValidBip39Word, isBip39Word } from '../../../utils/helpers'
+import { isValidBip39Word, isBip39Word, getSeedFromClipboard } from '../../../utils/seedUtils'
 import OnBoardingLayout from '../Layout/Layout'
+
+const getInitialInputsState = () => _.range(24).map(() => '')
 
 @inject('secretPhraseState')
 @observer
 class ImportWallet extends Component {
   state = {
-    userInputWords: _.range(24).map(() => ''),
+    userInputWords: getInitialInputsState(),
   }
-
+  componentDidMount() {
+    window.addEventListener('keyup', this.onkeyup)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.onkeyup)
+  }
+  onkeyup = evt => {
+    if (evt.key === 'v' && evt.ctrlKey && !isAnyInputActive()) {
+      this.paste(clipboard.readText())
+    }
+  }
   registerOnChangeFor = idx => evt => {
     const { value } = evt.target // persist evt, don't delete! see https://reactjs.org/docs/events.html#event-pooling
     this.setState(({ userInputWords }) => {
@@ -63,6 +79,21 @@ class ImportWallet extends Component {
     }
     return <p className="is-error">This is not a valid bip39 Mnemonic Passphrase</p>
   }
+  reset = () => {
+    this.setState({ userInputWords: getInitialInputsState() })
+  }
+  paste = (clipboardContents) => {
+    const arraySeed = getSeedFromClipboard(clipboardContents)
+    if (!arraySeed) {
+      swal({
+        icon: 'warning',
+        title: 'bad format',
+        text: 'your clipboard content is not formatted as a valid seed',
+      })
+      return
+    }
+    this.setState({ userInputWords: arraySeed })
+  }
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
     secretPhraseState.setMnemonicToImport(this.state.userInputWords)
@@ -101,6 +132,13 @@ class ImportWallet extends Component {
         <ol className="passphrase-quiz">
           {this.renderInputs()}
         </ol>
+
+        <div>
+          <PasteButton onClick={this.paste} />
+          <button onClick={this.reset} className="secondary button-on-right">
+            <FontAwesomeIcon icon={['far', 'trash']} />  Reset
+          </button>
+        </div>
         {this.notValidBip39PhraseMessage}
         <div className="devider before-buttons" />
 
