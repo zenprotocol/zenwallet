@@ -32,7 +32,13 @@ class SecretPhraseState {
 
   @action.bound
   generateSeed() {
-    this.mnemonicPhrase = observable.array(bip39.generateMnemonic(256).split(' '))
+    this.mnemonicPhrase = bip39.generateMnemonic(256).split(' ')
+  }
+
+  @action
+  setMnemonicToImport(userInputWords) {
+    this.mnemonicPhrase = userInputWords
+    history.push('/set-password')
   }
 
   @action

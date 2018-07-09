@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import bip39 from 'bip39'
+import _ from 'lodash'
 
 import SeedInput from '../../UI/SeedInput'
 import ExternalLink from '../../UI/ExternalLink'
@@ -13,74 +14,75 @@ import OnBoardingLayout from '../Layout/Layout'
 @inject('secretPhraseState')
 @observer
 class ImportWallet extends Component {
-  componentDidMount() {
-    const { secretPhraseState } = this.props
-    secretPhraseState.mnemonicPhrase = [...Array(24).keys()].map(() => (
-      { word: '', status: '' }
-    ))
+  state = {
+    userInputWords: _.range(24).map(() => ''),
   }
 
-  onChangeIdx = (evt, idx) => {
-    const newWord = evt.target.value.trim().toLowerCase()
-    const object = this.props.secretPhraseState.mnemonicPhrase[idx]
-    object.word = newWord
-
-    object.status = ''
-    if (newWord.length > 0) {
-      object.status = (isValidBip39Word(newWord) ? 'valid' : 'invalid')
-    }
-    if (isBip39Word(newWord)) { object.status = 'perfect' }
-
-    this.forceUpdate()
+  registerOnChangeFor = idx => evt => {
+    const { value } = evt.target // persist evt, don't delete! see https://reactjs.org/docs/events.html#event-pooling
+    this.setState(({ userInputWords }) => {
+      userInputWords[idx] = value
+      return { userInputWords }
+    }, () => {
+      if (this.isInputPerfect(idx) && idx < 23) {
+        this[`input${idx + 1}`].focus()
+      }
+    })
   }
-  isWordIncomplete(index) {
-    const { word, status } = this.props.secretPhraseState.mnemonicPhrase[index]
-    return word.length && status !== 'perfect'
+  isInputPerfect = idx => {
+    const word = this.state.userInputWords[idx]
+    return isBip39Word(word)
+  }
+  isInputInvalid = idx => {
+    const word = this.state.userInputWords[idx]
+    return !!(word && !isValidBip39Word(word))
+  }
+  isInputValid = idx => {
+    const word = this.state.userInputWords[idx]
+    return !!(word && isValidBip39Word(word))
+  }
+  isInputIncomplete(idx) {
+    const word = this.state.userInputWords[idx]
+    return !!(word.length && !this.isInputPerfect(idx))
   }
 
   validateSecretPhrase() {
-    return this.isEachWordIsValidBip39Word && this.isValidBip39Mnemonic
+    return this.isEachWordAPerfectBip39Word && this.isValidBip39Mnemonic
   }
 
-  get isEachWordIsValidBip39Word() {
-    const { mnemonicPhrase } = this.props.secretPhraseState
-    const statuses = mnemonicPhrase.map(word => word.status)
-    return statuses.every(val => val === 'perfect')
+  get isEachWordAPerfectBip39Word() {
+    return this.state.userInputWords.every(isBip39Word)
   }
   get isValidBip39Mnemonic() {
-    const { mnemonicPhrase } = this.props.secretPhraseState
-    const mnemonicPhraseString = mnemonicPhrase.map(word => word.word).join(' ')
+    const mnemonicPhraseString = this.state.userInputWords.join(' ')
     return bip39.validateMnemonic(mnemonicPhraseString)
   }
   get notValidBip39PhraseMessage() {
-    if (!this.isEachWordIsValidBip39Word || this.isValidBip39Mnemonic) {
+    if (!this.isEachWordAPerfectBip39Word || this.isValidBip39Mnemonic) {
       return
     }
     return <p className="is-error">This is not a valid bip39 Mnemonic Passphrase</p>
   }
   onSubmitClicked = () => {
     const { secretPhraseState } = this.props
-    const wordArray = secretPhraseState.mnemonicPhrase.map((word) => word.word)
-    if (this.validateSecretPhrase()) {
-      secretPhraseState.mnemonicPhrase = wordArray
-      history.push('/set-password')
-    }
+    secretPhraseState.setMnemonicToImport(this.state.userInputWords)
   }
 
-  render() {
-    const { mnemonicPhrase } = this.props.secretPhraseState
-    const importPhraseInputs = mnemonicPhrase.map((word, idx) => (
+  renderInputs() {
+    return this.state.userInputWords.map((word, idx) => (
       <SeedInput
         key={`${idx}`}
-        value={word.word}
-        isPerfect={word.status.includes('perfect')}
-        isInvalid={word.status.includes('invalid')}
-        isValid={word.status.includes('valid')}
-        isIncomplete={this.isWordIncomplete(idx)}
-        onChange={evt => this.onChangeIdx(evt, idx)}
+        value={word}
+        isPerfect={this.isInputPerfect(idx)}
+        isInvalid={this.isInputInvalid(idx)}
+        isValid={this.isInputValid(idx)}
+        isIncomplete={this.isInputIncomplete(idx)}
+        onChange={this.registerOnChangeFor(idx)}
+        inputRef={input => { this[`input${idx}`] = input }}
       />
     ))
-
+  }
+  render() {
     return (
       <OnBoardingLayout className="import-wallet-container" progressStep={3}>
         <h1>Import Your Mnemonic Passphrase</h1>
@@ -97,7 +99,7 @@ class ImportWallet extends Component {
         <div className="devider after-title" />
 
         <ol className="passphrase-quiz">
-          {importPhraseInputs}
+          {this.renderInputs()}
         </ol>
         {this.notValidBip39PhraseMessage}
         <div className="devider before-buttons" />

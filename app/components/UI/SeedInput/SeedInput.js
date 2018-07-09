@@ -12,7 +12,7 @@ type Props = {
   isInvalid: boolean,
   isValid: boolean,
   isIncomplete: boolean,
-  isDisabled: boolean,
+  isDisabled?: boolean,
   inputRef: () => {},
   onChange: () => {}
 };
@@ -22,6 +22,9 @@ type State = {
 };
 
 class SeedInput extends Component<Props, State> {
+  static defaultProps = {
+    isDisabled: false,
+  }
   state = {
     isVisible: false,
   }

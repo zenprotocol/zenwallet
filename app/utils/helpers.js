@@ -41,8 +41,8 @@ export const isBip39Word = (string: ?string) => {
         return true
       }
     }
-    return false
   }
+  return false
 }
 /* eslint-enable no-restricted-syntax */
 
