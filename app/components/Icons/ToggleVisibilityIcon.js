@@ -5,7 +5,7 @@ import cx from 'classnames'
 
 const ToggleVisibilityIcon = ({ shouldShow, className, ...rest }) => (
   <FontAwesomeIcon
-    icon={['far', shouldShow ? 'eye' : 'eye-slash']}
+    icon={['far', shouldShow ? 'eye-slash' : 'eye']}
     style={{ cursor: 'pointer' }}
     className={cx(className, 'toggle-input-visibility-icon')}
     {...rest}
