@@ -197,6 +197,7 @@
   },
   "dependencies": {
     "@zen/zen-node": "0.9.7",
+    "arch": "^2.1.1",
     "axios": "^0.18.0",
     "backtrace-js": "0.0.10",
     "backtrace-node": "^0.7.3",
