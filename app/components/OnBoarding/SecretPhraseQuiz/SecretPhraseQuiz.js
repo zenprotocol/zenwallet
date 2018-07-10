@@ -3,13 +3,10 @@ import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import _ from 'lodash'
-import { clipboard } from 'electron'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import swal from 'sweetalert'
 
-import { getSeedFromClipboard } from '../../../utils/seedUtils'
 import PasteButton from '../../UI/PasteButton'
-import { isAnyInputActive } from '../../../utils/domUtils'
 import SeedInput from '../../UI/SeedInput'
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
@@ -22,17 +19,7 @@ class SecretPhraseQuiz extends Component {
   state = {
     userInputWords: getInitialInputsState(),
   }
-  componentDidMount() {
-    window.addEventListener('keyup', this.onkeyup)
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keyup', this.onkeyup)
-  }
-  onkeyup = evt => {
-    if (evt.key === 'v' && evt.ctrlKey && !isAnyInputActive()) {
-      this.paste(clipboard.readText())
-    }
-  }
+
   validateQuiz() {
     return this.props.secretPhraseState.mnemonicPhrase.every((word, idx) => this.isInputPerfect(idx))
   }
@@ -64,21 +51,6 @@ class SecretPhraseQuiz extends Component {
     const word = this.state.userInputWords[idx]
     return !!(word.length && !this.isInputPerfect(idx))
   }
-  reset = () => {
-    this.setState({ userInputWords: getInitialInputsState() })
-  }
-  paste = (clipboardContent) => {
-    const arraySeed = getSeedFromClipboard(clipboardContent)
-    if (!arraySeed) {
-      swal({
-        icon: 'warning',
-        title: 'bad format',
-        text: 'your clipboard content is not formatted as a valid seed',
-      })
-      return
-    }
-    this.setState({ userInputWords: arraySeed })
-  }
   renderQuizInputs() {
     return this.props.secretPhraseState.mnemonicPhrase.map((word, idx) => (
       <SeedInput
@@ -105,12 +77,6 @@ class SecretPhraseQuiz extends Component {
         <div className="devider after-title" />
 
         <ol className="passphrase-quiz">{this.renderQuizInputs()}</ol>
-        <div>
-          <PasteButton onClick={this.paste} />
-          <button onClick={this.reset} className="secondary button-on-right">
-            <FontAwesomeIcon icon={['far', 'trash']} /> Reset
-          </button>
-        </div>
         <div className="devider before-buttons" />
 
         <Flexbox flexDirection="row">

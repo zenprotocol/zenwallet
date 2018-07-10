@@ -62,7 +62,7 @@ class SeedInput extends Component<Props, State> {
           isValid={isPerfect}
           isHidden={!isPerfect && !isInvalid}
         />
-        <ToggleVisibilityIcon onClick={this.toggleVisibility} shouldShow={isVisible} />
+        {value && <ToggleVisibilityIcon onClick={this.toggleVisibility} shouldShow={isVisible} />}
       </li>
     )
   }
