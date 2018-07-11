@@ -39,10 +39,6 @@ class ImportWallet extends Component {
     this.setState(({ userInputWords }) => {
       userInputWords[idx] = value
       return { userInputWords }
-    }, () => {
-      if (this.isInputPerfect(idx) && idx < 23) {
-        this[`input${idx + 1}`].focus()
-      }
     })
   }
   isInputPerfect = idx => {
