@@ -36,9 +36,9 @@ function text(chain) {
     return 'LOCAL NET CHAIN'
   }
   if (chain === TESTNET) {
-    return 'TEST NET CHAIN'
+    return 'TESTNET'
   }
-	  return 'UNKNOWN CHAIN'
+	  return 'UNKNOWN NETWORK'
 }
 function style(width) {
   return {
