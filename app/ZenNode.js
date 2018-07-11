@@ -169,7 +169,7 @@ class ZenNode {
 
 export default ZenNode
 
-function getZenNodePath() {
+export function getZenNodePath() {
   return isInstalledWithInstaller()
     // $FlowFixMe
     ? path.join(process.resourcesPath, 'node_modules', '@zen', 'zen-node')

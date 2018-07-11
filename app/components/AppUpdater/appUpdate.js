@@ -3,12 +3,10 @@ import axios from 'axios'
 import compare from 'semver-compare'
 
 import { version } from '../../../package.json'
+import { OSX, WINDOWS, LINUX } from '../../utils/platformUtils'
 
 export const RELEASE_API_URL = 'https://api.github.com/repos/zenprotocol/zenwallet/releases/latest'
 export const LATEST_RELEASE_URL = 'https://github.com/zenprotocol/zenwallet/releases/latest'
-const OSX = 'darwin'
-const WINDOWS = 'win32'
-const LINUX = 'linux'
 
 export const checkForUpdates = async (platform: string = process.platform): Promise<?string> => {
   try {
