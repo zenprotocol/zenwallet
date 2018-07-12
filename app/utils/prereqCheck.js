@@ -51,9 +51,9 @@ function validateZ3() {
 function getZ3PathForPlatform() {
   const pathToDir = path.join(getZenNodePath(), 'Release')
   let filename
-  if (isWindows) { filename = 'z3.exe' }
-  if (isOsx) { filename = 'z3-osx' }
-  if (isLinux) { filename = 'z3-linux' }
+  if (isWindows()) { filename = 'z3.exe' }
+  if (isOsx()) { filename = 'z3-osx' }
+  if (isLinux()) { filename = 'z3-linux' }
   return path.join(pathToDir, filename)
 }
 
