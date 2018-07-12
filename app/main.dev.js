@@ -17,7 +17,7 @@ import { app, BrowserWindow, dialog } from 'electron'
 import ZenNode from './ZenNode'
 import db from './services/store'
 import MainProcessErrorReporter from './utils/errorReporting/MainProcessErrorReporter'
-import prereqCheck from './utils/prereqCheck'
+// import prereqCheck from './utils/prereqCheck'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
 
@@ -63,7 +63,7 @@ app.on('ready', async () => {
     await installExtensions()
   }
 
-  prereqCheck()
+  // prereqCheck()
 
   console.log('process.argv', process.argv)
 
