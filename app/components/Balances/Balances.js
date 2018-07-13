@@ -7,8 +7,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
-@inject('balances')
-@inject('transaction')
+@inject('balances', 'transaction')
 @observer
 class Balances extends Component {
   componentDidMount() {
@@ -17,26 +16,23 @@ class Balances extends Component {
 
   render() {
     const { balances } = this.props
-    const balancesRows = balances.assets.map(asset => {
-      const assetName = balances.getAssetName(asset.asset)
-      return (
-        <React.Fragment key={asset.asset}>
-          <tr>
-            <td className="align-left text" title={assetName}>{assetName}</td>
-            <CopyableTableCell string={asset.asset} />
-            <td className="bright-blue" title={asset.balance} >
-              {asset.balance}
-            </td>
-            <td className="align-right" >
-              <Link className="button small with-icon" to="/send-tx" title="Send Transaction" onClick={() => this.props.transaction.updateAsset(asset)}>
-                <FontAwesomeIcon icon={['far', 'paper-plane']} /> <span className="button-text">Send</span>
-              </Link>
-            </td>
-          </tr>
-          <tr className="separator" />
-        </React.Fragment>
-      )
-    })
+    const balancesRows = balances.assets.map(asset => (
+      <React.Fragment key={asset.asset}>
+        <tr>
+          <td className="align-left text" title={asset.name}>{asset.name}</td>
+          <CopyableTableCell string={asset.asset} />
+          <td className="bright-blue" title={asset.balance}>
+            {asset.balanceDisplay}
+          </td>
+          <td className="align-right" >
+            <Link className="button small with-icon" to="/send-tx" title="Send Transaction" onClick={() => this.props.transaction.updateAsset(asset)}>
+              <FontAwesomeIcon icon={['far', 'paper-plane']} /> <span className="button-text">Send</span>
+            </Link>
+          </td>
+        </tr>
+        <tr className="separator" />
+      </React.Fragment>
+    ))
 
     return (
       <Layout className="balances">

@@ -104,7 +104,7 @@ class UnlockWallet extends Component<Props, State> {
           <a style={{ textDecoration: 'underline' }} onClick={forgotPasswordModal} className="forgot-password">
             Forgot your password? Import your wallet again or create a new one
           </a>
-
+          {/* $FlowFixMe */ }
           <NonMainNetBottomBar />
         </Flexbox>
       </Flexbox>

@@ -10,7 +10,7 @@ import cx from 'classnames'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../constants'
 import enforceSynced from '../../services/enforceSynced'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
-import { normalizeTokens, zenToKalapa, stringToNumber } from '../../utils/helpers'
+import { normalizeTokens, zenToKalapas } from '../../utils/zenUtils'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
@@ -27,8 +27,7 @@ type Props = {
   balances: BalancesState
 };
 
-@inject('contract')
-@inject('balances')
+@inject('contract', 'balances')
 @observer
 class ActivateContract extends Component<Props> {
   componentWillUnmount() {
@@ -130,9 +129,9 @@ class ActivateContract extends Component<Props> {
   }
 
   isAmountValid() {
-    const { numberOfBlocks, code } = this.props.contract
-    return numberOfBlocks &&
-      calcMaxBlocksForContract(this.props.balances.zen, code.length) >= numberOfBlocks
+    const { balances, contract } = this.props
+    return contract.blocksAmount &&
+      calcMaxBlocksForContract(balances.zenBalance, contract.code.length) >= contract.blocksAmount
   }
 
   isSubmitButtonDisabled() {
@@ -214,10 +213,10 @@ class ActivateContract extends Component<Props> {
 
   renderCostToActivate() {
     const { contract } = this.props
-    const { code, numberOfBlocks } = contract
-    if (code.length > 0 && numberOfBlocks > 0) {
+    const { code, blocksAmount } = contract
+    if (code.length > 0 && blocksAmount > 0) {
       let unitOfAccountText
-      const activationCostInKalapa = code.length * numberOfBlocks
+      const activationCostInKalapa = code.length * blocksAmount
       if (activationCostInKalapa > 1000000) {
         const newValue = normalizeTokens(activationCostInKalapa, true)
         unitOfAccountText = `${newValue} ZP`
@@ -233,13 +232,15 @@ class ActivateContract extends Component<Props> {
     }
   }
 
-  updateBlocksAmount = (amount) => {
-    this.props.contract.numberOfBlocks = amount
+  updateBlocksAmountDisplay = (blocksAmountDisplay) => {
+    const { contract } = this.props
+    contract.updateBlocksAmountDisplay(blocksAmountDisplay)
   }
 
   render() {
     const {
-      dragDropText, name, numberOfBlocks, code, inprogress, resetForm, formIsDirty,
+      dragDropText, name, blocksAmount, blocksAmountDisplay,
+      code, inprogress, resetForm, formIsDirty,
     } = this.props.contract
 
     let dropzoneRef
@@ -295,10 +296,11 @@ class ActivateContract extends Component<Props> {
               </Flexbox>
 
               <AmountInput
-                amount={numberOfBlocks}
-                maxAmount={String(calcMaxBlocksForContract(this.props.balances.zen, code.length))}
+                amount={blocksAmount}
+                amountDisplay={blocksAmountDisplay}
+                maxAmount={calcMaxBlocksForContract(this.props.balances.zenBalance, code.length)}
                 exceedingErrorMessage="Insufficient funds for that many blocks"
-                onUpdateParent={this.updateBlocksAmount}
+                onAmountDisplayChanged={this.updateBlocksAmountDisplay}
                 label="Number Of Blocks"
               />
 
@@ -337,11 +339,9 @@ class ActivateContract extends Component<Props> {
 export default ActivateContract
 
 export function calcMaxBlocksForContract(zenBalance, codeLength) {
-  // TODO [AdGo] 06/05/18 - fix predicitibility of zen balance to number or string
-  // and remove casting to number
-  if (Number(zenBalance) === 0 || codeLength === 0) {
+  if (zenBalance === 0 || codeLength === 0) {
     return 0
   }
-  const zenBalanceInKalapas = zenToKalapa(stringToNumber(zenBalance))
-  return parseInt((zenBalanceInKalapas / codeLength), 10)
+  const kalapasBalance = zenToKalapas(zenBalance)
+  return parseInt((kalapasBalance / codeLength), 10)
 }

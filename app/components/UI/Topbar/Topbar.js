@@ -5,8 +5,7 @@ import classnames from 'classnames'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-@inject('balances')
-@inject('history')
+@inject('balances', 'history')
 @observer
 class Header extends Component {
   static propTypes = {
@@ -47,7 +46,7 @@ class Header extends Component {
   }
 
   render() {
-    const { zen } = this.props.balances
+    const { balances } = this.props
     const className = classnames('header', this.props.className)
     return (
       <Flexbox className={className} element="header" >
@@ -57,7 +56,7 @@ class Header extends Component {
             <span className="total-balance">Total Balance</span>
             <span className="zen-symbol">ZP</span>
           </div>
-          <div className="account-balance">{zen}</div>
+          <div className="account-balance">{balances.zenDisplay}</div>
         </div>
       </Flexbox>
     )

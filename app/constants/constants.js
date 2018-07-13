@@ -1,3 +1,4 @@
+export const ZENP_MIN_DECIMALS = 2
 export const ZENP_MAX_DECIMALS = 8
 export const ZEN_ASSET_HASH = '00'
 export const ZEN_ASSET_NAME = 'ZP'

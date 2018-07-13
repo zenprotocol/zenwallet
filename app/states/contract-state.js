@@ -1,5 +1,5 @@
 // @flow
-import { observable, action, runInAction } from 'mobx'
+import { observable, action, runInAction, computed } from 'mobx'
 import { some } from 'lodash'
 
 import { postActivateContract } from '../services/api-service'
@@ -14,7 +14,7 @@ class ContractState {
   @observable contractId: string
   @observable address: string
   @observable code = ''
-  @observable numberOfBlocks = ''
+  @observable blocksAmountDisplay = ''
   @observable activationCost = ''
   @observable blockAmountHasError = false
   @observable status: 'inprogress' | 'success' | 'error' | ''
@@ -40,7 +40,7 @@ class ContractState {
     this.status = 'inprogress'
     const data = {
       code: this.code,
-      numberOfBlocks: Number(this.numberOfBlocks),
+      numberOfBlocks: this.blocksAmount,
       password,
     }
     try {
@@ -87,7 +87,7 @@ class ContractState {
   }
 
   get formIsDirty(): boolean {
-    return !(this.name || this.code || this.numberOfBlocks)
+    return !(this.name || this.code || this.blocksAmountDisplay)
   }
 
   @action.bound
@@ -97,7 +97,7 @@ class ContractState {
     this.code = ''
     this.contractId = ''
     this.address = ''
-    this.numberOfBlocks = ''
+    this.blocksAmountDisplay = ''
     this.activationCost = ''
     this.status = ''
     this.inprogress = false
@@ -105,6 +105,15 @@ class ContractState {
     this.errorMessage = ''
     this.acceptedFiles = []
     this.rejectedFiles = []
+  }
+
+  @computed
+  get blocksAmount() {
+    return Number(this.blocksAmountDisplay)
+  }
+
+  updateBlocksAmountDisplay(blocksAmountDisplay: string) {
+    this.blocksAmountDisplay = blocksAmountDisplay
   }
 }
 

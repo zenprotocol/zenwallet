@@ -3,13 +3,14 @@
 import bech32 from 'bech32'
 
 import db from '../services/store'
-import { ZEN_ASSET_NAME, ZEN_ASSET_HASH, ZEN_TO_KALAPA_RATIO } from '../constants'
+import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../constants'
 
 const validPrefixes = ['zen', 'tzn', 'czen', 'ctzn']
 const savedContracts = db.get('savedContracts').value()
 
 export const isDev = () => process.env.NODE_ENV === 'development'
 
+// TODO use exposed asset names from stores instead
 export const getAssetName = (asset: ?string) => {
   if (asset === ZEN_ASSET_HASH) { return ZEN_ASSET_NAME }
   const contractFromDb = savedContracts.find(contract => contract.contractId === asset)
@@ -25,18 +26,6 @@ export const truncateString = (string: ?string) => {
       ? `${string.substr(0, 6)}...${string.substr(string.length - 6)}`
       : string
   }
-}
-
-export const normalizeTokens = (number: number, isZen: ?boolean) => {
-  const newNumber = number / ZEN_TO_KALAPA_RATIO
-  if (isZen) {
-    const formattedNumber = newNumber.toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 8,
-    })
-    return formattedNumber
-  }
-  return number.toLocaleString()
 }
 
 export const stringToNumber = (str: ?string) => str && parseFloat(str.replace(/,/g, ''))
@@ -55,10 +44,6 @@ export const isValidAddress = (address: ?string, type?: 'contract' | 'pubKey' = 
     return false
   }
 }
-
-export const isZenAsset = (asset: string) => asset === ZEN_ASSET_HASH
-
-export const zenToKalapa = (zen: number) => zen * ZEN_TO_KALAPA_RATIO
 
 export const getNamefromCodeComment = (code: string) => {
   const startRegex = /NAME_START:/
@@ -110,4 +95,23 @@ export const validateInputNumber = (str: string, maxDecimal: number = 0) => {
     return str.split('.')[0] + '.' + str.split('.')[1].substr(0, maxDecimal) // eslint-disable-line prefer-template
   }
   return str
+}
+
+export const minimumDecimalPoints = (num: string | number, decimalPoints: number): string => {
+  num = String(num)
+  // Split the input string into two arrays containing integers/decimals
+  const res = num.split('.')
+  // If there is no decimal point or only one decimal place found.
+  if (res.length === 1 || res[1].length < decimalPoints) {
+  // Set the number to two decimal places
+    return Number(num).toFixed(decimalPoints)
+  }
+  // Return updated or original number.
+  return num
+}
+
+export const numberWithCommas = (x: number | string): string => {
+  const parts = x.toString().split('.')
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return parts.join('.')
 }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { normalizeTokens, isZenAsset, getAssetName } from '../../utils/helpers'
+import { getAssetName } from '../../utils/helpers'
+import { normalizeTokens, isZenAsset } from '../../utils/zenUtils'
 import CopyableTableCell from '../UI/CopyableTableCell'
 
 class SingleTxDelta extends Component {

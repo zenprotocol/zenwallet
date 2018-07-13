@@ -2,6 +2,8 @@ import { observable, computed, action, runInAction } from 'mobx'
 import { find } from 'lodash'
 
 import PollManager from '../utils/PollManager'
+import { zenBalanceDisplay, kalapasToZen, isZenAsset } from '../utils/zenUtils'
+import { numberWithCommas } from '../utils/helpers'
 import { getBalances } from '../services/api-service'
 import db from '../services/store'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../app/constants'
@@ -9,7 +11,7 @@ import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../app/constants'
 const savedContracts = db.get('savedContracts').value()
 
 class BalancesState {
-    @observable assets = []
+    @observable rawAssets = []
     @observable searchQuery = ''
     fetchPollManager: PollManager
 
@@ -38,11 +40,11 @@ class BalancesState {
 
     @action.bound
     async fetch() {
-      const assets = await getBalances()
-      runInAction(() => this.assets.replace(assets))
+      const rawAssets = await getBalances()
+      runInAction(() => this.rawAssets.replace(rawAssets))
       // if there's a balance without asset name, check ACS if matching contract exists
       // if it does, save it to DB
-      assets.filter(asset => !this.getAssetName(asset.asset))
+      rawAssets.filter(asset => !this.getAssetName(asset.asset))
         .forEach(asset => {
           const matchingActiveContract =
             this.acsState.activeContractsWithNames.find(ac => ac.contractId === asset.asset)
@@ -66,31 +68,39 @@ class BalancesState {
       return result ? result.balance : 0
     }
 
-    @computed
-    get assetsWithNames() {
-      return this.assets.map(asset => ({ ...asset, name: this.getAssetName(asset.asset) }))
+    get assets() {
+      return this.rawAssets.map(asset => ({
+        ...asset,
+        name: this.getAssetName(asset.asset),
+        balance: isZenAsset(asset.asset) ? kalapasToZen(asset.balance) : asset.balance,
+        balanceDisplay: isZenAsset(asset.asset)
+          ? zenBalanceDisplay(asset.balance)
+          : numberWithCommas(asset.balance),
+      }))
     }
 
-    filteredBalancesWithNames = query => {
-      if (!this.assetsWithNames.length) {
+    filteredBalances = query => {
+      if (!this.assets.length) {
         return []
       }
       if (!query) {
-        return this.assetsWithNames
+        return this.assets
       }
-      return this.assetsWithNames.filter(asset => (asset.name.indexOf(query) > -1)
+      return this.assets.filter(asset => (asset.name.indexOf(query) > -1)
         || (asset.asset.indexOf(query) > -1))
     }
 
     @computed
+    get zenDisplay() {
+      return this.zen ? this.zen.balanceDisplay : '0'
+    }
+    @computed
+    get zenBalance() {
+      return this.zen ? this.zen.balance : 0
+    }
+    @computed
     get zen() {
-      let result = find(this.assets, asset => asset.asset === ZEN_ASSET_HASH)
-      if (result !== undefined) {
-        result = result.balance
-      } else {
-        result = 0
-      }
-      return result
+      return this.assets.find(asset => asset.asset === ZEN_ASSET_HASH)
     }
 }
 
