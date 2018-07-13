@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { inject, observer, PropTypes as PropTypesMobx } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import Autosuggest from 'react-autosuggest'
 import cx from 'classnames'
@@ -16,10 +16,10 @@ class AutoSuggestAssets extends Component {
   static propTypes = {
     asset: PropTypes.string.isRequired,
     balances: PropTypes.shape({
-      assets: PropTypesMobx.observableArrayOf(PropTypes.shape({
+      assets: PropTypes.arrayOf(PropTypes.shape({
         asset: PropTypes.string.isRequired,
       }).isRequired).isRequired,
-      filteredBalancesWithNames: PropTypes.func.isRequired,
+      filteredBalances: PropTypes.func.isRequired,
       getAssetName: PropTypes.func.isRequired,
     }).isRequired,
     onUpdateParent: PropTypes.func.isRequired,
@@ -61,12 +61,13 @@ class AutoSuggestAssets extends Component {
     const { asset } = this.getChosenAsset()
     this.props.onUpdateParent({ asset })
   }
+  // TODO refactor to getter
   getChosenAsset() {
     return this.props.balances.assets.find(a => a.asset === this.state.suggestionInputValue)
   }
 
   getSuggestions = query => {
-    const filtered = this.props.balances.filteredBalancesWithNames(query)
+    const filtered = this.props.balances.filteredBalances(query)
     if (filtered.length === 1 && filtered[0].asset === query) {
       return []
     }
@@ -104,6 +105,7 @@ class AutoSuggestAssets extends Component {
   }
 
   renderChosenAssetName() {
+    // TODO get name directly from chosen asset, no need to go through balances
     const chosenAssetName = this.props.balances.getAssetName(this.state.suggestionInputValue)
     if (chosenAssetName) {
       return (

@@ -3,12 +3,13 @@ import _ from 'lodash'
 
 import { postRunContractMessage } from '../services/api-service'
 import { getNamefromCodeComment } from '../utils/helpers'
+import { zenToKalapas, isZenAsset } from '../utils/zenUtils'
 import db from '../services/store'
 
 class ContractMessageState {
   @observable address = ''
   @observable contractName = ''
-  @observable amount = ''
+  @observable amountDisplay = ''
   @observable command = ''
   @observable data
   @observable status = ''
@@ -26,7 +27,7 @@ class ContractMessageState {
       const data = {
         asset: this.asset,
         address: this.address,
-        amount: Number(this.amount),
+        amount: isZenAsset(this.asset) ? zenToKalapas(this.amount) : this.amount,
         command: this.command,
         data: this.data,
         password,
@@ -73,7 +74,12 @@ class ContractMessageState {
   @action
   updateAddress(address) {
     this.address = address
-    this.amount = ''
+    this.amountDisplay = ''
+  }
+
+  @action
+  updateAmountDisplay(amountDisplay) {
+    this.amountDisplay = amountDisplay
   }
 
   @action
@@ -81,11 +87,15 @@ class ContractMessageState {
     this.inprogress = false
     this.asset = ''
     this.address = ''
-    this.amount = ''
+    this.amountDisplay = ''
     this.command = ''
     this.data = ''
     this.errorMessage = ''
     this.status = ''
+  }
+
+  get amount() {
+    return Number(this.amountDisplay)
   }
 }
 

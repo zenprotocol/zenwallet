@@ -8,20 +8,18 @@ import PropTypes from 'prop-types'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 import enforceSynced from '../../services/enforceSynced'
 import db from '../../services/store'
-import { stringToNumber, isZenAsset } from '../../utils/helpers'
+import { isZenAsset } from '../../utils/zenUtils'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestActiveContracts from '../UI/AutoSuggestActiveContracts'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
-import { ZENP_MAX_DECIMALS } from '../../constants'
+import { ZENP_MAX_DECIMALS, ZENP_MIN_DECIMALS } from '../../constants'
 
 // TODO [AdGo] 12/05/2018 - get from contracts store after refactor
 const savedContracts = db.get('savedContracts').value()
 
-@inject('activeContractSet')
-@inject('balances')
-@inject('contractMessage')
+@inject('activeContractSet', 'balances', 'contractMessage')
 @observer
 class RunContract extends Component {
   static propTypes = {
@@ -31,7 +29,8 @@ class RunContract extends Component {
     contractMessage: PropTypes.shape({
       address: PropTypes.string,
       asset: PropTypes.string,
-      amount: PropTypes.string,
+      amount: PropTypes.number,
+      amountDisplay: PropTypes.string,
       command: PropTypes.string,
       data: PropTypes.string,
       contractName: PropTypes.string,
@@ -40,8 +39,6 @@ class RunContract extends Component {
       sendContractMessage: PropTypes.func,
     }).isRequired,
     balances: PropTypes.shape({
-      // TODO [AdGo] 14/05/2018 - enfore one type after refactoring types
-      zen: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       getBalanceFor: PropTypes.func,
     }).isRequired,
   }
@@ -126,7 +123,7 @@ class RunContract extends Component {
   updateAssetFromSuggestions = ({ asset }) => {
     const { contractMessage } = this.props
     contractMessage.asset = asset
-    contractMessage.amount = ''
+    contractMessage.amountDisplay = ''
   }
 
   isAmountValid() {
@@ -137,12 +134,12 @@ class RunContract extends Component {
     if (!amount) {
       return false
     }
-    return stringToNumber(amount) <= stringToNumber(this.props.balances.getBalanceFor(asset))
+    return amount <= this.props.balances.getBalanceFor(asset)
   }
 
-  updateAmount = (amount) => {
+  updateAmountDisplay = (amountDisplay) => {
     const { contractMessage } = this.props
-    contractMessage.amount = amount
+    contractMessage.updateAmountDisplay(amountDisplay)
   }
 
   validateForm() {
@@ -158,7 +155,7 @@ class RunContract extends Component {
 
   render() {
     const {
-      command, amount, asset, inprogress, data, address,
+      command, amount, asset, inprogress, data, address, amountDisplay,
     } = this.props.contractMessage
     const { activeContractsWithNames } = this.props.activeContractSet
     return (
@@ -201,11 +198,13 @@ class RunContract extends Component {
               />
               <AmountInput
                 amount={amount}
+                amountDisplay={amountDisplay}
                 maxDecimal={isZenAsset(asset) ? ZENP_MAX_DECIMALS : 0}
+                minDecimal={isZenAsset(asset) ? ZENP_MIN_DECIMALS : 0}
                 maxAmount={asset ? this.props.balances.getBalanceFor(asset) : null}
                 shouldShowMaxAmount
                 exceedingErrorMessage="Insufficient Funds"
-                onUpdateParent={this.updateAmount}
+                onAmountDisplayChanged={this.updateAmountDisplay}
                 label="Amount"
               />
             </Flexbox>

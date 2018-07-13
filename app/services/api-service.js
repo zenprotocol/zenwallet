@@ -2,7 +2,6 @@
 import axios from 'axios'
 import type { observableArray } from 'mobx-react'
 
-import { isZenAsset } from '../utils/helpers'
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
 
 const crowdsaleServerAddress = getCrowdsaleServerAddress()
@@ -12,15 +11,16 @@ type addressType = string;
 
 type Asset = {
   asset: string,
-  balance: string
+  balance: number
 };
 
 export async function getBalances(): Promise<Asset[]> {
   const response = await axios.get(`${getServerAddress()}/wallet/balance`)
-  return response.data.map(asset => ({
-    ...asset,
-    balance: normalizePresentableAmount(asset.asset, asset.balance),
-  }))
+  return response.data
+  // return response.data.map(asset => ({
+  //   ...asset,
+  //   balance: normalizePresentableAmount(asset.asset, asset.balance),
+  // }))
 }
 
 export async function getPublicAddress(): Promise<string> {
@@ -42,7 +42,7 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
     outputs: [{
       asset,
       address: to,
-      amount: normalizeSendableAmount(asset, amount),
+      amount,
     }],
     password,
   }
@@ -101,7 +101,7 @@ export async function postRunContractMessage(contractMessage: ContractMessage & 
     finaldata.spends = [
       {
         asset,
-        amount: normalizeSendableAmount(asset, amount),
+        amount,
       },
     ]
   }
@@ -215,19 +215,6 @@ export async function postWalletMnemonicphrase(password: string): string {
   })
   // $FlowFixMe
   return response.data
-}
-
-export function normalizeSendableAmount(asset: hash, amount: number) {
-  return isZenAsset(asset) ? Math.floor(amount * 100000000) : amount
-}
-export function normalizePresentableAmount(asset: hash, amount: number) {
-  if (isZenAsset(asset)) {
-    return (amount / 100000000).toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 8,
-    })
-  }
-  return amount.toLocaleString()
 }
 // CROWDSALE APIS //
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import ExternalLink from '../UI/ExternalLink'
-import { truncateString, isZenAsset } from '../../utils/helpers'
+import { truncateString } from '../../utils/helpers'
+import { isZenAsset } from '../../utils/zenUtils'
 
 const { clipboard } = require('electron')
 

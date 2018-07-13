@@ -9,21 +9,22 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import enforceSynced from '../../services/enforceSynced'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 import IsValidIcon from '../Icons/IsValidIcon'
-import { isValidAddress, isZenAsset, stringToNumber } from '../../utils/helpers'
-import { ZENP_MAX_DECIMALS } from '../../constants'
+import { isValidAddress } from '../../utils/helpers'
+import { isZenAsset } from '../../utils/zenUtils'
+import { ZENP_MAX_DECIMALS, ZENP_MIN_DECIMALS } from '../../constants'
 import Layout from '../UI/Layout/Layout'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 
-@inject('balances')
-@inject('transaction')
+@inject('balances', 'transaction')
 @observer
 class SendTx extends Component {
   static propTypes = {
     transaction: PropTypes.shape({
       asset: PropTypes.string,
-      amount: PropTypes.string,
+      amount: PropTypes.number,
+      amountDisplay: PropTypes.string,
       to: PropTypes.string,
       inprogress: PropTypes.bool,
       status: PropTypes.string,
@@ -84,12 +85,11 @@ class SendTx extends Component {
 
   updateAssetFromSuggestions = ({ asset }) => {
     const { transaction } = this.props
-    transaction.asset = asset
-    transaction.amount = ''
+    transaction.updateAssetFromSuggestions(asset)
   }
-  updateAmount = (amount) => {
+  updateAmountDisplay = (amountDisplay) => {
     const { transaction } = this.props
-    transaction.amount = amount
+    transaction.updateAmountDisplay(amountDisplay)
   }
   renderSuccessResponse() {
     if (this.props.transaction.status !== 'success') {
@@ -121,7 +121,7 @@ class SendTx extends Component {
     if (!confirmedPassword) {
       return
     }
-    this.props.transaction.createTransaction(this.props.transaction, confirmedPassword)
+    this.props.transaction.createTransaction(confirmedPassword)
     this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
@@ -130,7 +130,7 @@ class SendTx extends Component {
     if (!amount) {
       return false
     }
-    return stringToNumber(amount) <= stringToNumber(this.props.balances.getBalanceFor(asset))
+    return amount <= this.props.balances.getBalanceFor(asset)
   }
 
   validateDestinationAddressField() {
@@ -152,7 +152,7 @@ class SendTx extends Component {
   }
   render() {
     const {
-      to, asset, amount,
+      to, asset, amount, amountDisplay,
     } = this.props.transaction
     const { addressIsValid, addressError } = this.state
 
@@ -209,13 +209,15 @@ class SendTx extends Component {
                 ref={(el) => { this.AutoSuggestAssets = el }}
               />
               <AmountInput
-                maxDecimal={isZenAsset(asset) ? ZENP_MAX_DECIMALS : 0}
                 amount={amount}
-                exceedingErrorMessage="Insufficient Funds"
+                amountDisplay={amountDisplay}
+                maxDecimal={isZenAsset(asset) ? ZENP_MAX_DECIMALS : 0}
+                minDecimal={isZenAsset(asset) ? ZENP_MIN_DECIMALS : 0}
                 maxAmount={asset ? this.props.balances.getBalanceFor(asset) : null}
                 shouldShowMaxAmount
+                exceedingErrorMessage="Insufficient Funds"
+                onAmountDisplayChanged={this.updateAmountDisplay}
                 label="Amount"
-                onUpdateParent={this.updateAmount}
               />
             </Flexbox>
           </Flexbox>

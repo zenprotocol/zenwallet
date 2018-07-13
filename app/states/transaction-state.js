@@ -1,20 +1,26 @@
 import { observable, action, runInAction } from 'mobx'
 
 import { postTransaction } from '../services/api-service'
+import { zenToKalapas, isZenAsset } from '../utils/zenUtils'
 
 class TransactionState {
   @observable asset = ''
   @observable to = ''
-  @observable amount = ''
+  @observable amountDisplay = ''
   @observable status = ''
   @observable inprogress = false
   @observable errorMessage = ''
 
   @action
-  async createTransaction(tx, password) {
+  async createTransaction(password) {
     try {
       this.inprogress = true
-      const data = { ...tx, amount: Number(tx.amount), password }
+      const data = {
+        amount: isZenAsset(this.asset) ? zenToKalapas(this.amount) : this.amount,
+        asset: this.asset,
+        to: this.to,
+        password,
+      }
       const response = await postTransaction(data)
 
       runInAction(() => {
@@ -44,14 +50,29 @@ class TransactionState {
   }
 
   @action
+  updateAssetFromSuggestions(asset) {
+    this.asset = asset
+    this.amountDisplay = ''
+  }
+
+  @action
+  updateAmountDisplay(amountDisplay) {
+    this.amountDisplay = amountDisplay
+  }
+
+  @action
   resetForm() {
     this.inprogress = false
     this.asset = ''
     this.assetName = ''
     this.to = ''
-    this.amount = ''
+    this.amountDisplay = ''
     this.status = ''
     this.errorMessage = ''
+  }
+
+  get amount() {
+    return Number(this.amountDisplay)
   }
 }
 

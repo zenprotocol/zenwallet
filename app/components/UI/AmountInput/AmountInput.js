@@ -6,21 +6,25 @@ import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { stringToNumber, validateInputNumber } from '../../../utils/helpers'
+import { minimumDecimalPoints, validateInputNumber } from '../../../utils/helpers'
 
 @observer
 class AmountInput extends Component {
   static propTypes = {
     maxDecimal: PropTypes.number,
-    amount: PropTypes.string.isRequired,
-    maxAmount: PropTypes.string,
+    minDecimal: PropTypes.number,
+    amount: PropTypes.number,
+    amountDisplay: PropTypes.string.isRequired,
+    maxAmount: PropTypes.number,
     shouldShowMaxAmount: PropTypes.bool,
     exceedingErrorMessage: PropTypes.string.isRequired,
-    onUpdateParent: PropTypes.func.isRequired,
+    onAmountDisplayChanged: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
   }
   static defaultProps = {
     maxDecimal: 0,
+    minDecimal: 0,
+    amount: null,
     maxAmount: null,
     shouldShowMaxAmount: false,
   }
@@ -29,11 +33,12 @@ class AmountInput extends Component {
   }
 
   onChange = (evt) => {
-    const result = validateInputNumber(evt.target.value, this.props.maxDecimal)
-    if (result === false) {
+    const { maxDecimal, onAmountDisplayChanged } = this.props
+    const newAmountDisplay = validateInputNumber(evt.target.value, maxDecimal)
+    if (newAmountDisplay === false) {
       return
     }
-    this.updateParent(result)
+    onAmountDisplayChanged(newAmountDisplay)
   }
 
   onKeyDown = evt => {
@@ -42,40 +47,36 @@ class AmountInput extends Component {
   }
 
   increaseAmount = () => {
-    const { amount } = this.props
+    const { amount, onAmountDisplayChanged } = this.props
     let newAmount
     if (amount === undefined || amount === '') {
       newAmount = 1
     } else {
-      newAmount = Number(amount) + 1
+      newAmount = amount + 1
     }
-    this.updateParent(newAmount)
+    onAmountDisplayChanged(String(newAmount))
   }
 
   decreaseAmount = () => {
-    const { amount } = this.props
+    const { amount, onAmountDisplayChanged } = this.props
     if (amount !== undefined && amount >= 1) {
-      this.updateParent(Number(amount) - 1)
+      onAmountDisplayChanged(String(amount - 1))
     }
   }
 
-  updateParent(amount) {
-    this.props.onUpdateParent(String(amount)) // TODO check if need to cast to string
-  }
-
   renderMaxAmountDiv() {
-    const { maxAmount, shouldShowMaxAmount } = this.props
+    const { maxAmount, shouldShowMaxAmount, minDecimal } = this.props
     if (!shouldShowMaxAmount || maxAmount === null) {
       return null
     }
     return (
-      <div className="maxAmount"> / { maxAmount }</div>
+      <div className="maxAmount"> / { minDecimal ? minimumDecimalPoints(maxAmount, minDecimal) : maxAmount }</div>
     )
   }
 
   isExceedingMaxAmount() {
     const { amount, maxAmount } = this.props
-    return stringToNumber(amount) > stringToNumber(maxAmount)
+    return amount > maxAmount
   }
 
   renderExceedingMaxAmountError() {
@@ -93,7 +94,7 @@ class AmountInput extends Component {
   onBlur = () => this.setState({ isFocused: false })
 
   render() {
-    const { label, amount } = this.props
+    const { label, amountDisplay } = this.props
     return (
       <Flexbox flexGrow={0} flexDirection="column" className="amount">
         <label htmlFor="amount">{label}</label>
@@ -111,7 +112,7 @@ class AmountInput extends Component {
           <input
             id="amount"
             placeholder="Enter amount"
-            value={amount}
+            value={amountDisplay}
             ref={(el) => { this.el = el }}
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
