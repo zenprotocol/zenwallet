@@ -77,7 +77,7 @@ function validateMono() {
 
 function getMonoStatus() {
   try {
-    const monoOutput = execSync('mono --version', { encoding: 'utf-8' })
+    const monoOutput = execSync(`${monoPath()} --version`, { encoding: 'utf-8' })
     try {
       const [major, minor] = monoOutput.split('version ')[1].split(' ')[0].split('.')
       if (major <= 4 || (major === 5 && minor < 10)) {
@@ -91,4 +91,8 @@ function getMonoStatus() {
     console.error('error executing mono --version from terminal\n', monoOutputErr)
     return { status: ERR_STATUS, msg: `please install mono\n${monoOutputErr}` }
   }
+}
+
+function monoPath() {
+  return !isOsx() ? 'mono' : '/Library/Frameworks/Mono.framework/Versions/Current/Commands/mono'
 }
