@@ -102,6 +102,29 @@ class Sidebar extends Component<Props> {
     )
   }
 
+  rednerHashingPower() {
+    const { difficulty } = this.props.networkState
+    let hashrateType = 'GH/s'
+    let hashrate = difficulty / 55
+    if (hashrate < 1) {
+      hashrate *= 1000
+      hashrateType = 'MH/s'
+    }
+    if (hashrate > 1000) {
+      hashrate /= 1000
+      hashrateType = 'TH/s'
+    }
+    console.log('hashrate', hashrate)
+    return (
+      <div className="network-data-point truncate">
+        <span className="data-name">Network Hashrate: </span>
+        <span className="data-point" title={`${hashrate} ${hashrateType}`}>
+          {parseFloat(hashrate).toFixed(2)} {hashrateType}
+        </span>
+      </div>
+    )
+  }
+
   renderNetworkStatus() {
     const {
       chain, blocks, headers, difficulty, connections, connectedToNode,
@@ -153,10 +176,7 @@ class Sidebar extends Component<Props> {
           <span className="data-name">Mining Difficulty: </span>
           <span className="data-point" title={difficulty}>{difficulty}</span>
         </div>
-        <div className="network-data-point truncate">
-          <span className="data-name">Network Hashrate: </span>
-          <span className="data-point" title={difficulty / 55}>{Math.floor(difficulty / 55)} GH/s</span>
-        </div>
+        { this.rednerHashingPower() }
         <div className="network-data-point">
           <span className="data-name" title="Median Time Past">MTP: </span>
           <span className="data-point">{this.formattedBlockchainTime()}</span>
