@@ -95,7 +95,6 @@ function getMonoStatus() {
   } catch (monoOutputErr) {
     console.error('error executing mono --version from terminal\n', monoOutputErr)
     return { status: ERR_STATUS, msg: `please install mono\n${monoOutputErr}` }
-    }
   }
 }
 
