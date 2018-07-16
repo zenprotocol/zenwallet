@@ -18,7 +18,7 @@ When producing local installer, if you see `'build' is not recognized`, installi
 It's best to update the zen node and commit ONLY that change, to make it easy to trace in the repo's graph
 ```bash
 $ npm install --save @zen/zen-node
-$ git commit -am "update zen-node x.xx.xx"
+$ git commit -am "update zen-wallet x.xx.xx"
 $ git push # after QA!
 ```
 
@@ -26,8 +26,8 @@ $ git push # after QA!
 Commit ONLY the change of the wallet version, to make it easy to trace in the repo's graph.
 usually you'd want to update zen node first, then:
 1. update `@zen/zen-wallet` version in `package.json`
-1. update `@zen/zen-wallet` version in `app/package.json`
-1. run the following in terminal
+2. update `@zen/zen-wallet` version in `app/package.json`
+3. run the following in terminal
 
 ```bash
 $ git commit -am "version x.xx.xx"
@@ -35,12 +35,12 @@ $ git commit -am "version x.xx.xx"
 $ npm run update-release-branch
 # create npm package file for myget
 $ npm run build && npm pack
-# create installer for local OS
+# create installer for local OS (optional)
 $ npm run package
 ```
 
-3. go to [myget](https://www.myget.org/feed/Packages/zenprotocol)
-4. Add npm package to zen-wallet
+4. go to [myget](https://www.myget.org/feed/Packages/zenprotocol)
+5. Add npm package to zen-wallet
 
 # Zen Node APIs
 [Node Apis](https://gitlab.com/zenprotocol/zenprotocol/blob/master/src/Api/Server.fs)
