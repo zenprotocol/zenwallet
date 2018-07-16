@@ -88,8 +88,14 @@ function getMonoStatus() {
       return { status: ERR_STATUS, msg: 'error parsing mono version, please contact us' }
     }
   } catch (monoOutputErr) {
-    console.error('error executing mono --version from terminal\n', monoOutputErr)
-    return { status: ERR_STATUS, msg: `please install mono\n${monoOutputErr}` }
+    var brew = require('fs')
+    if (brew.existsSync('/usr/local/bin/mono')) {
+      console.error('brew is installed && error executing mono --version from terminal\n', monoOutputErr)
+      return { status: ERR_STATUS, msg: `Mono was installed using brew, please install it using tha package. \n Check https://docs.zenprotocol.com/preparation/installers \n${monoOutputErr}` }
+    } else{
+      console.error('error executing mono --version from terminal\n', monoOutputErr)
+      return { status: ERR_STATUS, msg: `please install mono\n${monoOutputErr}` }
+    }
   }
 }
 
