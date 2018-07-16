@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import {ipcRenderer} from 'electron'
 import {isWindows} from '../utils/platformUtils'
 
 // @flow
@@ -9,7 +9,9 @@ const MAIN_NET_PORT = '11567'
 
 let chain = getInitialChain()
 
-ipcRenderer.on('switchChain', onSwitchChain)
+if (ipcRenderer){
+  ipcRenderer.on('switchChain', onSwitchChain)
+}
 
 function onSwitchChain(evt, newChain) {
   console.log('setting server address for chain:', newChain)
