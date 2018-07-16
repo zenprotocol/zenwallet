@@ -98,16 +98,8 @@ export const validateInputNumber = (str: string, maxDecimal: number = 0) => {
 }
 
 export const minimumDecimalPoints = (num: string | number, decimalPoints: number): string => {
-  num = String(num)
-  // Split the input string into two arrays containing integers/decimals
-  const res = num.split('.')
-  // If there is no decimal point or only one decimal place found.
-  if (res.length === 1 || res[1].length < decimalPoints) {
-  // Set the number to two decimal places
-    return Number(num).toFixed(decimalPoints)
-  }
-  // Return updated or original number.
-  return num
+  num = Number(num)
+  return num.toFixed(Math.max(decimalPoints, (num.toString().split('.')[1] || []).length))
 }
 
 export const numberWithCommas = (x: number | string): string => {
