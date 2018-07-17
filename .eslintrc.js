@@ -35,6 +35,7 @@ module.exports = {
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/label-has-for": 0,
     "jsx-a11y/no-autofocus": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
     "no-console": "off",
     "no-use-before-define": "off",
     "no-multi-assign": "off",

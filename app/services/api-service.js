@@ -17,15 +17,16 @@ type Asset = {
 export async function getBalances(): Promise<Asset[]> {
   const response = await axios.get(`${getServerAddress()}/wallet/balance`)
   return response.data
-  // return response.data.map(asset => ({
-  //   ...asset,
-  //   balance: normalizePresentableAmount(asset.asset, asset.balance),
-  // }))
 }
 
 export async function getPublicAddress(): Promise<string> {
   const response = await axios.get(`${getServerAddress()}/wallet/address`)
   return response.data
+}
+
+export async function getPublicPkHash(publicAddress: string): Promise<string> {
+  const response = await axios.get(`${getServerAddress()}/address/decode?address=${publicAddress}`)
+  return response.data.pkHash
 }
 
 type Transaction = {
