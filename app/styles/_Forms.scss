@@ -153,7 +153,10 @@ input[type=password],
 label {
   line-height: 2.5rem;
   color: $bright-grey;
-  font-size: 1rem;
+	font-size: 1rem;
+	&[for] {
+		cursor: pointer;
+	}
 }
 
 select::-ms-expand { display: none; }

@@ -1,61 +1,27 @@
+// @flow
+
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
-import { clipboard } from 'electron'
 
+import PublicAddressState from '../../states/public-address-state'
 import Layout from '../UI/Layout/Layout'
+import Copy from '../UI/Copy'
+import Toggle from '../UI/Toggle'
+
+type Props = {
+  publicAddress: PublicAddressState
+};
 
 @inject('publicAddress')
 @observer
-class Receive extends Component {
-  state = {
-    showCopyMessage: false,
-  }
+class Receive extends Component<Props> {
   componentDidMount() {
-    this.props.publicAddress.fetch()
-  }
-  componentWillUnmount() {
-    clearTimeout(this.copyMessageTimeout)
-  }
-  handleFocus = (evt) => {
     const { publicAddress } = this.props
-    clipboard.writeText(publicAddress.address)
-    evt.target.select()
-    evt.target.focus()
-    this.showHideCopyMessage()
+    publicAddress.fetch()
   }
-
-  onCopyClicked = () => {
-    this.refs.publicAddressInput.focus()
-    this.refs.publicAddressInput.select()
-    clipboard.writeText(this.props.publicAddress.address)
-    this.showHideCopyMessage()
-  }
-
-  showHideCopyMessage() {
-    this.setState({ showCopyMessage: true })
-    if (this.copyMessageTimeout) {
-      return // HACK: timeout is being called twice
-    }
-    this.copyMessageTimeout = setTimeout(() => {
-      this.setState({ showCopyMessage: false })
-    }, 3000)
-  }
-
-  renderCopiedMessage() {
-    if (!this.state.showCopyMessage) {
-      return null
-    }
-    return (
-      <div className="bright-blue copied-to-clipboard-message">
-        Public address copied to clipboard
-      </div>
-    )
-  }
-
   render() {
     const { publicAddress } = this.props
-
     return (
       <Layout className="receive">
         <Flexbox flexDirection="column" className="receive-container">
@@ -63,14 +29,46 @@ class Receive extends Component {
             <h1>Receive</h1>
           </Flexbox>
           <div className="input-container">
-            <label onClick={this.handleFocus} htmlFor="public-address">Your Address</label>
-            <Flexbox flexDirection="row" className="address-input form-row">
-              <input id="public-address" ref="publicAddressInput" onFocus={this.handleFocus} onClick={this.handleFocus} type="text" value={publicAddress.address} readOnly />
-              <button className="copy-button button-on-right" onClick={this.onCopyClicked}>Copy</button>
-            </Flexbox>
-            <Flexbox>
-              { this.renderCopiedMessage() }
-            </Flexbox>
+            <Copy valueToCopy={publicAddress.address}>
+              <Copy.Label>Your Address</Copy.Label>
+              <Flexbox flexDirection="row" className="address-input form-row">
+                <Copy.Input className="full-width" />
+                <Copy.Button className="button-on-right" />
+              </Flexbox>
+              {publicAddress.addressError && (
+                <span className="error-msg">{publicAddress.addressError}</span>
+              )}
+              <Copy.ActiveMsg>
+                <Flexbox>
+                  <div className="bright-blue copied-to-clipboard-message">Public address copied to clipboard</div>
+                </Flexbox>
+              </Copy.ActiveMsg>
+            </Copy>
+            <Toggle
+              onToggle={publicAddress.toggleShowPkHash}
+              isActive={publicAddress.showingPkHash}
+            >
+              <Toggle.Checkbox>Advanced</Toggle.Checkbox>
+              <Toggle.On>
+                <Copy valueToCopy={publicAddress.pkHash}>
+                  <div>
+                    <Copy.Label>PkHash</Copy.Label>
+                  </div>
+                  <Flexbox flexDirection="row" className="address-input form-row">
+                    <Copy.Input className="full-width" />
+                    <Copy.Button className="button-on-right" />
+                  </Flexbox>
+                  {publicAddress.pkHashError && (
+                    <span className="error-msg">{publicAddress.pkHashError}</span>
+                  )}
+                  <Flexbox>
+                    <Copy.ActiveMsg>
+                      <div className="bright-blue copied-to-clipboard-message">PkHash copied to clipboard</div>
+                    </Copy.ActiveMsg>
+                  </Flexbox>
+                </Copy>
+              </Toggle.On>
+            </Toggle>
           </div>
         </Flexbox>
       </Layout>
