@@ -86,6 +86,32 @@ class NetworkState {
     return this.chain === TESTNET ? MAINNET : TESTNET
   }
 
+  @computed
+  get gigaHashRate() {
+    return this.difficulty / 55
+  }
+
+  @computed
+  get hashrateByUnit() {
+    if (this.gigaHashRate < 1) {
+      return this.gigaHashRate * 1000
+    } else if (this.gigaHashRate > 1000) {
+      return this.gigaHashRate / 1000
+    }
+    return this.gigaHashRate
+  }
+
+  @computed
+  get hashrateUnit() {
+    if (this.gigaHashRate < 1) {
+      return 'MH/s'
+    } else if (this.gigaHashRate > 1000) {
+      return 'TH/s'
+    }
+    return 'GH/s'
+  }
+
+
   formatChainResult(chainResult) {
     if (chainResult === 'main') {
       return MAINNET
