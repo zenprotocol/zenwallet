@@ -11,6 +11,10 @@ export const attributes = {
   NODE_ENV: process.env.NODE_ENV,
   walletVersion: pjson.version,
   zenNodeVersion: pjson.dependencies['@zen/zen-node'],
+  // override for annonimity
+  referer: '',
+  hostname: '',
+  filename: '', // [AdGo] 17/07/2018 not sure it's needed, I remember seeing it somewhere
 }
 
 export const crashReporterOpts = {
