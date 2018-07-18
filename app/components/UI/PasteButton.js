@@ -27,7 +27,7 @@ class PasteButton extends Component<Props> {
         className={cx('button secondary', className)}
         onClick={this.onClick}
         {...remainingProps}
-      ><FontAwesomeIcon icon={['far', 'copy']} className="" /> {text}
+      ><FontAwesomeIcon icon={['far', 'paste']} className="" /> {text}
       </button>
     )
   }
