@@ -44,31 +44,33 @@ class Receive extends Component<Props> {
                 </Flexbox>
               </Copy.ActiveMsg>
             </Copy>
-            <Toggle
-              onToggle={publicAddress.toggleShowPkHash}
-              isActive={publicAddress.showingPkHash}
-            >
-              <Toggle.Checkbox>Advanced</Toggle.Checkbox>
-              <Toggle.On>
-                <Copy valueToCopy={publicAddress.pkHash}>
-                  <div>
-                    <Copy.Label>PkHash</Copy.Label>
-                  </div>
-                  <Flexbox flexDirection="row" className="address-input form-row">
-                    <Copy.Input className="full-width" />
-                    <Copy.Button className="button-on-right" />
-                  </Flexbox>
-                  {publicAddress.pkHashError && (
+            <div style={{ marginTop: 20 }}>
+              <Toggle
+                onToggle={publicAddress.toggleShowPkHash}
+                isActive={publicAddress.showingPkHash}
+              >
+                <Toggle.Arrow style={{ textAlign: 'center', fontSize: '80%' }}>Advanced</Toggle.Arrow>
+                <Toggle.On>
+                  <Copy valueToCopy={publicAddress.pkHash}>
+                    <div>
+                      <Copy.Label>PkHash</Copy.Label>
+                    </div>
+                    <Flexbox flexDirection="row" className="address-input form-row">
+                      <Copy.Input className="full-width" />
+                      <Copy.Button className="button-on-right" />
+                    </Flexbox>
+                    {publicAddress.pkHashError && (
                     <span className="error-msg">{publicAddress.pkHashError}</span>
                   )}
-                  <Flexbox>
-                    <Copy.ActiveMsg>
-                      <div className="bright-blue copied-to-clipboard-message">PkHash copied to clipboard</div>
-                    </Copy.ActiveMsg>
-                  </Flexbox>
-                </Copy>
-              </Toggle.On>
-            </Toggle>
+                    <Flexbox>
+                      <Copy.ActiveMsg>
+                        <div className="bright-blue copied-to-clipboard-message">PkHash copied to clipboard</div>
+                      </Copy.ActiveMsg>
+                    </Flexbox>
+                  </Copy>
+                </Toggle.On>
+              </Toggle>
+            </div>
           </div>
         </Flexbox>
       </Layout>
