@@ -3,7 +3,7 @@ import PublicAddressState from './public-address-state'
 import TransactionState from './transaction-state'
 import TxHistoryState from './tx-history-state'
 import ContractState from './contract-state'
-import ContractMessage from './contract-message'
+import RunContractState from './run-contract-state'
 import ActiveContractSetState from './acs-state'
 import NetworkState from './network-state'
 import RedeemTokensState from './redeem-tokens-state'
@@ -25,7 +25,7 @@ const secretPhraseState =
 const transaction = new TransactionState()
 const txhistory = new TxHistoryState()
 const contract = new ContractState()
-const contractMessage = new ContractMessage(activeContractSet)
+const runContractState = new RunContractState(activeContractSet)
 const blockchainLogsState = new BlockchainLogsState()
 const modalState = new ModalState()
 
@@ -35,7 +35,7 @@ export default {
   transaction,
   txhistory,
   contract,
-  contractMessage,
+  runContractState,
   activeContractSet,
   networkState,
   redeemTokensState,

@@ -1,12 +1,12 @@
 import { observable, action, runInAction } from 'mobx'
 import _ from 'lodash'
 
-import { postRunContractMessage } from '../services/api-service'
+import { postRunContract } from '../services/api-service'
 import { getNamefromCodeComment } from '../utils/helpers'
 import { zenToKalapas, isZenAsset } from '../utils/zenUtils'
 import db from '../services/store'
 
-class ContractMessageState {
+class RunContractState {
   @observable address = ''
   @observable contractName = ''
   @observable amountDisplay = ''
@@ -21,7 +21,7 @@ class ContractMessageState {
   }
 
   @action
-  async sendContractMessage(password) {
+  async run(password) {
     try {
       this.inprogress = true
       const data = {
@@ -32,10 +32,10 @@ class ContractMessageState {
         data: this.data,
         password,
       }
-      const response = await postRunContractMessage(data)
+      const response = await postRunContract(data)
 
       runInAction(() => {
-        console.log('sendContractMessage response', response)
+        console.log('run response', response)
         this.resetForm()
         this.status = 'success'
         const activeContract =
@@ -83,7 +83,7 @@ class ContractMessageState {
   }
 
   @action
-  resetForm() {
+  resetForm = () => {
     this.inprogress = false
     this.asset = ''
     this.address = ''
@@ -99,4 +99,4 @@ class ContractMessageState {
   }
 }
 
-export default ContractMessageState
+export default RunContractState

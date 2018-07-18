@@ -19,14 +19,14 @@ import { ZENP_MAX_DECIMALS, ZENP_MIN_DECIMALS } from '../../constants'
 // TODO [AdGo] 12/05/2018 - get from contracts store after refactor
 const savedContracts = db.get('savedContracts').value()
 
-@inject('activeContractSet', 'balances', 'contractMessage')
+@inject('activeContractSet', 'balances', 'runContractState')
 @observer
 class RunContract extends Component {
   static propTypes = {
     activeContractSet: PropTypes.shape({
       activeContractsWithNames: PropTypes.array,
     }).isRequired,
-    contractMessage: PropTypes.shape({
+    runContractState: PropTypes.shape({
       address: PropTypes.string,
       asset: PropTypes.string,
       amount: PropTypes.number,
@@ -36,7 +36,7 @@ class RunContract extends Component {
       contractName: PropTypes.string,
       status: PropTypes.string,
       inprogress: PropTypes.bool,
-      sendContractMessage: PropTypes.func,
+      run: PropTypes.func.isRequired,
     }).isRequired,
     balances: PropTypes.shape({
       getBalanceFor: PropTypes.func,
@@ -44,34 +44,34 @@ class RunContract extends Component {
   }
 
   componentWillUnmount() {
-    const { contractMessage } = this.props
-    if (contractMessage.status === 'success' || contractMessage.status === 'error') {
-      contractMessage.resetForm()
+    const { runContractState } = this.props
+    if (runContractState.status === 'success' || runContractState.status === 'error') {
+      runContractState.resetForm()
     }
   }
 
   onDataChanged = (evt) => {
-    const { contractMessage } = this.props
-    contractMessage.data = evt.target.value.trim()
+    const { runContractState } = this.props
+    runContractState.data = evt.target.value.trim()
   }
 
   onAmountChanged = (evt) => {
-    const { contractMessage } = this.props
+    const { runContractState } = this.props
     if (evt.target.value) {
-      contractMessage.amount = toInteger(evt.target.value.trim())
+      runContractState.amount = toInteger(evt.target.value.trim())
     } else {
-      contractMessage.amount = undefined
+      runContractState.amount = undefined
     }
   }
 
   onCommandChanged = (evt) => {
-    const { contractMessage } = this.props
-    contractMessage.command = evt.target.value.trim()
+    const { runContractState } = this.props
+    runContractState.command = evt.target.value.trim()
   }
 
   onPasteClicked = () => {
-    const { contractMessage } = this.props
-    contractMessage.address = clipboard.readText()
+    const { runContractState } = this.props
+    runContractState.address = clipboard.readText()
   }
 
   onRunContractClicked = async () => {
@@ -79,15 +79,15 @@ class RunContract extends Component {
     if (!confirmedPassword) {
       return
     }
-    const { contractMessage } = this.props
-    contractMessage.sendContractMessage(confirmedPassword)
+    const { runContractState } = this.props
+    runContractState.run(confirmedPassword)
     this.AutoSuggestAssets.wrappedInstance.reset()
     this.AutoSuggestActiveContracts.reset()
   }
 
   renderSuccessResponse() {
-    const { contractMessage } = this.props
-    if (contractMessage.status !== 'success') {
+    const { runContractState } = this.props
+    if (runContractState.status !== 'success') {
       return null
     }
     return (
@@ -98,8 +98,8 @@ class RunContract extends Component {
   }
 
   renderErrorResponse() {
-    const { contractMessage } = this.props
-    if (contractMessage.status !== 'error') {
+    const { runContractState } = this.props
+    if (runContractState.status !== 'error') {
       return null
     }
     return (
@@ -108,26 +108,26 @@ class RunContract extends Component {
           Couldn&apos;t run the contract with the parameters you entered.
         </span>
         <div className="devider" />
-        <p>Error message: {contractMessage.errorMessage}</p>
+        <p>Error message: {runContractState.errorMessage}</p>
       </FormResponseMessage>
     )
   }
 
   // HELPER METHODS FOR CONTRACT ADDRESS AUTO SUGGGEST //
   updateContractAddressFromSuggestions = ({ address }) => {
-    const { contractMessage } = this.props
-    contractMessage.updateAddress(address)
+    const { runContractState } = this.props
+    runContractState.updateAddress(address)
   }
 
   // HELPER METHODS FOR ASSET AUTO SUGGGEST //
   updateAssetFromSuggestions = ({ asset }) => {
-    const { contractMessage } = this.props
-    contractMessage.asset = asset
-    contractMessage.amountDisplay = ''
+    const { runContractState } = this.props
+    runContractState.asset = asset
+    runContractState.amountDisplay = ''
   }
 
   isAmountValid() {
-    const { amount, asset } = this.props.contractMessage
+    const { amount, asset } = this.props.runContractState
     if (!asset) {
       return true
     }
@@ -138,17 +138,17 @@ class RunContract extends Component {
   }
 
   updateAmountDisplay = (amountDisplay) => {
-    const { contractMessage } = this.props
-    contractMessage.updateAmountDisplay(amountDisplay)
+    const { runContractState } = this.props
+    runContractState.updateAmountDisplay(amountDisplay)
   }
 
   validateForm() {
-    return !!this.props.contractMessage.address && this.isAmountValid()
+    return !!this.props.runContractState.address && this.isAmountValid()
   }
 
   isSubmitButtonDisabled() {
     const formIsValid = this.validateForm()
-    if (formIsValid && this.props.contractMessage.inprogress) { return true }
+    if (formIsValid && this.props.runContractState.inprogress) { return true }
     if (!formIsValid) { return true }
     if (formIsValid) { return false }
   }
@@ -156,7 +156,7 @@ class RunContract extends Component {
   render() {
     const {
       command, amount, asset, inprogress, data, address, amountDisplay,
-    } = this.props.contractMessage
+    } = this.props.runContractState
     const { activeContractsWithNames } = this.props.activeContractSet
     return (
       <Layout className="run-contract">

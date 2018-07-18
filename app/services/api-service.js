@@ -66,7 +66,7 @@ export async function postActivateContract(data: ActivateContractPayload): Promi
   return response.data
 }
 
-type ContractMessage = {
+type RunContractRawPayload = {
   asset: hash,
   address: addressType,
   amount: number,
@@ -83,10 +83,10 @@ type RunContractPayload = {
   data?: string,
   spends?: Array<{asset: hash, amount: number}>
 };
-export async function postRunContractMessage(contractMessage: ContractMessage & Password) {
+export async function postRunContract(runContractRawPayload: RunContractRawPayload & Password) {
   const {
     password, asset, address, amount, command, data,
-  } = contractMessage
+  } = runContractRawPayload
 
   const finaldata: RunContractPayload = {
     password,
