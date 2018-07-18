@@ -10,6 +10,7 @@ import { clipboard } from 'electron'
 
 import { isAnyInputActive } from '../../../utils/domUtils'
 import PasteButton from '../../UI/PasteButton'
+import ResetButton from '../../UI/ResetButton'
 import SeedInput from '../../UI/SeedInput'
 import ExternalLink from '../../UI/ExternalLink'
 import { isValidBip39Word, isBip39Word, getSeedFromClipboard } from '../../../utils/seedUtils'
@@ -127,9 +128,7 @@ class ImportWallet extends Component {
 
         <div>
           <PasteButton onClick={this.paste} />
-          <button onClick={this.reset} className="secondary button-on-right">
-            <FontAwesomeIcon icon={['far', 'trash']} /> Reset
-          </button>
+          <ResetButton onClick={this.reset} className="button-on-right" />
         </div>
         {this.notValidBip39PhraseMessage}
         <div className="devider before-buttons" />
