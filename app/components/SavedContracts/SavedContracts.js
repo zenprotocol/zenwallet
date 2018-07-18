@@ -10,7 +10,7 @@ import cx from 'classnames'
 
 import ActiveContractSetState from '../../states/acs-state'
 import BalancesState from '../../states/balances-state'
-import ContractMessageState from '../../states/contract-message'
+import RunContractState from '../../states/run-contract-state'
 import ContractState from '../../states/contract-state'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
@@ -19,7 +19,7 @@ import db from '../../services/store'
 const { Component, Fragment } = React
 type Props = {
   activeContractSet: ActiveContractSetState,
-  contractMessage: ContractMessageState,
+  runContractState: RunContractState,
   contract: ContractState,
   balances: BalancesState
 };
@@ -46,7 +46,7 @@ type DBSavedContract = {
 };
 
 @inject('contract')
-@inject('contractMessage')
+@inject('runContractState')
 @inject('activeContractSet')
 @inject('balances')
 @observer
@@ -134,7 +134,7 @@ class SavedContracts extends Component<Props, State> {
             {
             savedContract.isActive ?
               (
-                <Link title="Run Contract" className="button small play margin-right play-upload-button" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(savedContract.address)}>
+                <Link title="Run Contract" className="button small play margin-right play-upload-button" to="/run-contract" onClick={() => this.props.runContractState.updateAddress(savedContract.address)}>
                   <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
                 </Link>
               ) : (

@@ -10,19 +10,18 @@ import cx from 'classnames'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 import ActiveContractSetState from '../../states/acs-state'
-import ContractMessageState from '../../states/contract-message'
+import RunContractState from '../../states/run-contract-state'
 
 type Props = {
   activeContractSet: ActiveContractSetState,
-  contractMessage: ContractMessageState
+  runContractState: RunContractState
 };
 
 type State = {
   showCodeSnippetForContractAddress: string
 };
 
-@inject('contractMessage')
-@inject('activeContractSet')
+@inject('activeContractSet', 'runContractState')
 @observer
 class ActiveContractSet extends Component<Props, State> {
   state = {
@@ -64,7 +63,7 @@ class ActiveContractSet extends Component<Props, State> {
               >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
               </a>
-              <Link title="Run Contract" className="button small play" to="/run-contract" onClick={() => this.props.contractMessage.updateAddress(contract.address)}>
+              <Link title="Run Contract" className="button small play" to="/run-contract" onClick={() => this.props.runContractState.updateAddress(contract.address)}>
                 <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
               </Link>
             </td>
