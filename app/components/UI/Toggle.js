@@ -3,6 +3,7 @@
 
 import * as React from 'react'
 import Checkbox from 'rc-checkbox'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 const ToggleContext = React.createContext()
 
@@ -40,6 +41,23 @@ export default class Toggle extends React.Component<Props> {
       )}
     </Toggle.Consumer>
   )
+  static Arrow = ({ children, ...remainingProps }: onlyChildrenProps) => (
+    <Toggle.Consumer>
+      {/* $FlowFixMe */}
+      {({ isActive, onToggle }) => (
+        <div {...remainingProps}>
+          <a onClick={onToggle} style={{ color: 'inherit' }}>
+            {children}
+            <FontAwesomeIcon
+              icon={['fal', `angle-${isActive ? 'up' : 'down'}`]}
+              style={{ marginLeft: '5' }}
+            />
+          </a>
+        </div>
+      )}
+    </Toggle.Consumer>
+  )
+
   render() {
     const { isActive, onToggle, ...remainingProps } = this.props // eslint-disable-line no-unused-vars,max-len
     return <ToggleContext.Provider value={{ isActive, onToggle }} {...this.props} />

@@ -28,6 +28,8 @@ type ActiveMsgProps = {
 };
 
 class Copy extends React.Component<Props, State> {
+  elInput: ?HTMLInputElement
+  // $FlowIssue
   copyTimeout: TimeoutID
   static Consumer = CopyContext.Consumer
   static defaultProps = {
@@ -47,8 +49,14 @@ class Copy extends React.Component<Props, State> {
   static Input = (props) => (
     <Copy.Consumer>
       {/* $FlowFixMe */}
-      {({ onCopy, valueToCopy, inputId }) => (
+      {({
+        onCopy,
+        valueToCopy,
+        inputId,
+        parent,
+      }) => (
         <input
+          ref={el => { parent.elInput = el }}
           title="Click to copy to clipboard"
           id={inputId}
           type="text"
@@ -82,14 +90,25 @@ class Copy extends React.Component<Props, State> {
     </Copy.Consumer>
   )
   componentWillUnmount() {
+    this.clearTimeout()
+  }
+  clearTimeout() {
     clearTimeout(this.copyTimeout)
   }
   onCopy = () => {
+    this.clearTimeout() // in case of multiple onCopy events
     const { valueToCopy, timeoutMilliseconds } = this.props
     clipboard.writeText(valueToCopy)
     this.setState({ isActive: true })
-    // $FlowFixMe
     this.copyTimeout = setTimeout(this.setNonActive, timeoutMilliseconds)
+    this.highlightInput()
+  }
+  highlightInput() {
+    if (this.elInput) {
+      this.elInput.select()
+      // $FlowIssue
+      this.elInput.focus()
+    }
   }
   setNonActive = () => {
     this.setState({ isActive: false })
@@ -108,6 +127,7 @@ class Copy extends React.Component<Props, State> {
         value={{
           ...this.state,
           valueToCopy,
+          parent: this,
           inputId: randomstring.generate({ charset: 'abc' }),
         }}
         {...remainingProps}
