@@ -10,6 +10,7 @@ import enforceSynced from '../../services/enforceSynced'
 import db from '../../services/store'
 import { isZenAsset } from '../../utils/zenUtils'
 import Layout from '../UI/Layout/Layout'
+import ResetButton from '../UI/ResetButton'
 import AutoSuggestAssets from '../UI/AutoSuggestAssets/AutoSuggestAssets'
 import AutoSuggestActiveContracts from '../UI/AutoSuggestActiveContracts'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
@@ -37,6 +38,7 @@ class RunContract extends Component {
       status: PropTypes.string,
       inprogress: PropTypes.bool,
       run: PropTypes.func.isRequired,
+      resetForm: PropTypes.func.isRequired,
     }).isRequired,
     balances: PropTypes.shape({
       getBalanceFor: PropTypes.func,
@@ -81,8 +83,20 @@ class RunContract extends Component {
     }
     const { runContractState } = this.props
     runContractState.run(confirmedPassword)
+    this.resetHack()
+  }
+
+  // TODO [AdGo] 18/07/2018 - manage these components state by passing props,
+  // probably by getDerivedStateFromProps https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops
+  resetHack() {
     this.AutoSuggestAssets.wrappedInstance.reset()
     this.AutoSuggestActiveContracts.reset()
+  }
+  // TODO [AdGo] 18/07/2018 - call runContractState.resetForm() from button directly
+  // after refactoring resetHack
+  reset = () => {
+    this.props.runContractState.resetForm()
+    this.resetHack()
   }
 
   renderSuccessResponse() {
@@ -155,7 +169,7 @@ class RunContract extends Component {
 
   render() {
     const {
-      command, amount, asset, inprogress, data, address, amountDisplay,
+      command, amount, asset, inprogress, data, address, amountDisplay, resetForm,
     } = this.props.runContractState
     const { activeContractsWithNames } = this.props.activeContractSet
     return (
@@ -227,7 +241,9 @@ class RunContract extends Component {
             { this.renderErrorResponse() }
             <Flexbox flexGrow={2} />
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
+              <ResetButton onClick={this.reset} />
               <button
+                className="button-on-right"
                 disabled={this.isSubmitButtonDisabled()}
                 onClick={enforceSynced(this.onRunContractClicked)}
               >
