@@ -103,23 +103,12 @@ class Sidebar extends Component<Props> {
   }
 
   rednerHashingPower() {
-    const { difficulty } = this.props.networkState
-    let hashrateType = 'GH/s'
-    let hashrate = difficulty / 55
-    if (hashrate < 1) {
-      hashrate *= 1000
-      hashrateType = 'MH/s'
-    }
-    if (hashrate > 1000) {
-      hashrate /= 1000
-      hashrateType = 'TH/s'
-    }
-    console.log('hashrate', hashrate)
+    const { hashrateByUnit, hashrateUnit } = this.props.networkState
     return (
       <div className="network-data-point truncate">
         <span className="data-name">Network Hashrate: </span>
-        <span className="data-point" title={`${hashrate} ${hashrateType}`}>
-          {parseFloat(hashrate).toFixed(2)} {hashrateType}
+        <span className="data-point" title={`${hashrateByUnit} ${hashrateUnit}`}>
+          {parseFloat(hashrateByUnit).toFixed(2)} {hashrateUnit}
         </span>
       </div>
     )
