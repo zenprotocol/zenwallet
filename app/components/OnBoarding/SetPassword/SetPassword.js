@@ -140,8 +140,8 @@ class SetPassword extends Component {
               <h5>Make sure your password includes:</h5>
               <ol>
                 <li>
-                  <IsValidIcon isValid={validLength} />
                   <span>At least 4 characters</span>
+                  <IsValidIcon isValid={validLength} />
                 </li>
               </ol>
             </Flexbox>
