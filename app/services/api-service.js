@@ -71,7 +71,7 @@ type RunContractRawPayload = {
   address: addressType,
   amount: number,
   command: string,
-  data?: ?string
+  messageBody?: ?string
 };
 
 type RunContractPayload = {
@@ -80,12 +80,12 @@ type RunContractPayload = {
     returnAddress: boolean
   },
   command?: string,
-  data?: string,
+  messageBody?: string,
   spends?: Array<{asset: hash, amount: number}>
 };
 export async function postRunContract(runContractRawPayload: RunContractRawPayload & Password) {
   const {
-    password, asset, address, amount, command, data,
+    password, asset, address, amount, command, messageBody,
   } = runContractRawPayload
 
   const finaldata: RunContractPayload = {
@@ -96,7 +96,7 @@ export async function postRunContract(runContractRawPayload: RunContractRawPaylo
     },
   }
   if (command) { finaldata.command = command }
-  if (data) { finaldata.data = data }
+  if (messageBody) { finaldata.messageBody = messageBody }
 
   if (asset && amount) {
     finaldata.spends = [
