@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx'
 import _ from 'lodash'
+import {fromYaml,serialize} from '@zen/zenjs/build/src/Data'
 
 import { postRunContract } from '../services/api-service'
 import { getNamefromCodeComment } from '../utils/helpers'
@@ -11,7 +12,7 @@ class RunContractState {
   @observable contractName = ''
   @observable amountDisplay = ''
   @observable command = ''
-  @observable data
+  @observable messageBody
   @observable status = ''
   @observable inprogress
   @observable asset = ''
@@ -24,14 +25,18 @@ class RunContractState {
   async run(password) {
     try {
       this.inprogress = true
+
       const data = {
         asset: this.asset,
         address: this.address,
         amount: isZenAsset(this.asset) ? zenToKalapas(this.amount) : this.amount,
         command: this.command,
-        data: this.data,
+        messageBody: serialize(fromYaml('main', this.messageBody)),
         password,
       }
+
+      console.log(data.messageBody)
+
       const response = await postRunContract(data)
 
       runInAction(() => {
@@ -89,7 +94,7 @@ class RunContractState {
     this.address = ''
     this.amountDisplay = ''
     this.command = ''
-    this.data = ''
+    this.messageBody = ''
     this.errorMessage = ''
     this.status = ''
   }

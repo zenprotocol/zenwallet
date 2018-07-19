@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import { clipboard } from 'electron'
 import { toInteger } from 'lodash'
 import PropTypes from 'prop-types'
+import {fromYaml} from '@zen/zenjs/build/src/Data'
 
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 import enforceSynced from '../../services/enforceSynced'
@@ -33,7 +34,7 @@ class RunContract extends Component {
       amount: PropTypes.number,
       amountDisplay: PropTypes.string,
       command: PropTypes.string,
-      data: PropTypes.string,
+      messageBody: PropTypes.string,
       contractName: PropTypes.string,
       status: PropTypes.string,
       inprogress: PropTypes.bool,
@@ -52,9 +53,20 @@ class RunContract extends Component {
     }
   }
 
-  onDataChanged = (evt) => {
+  onMessageBodyChanged = (evt) => {
     const { runContractState } = this.props
-    runContractState.data = evt.target.value.trim()
+
+    const value = evt.target.value
+
+    try {
+      fromYaml('main', value)
+    }
+    catch (ex) {
+      // TODO: disable running and mark as error
+      console.log('failed to parse yaml', ex)
+    }
+
+    runContractState.messageBody = value
   }
 
   onAmountChanged = (evt) => {
@@ -169,7 +181,7 @@ class RunContract extends Component {
 
   render() {
     const {
-      command, amount, asset, inprogress, data, address, amountDisplay, resetForm,
+      command, amount, asset, inprogress, messageBody, address, amountDisplay, resetForm,
     } = this.props.runContractState
     const { activeContractsWithNames } = this.props.activeContractSet
     return (
@@ -222,17 +234,17 @@ class RunContract extends Component {
                 label="Amount"
               />
             </Flexbox>
-            <Flexbox flexDirection="column" className="message-data">
-              <label htmlFor="data">Data</label>
+            <Flexbox flexDirection="column" className="message-body">
+              <label htmlFor="messageBody">Body</label>
               <textarea
                 rows="4"
                 cols="50"
-                id="data"
-                name="data"
+                id="messageBody"
+                name="messageBody"
                 type="text"
-                placeholder="Paste message data here"
-                value={data}
-                onChange={this.onDataChanged}
+                placeholder="Paste message body here"
+                value={messageBody}
+                onChange={this.onMessageBodyChanged}
               />
             </Flexbox>
           </Flexbox>
