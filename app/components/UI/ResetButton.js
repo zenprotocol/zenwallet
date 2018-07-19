@@ -23,7 +23,7 @@ class ResetButton extends Component<Props> {
         className={cx('button secondary', className)}
         onClick={onClick}
         {...remainingProps}
-      ><FontAwesomeIcon icon={['far', 'trash']} /> {text}
+      >{text}
       </button>
     )
   }
