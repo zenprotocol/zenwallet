@@ -92,7 +92,7 @@ export async function postRunContract(runContractRawPayload: RunContractRawPaylo
     password,
     address,
     options: {
-      returnAddress: true,
+      returnAddress: false,
     },
   }
   if (command) { finaldata.command = command }
