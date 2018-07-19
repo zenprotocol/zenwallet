@@ -296,7 +296,7 @@ class Settings extends Component<Props, State> {
           <h2 className="description-title">Logout</h2>
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block" onClick={logout}>Logout</button>
+          <button className="secondary" onClick={logout}>Logout</button>
         </Flexbox>
       </Flexbox>
     )
