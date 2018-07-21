@@ -3,14 +3,20 @@ import { ipcRenderer } from 'electron'
 
 import history from '../../services/history'
 import { IPC_RESTART_ZEN_NODE } from '../../ZenNode'
-import { networkState } from '../../states'
+import { networkState, secretPhraseState } from '../../states'
+import { MAINNET } from '../../constants'
 
 const switchChain = async () => {
   const shouldSwitch = await shouldSwitchModal()
   if (!shouldSwitch) {
     return
   }
-  ipcRenderer.send(IPC_RESTART_ZEN_NODE, { net: formatChainForZenNode() })
+  const args = { net: formatChainForZenNode() }
+  if (networkState.otherChain === MAINNET && secretPhraseState.isMining) {
+    args.isMining = false
+    secretPhraseState.setMining(false)
+  }
+  ipcRenderer.send(IPC_RESTART_ZEN_NODE, args)
   history.push('/loading')
 }
 

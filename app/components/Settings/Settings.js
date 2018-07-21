@@ -211,7 +211,10 @@ class Settings extends Component<Props, State> {
   }
 
   renderMining() {
-    const { secretPhraseState } = this.props
+    const { secretPhraseState, networkState } = this.props
+    if (networkState.chain === MAINNET) {
+      return null
+    }
     return (
       <Flexbox className="row">
         <Flexbox flexDirection="column" className="description">
