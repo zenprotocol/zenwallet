@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-// import ReactDOM from 'react-dom' // might be used for checking if input is focused
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import { minimumDecimalPoints, validateInputNumber } from '../../../utils/helpers'
+import { minimumDecimalPoints, numberWithCommas } from '../../../utils/helpers'
+import { getActiveElement } from '../../../utils/domUtils'
+
+import { formatNextAmountDisplay } from './AmountInputUtils'
 
 @observer
 class AmountInput extends Component {
@@ -28,13 +30,10 @@ class AmountInput extends Component {
     maxAmount: null,
     shouldShowMaxAmount: false,
   }
-  state = {
-    isFocused: false,
-  }
 
   onChange = (evt) => {
     const { maxDecimal, onAmountDisplayChanged } = this.props
-    const newAmountDisplay = validateInputNumber(evt.target.value, maxDecimal)
+    const newAmountDisplay = formatNextAmountDisplay(evt.target.value, maxDecimal)
     if (newAmountDisplay === false) {
       return
     }
@@ -65,13 +64,16 @@ class AmountInput extends Component {
   }
 
   renderMaxAmountDiv() {
-    const { maxAmount, shouldShowMaxAmount, minDecimal } = this.props
+    const { maxAmount, shouldShowMaxAmount } = this.props
     if (!shouldShowMaxAmount || maxAmount === null) {
       return null
     }
-    return (
-      <div className="maxAmount"> / { minDecimal ? minimumDecimalPoints(maxAmount, minDecimal) : maxAmount }</div>
-    )
+    return <div className="maxAmount"> / { this.maxAmountDisplay }</div>
+  }
+  get maxAmountDisplay() {
+    const { maxAmount, minDecimal } = this.props
+    const n = minDecimal ? minimumDecimalPoints(maxAmount, minDecimal) : maxAmount
+    return numberWithCommas(n)
   }
 
   isExceedingMaxAmount() {
@@ -90,9 +92,9 @@ class AmountInput extends Component {
     }
   }
 
-  onFocus = () => this.setState({ isFocused: true })
-  onBlur = () => this.setState({ isFocused: false })
-
+  get isFocused() {
+    return this.el && getActiveElement().id === this.el.id
+  }
   render() {
     const { label, amountDisplay } = this.props
     return (
@@ -105,19 +107,17 @@ class AmountInput extends Component {
             'amountInputContainer',
             {
               error: this.isExceedingMaxAmount(),
-              'is-focused': this.state.isFocused, // ReactDOM.findDOMNode(this.el), TODO implement with ref, try document.activeElement
+              'is-focused': this.isFocused,
             },
           )}
         >
           <input
             id="amount"
             placeholder="Enter amount"
-            value={amountDisplay}
+            value={numberWithCommas(amountDisplay)}
             ref={(el) => { this.el = el }}
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
           />
           { this.renderMaxAmountDiv() }
           <Flexbox flexDirection="column" className="amountArrows">
