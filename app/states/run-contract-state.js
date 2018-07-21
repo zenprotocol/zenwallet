@@ -115,7 +115,7 @@ class RunContractState {
       options: { returnAddress: this.returnAddress },
     }
     if (this.asset) {
-      data.spends = [{ asset: this.asset, amonut: this.amount }]
+      data.spends = [{ asset: this.asset, amount: this.amount }]
     }
     if (this.command) {
       data.command = this.command

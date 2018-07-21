@@ -155,12 +155,6 @@ class RunContract extends Component<Props> {
               onUpdateParent={this.updateContractAddressFromSuggestions}
               ref={(el) => { this.AutoSuggestActiveContracts = el }}
             />
-            <label className="checkbox">
-              <Checkbox type="checkbox" checked={returnAddress} onChange={toggleReturnAddress} />
-              <span className="checkbox-text">
-                &nbsp; Include return address
-              </span>
-            </label>
             <Flexbox flexDirection="column" className="choose-command form-row">
               <label htmlFor="command">Choose command</label>
               <Flexbox flexDirection="row" className="command-input">
@@ -206,6 +200,12 @@ class RunContract extends Component<Props> {
                 onChange={this.onMessageBodyChanged}
               />
               {messageBodyError && <div className="error-msg">{messageBodyError}</div>}
+              <label className="checkbox">
+                <Checkbox type="checkbox" checked={returnAddress} onChange={toggleReturnAddress} />
+                <span className="checkbox-text">
+                &nbsp; Include return address
+                </span>
+              </label>
             </Flexbox>
           </Flexbox>
           <Flexbox flexDirection="row">
