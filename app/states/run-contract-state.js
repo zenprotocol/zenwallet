@@ -1,4 +1,4 @@
-import { observable, action, runInAction } from 'mobx'
+import { observable, action, runInAction, computed } from 'mobx'
 import _ from 'lodash'
 import { fromYaml, serialize } from '@zen/zenjs/build/src/Data'
 
@@ -9,12 +9,12 @@ import db from '../services/store'
 
 class RunContractState {
   @observable address = ''
-  @observable contractName = ''
   @observable amountDisplay = ''
+  @observable returnAddress = false
   @observable command = ''
-  @observable messageBody
+  @observable messageBody = ''
   @observable status = ''
-  @observable inprogress
+  @observable inprogress = false
   @observable asset = ''
 
   constructor(activeContractSet) {
@@ -23,39 +23,15 @@ class RunContractState {
 
   @action
   async run(password) {
+    this.inprogress = true
+    const payloadData = { ...this.payloadData, password }
     try {
-      this.inprogress = true
-
-      const data = {
-        asset: this.asset,
-        address: this.address,
-        amount: isZenAsset(this.asset) ? zenToKalapas(this.amount) : this.amount,
-        command: this.command,
-        messageBody: serialize(fromYaml('main', this.messageBody)),
-        password,
-      }
-
-      console.log(data.messageBody)
-
-      const response = await postRunContract(data)
-
+      await postRunContract(payloadData)
+      this.saveRunContractToDb(payloadData.address)
       runInAction(() => {
-        console.log('run response', response)
+        this.inprogress = false
         this.resetForm()
         this.status = 'success'
-        const activeContract =
-          this.activeContractSet.activeContracts.find(ac => ac.address === data.address)
-        const savedContracts = db.get('savedContracts').value()
-        const isInSavedContracts = _.some(savedContracts, { contractId: activeContract.contractId })
-
-        if (!isInSavedContracts) {
-          db.get('savedContracts').push({
-            code: activeContract.code,
-            name: getNamefromCodeComment(activeContract.code),
-            contractId: activeContract.contractId,
-            address: activeContract.address,
-          }).write()
-        }
         setTimeout(() => {
           this.status = ''
         }, 15000)
@@ -88,10 +64,35 @@ class RunContractState {
   }
 
   @action
+  updateMessageBody(messageBody) {
+    this.messageBody = messageBody
+  }
+
+  @action
+  toggleReturnAddress = () => {
+    this.returnAddress = !this.returnAddress
+  }
+
+  @computed
+  get messageBodyError() {
+    if (!this.messageBody) {
+      return ''
+    }
+    try {
+      fromYaml('main', this.messageBody)
+      return ''
+    } catch (err) {
+      console.error('error parsing message body', err)
+      return 'Body must be valid yaml syntax'
+    }
+  }
+
+  @action
   resetForm = () => {
     this.inprogress = false
     this.asset = ''
     this.address = ''
+    this.returnAddress = false
     this.amountDisplay = ''
     this.command = ''
     this.messageBody = ''
@@ -101,6 +102,43 @@ class RunContractState {
 
   get amount() {
     return Number(this.amountDisplay)
+  }
+
+  get amountToSend() {
+    return isZenAsset(this.asset) ? zenToKalapas(this.amount) : this.amount
+  }
+
+  get payloadData() {
+    const data = {
+      address: this.address,
+      options: { returnAddress: this.returnAddress },
+    }
+    if (this.asset) {
+      data.spends = [{ asset: this.asset, amount: this.amountToSend }]
+    }
+    if (this.command) {
+      data.command = this.command
+    }
+    if (this.messageBody) {
+      data.messageBody = serialize(fromYaml('main', this.messageBody))
+    }
+    return data
+  }
+
+  saveRunContractToDb(runContractAddress) {
+    const activeContract =
+      this.activeContractSet.activeContracts.find(ac => ac.address === runContractAddress)
+    const savedContracts = db.get('savedContracts').value()
+    const isInSavedContracts = _.some(savedContracts, { contractId: activeContract.contractId })
+    if (isInSavedContracts) {
+      return
+    }
+    db.get('savedContracts').push({
+      code: activeContract.code,
+      name: getNamefromCodeComment(activeContract.code),
+      contractId: activeContract.contractId,
+      address: activeContract.address,
+    }).write()
   }
 }
 

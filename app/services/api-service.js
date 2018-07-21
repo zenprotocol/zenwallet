@@ -6,9 +6,8 @@ import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-ad
 
 const crowdsaleServerAddress = getCrowdsaleServerAddress()
 
-type hash = string;
-type addressType = string;
-
+type Hash = string;
+type Address = string;
 type Asset = {
   asset: string,
   balance: number
@@ -30,8 +29,8 @@ export async function getPublicPkHash(publicAddress: string): Promise<string> {
 }
 
 type Transaction = {
-  to: addressType,
-  asset: hash,
+  to: Address,
+  asset: Hash,
   amount: number
 };
 type Password = { password: string };
@@ -56,67 +55,34 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
 }
 
 type ActivateContractPayload = { code: string, numberOfBlocks: number } & Password;
-type NewContract = { address: addressType, contractId: string };
+type NewContract = { address: Address, contractId: string };
 
 export async function postActivateContract(data: ActivateContractPayload): Promise<NewContract> {
-  console.log('postActivateContract data', data)
   const response = await axios.post(`${getServerAddress()}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
 }
 
-type RunContractRawPayload = {
-  asset: hash,
-  address: addressType,
-  amount: number,
-  command: string,
-  messageBody?: ?string
-};
-
 type RunContractPayload = {
-  address: addressType,
+  address: Address,
   options: {
     returnAddress: boolean
   },
   command?: string,
   messageBody?: string,
-  spends?: Array<{asset: hash, amount: number}>
+  spends?: Array<{asset: Hash, amount: number}>
 };
-export async function postRunContract(runContractRawPayload: RunContractRawPayload & Password) {
-  const {
-    password, asset, address, amount, command, messageBody,
-  } = runContractRawPayload
-
-  const finaldata: RunContractPayload = {
-    password,
-    address,
-    options: {
-      returnAddress: false,
-    },
-  }
-  if (command) { finaldata.command = command }
-  if (messageBody) { finaldata.messageBody = messageBody }
-
-  if (asset && amount) {
-    finaldata.spends = [
-      {
-        asset,
-        amount,
-      },
-    ]
-  }
-
-  const response = await axios.post(`${getServerAddress()}/wallet/contract/execute`, finaldata, {
+export async function postRunContract(data: RunContractPayload & Password) {
+  const response = await axios.post(`${getServerAddress()}/wallet/contract/execute`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
-
   return response.data
 }
 
 type ActiveContract = {
-  contractId: hash,
-  address: addressType,
+  contractId: Hash,
+  address: Address,
   expire: number,
   code: string
 };
@@ -136,7 +102,7 @@ export type TransactionDelta = {
 };
 
 export type TransactionResponse = {
-  txHash: hash,
+  txHash: Hash,
   asset: string,
   amount: number,
   confirmations: number

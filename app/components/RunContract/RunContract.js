@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Flexbox from 'flexbox-react'
 import { inject, observer } from 'mobx-react'
-import { clipboard } from 'electron'
-import { toInteger } from 'lodash'
-import PropTypes from 'prop-types'
-import {fromYaml} from '@zen/zenjs/build/src/Data'
+import Checkbox from 'rc-checkbox'
 
+import ActiveContractSetState from '../../states/acs-state'
+import RunContractSetState from '../../states/run-contract-state'
+import BalancesState from '../../states/balances-state'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
 import enforceSynced from '../../services/enforceSynced'
 import db from '../../services/store'
@@ -21,71 +21,30 @@ import { ZENP_MAX_DECIMALS, ZENP_MIN_DECIMALS } from '../../constants'
 // TODO [AdGo] 12/05/2018 - get from contracts store after refactor
 const savedContracts = db.get('savedContracts').value()
 
+type Props = {
+  activeContractSet: ActiveContractSetState,
+  runContractState: RunContractSetState,
+  balances: BalancesState
+};
+
 @inject('activeContractSet', 'balances', 'runContractState')
 @observer
-class RunContract extends Component {
-  static propTypes = {
-    activeContractSet: PropTypes.shape({
-      activeContractsWithNames: PropTypes.array,
-    }).isRequired,
-    runContractState: PropTypes.shape({
-      address: PropTypes.string,
-      asset: PropTypes.string,
-      amount: PropTypes.number,
-      amountDisplay: PropTypes.string,
-      command: PropTypes.string,
-      messageBody: PropTypes.string,
-      contractName: PropTypes.string,
-      status: PropTypes.string,
-      inprogress: PropTypes.bool,
-      run: PropTypes.func.isRequired,
-      resetForm: PropTypes.func.isRequired,
-    }).isRequired,
-    balances: PropTypes.shape({
-      getBalanceFor: PropTypes.func,
-    }).isRequired,
-  }
-
+class RunContract extends Component<Props> {
   componentWillUnmount() {
     const { runContractState } = this.props
-    if (runContractState.status === 'success' || runContractState.status === 'error') {
+    if (runContractState.status.match(/success|error/)) {
       runContractState.resetForm()
     }
   }
 
   onMessageBodyChanged = (evt) => {
     const { runContractState } = this.props
-
-    const value = evt.target.value
-
-    try {
-      fromYaml('main', value)
-    }
-    catch (ex) {
-      // TODO: disable running and mark as error
-      console.log('failed to parse yaml', ex)
-    }
-
-    runContractState.messageBody = value
-  }
-
-  onAmountChanged = (evt) => {
-    const { runContractState } = this.props
-    if (evt.target.value) {
-      runContractState.amount = toInteger(evt.target.value.trim())
-    } else {
-      runContractState.amount = undefined
-    }
+    runContractState.updateMessageBody(evt.target.value)
   }
 
   onCommandChanged = (evt) => {
     const { runContractState } = this.props
     runContractState.command = evt.target.value.trim()
-  }
-
-  onPasteClicked = () => {
-    const { runContractState } = this.props
-    runContractState.address = clipboard.readText()
   }
 
   onRunContractClicked = async () => {
@@ -149,18 +108,12 @@ class RunContract extends Component {
   updateAssetFromSuggestions = ({ asset }) => {
     const { runContractState } = this.props
     runContractState.asset = asset
-    runContractState.amountDisplay = ''
+    runContractState.updateAmountDisplay('')
   }
 
-  isAmountValid() {
+  get isAmountValid() {
     const { amount, asset } = this.props.runContractState
-    if (!asset) {
-      return true
-    }
-    if (!amount) {
-      return false
-    }
-    return amount <= this.props.balances.getBalanceFor(asset)
+    return !asset || amount <= this.props.balances.getBalanceFor(asset)
   }
 
   updateAmountDisplay = (amountDisplay) => {
@@ -168,20 +121,20 @@ class RunContract extends Component {
     runContractState.updateAmountDisplay(amountDisplay)
   }
 
-  validateForm() {
-    return !!this.props.runContractState.address && this.isAmountValid()
+  get isFormValid() {
+    const { runContractState } = this.props
+    return !!runContractState.address && !runContractState.messageBodyError && this.isAmountValid
   }
 
   isSubmitButtonDisabled() {
-    const formIsValid = this.validateForm()
-    if (formIsValid && this.props.runContractState.inprogress) { return true }
-    if (!formIsValid) { return true }
-    if (formIsValid) { return false }
+    const { runContractState } = this.props
+    return runContractState.inprogress || !this.isFormValid
   }
 
   render() {
     const {
-      command, amount, asset, inprogress, messageBody, address, amountDisplay, resetForm,
+      command, amount, asset, inprogress, messageBody, address, amountDisplay, messageBodyError,
+      returnAddress, toggleReturnAddress,
     } = this.props.runContractState
     const { activeContractsWithNames } = this.props.activeContractSet
     return (
@@ -190,7 +143,7 @@ class RunContract extends Component {
           <Flexbox flexDirection="column" className="page-title">
             <h1>Run Contract</h1>
             <h3>
-              A contract must be in the <span className="bold">Active Contract Set</span>
+              A contract must be in the <span className="bold">Active Contract Set</span>{' '}
               in order to run it.
             </h3>
           </Flexbox>
@@ -246,6 +199,13 @@ class RunContract extends Component {
                 value={messageBody}
                 onChange={this.onMessageBodyChanged}
               />
+              {messageBodyError && <div className="error-msg">{messageBodyError}</div>}
+              <label className="checkbox">
+                <Checkbox type="checkbox" checked={returnAddress} onChange={toggleReturnAddress} />
+                <span className="checkbox-text">
+                &nbsp; Include return address
+                </span>
+              </label>
             </Flexbox>
           </Flexbox>
           <Flexbox flexDirection="row">
