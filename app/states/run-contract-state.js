@@ -9,7 +9,6 @@ import db from '../services/store'
 
 class RunContractState {
   @observable address = ''
-  @observable contractName = ''
   @observable amountDisplay = ''
   @observable returnAddress = false
   @observable command = ''
@@ -115,7 +114,7 @@ class RunContractState {
       options: { returnAddress: this.returnAddress },
     }
     if (this.asset) {
-      data.spends = [{ asset: this.asset, amount: this.amount }]
+      data.spends = [{ asset: this.asset, amount: this.amountToSend }]
     }
     if (this.command) {
       data.command = this.command
