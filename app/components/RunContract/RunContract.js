@@ -53,8 +53,10 @@ class RunContract extends Component<Props> {
       return
     }
     const { runContractState } = this.props
-    runContractState.run(confirmedPassword)
-    this.resetHack()
+    await runContractState.run(confirmedPassword)
+    if (runContractState.status !== 'error') {
+      this.resetHack()
+    }
   }
 
   // TODO [AdGo] 18/07/2018 - manage these components state by passing props,
