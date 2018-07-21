@@ -142,9 +142,14 @@ class SecretPhraseState {
 
   @action.bound
   toggleMining(isMining) {
+    this.setMining(isMining)
+    ipcRenderer.send(IPC_RESTART_ZEN_NODE, { isMining })
+  }
+
+  @action
+  setMining(isMining) {
     db.set('config.isMining', isMining).write()
     this.isMining = isMining
-    ipcRenderer.send(IPC_RESTART_ZEN_NODE, { isMining })
   }
 
   @action
