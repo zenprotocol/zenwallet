@@ -11,8 +11,8 @@ import spwanZenNodeChildProcess from '@zen/zen-node'
 import { shout } from './utils/dev'
 import db from './services/store'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
-import {isWindows} from './utils/platformUtils'
-import {getPort} from './config/server-address'
+import { isWindows } from './utils/platformUtils'
+import { getPort } from './config/server-address'
 
 export const IPC_ZEN_NODE_NON_ZERO_EXIT = 'zenNodeNonZeroExit'
 export const IPC_ASK_IF_WIPED_DUE_TO_VERSION = 'askIfWipedDueToVersion'
@@ -142,6 +142,14 @@ class ZenNode {
     this.ipcMessagesToSendOnFinishedLoad.forEach(({ signal, data }) => {
       this.webContents.send(signal, data)
     })
+    // if user started the app, changed net, and hit refresh, the renderer process will load the initial chain
+    // while the zen node will remain on the changed net
+    if (this.netChangedSinceInit) {
+      this.webContents.send('switchChain', this.config.net)
+    }
+  }
+  get netChangedSinceInit() {
+    return getInitialNet() !== this.config.net
   }
   get zenNodeArgs() {
     const {
@@ -166,9 +174,8 @@ class ZenNode {
       } else {
         args.push('--api', `localhost:${getPort()}`)
       }
-    }
-    else if (process.env.ZEN_NODE_API_PORT) {
-        args.push('--api', `127.0.0.1:${process.env.ZEN_NODE_API_PORT}`)
+    } else if (process.env.ZEN_NODE_API_PORT) {
+      args.push('--api', `127.0.0.1:${process.env.ZEN_NODE_API_PORT}`)
     }
 
     shout('[ZEN NODE]: Zen node args', args)

@@ -1,5 +1,6 @@
-import {ipcRenderer} from 'electron'
-import {isWindows} from '../utils/platformUtils'
+import { ipcRenderer } from 'electron'
+
+import { isWindows } from '../utils/platformUtils'
 
 // @flow
 const TESTNET_PORT = '31567'
@@ -9,7 +10,7 @@ const MAIN_NET_PORT = '11567'
 
 let chain = getInitialChain()
 
-if (ipcRenderer){
+if (ipcRenderer) {
   ipcRenderer.on('switchChain', onSwitchChain)
 }
 
@@ -43,7 +44,7 @@ export const getServerAddress = () => {
   return `${localhost}:${getPort()}`
 }
 
-export const getCrowdsaleServerAddress = () => (process.env.ZEN_LOCAL_NET === 'localhost' ? `http://127.0.0.1:3000` : 'https://www.zenprotocol.com')
+export const getCrowdsaleServerAddress = () => (process.env.ZEN_LOCAL_NET === 'localhost' ? 'http://127.0.0.1:3000' : 'https://www.zenprotocol.com')
 
 function getInitialChain() {
   if (process.env.ZEN_LOCAL_NET) {
