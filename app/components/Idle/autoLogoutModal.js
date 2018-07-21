@@ -4,7 +4,7 @@ import swal from 'sweetalert'
 
 import withCountdown from '../../hocs/withCountdown'
 
-const SECONDS_TIMEOUT = 3
+const SECONDS_TIMEOUT = 15
 
 const autoLogoutModal = () => swal({
   content: getModalNode(),
@@ -52,6 +52,12 @@ const AutoLogoutModalWithCountdown = withCountdown(AutoLogoutModal)
 
 function getModalNode() {
   const wrapper = document.createElement('div')
-  ReactDOM.render(<AutoLogoutModalWithCountdown countdownSeconds={SECONDS_TIMEOUT} />, wrapper)
+  ReactDOM.render(
+    (
+      <div>
+        <AutoLogoutModalWithCountdown countdownSeconds={SECONDS_TIMEOUT} />
+      </div>
+    ), wrapper,
+  )
   return wrapper.firstChild
 }
