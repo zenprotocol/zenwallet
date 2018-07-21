@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import history from '../../../services/history'
 import OnBoardingLayout from '../Layout/Layout'
