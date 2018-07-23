@@ -7,29 +7,36 @@ import Highlight from 'react-highlight'
 import cx from 'classnames'
 import swal from 'sweetalert'
 
-import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../constants'
 import enforceSynced from '../../services/enforceSynced'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
-import { zenToKalapas } from '../../utils/zenUtils'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import Layout from '../UI/Layout/Layout'
 import FormResponseMessage from '../UI/FormResponseMessage/FormResponseMessage'
 import AmountInput from '../UI/AmountInput/AmountInput'
 import ExternalLink from '../UI/ExternalLink'
+import PublicAddressState from '../../states/public-address-state'
 import DeployContractState from '../../states/deploy-contract-state'
 import BalancesState from '../../states/balances-state'
+
+import { replacePkHashVar, isContractNameReserved, calcMaxBlocksForContract } from './deployContractUtils'
 
 const startRegex = /NAME_START:/
 const endRegex = /:NAME_END/
 
 type Props = {
   deployContractState: DeployContractState,
+  publicAddress: PublicAddressState,
   balances: BalancesState
 };
 
-@inject('deployContractState', 'balances')
+@inject('deployContractState', 'balances', 'publicAddress')
 @observer
 class DeployContract extends Component<Props> {
+  componentDidMount() {
+    // needed for replacePkHashVar function
+    this.props.publicAddress.fetch()
+  }
+
   componentWillUnmount() {
     const { deployContractState } = this.props
     if (deployContractState.status.match(/success|error/)) {
@@ -42,15 +49,15 @@ class DeployContract extends Component<Props> {
       swal({ title: 'file invalid', text: 'only .fst files are accepted', icon: 'error' })
       return
     }
-    const { deployContractState } = this.props
+    const { deployContractState, publicAddress } = this.props
     const reader = new FileReader()
     reader.onabort = () => console.log('file reading was aborted')
     reader.onerror = () => swal({ title: 'upload failed', icon: 'error' })
     reader.readAsBinaryString(contractFile)
     reader.onload = () => {
-      const fileAsBinaryString = reader.result
-      deployContractState.code = fileAsBinaryString
-      const codeFromComment = this.getNamefromCodeComment(fileAsBinaryString)
+      const code = replacePkHashVar(reader.result, publicAddress.pkHash)
+      deployContractState.code = code
+      const codeFromComment = this.getNamefromCodeComment(code)
       deployContractState.name = codeFromComment || '' // reset name in case a contract file with name was uploaded but not deployed before
     }
     deployContractState.dragDropText = contractFile.name
@@ -68,8 +75,7 @@ class DeployContract extends Component<Props> {
   }
   get isContractNameReserved() {
     const { deployContractState } = this.props
-    const reg = new RegExp(`^(${ZEN_ASSET_NAME}|${ZEN_ASSET_HASH})$`, 'i')
-    return deployContractState.name.match(reg)
+    return isContractNameReserved(deployContractState.name)
   }
   addOrUpdateCodeComment(code, name) {
     const nameCommentIsPresent = this.nameCommentIsPresent(code)
@@ -119,7 +125,8 @@ class DeployContract extends Component<Props> {
 
   get isFormValid() {
     const { deployContractState } = this.props
-    return this.isAmountValid && !!deployContractState.name && !this.isContractNameReserved
+    return this.isAmountValid && !!deployContractState.name
+      && !isContractNameReserved(deployContractState.name)
   }
 
   get isAmountValid() {
@@ -293,10 +300,3 @@ class DeployContract extends Component<Props> {
 
 export default DeployContract
 
-export function calcMaxBlocksForContract(zenBalance, codeLength) {
-  if (zenBalance === 0 || codeLength === 0) {
-    return 0
-  }
-  const kalapasBalance = zenToKalapas(zenBalance)
-  return parseInt((kalapasBalance / codeLength), 10)
-}
