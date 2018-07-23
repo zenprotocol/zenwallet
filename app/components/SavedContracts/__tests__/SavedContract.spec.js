@@ -14,7 +14,7 @@ jest.mock('electron', () => ({
 describe('SavedContracts', () => {
   describe('sortSavedContractsByExpiry', () => {
     const UnWrappedComponent =
-      SavedContracts.wrappedComponent.wrappedComponent.wrappedComponent.wrappedComponent
+      SavedContracts.wrappedComponent
     const component = shallow(<UnWrappedComponent {...states} />)
     const sortFunction = component.instance().sortSavedContractsByExpiry
     describe('when contracts contain data with undefined expiry', () => {
