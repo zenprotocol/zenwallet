@@ -101,7 +101,7 @@ class ActiveContractSet extends Component<Props, State> {
               </h3>
             </Flexbox>
             <Flexbox justifyContent="flex-end" className="page-buttons">
-              <Link className="button with-icon" to="/activate-contract" title="Upload Contract">
+              <Link className="button with-icon" to="/deploy-contract" title="Upload Contract">
                 <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
               </Link>
             </Flexbox>

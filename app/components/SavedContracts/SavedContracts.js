@@ -11,7 +11,7 @@ import cx from 'classnames'
 import ActiveContractSetState from '../../states/acs-state'
 import BalancesState from '../../states/balances-state'
 import RunContractState from '../../states/run-contract-state'
-import ContractState from '../../states/contract-state'
+import DeployContractState from '../../states/deploy-contract-state'
 import Layout from '../UI/Layout/Layout'
 import CopyableTableCell from '../UI/CopyableTableCell'
 import db from '../../services/store'
@@ -20,7 +20,7 @@ const { Component, Fragment } = React
 type Props = {
   activeContractSet: ActiveContractSetState,
   runContractState: RunContractState,
-  contract: ContractState,
+  deployContractState: DeployContractState,
   balances: BalancesState
 };
 
@@ -45,10 +45,7 @@ type DBSavedContract = {
   name?: string
 };
 
-@inject('contract')
-@inject('runContractState')
-@inject('activeContractSet')
-@inject('balances')
+@inject('deployContractState', 'runContractState', 'activeContractSet', 'balances')
 @observer
 class SavedContracts extends Component<Props, State> {
   state = {
@@ -138,7 +135,7 @@ class SavedContracts extends Component<Props, State> {
                   <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
                 </Link>
               ) : (
-                <Link className="button small margin-right play-upload-button" to="/activate-contract" title="Upload Contract" onClick={() => { this.props.contract.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
+                <Link className="button small margin-right play-upload-button" to="/deploy-contract" title="Upload Contract" onClick={() => { this.props.deployContractState.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
                   <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
                 </Link>
               )
