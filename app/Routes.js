@@ -6,7 +6,7 @@ import Balances from './components/Balances/Balances'
 import SendTx from './components/SendTx/SendTx'
 import TxHistory from './components/TxHistory/TxHistory'
 import Receive from './components/Receive/Receive'
-import ActivateContract from './components/ActivateContract/ActivateContract'
+import DeployContract from './components/DeployContract/DeployContract'
 import RunContract from './components/RunContract/RunContract'
 import SavedContracts from './components/SavedContracts/SavedContracts'
 import ActiveContractSet from './components/ActiveContractSet/ActiveContractSet'
@@ -32,7 +32,7 @@ const Routes = () => (
       <Route exact path="/receive" component={Receive} />
       <Route exact path="/send-tx" component={SendTx} />
       <Route exact path="/tx-history" component={TxHistory} />
-      <Route exact path="/activate-contract" component={ActivateContract} />
+      <Route exact path="/deploy-contract" component={DeployContract} />
       <Route exact path="/run-contract" component={RunContract} />
       <Route exact path="/saved-contracts" component={SavedContracts} />
       <Route exact path="/acs" component={ActiveContractSet} />

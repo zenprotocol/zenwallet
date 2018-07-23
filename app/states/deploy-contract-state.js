@@ -2,26 +2,24 @@
 import { observable, action, runInAction, computed } from 'mobx'
 import { some } from 'lodash'
 
-import { postActivateContract } from '../services/api-service'
+import { postDeployContract } from '../services/api-service'
 import db from '../services/store'
 
 const initialDragDropText = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
-class ContractState {
-  @observable fileName: string
+class DeployContractState {
+  @observable fileName = ''
   @observable dragDropText = initialDragDropText
   @observable name = ''
-  @observable contractId: string
-  @observable address: string
+  @observable contractId = ''
+  @observable address = ''
   @observable code = ''
   @observable blocksAmountDisplay = ''
   @observable activationCost = ''
   @observable blockAmountHasError = false
-  @observable status: 'inprogress' | 'success' | 'error' | ''
+  @observable status: 'inprogress' | 'success' | 'error' | '' = ''
   @observable inprogress = false
   @observable errorMessage = ''
-  @observable acceptedFiles = []
-  @observable rejectedFiles = []
 
   @action
   init(placeholder: string) {
@@ -30,12 +28,7 @@ class ContractState {
   }
 
   @action
-  resetDragDropText() {
-    this.dragDropText = initialDragDropText
-  }
-
-  @action
-  async activateContract(password: string) {
+  async deployContract(password: string) {
     this.inprogress = true
     this.status = 'inprogress'
     const data = {
@@ -44,25 +37,15 @@ class ContractState {
       password,
     }
     try {
-      const response = await postActivateContract(data)
-
+      const { address, contractId } = await postDeployContract(data)
+      this.saveDeployedContractToDb({
+        address, contractId, code: this.code, name: this.name,
+      })
       runInAction(() => {
-        const savedContracts = db.get('savedContracts').value()
-        const isInSavedContracts = some(savedContracts, { contractId: response.contractId })
-
-        if (!isInSavedContracts) {
-          db.get('savedContracts').push({
-            code: this.code,
-            name: this.name,
-            contractId: response.contractId,
-            address: response.address,
-          }).write()
-        }
-
         this.resetForm()
         this.status = 'success'
-        this.address = response.address
-        this.contractId = response.contractId
+        this.address = address
+        this.contractId = contractId
         setTimeout(() => {
           this.status = ''
           this.address = ''
@@ -87,7 +70,7 @@ class ContractState {
   }
 
   get formIsDirty(): boolean {
-    return !(this.name || this.code || this.blocksAmountDisplay)
+    return !!(this.name || this.code || this.blocksAmountDisplay)
   }
 
   @action.bound
@@ -98,13 +81,10 @@ class ContractState {
     this.contractId = ''
     this.address = ''
     this.blocksAmountDisplay = ''
-    this.activationCost = ''
     this.status = ''
     this.inprogress = false
     this.blockAmountHasError = false
     this.errorMessage = ''
-    this.acceptedFiles = []
-    this.rejectedFiles = []
   }
 
   @computed
@@ -115,6 +95,20 @@ class ContractState {
   updateBlocksAmountDisplay(blocksAmountDisplay: string) {
     this.blocksAmountDisplay = blocksAmountDisplay
   }
+
+  // $FlowFixMe
+  saveDeployedContractToDb({
+    code, name, contractId, address,
+  }) {
+    const savedContracts = db.get('savedContracts').value()
+    const isInSavedContracts = some(savedContracts, { contractId })
+    if (isInSavedContracts) {
+      return
+    }
+    db.get('savedContracts').push({
+      code, name, contractId, address,
+    }).write()
+  }
 }
 
-export default ContractState
+export default DeployContractState

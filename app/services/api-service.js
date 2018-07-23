@@ -54,10 +54,10 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
   return response.data
 }
 
-type ActivateContractPayload = { code: string, numberOfBlocks: number } & Password;
+type DeployContractPayload = { code: string, numberOfBlocks: number } & Password;
 type NewContract = { address: Address, contractId: string };
 
-export async function postActivateContract(data: ActivateContractPayload): Promise<NewContract> {
+export async function postDeployContract(data: DeployContractPayload): Promise<NewContract> {
   const response = await axios.post(`${getServerAddress()}/wallet/contract/activate`, data, {
     headers: { 'Content-Type': 'application/json' },
   })

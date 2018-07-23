@@ -1,9 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import ContractState from '../../../states/contract-state'
+import DeployContractState from '../../../states/deploy-contract-state'
 import BalancesState from '../../../states/balances-state'
-import ActivateContractContainer, { calcMaxBlocksForContract } from '../ActivateContract'
+import DeployContractContainer, { calcMaxBlocksForContract } from '../DeployContract'
 
 jest.mock('electron', () => ({
   ipcRenderer: { on: jest.fn() },
@@ -32,7 +32,7 @@ describe('calcMaxBlocksForContract', () => {
   })
 })
 
-const ActivateContract = ActivateContractContainer.wrappedComponent.wrappedComponent
+const DeployContract = DeployContractContainer.wrappedComponent.wrappedComponent
 jest.mock('services/store', () => ({
   get: (key) => {
     if (key === 'savedContracts') {
@@ -56,10 +56,10 @@ jest.mock('services/store', () => ({
   },
 }))
 
-describe('ActivateContract', () => {
-  const contract = new ContractState()
+describe('DeployContract', () => {
+  const contract = new DeployContractState()
   const balances = new BalancesState()
-  const component = shallow(<ActivateContract contract={contract} balances={balances} />)
+  const component = shallow(<DeployContract contract={contract} balances={balances} />)
 
   it('renders to the dom', () => {
     expect(component.find('Layout').length).toBe(1)
