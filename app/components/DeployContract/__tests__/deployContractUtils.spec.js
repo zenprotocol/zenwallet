@@ -8,7 +8,7 @@ test('replacePkHashVar no pkHash var present', () => {
 })
 
 test('replacePkHashVar no pkHash var present', () => {
-  const codeFromFile = 'foo "%pkhash" bar'
+  const codeFromFile = 'foo "%PKHASH%" bar'
   const expected = 'foo "pkhashDummy" bar'
   expect(replacePkHashVar(codeFromFile, pkhash)).toEqual(expected)
 })
