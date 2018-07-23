@@ -28,7 +28,7 @@ class DeployContractState {
   }
 
   @action
-  async deployContract(password: string) {
+  async deploy(password: string) {
     this.inprogress = true
     this.status = 'inprogress'
     const data = {

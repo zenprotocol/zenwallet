@@ -120,7 +120,7 @@ class DeployContract extends Component<Props> {
     if (!confirmedPassword) {
       return
     }
-    this.props.deployContractState.DeployContract(confirmedPassword)
+    this.props.deployContractState.deploy(confirmedPassword)
   }
 
   get isFormValid() {
