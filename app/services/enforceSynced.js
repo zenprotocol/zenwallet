@@ -4,12 +4,12 @@ import swal from 'sweetalert'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { observer } from 'mobx-react'
 
-import { networkState } from '../states'
-import NetworkState from '../states/network-state'
+import { networkStore } from '../stores'
+import NetworkStore from '../stores/networkStore'
 
 export default function enforceSynced(fnToProtect) {
   return async function enforceSyncedInner(...args) {
-    if (!networkState.isSynced) {
+    if (!networkStore.isSynced) {
       const canContinue = await swal({
         text: 'Must be fully synced to perform this operation!',
         icon: 'info',
@@ -26,7 +26,7 @@ export default function enforceSynced(fnToProtect) {
 }
 
 type Props = {
-  networkState: NetworkState
+  networkStore: NetworkStore
 };
 
 @observer
@@ -34,7 +34,7 @@ class ProtectWhenSyncincModal extends React.Component<Props> {
   renderSyncingStatus() {
     const {
       isSynced, connections, isSyncing,
-    } = this.props.networkState
+    } = this.props.networkStore
 
     if (connections === 0) {
       return
@@ -66,7 +66,7 @@ class ProtectWhenSyncincModal extends React.Component<Props> {
   renderPartialNetworkStatus() {
     const {
       chain, blocks, headers, connections, connectedToNode,
-    } = this.props.networkState
+    } = this.props.networkStore
 
     if (!connectedToNode) {
       return (
@@ -118,7 +118,7 @@ class ProtectWhenSyncincModal extends React.Component<Props> {
   }
   onCancel = () => swal.close()
   renderButtons() {
-    const { isSynced } = this.props.networkState
+    const { isSynced } = this.props.networkStore
     return (
       <div>
         <button className="secondary" onClick={this.onCancel}>Cancel</button>
@@ -147,6 +147,6 @@ class ProtectWhenSyncincModal extends React.Component<Props> {
 
 function getModalContent() {
   const wrapper = document.createElement('div')
-  ReactDOM.render(<ProtectWhenSyncincModal networkState={networkState} />, wrapper)
+  ReactDOM.render(<ProtectWhenSyncincModal networkStore={networkStore} />, wrapper)
   return wrapper.firstChild
 }

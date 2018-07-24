@@ -15,7 +15,7 @@ import path from 'path'
 import { app, BrowserWindow, dialog } from 'electron'
 
 import ZenNode from './ZenNode'
-import db from './services/store'
+import db from './services/db'
 import MainProcessErrorReporter from './utils/errorReporting/MainProcessErrorReporter'
 import prereqCheck from './utils/prereqCheck'
 

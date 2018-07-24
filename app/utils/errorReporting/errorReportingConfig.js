@@ -1,5 +1,5 @@
 import pjson from '../../../package.json'
-import db from '../../services/store'
+import db from '../../services/db'
 
 export const IPC_START_ERROR_REPORTING = 'startErrorReporting'
 export const IPC_DONT_ASK_TO_REPORT_ERRORS = 'dontAskToReportErrors'

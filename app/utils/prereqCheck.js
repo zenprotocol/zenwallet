@@ -39,8 +39,7 @@ function validateZ3() {
     const z3Path = getZ3PathForPlatform()
     if (isWindows()) {
       execSync(`"${z3Path}" --help`)
-    }
-    else {
+    } else {
       execSync(`${z3Path} --help`)
     }
     console.log('Z3 check passed')

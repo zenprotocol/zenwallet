@@ -86,7 +86,7 @@ type ActiveContract = {
   expire: number,
   code: string
 };
-export async function getActiveContractSet(): Promise<ActiveContract[]> {
+export async function getActiveContracts(): Promise<ActiveContract[]> {
   const response = await axios.get(`${getServerAddress()}/contract/active`)
   return response.data
 }

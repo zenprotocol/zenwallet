@@ -2,7 +2,7 @@
 
 import bech32 from 'bech32'
 
-import db from '../services/store'
+import db from '../services/db'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../constants'
 
 const validPrefixes = ['zen', 'tzn', 'czen', 'ctzn']

@@ -1,56 +1,57 @@
 import React from 'react'
 import { Router, Route, Switch } from 'react-router-dom'
 
+import routes from './constants/routes'
 import history from './services/history'
-import Balances from './components/Balances/Balances'
-import SendTx from './components/SendTx/SendTx'
-import TxHistory from './components/TxHistory/TxHistory'
-import Receive from './components/Receive/Receive'
-import DeployContract from './components/DeployContract/DeployContract'
-import RunContract from './components/RunContract/RunContract'
-import SavedContracts from './components/SavedContracts/SavedContracts'
-import ActiveContractSet from './components/ActiveContractSet/ActiveContractSet'
-import Faucet from './components/Faucet/Faucet'
-import Loading from './components/Loading/Loading'
-import UnlockWallet from './components/UnlockWallet/UnlockWallet'
-import BlockchainLogs from './components/BlockchainLogs'
-import Settings from './components/Settings'
+import Portfolio from './pages/Portfolio/Portfolio'
+import SendTx from './pages/SendTx/SendTx'
+import TxHistory from './pages/TxHistory/TxHistory'
+import Receive from './pages/Receive/Receive'
+import DeployContract from './pages/DeployContract/DeployContract'
+import RunContract from './pages/RunContract/RunContract'
+import SavedContracts from './pages/SavedContracts/SavedContracts'
+import ActiveContracts from './pages/ActiveContracts/ActiveContracts'
+import Faucet from './pages/Faucet/Faucet'
+import Loading from './pages/Loading/Loading'
+import UnlockWallet from './pages/UnlockWallet/UnlockWallet'
+import BlockchainLogs from './pages/BlockchainLogs'
+import Settings from './pages/Settings'
 // Onboarding routes
-import WelcomeMessages from './components/OnBoarding/WelcomeMessages/WelcomeMessages'
-import ImportOrCreateWallet from './components/OnBoarding/ImportOrCreateWallet/ImportOrCreateWallet'
-import ImportWallet from './components/OnBoarding/ImportWallet/ImportWallet'
-import SecretPhrase from './components/OnBoarding/SecretPhrase/SecretPhrase'
-import SecretPhraseQuiz from './components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz'
-import SetPassword from './components/OnBoarding/SetPassword/SetPassword'
-import TermsOfService from './components/OnBoarding/TermsOfService/TermsOfService'
-import ErrorReportingOptIn from './components/OnBoarding/ErrorReportingOptIn'
+import WelcomeMessages from './onBoardingPages/WelcomeMessages/WelcomeMessages'
+import ImportOrCreateWallet from './onBoardingPages/ImportOrCreateWallet/ImportOrCreateWallet'
+import ImportWallet from './onBoardingPages/ImportWallet/ImportWallet'
+import SecretPhrase from './onBoardingPages/SecretPhrase/SecretPhrase'
+import SecretPhraseQuiz from './onBoardingPages/SecretPhraseQuiz/SecretPhraseQuiz'
+import SetPassword from './onBoardingPages/SetPassword/SetPassword'
+import TermsOfService from './onBoardingPages/TermsOfService/TermsOfService'
+import ErrorReportingOptIn from './onBoardingPages/ErrorReportingOptIn'
 
 const Routes = () => (
   <Router history={history}>
     <Switch>
-      <Route exact path="/portfolio" component={Balances} />
-      <Route exact path="/receive" component={Receive} />
-      <Route exact path="/send-tx" component={SendTx} />
-      <Route exact path="/tx-history" component={TxHistory} />
-      <Route exact path="/deploy-contract" component={DeployContract} />
-      <Route exact path="/run-contract" component={RunContract} />
-      <Route exact path="/saved-contracts" component={SavedContracts} />
-      <Route exact path="/acs" component={ActiveContractSet} />
-      <Route exact path="/faucet" component={Faucet} />
-      <Route exact path="/loading" component={Loading} />
-      <Route exact path="/unlock-wallet" component={UnlockWallet} />
-      <Route exact path="/blockchain-logs" component={BlockchainLogs} />
-      <Route exact path="/settings" component={Settings} />
+      <Route exact path={routes.PORTFOLIO} component={Portfolio} />
+      <Route exact path={routes.RECEIVE} component={Receive} />
+      <Route exact path={routes.SEND_TX} component={SendTx} />
+      <Route exact path={routes.TX_HISTORY} component={TxHistory} />
+      <Route exact path={routes.DEPLOY_CONTRACT} component={DeployContract} />
+      <Route exact path={routes.RUN_CONTRACT} component={RunContract} />
+      <Route exact path={routes.SAVED_CONTRACTS} component={SavedContracts} />
+      <Route exact path={routes.ACTIVE_CONTRACTS} component={ActiveContracts} />
+      <Route exact path={routes.FAUCET} component={Faucet} />
+      <Route exact path={routes.LOADING} component={Loading} />
+      <Route exact path={routes.UNLOCK_WALLET} component={UnlockWallet} />
+      <Route exact path={routes.BLOCKCHAIN_LOGS} component={BlockchainLogs} />
+      <Route exact path={routes.SETTINGS} component={Settings} />
       { /* Onboarding Routes */ }
-      <Route exact path="/welcome-messages" component={WelcomeMessages} />
-      <Route exact path="/import-or-create-wallet" component={ImportOrCreateWallet} />
-      <Route exact path="/import-wallet" component={ImportWallet} />
-      <Route exact path="/secret-phrase" component={SecretPhrase} />
-      <Route exact path="/secret-phrase-quiz" component={SecretPhraseQuiz} />
-      <Route exact path="/set-password" component={SetPassword} />
-      <Route exact path="/terms-of-service" component={TermsOfService} />
-      <Route exact path="/error-reporting-opt-in" component={ErrorReportingOptIn} />
-      <Route exact path="/" component={Loading} />
+      <Route exact path={routes.WELCOME_MESSAGES} component={WelcomeMessages} />
+      <Route exact path={routes.IMPORT_OR_CREATE_WALLET} component={ImportOrCreateWallet} />
+      <Route exact path={routes.IMPORT_WALLET} component={ImportWallet} />
+      <Route exact path={routes.SECRET_PHRASE} component={SecretPhrase} />
+      <Route exact path={routes.SECRET_PHRASE_QUIZ} component={SecretPhraseQuiz} />
+      <Route exact path={routes.SET_PASSWORD} component={SetPassword} />
+      <Route exact path={routes.TERMS_OF_SERVICE} component={TermsOfService} />
+      <Route exact path={routes.ERROR_REPORTING_OPT_IN} component={ErrorReportingOptIn} />
+      <Route exact path={routes.HOME} component={Loading} />
     </Switch>
   </Router>
 )

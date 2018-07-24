@@ -1,4 +1,4 @@
-jest.mock('services/store', () => ({
+jest.mock('services/db', () => ({
   get: (key) => {
     if (key === 'savedContracts') {
       return {

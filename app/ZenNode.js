@@ -9,7 +9,7 @@ import { ipcMain, dialog } from 'electron'
 import spwanZenNodeChildProcess from '@zen/zen-node'
 
 import { shout } from './utils/dev'
-import db from './services/store'
+import db from './services/db'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
 import { isWindows } from './utils/platformUtils'
 import { getPort } from './config/server-address'
@@ -142,8 +142,8 @@ class ZenNode {
     this.ipcMessagesToSendOnFinishedLoad.forEach(({ signal, data }) => {
       this.webContents.send(signal, data)
     })
-    // if user started the app, changed net, and hit refresh, the renderer process will load the initial chain
-    // while the zen node will remain on the changed net
+    // if user started the app, changed net, and hit refresh, the renderer process
+    // will load the initial chain while the zen node will remain on the changed net
     if (this.netChangedSinceInit) {
       this.webContents.send('switchChain', this.config.net)
     }

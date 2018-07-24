@@ -3,7 +3,7 @@ import React from 'react'
 import swal from 'sweetalert'
 import ReactDOM from 'react-dom'
 
-import ExternalLink from '../UI/ExternalLink'
+import ExternalLink from '../ExternalLink'
 
 function getModalNode(link: string) {
   const wrapper = document.createElement('div')

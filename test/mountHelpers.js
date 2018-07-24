@@ -3,18 +3,18 @@ import { Provider } from 'mobx-react'
 import { Router } from 'react-router'
 
 import history from '../app/services/history'
-import states from '../app/states'
+import stores from '../app/stores'
 
 export const withHistoryAndState = (WrappedComponent) => (props) => (
   <Router history={history}>
-    <Provider {...states} history={history}>
+    <Provider {...stores} history={history}>
       <WrappedComponent {...props} />
     </Provider>
   </Router>
 )
 
 export const withState = (WrappedComponent) => (props) => (
-  <Provider {...states} history={history}>
+  <Provider {...stores} history={history}>
     <WrappedComponent {...props} />
   </Provider>
 )

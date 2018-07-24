@@ -21,34 +21,33 @@
  @import "styles/MonokaiSublime";
  @import "styles/Balloon";
  //
- @import "components/UI/Layout/Layout";
- @import "components/UI/Container/Container";
- @import "components/UI/Main/Main";
- @import "components/UI/Topbar/Topbar";
- @import "components/UI/Footer/Footer";
- @import "components/UI/Sidebar/Sidebar";
- @import "components/UI/FormResponseMessage/FormResponseMessage";
- @import "components/UI/AutoSuggestSavedContracts/AutoSuggestSavedContracts";
+ @import "components/Layout/Layout";
+ @import "components/Container/Container";
+ @import "components/Main/Main";
+ @import "components/Topbar/Topbar";
+ @import "components/Footer/Footer";
+ @import "components/Sidebar/Sidebar";
+ @import "components/FormResponseMessage/FormResponseMessage";
  //
- @import "components/ErrorScreen/ErrorScreen";
- @import "components/Balances/Balances";
- @import "components/Receive/Receive";
- @import "components/SendTx/SendTx";
- @import "components/Faucet/Faucet";
- @import "components/DeployContract/DeployContract";
- @import "components/ActiveContractSet/ActiveContractSet";
- @import "components/SavedContracts/SavedContracts";
- @import "components/Loading/Loading";
- @import "components/UnlockWallet/UnlockWallet";
- @import "components/BlockchainLogs/BlockchainLogs";
+ @import "pages/ErrorScreen/ErrorScreen";
+ @import "pages/Portfolio/Portfolio";
+ @import "pages/Receive/Receive";
+ @import "pages/SendTx/SendTx";
+ @import "pages/Faucet/Faucet";
+ @import "pages/DeployContract/DeployContract";
+ @import "pages/ActiveContracts/ActiveContracts";
+ @import "pages/SavedContracts/SavedContracts";
+ @import "pages/Loading/Loading";
+ @import "pages/UnlockWallet/UnlockWallet";
+ @import "pages/BlockchainLogs/BlockchainLogs";
  //
- @import "components/OnBoarding/Layout/Layout";
- @import "components/OnBoarding/WelcomeMessages/WelcomeMessages";
- @import "components/OnBoarding/ImportOrCreateWallet/ImportOrCreateWallet";
- @import "components/OnBoarding/SecretPhrase/SecretPhrase";
- @import "components/OnBoarding/SecretPhraseQuiz/SecretPhraseQuiz";
- @import "components/OnBoarding/SetPassword/SetPassword";
- @import "components/OnBoarding/TermsOfService/TermsOfService";
+ @import "onBoardingPages/Layout/Layout";
+ @import "onBoardingPages/WelcomeMessages/WelcomeMessages";
+ @import "onBoardingPages/ImportOrCreateWallet/ImportOrCreateWallet";
+ @import "onBoardingPages/SecretPhrase/SecretPhrase";
+ @import "onBoardingPages/SecretPhraseQuiz/SecretPhraseQuiz";
+ @import "onBoardingPages/SetPassword/SetPassword";
+ @import "onBoardingPages/TermsOfService/TermsOfService";
  
  #root { height: 100%; }
 

@@ -2,7 +2,7 @@
 
 import swal from 'sweetalert'
 
-import { networkState } from '../states'
+import { networkStore } from '../stores'
 import { MAINNET } from '../constants'
 
 import { postCheckPassword } from './api-service'
@@ -25,7 +25,7 @@ export default passwordModal
 function submitPasswordModal() {
   return swal({
     title: 'Password required',
-    text: networkState.chain === MAINNET ? undefined : `Running on ${networkState.chain} chain`,
+    text: networkStore.chain === MAINNET ? undefined : `Running on ${networkStore.chain} chain`,
     content: {
       element: 'input',
       attributes: {

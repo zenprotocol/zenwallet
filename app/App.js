@@ -3,21 +3,20 @@ import { Provider } from 'mobx-react'
 import MobxDevTools from 'mobx-react-devtools'
 import ErrorBoundary from 'react-error-boundary'
 
-import ErrorScreen from './components/ErrorScreen'
-import AppUpdater from './components/AppUpdater/AppUpdater'
-import WipeModal from './components/UI/WipeModal'
+import ErrorScreen from './pages/ErrorScreen'
+import AppUpdater from './components/AppUpdater'
+import WipeModal from './components/WipeModal'
 import Idle from './components/Idle'
-import ModalContainer from './components/ModalContainer'
 import history from './services/history'
 import './services/rendererZenNodeNonZeroExit'
-import states from './states'
+import stores from './stores'
 import Routes from './Routes'
 import './fontawesome'
 
 export default class App extends React.Component {
   render() {
     return (
-      <Provider history={history} {...states}>
+      <Provider history={history} {...stores}>
         <ErrorBoundary FallbackComponent={ErrorScreen}>
           <React.Fragment>
             <React.Fragment>
@@ -27,7 +26,6 @@ export default class App extends React.Component {
               <div className="app-wrapper">
                 <Routes />
               </div>
-              <ModalContainer />
             </React.Fragment>
             {process.env.NODE_ENV !== 'production' && <MobxDevTools />}
           </React.Fragment>

@@ -11,6 +11,5 @@ ipcRenderer.on(IPC_ZEN_NODE_NON_ZERO_EXIT, async (evt, logs) => {
     icon: 'error',
     className: 'zen-node-non-zero-exit-modal',
   })
-  // TODO check if this works
   remote.app.quit()
 })

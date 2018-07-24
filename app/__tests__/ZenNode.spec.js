@@ -12,9 +12,9 @@ jest.mock('electron', () => ({
   ipcMain: { once: jest.fn() },
 }))
 
-jest.unmock('services/store')
+jest.unmock('services/db')
 
-jest.mock('services/store', () => ({
+jest.mock('services/db', () => ({
   get: (key) => {
     if (key === 'config.isMining') {
       return ({
