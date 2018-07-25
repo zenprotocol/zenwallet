@@ -14,13 +14,19 @@ if [ "${BRANCH}" != 'master' ]; then
   exit 0
 fi
 
-echo "deleting local release branch if exists"
-git branch -D release || true
-git checkout -b release
-echo "resetting release branch to master"
-git reset --hard master
-echo "pushing release branch"
-git push -f --no-verify --set-upstream origin release
-printf "\n"
-echo "run 'npm run build && npm pack' to create npm package file"
+if [ "$#" != "1" ]; then
+    echo "Illegal number of parameters, write only a number in the following format _._._"
+    exit 0
+fi
+
+tmp=$(mktemp)
+jq '.version = $val' --arg val "$1" package.json > "$tmp" && mv "$tmp" package.json
+jq '.version = $val' --arg val "$1" app/package.json > "$tmp" && mv "$tmp" app/package.json
+npm install
+git commit -am "update npm dependencies for v$1"
+npm run build && npm pack
+npm publish
+git tag v$1
+git push origin v$1
+git push
 echo "run 'npm run package' to create installer file for your local platform"
