@@ -24,8 +24,7 @@ jq '.version = $val' --arg val "$1" package.json > "$tmp" && mv "$tmp" package.j
 jq '.version = $val' --arg val "$1" app/package.json > "$tmp" && mv "$tmp" app/package.json
 npm install
 git commit -am "update npm dependencies for v$1"
-npm run build && npm pack
-npm publish
+
 git tag v$1
 git push origin v$1
 git push

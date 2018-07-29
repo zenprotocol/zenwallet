@@ -32,4 +32,5 @@ install:
   - npm i  babel-register --save-dev
 script:
 - npm run build
+- npm run release
 after_success: if [ $TRAVIS_OS_NAME = linux ] && [ ! -z "$TRAVIS_TAG" ]; then npm publish; fi
