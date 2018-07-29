@@ -67,6 +67,7 @@ class TxHistory extends Component<Props> {
                 <th className="align-left">Transaction Hash</th>
                 <th className="align-left">Asset Hash</th>
                 <th className="align-left">Asset Name</th>
+                <th className="align-left">Block</th>
                 <th className="align-left">Confirmations</th>
                 <th className="align-right">Amount</th>
               </tr>
