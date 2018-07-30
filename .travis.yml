@@ -25,11 +25,6 @@ addons:
 before_install:
   - echo "@zen:registry=https://www.myget.org/F/zenprotocol/npm/" > .npmrc
   - echo "//www.myget.org/F/zenprotocol/npm/:_authToken=$MYGET_TOKEN" >> .npmrc
-install:
-  - npm i -g npm@latest
-  - npm i -g concurrently
-  - npm i -g cross-env
-  - npm i  babel-register --save-dev
 script:
 - npm run build
 - npm run release
