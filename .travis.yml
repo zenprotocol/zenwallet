@@ -28,5 +28,5 @@ before_install:
 script:
 - npm run build
 - npm run release
-- npm run test
+- npm run test-no-watch
 after_success: if [ $TRAVIS_OS_NAME = linux ] && [ ! -z "$TRAVIS_TAG" ]; then npm publish; fi
