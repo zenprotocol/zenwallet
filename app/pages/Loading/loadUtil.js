@@ -5,7 +5,7 @@ import { networkStore } from '../../stores'
 
 const LOADING_INTERVAL = 1000
 
-const load = async () => {
+export const load = async () => {
   try {
     networkStore.fetch()
     if (!await getWalletExists()) {
@@ -19,5 +19,3 @@ const load = async () => {
     setTimeout(load, LOADING_INTERVAL)
   }
 }
-
-export default load

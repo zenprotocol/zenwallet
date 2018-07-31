@@ -22,12 +22,12 @@ describe('PortfolioStore', () => {
   })
   it('[getBalanceFor] should return 0 when no matching', () => {
     const asset1 = { asset: 'bar', balance: 1 }
-    cut.assets = [asset1]
+    cut.rawAssets = [asset1]
     expect(cut.getBalanceFor('123')).toEqual(0)
   })
   it('[getBalanceFor] should return balance of asset', () => {
     const asset1 = { asset: 'bar', balance: 1 }
-    cut.assets = [asset1]
+    cut.rawAssets = [asset1]
     expect(cut.getBalanceFor('bar')).toEqual(1)
   })
   it('[filteredBalances] should return empty array when no assets are present', () => {
@@ -35,14 +35,14 @@ describe('PortfolioStore', () => {
   })
   it('[filteredBalances] should return cut.assetsWithNames when query is empty', () => {
     const mockedAssetsWithNames = [{ asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' }]
-    Object.defineProperty(cut, 'assetsWithNames', {
+    Object.defineProperty(cut, 'assets', {
       get: jest.fn(() => mockedAssetsWithNames),
     })
     expect(cut.filteredBalances()).toEqual(mockedAssetsWithNames)
   })
   it('[filteredBalances] should return [] when no balances matches', () => {
     const mockedAssetsWithNames = [{ asset: ZEN_ASSET_HASH, balance: 2, name: 'ZENP' }]
-    Object.defineProperty(cut, 'assetsWithNames', {
+    Object.defineProperty(cut, 'assets', {
       get: jest.fn(() => mockedAssetsWithNames),
     })
     expect(cut.filteredBalances('123')).toEqual([])
@@ -51,7 +51,7 @@ describe('PortfolioStore', () => {
     const assetWithName1 = { name: 'foo', asset: 'bar', balance: 2 }
     const assetWithName2 = { name: 'asset2', asset: 'asset2', balance: 2 }
     const mockedAssetsWithNames = [assetWithName1, assetWithName2]
-    Object.defineProperty(cut, 'assetsWithNames', {
+    Object.defineProperty(cut, 'assets', {
       get: jest.fn(() => mockedAssetsWithNames),
     })
     expect(cut.filteredBalances('foo')).toEqual([assetWithName1])
@@ -60,7 +60,7 @@ describe('PortfolioStore', () => {
     const assetWithName1 = { name: 'foo', asset: 'bar', balance: 1 }
     const assetWithName2 = { name: 'assetWithName2', asset: 'assetWithName2', balance: 2 }
     const mockedAssetsWithNames = [assetWithName1, assetWithName2]
-    Object.defineProperty(cut, 'assetsWithNames', {
+    Object.defineProperty(cut, 'assets', {
       get: jest.fn(() => mockedAssetsWithNames),
     })
     expect(cut.filteredBalances('bar')).toEqual([assetWithName1])

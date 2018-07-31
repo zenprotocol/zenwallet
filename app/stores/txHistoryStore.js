@@ -31,6 +31,7 @@ class TxHistoryStore {
       this.skip = 0
       this.currentPageSize = 0
       this.transactions = []
+      this.isFetching = false
     })
   }
 

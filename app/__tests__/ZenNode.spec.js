@@ -82,7 +82,7 @@ test('init', () => {
   expect(zenNode.node.stdout.pipe).toHaveBeenCalledWith(process.stdout)
   expect(ipcMain.once).toHaveBeenCalledTimes(1)
   expect(ipcMain.once).toHaveBeenCalledWith(IPC_RESTART_ZEN_NODE, zenNode.onRestartZenNode)
-  expect(zenNode.node.on).toHaveBeenCalledTimes(1)
+  expect(zenNode.node.on).toHaveBeenCalledTimes(3)
   expect(zenNode.node.on).toHaveBeenCalledWith('exit', zenNode.onZenNodeExit)
 })
 test('init when wiping', () => {

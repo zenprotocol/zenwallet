@@ -64,7 +64,7 @@ class ZenNode {
       // reset wipe/wipefull args in case node was restarted with them
       this.config.wipe = false
       this.config.wipeFull = false
-      this.node.stderr.on('data', this.onZenNodeStderr)
+      this.node.stderr.pipe(process.stderr)
       this.node.stdout.pipe(process.stdout)
       this.node.stdout.on('data', this.onBlockchainLog)
       ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)
