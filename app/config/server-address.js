@@ -33,9 +33,9 @@ export const getPort = () => {
 export const getServerAddress = () => {
   let localhost = 'http://127.0.0.1'
 
-  if (isWindows()) {
-    localhost = 'http://localhost'
-  }
+  // if (isWindows()) {
+  //   localhost = 'http://localhost'
+  // }
 
   if (process.env.ZEN_NODE_API_PORT) {
     return `${localhost}:${process.env.ZEN_NODE_API_PORT}`
