@@ -17,7 +17,7 @@ import PasteButton from '../../components/PasteButton'
 import ResetButton from '../../components/ResetButton'
 import SeedInput from '../../components/SeedInput'
 import ExternalLink from '../../components/ExternalLink'
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 
 const getInitialInputsState = () => _.range(24).map(() => '')
 

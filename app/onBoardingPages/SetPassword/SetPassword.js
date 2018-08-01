@@ -7,7 +7,7 @@ import Flexbox from 'flexbox-react'
 
 import ToggleVisibilityIcon from '../../components/ToggleVisibilityIcon'
 import IsValidIcon from '../../components/IsValidIcon'
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 import routes from '../../constants/routes'
 
@@ -35,7 +35,7 @@ class SetPassword extends Component<Props, State> {
   }
 
   onPasswordChanged = (evt: SyntheticEvent<HTMLInputElement>) => {
-    const newValue = evt.currentTarget.value.trim()
+    const newValue = evt.target.value.trim()
 
     this.setState({
       password: newValue,
@@ -47,7 +47,7 @@ class SetPassword extends Component<Props, State> {
 
   onPasswordConfirmationChanged = (evt: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      passwordConfirmation: evt.currentTarget.value.trim(),
+      passwordConfirmation: evt.target.value.trim(),
     }, () => {
       this.validatePasswordConfirmation()
     })
