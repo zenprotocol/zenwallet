@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 import SeedInput from '../../components/SeedInput'
 import history from '../../services/history'
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 import routes from '../../constants/routes'
 import { ref } from '../../utils/domUtils'

@@ -6,7 +6,7 @@ import Flexbox from 'flexbox-react'
 
 import history from '../../services/history'
 import { BUG_SRC } from '../../constants/imgSources'
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 import ErrorReportingStore from '../../stores/errorReportingStore'
 
 type Props = {

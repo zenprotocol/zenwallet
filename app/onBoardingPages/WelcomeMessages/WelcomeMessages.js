@@ -5,7 +5,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import history from '../../services/history'
 import { IMG_BASE } from '../../constants/imgSources'
 import routes from '../../constants/routes'
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 
 const pageTexts = [
   {

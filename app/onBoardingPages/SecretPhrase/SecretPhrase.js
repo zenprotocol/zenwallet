@@ -9,7 +9,7 @@ import Checkbox from 'rc-checkbox'
 import history from '../../services/history'
 import routes from '../../constants/routes'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 
 type Props = {
   secretPhraseStore: SecretPhraseStore
@@ -30,7 +30,7 @@ class SecretPhrase extends React.Component<Props, State> {
   }
 
   onToggleSecuredPassphrase = (evt: SyntheticEvent<HTMLInputElement>) => {
-    this.setState({ checked: evt.currentTarget.checked })
+    this.setState({ checked: evt.target.checked })
   }
 
   onNextClicked = () => {

@@ -7,7 +7,7 @@ import Checkbox from 'rc-checkbox'
 import { observer, inject } from 'mobx-react'
 
 import ErrorReportingStore from '../../stores/errorReportingStore'
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 import history from '../../services/history'
 import routes from '../../constants/routes'
 
@@ -23,7 +23,7 @@ class TermsOfService extends Component<Props> {
   }
 
   onChange = (evt) => {
-    this.setState({ checked: evt.currentTarget.checked })
+    this.setState({ checked: evt.target.checked })
   }
 
   onNext = () => {

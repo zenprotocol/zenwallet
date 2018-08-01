@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 
-import OnBoardingLayout from '../../components/Layout'
+import OnBoardingLayout from '../Layout/Layout'
 import { CREATE_WALLET_SRC, IMPORT_WALLET_SRC } from '../../constants/imgSources'
 import routes from '../../constants/routes'
 
