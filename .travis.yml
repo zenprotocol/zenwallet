@@ -27,6 +27,6 @@ before_install:
   - echo "//www.myget.org/F/zenprotocol/npm/:_authToken=$MYGET_TOKEN" >> .npmrc
 script:
 - npm run build
-- npm run release
 - npm run test-no-watch
+- npm run release
 after_success: if [ $TRAVIS_OS_NAME = linux ] && [ ! -z "$TRAVIS_TAG" ]; then npm publish; fi

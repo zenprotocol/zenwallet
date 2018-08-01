@@ -26,8 +26,6 @@ $ git push # after QA!
 ```bash
 npm run auto-release <version>
 ```
-4. go to [myget](https://www.myget.org/feed/Packages/zenprotocol)
-5. Add npm package to zen-wallet
 
 # Zen Node APIs
 [Node Apis](https://gitlab.com/zenprotocol/zenprotocol/blob/master/src/Api/Server.fs)
