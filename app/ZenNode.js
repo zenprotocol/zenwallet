@@ -27,7 +27,7 @@ class ZenNode {
   logs = []
   webContentsFinishedLoad = false
   node = {
-    stderr: { pipe: _.noop , on: _.noop},
+    stderr: { pipe: _.noop, on: _.noop },
     stdout: { pipe: _.noop, on: _.noop },
     on: _.noop,
     kill: _.noop,
