@@ -66,7 +66,7 @@ class DeployContract extends Component<Props> {
 
   onContractNameChanged = (evt) => {
     const { deployContractStore } = this.props
-    const newValue = evt.target.value
+    const newValue = evt.currentTarget.value
     const isValidValue = /^[a-z0-9\s]+$/i.test(newValue)
     if (!isValidValue && newValue !== '') { return }
     deployContractStore.name = newValue

@@ -27,7 +27,7 @@ class ZenNode {
   logs = []
   webContentsFinishedLoad = false
   node = {
-    stderr: { pipe: _.noop , on: _.noop},
+    stderr: { pipe: _.noop },
     stdout: { pipe: _.noop, on: _.noop },
     on: _.noop,
     kill: _.noop,
@@ -65,7 +65,6 @@ class ZenNode {
       this.config.wipe = false
       this.config.wipeFull = false
       this.node.stderr.pipe(process.stderr)
-      this.node.stderr.on('data', this.onZenNodeStderr)
       this.node.stdout.pipe(process.stdout)
       this.node.stdout.on('data', this.onBlockchainLog)
       ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)

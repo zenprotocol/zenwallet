@@ -46,13 +46,13 @@ class Settings extends Component<Props, State> {
     newPasswordConfirmation: '',
   }
   onPasswordChanged = (evt) => {
-    this.setState({ password: evt.target.value })
+    this.setState({ password: evt.currentTarget.value })
   }
   onNewPasswordChanged = (evt) => {
-    this.setState({ newPassword: evt.target.value })
+    this.setState({ newPassword: evt.currentTarget.value })
   }
   onNewPasswordConfirmationChanged = (evt) => {
-    this.setState({ newPasswordConfirmation: evt.target.value })
+    this.setState({ newPasswordConfirmation: evt.currentTarget.value })
   }
   onClickTogglePasswordVisibility = () => {
     this.setState({ isPasswordVisible: this.state.isPasswordVisible })
@@ -67,7 +67,7 @@ class Settings extends Component<Props, State> {
     // this.props.secretPhraseStore.setPassword(this.state.newPassword)
   }
   onAutoLogoutMinutesChanged = (evt) => {
-    this.props.secretPhraseStore.setAutoLogoutMinutes(evt.target.value)
+    this.props.secretPhraseStore.setAutoLogoutMinutes(evt.currentTarget.value)
   }
 
   renderPassword() {
@@ -262,7 +262,7 @@ class Settings extends Component<Props, State> {
           </label>
           {!errorReportingStore.userIsOptedIn &&
             <label className="checkbox align-right">
-              <Checkbox type="checkbox" checked={errorReportingStore.dontAskToReport} onChange={evt => errorReportingStore.setDontAskToReport(evt.target.checked)} />
+              <Checkbox type="checkbox" checked={errorReportingStore.dontAskToReport} onChange={evt => errorReportingStore.setDontAskToReport(evt.currentTarget.checked)} />
               <span className="checkbox-text">
                 {' '} Do not ask me to report
               </span>
