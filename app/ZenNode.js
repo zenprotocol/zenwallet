@@ -91,6 +91,7 @@ class ZenNode {
     if ('net' in args) {
       this.webContents.send('switchChain', args.net)
     }
+    this.init()
     this.config = { ...this.config, ...args }
     this.node.kill(ZEN_NODE_RESTART_SIGNAL)
   }
@@ -169,13 +170,7 @@ class ZenNode {
       args.push('--chain', net)
     }
 
-    if (isWindows()) {
-      if (process.env.ZEN_NODE_API_PORT) {
-        args.push('--api', `localhost:${process.env.ZEN_NODE_API_PORT}`)
-      } else {
-        args.push('--api', `localhost:${getPort()}`)
-      }
-    } else if (process.env.ZEN_NODE_API_PORT) {
+    if (process.env.ZEN_NODE_API_PORT) {
       args.push('--api', `127.0.0.1:${process.env.ZEN_NODE_API_PORT}`)
     }
 

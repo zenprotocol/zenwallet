@@ -26,7 +26,7 @@ export default switchChain
 function shouldSwitchModal() {
   return swal({
     title: 'Confirm switching chain',
-    text: `Switch from ${networkStore.chain} to ${networkStore.otherChain}? 
+    text: `Switch from ${networkStore.chain} to ${networkStore.otherChain}?
     (Continuing will redirect you to the loading screen)`,
     icon: 'warning',
     dangerMode: true,

@@ -26,7 +26,7 @@ type Props = {
   portfolioStore: PortfolioStore
 };
 
-@inject('PortfolioStore', 'sendTxStore')
+@inject('portfolioStore', 'sendTxStore')
 @observer
 class SendTx extends Component<Props> {
   componentDidMount() {
@@ -123,6 +123,7 @@ class SendTx extends Component<Props> {
   }
   render() {
     const {
+      PortfolioStore,
       sendTxStore: {
         to, asset, amount, amountDisplay, inprogress,
       },

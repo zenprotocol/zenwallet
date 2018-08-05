@@ -151,12 +151,12 @@ export async function getIsAccountLocked(): Promise<boolean> {
 }
 
 export async function postImportWallet(secretPhraseArray: observableArray, password: string) {
-  const datas = {
+  const data = {
     words: secretPhraseArray,
     password,
   }
-  console.log('postImportWallet data', datas)
-  const response = await axios.post(`${getServerAddress()}/wallet/import`, datas, {
+  console.log('postImportWallet data', data)
+  const response = await axios.post(`${getServerAddress()}/wallet/import`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
