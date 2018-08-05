@@ -43,7 +43,7 @@ class AmountInput extends React.Component<Props, State> {
 
   onChange = (evt: SyntheticEvent<HTMLInputElement>) => {
     const { maxDecimal, onAmountDisplayChanged } = this.props
-    const newAmountDisplay = formatNextAmountDisplay(evt.currentTarget.value, maxDecimal)
+    const newAmountDisplay = formatNextAmountDisplay(evt.target.value, maxDecimal)
     if (newAmountDisplay === false) {
       return
     }

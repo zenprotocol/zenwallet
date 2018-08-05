@@ -38,12 +38,12 @@ class RunContract extends Component<Props> {
 
   onMessageBodyChanged = (evt) => {
     const { runContractStore } = this.props
-    runContractStore.updateMessageBody(evt.currentTarget.value)
+    runContractStore.updateMessageBody(evt.target.value)
   }
 
   onCommandChanged = (evt) => {
     const { runContractStore } = this.props
-    runContractStore.command = evt.currentTarget.value.trim()
+    runContractStore.command = evt.target.value.trim()
   }
 
   onRunContractClicked = async () => {
