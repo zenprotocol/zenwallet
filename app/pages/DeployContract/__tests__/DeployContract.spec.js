@@ -5,6 +5,7 @@ import DeployContractStore from '../../../stores/deployContractStore'
 import PortfolioStore from '../../../stores/portfolioStore'
 import DeployContractContainer from '../DeployContract'
 import { calcMaxBlocksForContract } from '../deployContractUtils'
+import mockDb from '../../../../test/mockDbDefaultData'
 
 jest.mock('electron', () => ({
   ipcRenderer: { on: jest.fn() },

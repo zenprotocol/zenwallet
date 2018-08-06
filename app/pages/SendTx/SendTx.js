@@ -123,7 +123,7 @@ class SendTx extends Component<Props> {
   }
   render() {
     const {
-      portfolioStore,
+      PortfolioStore,
       sendTxStore: {
         to, asset, amount, amountDisplay, inprogress,
       },
