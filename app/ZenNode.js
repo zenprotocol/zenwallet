@@ -11,7 +11,6 @@ import spwanZenNodeChildProcess from '@zen/zen-node'
 import { shout } from './utils/dev'
 import db from './services/db'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
-import { isWindows } from './utils/platformUtils'
 import { getPort } from './config/server-address'
 
 export const IPC_ZEN_NODE_NON_ZERO_EXIT = 'zenNodeNonZeroExit'
@@ -27,7 +26,7 @@ class ZenNode {
   logs = []
   webContentsFinishedLoad = false
   node = {
-    stderr: { pipe: _.noop },
+    stderr: { pipe: _.noop, on: _.noop },
     stdout: { pipe: _.noop, on: _.noop },
     on: _.noop,
     kill: _.noop,
@@ -65,6 +64,7 @@ class ZenNode {
       this.config.wipe = false
       this.config.wipeFull = false
       this.node.stderr.pipe(process.stderr)
+      this.node.stderr.on('data', this.onZenNodeStderr)
       this.node.stdout.pipe(process.stdout)
       this.node.stdout.on('data', this.onBlockchainLog)
       ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)
@@ -92,6 +92,8 @@ class ZenNode {
     }
     this.config = { ...this.config, ...args }
     this.node.kill(ZEN_NODE_RESTART_SIGNAL)
+    this.webContents.reloadIgnoringCache()
+    console.log('network changed')
   }
 
   onZenNodeExit = (code, signal) => {
@@ -168,13 +170,7 @@ class ZenNode {
       args.push('--chain', net)
     }
 
-    if (isWindows()) {
-      if (process.env.ZEN_NODE_API_PORT) {
-        args.push('--api', `localhost:${process.env.ZEN_NODE_API_PORT}`)
-      } else {
-        args.push('--api', `localhost:${getPort()}`)
-      }
-    } else if (process.env.ZEN_NODE_API_PORT) {
+    if (process.env.ZEN_NODE_API_PORT) {
       args.push('--api', `127.0.0.1:${process.env.ZEN_NODE_API_PORT}`)
     }
 
@@ -211,7 +207,7 @@ export function getInitialNet() {
 }
 
 function doesZenNodeVersionRequiredWipe() {
-  const latestZenNodeVersionRequiringWipe = '0.3.43'
+  const latestZenNodeVersionRequiringWipe = '0.9.11'
   // first time user installs a version of the wallet with this flag feature,
   // or when user resets his local DB for any reason, we use the mocked version 0.0.0
   // to make sure wipe will happen, in case user has non valid chain
