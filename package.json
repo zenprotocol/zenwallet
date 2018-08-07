@@ -87,23 +87,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/zenprotocol/zenwallet.git"
+    "url": "git+ssh://git@github.com/zenprotocol/zenwallet.git"
   },
-  "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/zenprotocol/zenwallet/issues"
+    "url": "https://github.com/zenprotocol/zenwallet/issues"
   },
-  "homepage": "https://gitlab.com/zenprotocol/zenwallet#README",
+  "homepage": "https://github.com/zenprotocol/zenwallet#README",
   "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "redux",
-    "flow",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "zen",
+    "zenprotocol",
+    "blockchain"
   ],
   "jest": {
     "moduleNameMapper": {
@@ -178,7 +171,6 @@
     "node-sass": "^4.7.2",
     "npm-logical-tree": "^1.2.1",
     "react-test-renderer": "^16.2.0",
-    "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "sinon": "^4.2.2",
@@ -233,13 +225,9 @@
     "react-hot-loader": "^4.0.0-beta.13",
     "react-idle": "^3.0.0",
     "react-numeric-input": "^2.2.3",
-    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.6",
     "react-switch": "^2.3.2",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
     "semver-compare": "^1.0.0",
     "source-map-support": "^0.5.3",
     "sweetalert": "^2.1.0"
