@@ -11,7 +11,6 @@ import spwanZenNodeChildProcess from '@zen/zen-node'
 import { shout } from './utils/dev'
 import db from './services/db'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
-import { getPort } from './config/server-address'
 
 export const IPC_ZEN_NODE_NON_ZERO_EXIT = 'zenNodeNonZeroExit'
 export const IPC_ASK_IF_WIPED_DUE_TO_VERSION = 'askIfWipedDueToVersion'

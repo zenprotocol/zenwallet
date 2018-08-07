@@ -1,11 +1,11 @@
+// @flow
+
 import { ipcRenderer } from 'electron'
 
-
-// @flow
 const TESTNET_PORT = '31567'
 const LOCAL_NET_PORT = '36000'
 const MAIN_NET_PORT = '11567'
-
+const LOCALHOST = 'http://127.0.0.1'
 
 let chain = getInitialChain()
 
@@ -30,13 +30,10 @@ export const getPort = () => {
 }
 
 export const getServerAddress = () => {
-  let localhost = 'http://127.0.0.1'
-
   if (process.env.ZEN_NODE_API_PORT) {
-    return `${localhost}:${process.env.ZEN_NODE_API_PORT}`
+    return `${LOCALHOST}:${process.env.ZEN_NODE_API_PORT}`
   }
-
-  return `${localhost}:${getPort()}`
+  return `${LOCALHOST}:${getPort()}`
 }
 
 export const getCrowdsaleServerAddress = () => (process.env.ZEN_LOCAL_NET === 'localhost' ? 'http://127.0.0.1:3000' : 'https://www.zenprotocol.com')

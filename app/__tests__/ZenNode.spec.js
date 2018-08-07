@@ -1,9 +1,9 @@
 import { ipcMain } from 'electron'
 
-import ZenNode, { IPC_ASK_IF_WIPED_DUE_TO_VERSION, IPC_RESTART_ZEN_NODE, ZEN_NODE_RESTART_SIGNAL, IPC_BLOCKCHAIN_LOGS } from '../ZenNode'
+import ZenNode, { IPC_ASK_IF_WIPED_DUE_TO_VERSION, IPC_RESTART_ZEN_NODE, IPC_BLOCKCHAIN_LOGS } from '../ZenNode'
 
 jest.mock('@zen/zen-node', () => () => ({
-  stderr: { pipe: jest.fn(), on: jest.fn()},
+  stderr: { pipe: jest.fn(), on: jest.fn() },
   stdout: { pipe: jest.fn(), on: jest.fn() },
   kill: jest.fn(),
   on: jest.fn(),
@@ -137,29 +137,6 @@ test('zenNodeArgs running testnet from command line', () => {
   expect(zenNode.zenNodeArgs).toEqual(['--chain', 'test'])
 })
 
-// test('onRestartZenNode with minner flag', () => {
-//   // setup
-//   const zenNode = getZenNode()
-//   zenNode.init()
-//   expect(zenNode.zenNodeArgs).toEqual([])
-//   // action
-//   zenNode.onRestartZenNode(null, { isMining: true })
-//   // assertion
-//   expect(zenNode.config).toEqual({
-//     isMining: true,
-//     wipe: false,
-//     wipeFull: false,
-//     net: '',
-//   })
-//   expect(zenNode.node.kill).toHaveBeenCalledTimes(1)
-//   expect(zenNode.node.kill).toHaveBeenCalledWith(ZEN_NODE_RESTART_SIGNAL)
-//   // action: mimick the call following zenNode.node.kill
-//   const initSpy = jest.spyOn(zenNode, 'init')
-//   const onCloseSpy = jest.spyOn(zenNode, 'onClose')
-//   zenNode.onZenNodeExit(null, ZEN_NODE_RESTART_SIGNAL)
-//   expect(initSpy).toHaveBeenCalledTimes(1)
-//   expect(onCloseSpy).not.toBeCalled()
-// })
 test('onZenNodeExit when signal is NOT restart', () => {
   // setup
   const nonRestartSignal = 'SIGINT'
