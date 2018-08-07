@@ -30,6 +30,9 @@ class SecretPhrase extends React.Component<Props, State> {
   }
 
   onToggleSecuredPassphrase = (evt: SyntheticEvent<HTMLInputElement>) => {
+    // change to evt.currentTarget once this is handled:
+    // https://github.com/react-component/checkbox/issues/47
+    // $FlowFixMe
     this.setState({ checked: evt.target.checked })
   }
 

@@ -35,8 +35,7 @@ class SetPassword extends Component<Props, State> {
   }
 
   onPasswordChanged = (evt: SyntheticEvent<HTMLInputElement>) => {
-    const newValue = evt.target.value.trim()
-
+    const newValue = evt.currentTarget.value.trim()
     this.setState({
       password: newValue,
       validLength: (newValue.length > 3),
@@ -47,7 +46,7 @@ class SetPassword extends Component<Props, State> {
 
   onPasswordConfirmationChanged = (evt: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      passwordConfirmation: evt.target.value.trim(),
+      passwordConfirmation: evt.currentTarget.value.trim(),
     }, () => {
       this.validatePasswordConfirmation()
     })

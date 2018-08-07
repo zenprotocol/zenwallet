@@ -34,7 +34,7 @@ class SendTx extends Component<Props> {
   }
 
   onToChanged = (evt: SyntheticEvent<HTMLInputElement>) => {
-    this.props.sendTxStore.to = evt.target.value.trim()
+    this.props.sendTxStore.to = evt.currentTarget.value.trim()
   }
 
   onPasteClicked = (clipboardContents: string) => {
@@ -123,7 +123,7 @@ class SendTx extends Component<Props> {
   }
   render() {
     const {
-      PortfolioStore,
+      portfolioStore,
       sendTxStore: {
         to, asset, amount, amountDisplay, inprogress,
       },
@@ -181,7 +181,7 @@ class SendTx extends Component<Props> {
                 amountDisplay={amountDisplay}
                 maxDecimal={isZenAsset(asset) ? ZENP_MAX_DECIMALS : 0}
                 minDecimal={isZenAsset(asset) ? ZENP_MIN_DECIMALS : 0}
-                maxAmount={asset ? this.props.portfolioStore.getBalanceFor(asset) : null}
+                maxAmount={asset ? portfolioStore.getBalanceFor(asset) : null}
                 shouldShowMaxAmount
                 exceedingErrorMessage="Insufficient Funds"
                 onAmountDisplayChanged={this.updateAmountDisplay}
