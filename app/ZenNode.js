@@ -12,6 +12,7 @@ import { shout } from './utils/dev'
 import db from './services/db'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
 import { getPort } from './config/server-address'
+import { isWindows } from './utils/platformUtils'
 
 export const IPC_ZEN_NODE_NON_ZERO_EXIT = 'zenNodeNonZeroExit'
 export const IPC_ASK_IF_WIPED_DUE_TO_VERSION = 'askIfWipedDueToVersion'
@@ -89,11 +90,12 @@ class ZenNode {
   onRestartZenNode = (event, args) => {
     if ('net' in args) {
       this.webContents.send('switchChain', args.net)
+      if (isWindows()) {
+        this.webContents.reloadIgnoringCache()
+      }
     }
     this.config = { ...this.config, ...args }
     this.node.kill(ZEN_NODE_RESTART_SIGNAL)
-    this.webContents.reloadIgnoringCache()
-    console.log('network changed')
   }
 
   onZenNodeExit = (code, signal) => {
