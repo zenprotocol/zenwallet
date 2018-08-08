@@ -29,5 +29,6 @@ script:
 - npm run build
 - npm run lint
 - npm run test-no-watch
-- npm run release
-after_success: if [ $TRAVIS_OS_NAME = linux ] && [ ! -z "$TRAVIS_TAG" ]; then npm publish; fi
+after_success: 
+  - npm run release
+  - if [ $TRAVIS_OS_NAME = linux ] && [ ! -z "$TRAVIS_TAG" ]; then npm publish; fi
