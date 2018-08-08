@@ -159,7 +159,7 @@ export async function postImportWallet(secretPhraseArray: observableArray, passw
   const response = await axios.post(`${getServerAddress()}/wallet/import`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
-  return response.data
+  return response
 }
 
 export async function postCheckPassword(password: string) {
