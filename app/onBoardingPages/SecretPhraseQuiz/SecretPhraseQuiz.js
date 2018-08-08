@@ -40,7 +40,7 @@ class SecretPhraseQuiz extends Component<Props, State> {
     }
   }
   registerOnChangeFor = (idx: number) => (evt: SyntheticEvent<HTMLInputElement>) => {
-    const { value } = evt.target // persist evt, don't delete! see https://reactjs.org/docs/events.html#event-pooling
+    const { value } = evt.currentTarget // persist evt, don't delete! see https://reactjs.org/docs/events.html#event-pooling
     this.setState(({ userInputWords }) => {
       userInputWords[idx] = value
       return { userInputWords }

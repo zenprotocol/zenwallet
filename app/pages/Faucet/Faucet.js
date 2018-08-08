@@ -42,7 +42,7 @@ class Faucet extends Component<Props> {
 
 
   onChange = (evt: SyntheticEvent<HTMLInputElement>) => {
-    const pubkey = evt.target.value.trim()
+    const pubkey = evt.currentTarget.value.trim()
     this.setAndValidatePubkey(pubkey)
   }
 
