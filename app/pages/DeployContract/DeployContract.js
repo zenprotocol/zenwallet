@@ -7,11 +7,10 @@ import Highlight from 'react-highlight'
 import cx from 'classnames'
 import swal from 'sweetalert'
 
-import enforceSynced from '../../services/enforceSynced'
-import confirmPasswordModal from '../../services/confirmPasswordModal'
 import { CANCEL_ICON_SRC } from '../../constants/imgSources'
 import routes from '../../constants/routes'
 import Layout from '../../components/Layout'
+import ProtectedButton from '../../components/ProtectedButton'
 import FormResponseMessage from '../../components/FormResponseMessage'
 import AmountInput from '../../components/AmountInput'
 import ExternalLink from '../../components/ExternalLink'
@@ -116,11 +115,7 @@ class DeployContract extends Component<Props> {
     return false
   }
 
-  onDeployContractClicked = async () => {
-    const confirmedPassword = await confirmPasswordModal()
-    if (!confirmedPassword) {
-      return
-    }
+  onDeployContractClicked = (confirmedPassword) => {
     this.props.deployContractStore.deploy(confirmedPassword)
   }
 
@@ -289,12 +284,12 @@ class DeployContract extends Component<Props> {
                 onClick={resetForm}
               >Clear form
               </button>
-              <button
+              <ProtectedButton
                 className={cx('button-on-right', { loading: inprogress })}
                 disabled={this.isSubmitButtonDisabled}
-                onClick={enforceSynced(this.onDeployContractClicked)}
+                onClick={this.onDeployContractClicked}
               >{inprogress ? 'Activating' : 'Activate'}
-              </button>
+              </ProtectedButton>
             </Flexbox>
           </Flexbox>
         </Flexbox>

@@ -10,7 +10,7 @@ import { postCheckPassword } from './api-service'
 const passwordModal = async () => {
   const submittedPassword = await submitPasswordModal()
   if (!submittedPassword) {
-    await swal('You must insert a password')
+    return
   }
   const isPasswordCorrect = await postCheckPassword(submittedPassword)
   if (!isPasswordCorrect) {

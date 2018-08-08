@@ -4,33 +4,30 @@ import swal from 'sweetalert'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { observer } from 'mobx-react'
 
-import { networkStore } from '../stores'
-import NetworkStore from '../stores/networkStore'
+import { networkStore } from '../../stores'
+import NetworkStore from '../../stores/networkStore'
 
-export default function enforceSynced(fnToProtect) {
-  return async function enforceSyncedInner(...args) {
-    if (!networkStore.isSynced) {
-      const canContinue = await swal({
-        text: 'Must be fully synced to perform this operation!',
-        icon: 'info',
-        content: getModalContent(),
-        className: 'enfore-synced-modal',
-        buttons: false,
-      })
-      if (!canContinue) {
-        return
-      }
-    }
-    fnToProtect(...args)
+const enforceSyncedModal = () => {
+  if (networkStore.isSynced) {
+    return true
   }
+  return swal({
+    text: 'Must be fully synced to perform this operation!',
+    icon: 'info',
+    content: getModalContent(),
+    className: 'enfore-synced-modal',
+    buttons: false,
+  })
 }
+
+export default enforceSyncedModal
 
 type Props = {
   networkStore: NetworkStore
 };
 
 @observer
-class ProtectWhenSyncincModal extends React.Component<Props> {
+class ProtectWhenSyncingModal extends React.Component<Props> {
   renderSyncingStatus() {
     const {
       isSynced, connections, isSyncing,
@@ -147,6 +144,6 @@ class ProtectWhenSyncincModal extends React.Component<Props> {
 
 function getModalContent() {
   const wrapper = document.createElement('div')
-  ReactDOM.render(<ProtectWhenSyncincModal networkStore={networkStore} />, wrapper)
+  ReactDOM.render(<ProtectWhenSyncingModal networkStore={networkStore} />, wrapper)
   return wrapper.firstChild
 }
