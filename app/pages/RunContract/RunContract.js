@@ -6,11 +6,10 @@ import Checkbox from 'rc-checkbox'
 import ActiveContractsStore from '../../stores/activeContractsStore'
 import RunContractSetState from '../../stores/runContractStore'
 import PortfolioStore from '../../stores/portfolioStore'
-import confirmPasswordModal from '../../services/confirmPasswordModal'
-import enforceSynced from '../../services/enforceSynced'
 import db from '../../services/db'
 import { isZenAsset } from '../../utils/zenUtils'
 import Layout from '../../components/Layout'
+import ProtectedButton from '../../components/ProtectedButton'
 import ResetButton from '../../components/ResetButton'
 import AutoSuggestAssets from '../../components/AutoSuggestAssets'
 import AutoSuggestActiveContracts from '../../components/AutoSuggestActiveContracts'
@@ -46,11 +45,7 @@ class RunContract extends Component<Props> {
     runContractStore.command = evt.target.value.trim()
   }
 
-  onRunContractClicked = async () => {
-    const confirmedPassword = await confirmPasswordModal()
-    if (!confirmedPassword) {
-      return
-    }
+  onRunContractClicked = async (confirmedPassword) => {
     const { runContractStore } = this.props
     await runContractStore.run(confirmedPassword)
     if (runContractStore.status !== 'error') {
@@ -215,13 +210,13 @@ class RunContract extends Component<Props> {
             <Flexbox flexGrow={2} />
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
               <ResetButton onClick={this.reset} />
-              <button
+              <ProtectedButton
                 className="button-on-right"
                 disabled={this.isSubmitButtonDisabled()}
-                onClick={enforceSynced(this.onRunContractClicked)}
+                onClick={this.onRunContractClicked}
               >
                 {inprogress ? 'Running' : 'Run'}
-              </button>
+              </ProtectedButton>
             </Flexbox>
           </Flexbox>
         </Flexbox>

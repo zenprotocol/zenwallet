@@ -6,8 +6,6 @@ import { inject, observer } from 'mobx-react'
 import cx from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import enforceSynced from '../../services/enforceSynced'
-import confirmPasswordModal from '../../services/confirmPasswordModal'
 import SendTxStore from '../../stores/sendTxStore'
 import PortfolioStore from '../../stores/portfolioStore'
 import { isValidAddress } from '../../utils/helpers'
@@ -16,6 +14,7 @@ import { isZenAsset } from '../../utils/zenUtils'
 import { ZENP_MAX_DECIMALS, ZENP_MIN_DECIMALS } from '../../constants'
 import Layout from '../../components/Layout'
 import IsValidIcon from '../../components/IsValidIcon'
+import ProtectedButton from '../../components/ProtectedButton'
 import AutoSuggestAssets from '../../components/AutoSuggestAssets'
 import FormResponseMessage from '../../components/FormResponseMessage'
 import AmountInput from '../../components/AmountInput'
@@ -92,11 +91,7 @@ class SendTx extends Component<Props> {
     )
   }
 
-  onSubmitButtonClicked = async () => {
-    const confirmedPassword = await confirmPasswordModal()
-    if (!confirmedPassword) {
-      return
-    }
+  onSubmitButtonClicked = async (confirmedPassword: string) => {
     this.props.sendTxStore.createTransaction(confirmedPassword)
     // $FlowFixMe
     this.AutoSuggestAssets.wrappedInstance.reset()
@@ -194,13 +189,13 @@ class SendTx extends Component<Props> {
             { this.renderErrorResponse() }
             <Flexbox flexGrow={2} />
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-              <button
+              <ProtectedButton
                 className={cx('button-on-right', { loading: inprogress })}
                 disabled={this.isSubmitButtonDisabled}
-                onClick={enforceSynced(this.onSubmitButtonClicked)}
+                onClick={this.onSubmitButtonClicked}
               >
                 {inprogress ? 'Sending' : 'Send'}
-              </button>
+              </ProtectedButton>
             </Flexbox>
           </Flexbox>
         </Flexbox>
