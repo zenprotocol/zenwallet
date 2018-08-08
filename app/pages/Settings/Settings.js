@@ -15,7 +15,7 @@ import Layout from '../../components/Layout'
 
 import wipeBlockchain from './wipeBlockchainUtil'
 import showSeed from './showSeedUtil'
-import newWallet from './newWalletUtil'
+import newWalletUtil from './newWalletUtil'
 import logout from './logoutUtil'
 import switchChain from './switchChain'
 import toggleUserIsOptedIn from './toggleUserIsOptedInUtil'
@@ -190,7 +190,7 @@ class Settings extends Component<Props, State> {
           <p>Wipe your wallet and import or create a new one</p>
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block" onClick={newWallet}>New wallet</button>
+          <button className="btn-block" onClick={newWalletUtil}>New wallet</button>
         </Flexbox>
       </Flexbox>
     )
