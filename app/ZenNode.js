@@ -191,10 +191,13 @@ function isInstalledWithInstaller() {
 }
 
 export function getInitialIsMining() {
+  if (initialNetIsMainnet()) {
+    return false
+  }
   return !!(process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value())
 }
 
-export function getInitialNet() {
+function getInitialNet() {
   if (process.env.ZEN_LOCAL_NET) {
     return 'local'
   }
@@ -220,4 +223,8 @@ Last wiped on version: ${lastWipedOnZenNodeVersion === mockNoWipeRecordVersion ?
 ********** WIPE DUE TO ZEN NODE VERSION NEEDED? **********
 `)
   return isWipeNeeded
+}
+
+function initialNetIsMainnet() {
+  return getInitialNet() === ''
 }
