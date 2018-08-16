@@ -10,7 +10,7 @@ import db from '../services/db'
 class RunContractStore {
   @observable address = ''
   @observable amountDisplay = ''
-  @observable returnAddress = false
+  @observable returnAddress = true
   @observable command = ''
   @observable messageBody = ''
   @observable status = ''
