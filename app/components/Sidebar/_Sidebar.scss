@@ -16,6 +16,9 @@ ul { list-style: none; }
     &.with-bottom-bar {
       bottom: 35px;
     }
+    &.with-bottom-bar-and-offline {
+      bottom: 70px;
+    }
   }
 }
 
