@@ -23,7 +23,6 @@ class OfflineBottomBar extends Component<Props> {
     return true
   }
   style(width) {
-    console.log(this.isTestnet)
     const bottom = this.isTestnet() ? 29 : 0
     return {
       position: 'fixed',
