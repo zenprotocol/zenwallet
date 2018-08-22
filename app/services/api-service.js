@@ -54,6 +54,26 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
   return response.data
 }
 
+export async function postRawTransaction(tx: Transaction & Password): Promise<string> {
+  const {
+    password, to, asset, amount,
+  } = tx
+  const data = {
+    outputs: [{
+      asset,
+      address: to,
+      amount,
+    }],
+    password,
+  }
+
+  const response = await axios.post(`${getServerAddress()}/wallet/createrawtransaction`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  return response.data
+}
+
 type DeployContractPayload = { code: string, numberOfBlocks: number } & Password;
 type NewContract = { address: Address, contractId: string };
 

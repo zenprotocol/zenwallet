@@ -14,3 +14,25 @@
   margin-right: 22px;
   position: relative;
 }
+
+.offline-container {
+  width: 100%;
+  input#public-address { width: 100%; height: 20px; }
+}
+.address-div {
+  padding: 23px 34px 41px 34px;
+  background: #1b1c1d;
+  border-bottom: 1px solid #303841;
+
+  h3 {
+    margin-bottom: 15px;
+  }
+
+  .offline-button {
+    button.copy-button {
+      padding: 36px 100px;
+    }
+  }
+
+  .copied-to-clipboard-message { color: $light-blue; }
+}

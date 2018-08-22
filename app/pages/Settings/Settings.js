@@ -4,6 +4,7 @@ import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import Switch from 'react-switch'
 import Checkbox from 'rc-checkbox'
+import { Online } from 'react-detect-offline'
 
 import { MAINNET } from '../../constants'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
@@ -312,7 +313,7 @@ class Settings extends Component<Props, State> {
         </Flexbox>
         {this.renderPassword()}
         {this.renderAutoLogout()}
-        {this.renderMining()}
+        <Online>{this.renderMining()}</Online>
         {this.renderErrorReporting()}
         {this.renderChain()}
         {this.renderShowSeed()}
