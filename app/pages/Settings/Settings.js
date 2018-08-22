@@ -314,7 +314,7 @@ class Settings extends Component<Props, State> {
         {this.renderPassword()}
         {this.renderAutoLogout()}
         <Online>{this.renderMining()}</Online>
-        {this.renderErrorReporting()}
+        <Online>{this.renderErrorReporting()}</Online>
         {this.renderChain()}
         {this.renderShowSeed()}
         {this.renderWipe()}

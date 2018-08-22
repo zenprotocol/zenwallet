@@ -21,6 +21,7 @@ import AutoSuggestAssets from '../../components/AutoSuggestAssets'
 import FormResponseMessage from '../../components/FormResponseMessage'
 import AmountInput from '../../components/AmountInput'
 import PasteButton from '../../components/PasteButton'
+import ResetButton from '../../components/ResetButton'
 import Copy from '../../components/Copy'
 
 type Props = {
@@ -44,6 +45,11 @@ class SendTx extends Component<Props, State> {
 
   onToChanged = (evt: SyntheticEvent<HTMLInputElement>) => {
     this.props.sendTxStore.to = evt.currentTarget.value.trim()
+    this.state.isOfflineSent = false
+  }
+
+  onReset = () => {
+    this.setState({ isOfflineSent: false })
   }
 
   onPasteClicked = (clipboardContents: string) => {
@@ -102,7 +108,6 @@ class SendTx extends Component<Props, State> {
   }
 
   renderRawTransactionBox(response) {
-    console.log(this.state.isOfflineSent)
     return (
       this.state.isOfflineSent &&
       <Offline>
@@ -113,12 +118,14 @@ class SendTx extends Component<Props, State> {
               <Flexbox flexDirection="row" className="offline-button form-row">
                 <Copy.Input className="full-width input-container" />
                 <Copy.Button className="button-on-right" />
+                <ResetButton onClick={this.onReset} className="button-on-right" />
               </Flexbox>
               <Copy.ActiveMsg>
                 <Flexbox>
                   <div className="bright-blue copied-to-clipboard-message">Raw transaction copied to clipboard</div>
                 </Flexbox>
               </Copy.ActiveMsg>
+
             </Copy>
           </div>
         </Flexbox>
@@ -234,7 +241,7 @@ class SendTx extends Component<Props, State> {
             { this.renderRawTransactionBox(this.props.sendTxStore.offlineResponse) }
           </Flexbox>
           <Flexbox flexDirection="row">
-            { this.renderSuccessResponse() }
+            <Online>{ this.renderSuccessResponse() }</Online>
             { this.renderErrorResponse() }
             <Flexbox flexGrow={2} />
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
@@ -248,13 +255,14 @@ class SendTx extends Component<Props, State> {
                 </ProtectedButton>
               </Online>
               <Offline>
+                {!this.state.isOfflineSent &&
                 <OfflineButton
                   className={cx('button-on-right', { loading: inprogress })}
                   disabled={this.isSubmitButtonDisabled}
                   onClick={this.onSubmitOfflineButtonClicked}
                 >
                   {inprogress ? 'Generating' : 'Generate Raw Transaction'}
-                </OfflineButton>
+                </OfflineButton>}
               </Offline>
             </Flexbox>
           </Flexbox>
