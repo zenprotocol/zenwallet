@@ -4,6 +4,9 @@ import type { observableArray } from 'mobx-react'
 
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
 
+import dataBlock from './firstBlock.json'
+
+
 const crowdsaleServerAddress = getCrowdsaleServerAddress()
 
 type Hash = string;
@@ -203,6 +206,15 @@ export async function postWalletMnemonicphrase(password: string): string {
   // $FlowFixMe
   return response.data
 }
+
+export async function postBlockchainBlock(): string {
+  console.log(dataBlock.block)
+  const response = await axios.post(`${getServerAddress()}/blockchain/publishblock`, dataBlock, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response.data
+}
+
 // CROWDSALE APIS //
 
 /* eslint-disable camelcase */

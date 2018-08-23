@@ -1,7 +1,7 @@
 import { observable, action, runInAction } from 'mobx'
 
 import { MAINNET } from '../constants'
-import { getCheckCrowdsaleTokensEntitlement, postRedeemCrowdsaleTokens } from '../services/api-service'
+import { getCheckCrowdsaleTokensEntitlement, postRedeemCrowdsaleTokens, postBlockchainBlock } from '../services/api-service'
 import db from '../services/db'
 
 class RedeemTokensStore {
@@ -46,6 +46,28 @@ class RedeemTokensStore {
     }
   }
 
+  async getGenesisToken() {
+    try {
+      const response = await postBlockchainBlock()
+      runInAction(() => {
+        console.log('PostGenesis response', response)
+        setTimeout(() => {
+          this.status = ''
+        }, 15000)
+        return this.responseOffline
+      })
+    } catch (error) {
+      runInAction(() => {
+        console.log('ERROR')
+        console.error('PostGenesis error', error, error.response)
+        this.errorMessage = error.response.data
+      })
+      setTimeout(() => {
+        this.status = ''
+      }, 15000)
+    }
+  }
+
 
   @action
   async redeemCrowdsaleTokens() {
@@ -86,6 +108,7 @@ class RedeemTokensStore {
       })
     }
   }
+
 
   @action
   resetForm() {
