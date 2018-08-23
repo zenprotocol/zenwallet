@@ -125,7 +125,6 @@ class SendTx extends Component<Props, State> {
                   <div className="bright-blue copied-to-clipboard-message">Raw transaction copied to clipboard</div>
                 </Flexbox>
               </Copy.ActiveMsg>
-
             </Copy>
           </div>
         </Flexbox>

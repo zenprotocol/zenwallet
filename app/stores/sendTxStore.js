@@ -57,7 +57,7 @@ class SendTxStore {
       }
       this.responseOffline = await postRawTransaction(data)
       runInAction(() => {
-        console.log('createTransaction response', this.responseOffline)
+        console.log('createRawTransaction response', this.responseOffline)
         this.resetForm()
         this.status = 'success'
         setTimeout(() => {

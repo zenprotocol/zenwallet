@@ -1,33 +1,23 @@
 // @flow
 
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-import NetworkStore from '../stores/networkStore'
-import { MAINNET } from '../constants'
 
 type Props = {
-  networkStore: NetworkStore,
   width?: number
 };
 
-@inject('networkStore')
+
 @observer
-class OfflineBottomBar extends Component<Props> {
-  isTestnet() {
-    const { networkStore } = this.props
-    if (networkStore.chain === MAINNET) {
-      return false
-    }
-    return true
-  }
+class OfflineTopBar extends Component<Props> {
   style(width) {
-    const bottom = this.isTestnet() ? 29 : 0
+    // const bottom = this.isTestnet() ? 29 : 0
     return {
       position: 'fixed',
-      left: 0,
-      bottom,
+      right: '38%',
+      top: 0,
       width: width || '100%',
       background: '#fd3a3a',
       textAlign: 'center',
@@ -48,4 +38,4 @@ class OfflineBottomBar extends Component<Props> {
   }
 }
 
-export default OfflineBottomBar
+export default OfflineTopBar

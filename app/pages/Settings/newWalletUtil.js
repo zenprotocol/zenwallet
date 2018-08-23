@@ -12,7 +12,7 @@ import { getShowSeedNode } from './showSeedUtil'
 
 const BACKUP_SEED_USER_RESPONSE = 'backupSeed'
 
-const newWalletUtil = async () => {
+const newWallet = async () => {
   const usersChoice = await swal({
     title: 'Warning',
     icon: 'warning',
@@ -106,4 +106,4 @@ function getSecurityRiskWarningNode() {
   return wrapper.firstChild
 }
 
-export default newWalletUtil
+export default newWallet

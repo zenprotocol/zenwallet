@@ -4,19 +4,20 @@ import Flexbox from 'flexbox-react'
 import cx from 'classnames'
 import Switch from 'react-switch'
 import Checkbox from 'rc-checkbox'
-import { Online } from 'react-detect-offline'
+import { Online, Offline } from 'react-detect-offline'
 
 import { MAINNET } from '../../constants'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 import ErrorReportingStore from '../../stores/errorReportingStore'
 import NetworkStore from '../../stores/networkStore'
+import { RedeemTokensStore } from '../../stores/redeemTokensStore'
 import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../../components/ToggleVisibilityIcon'
 import Layout from '../../components/Layout'
 
 import wipeBlockchain from './wipeBlockchainUtil'
 import showSeed from './showSeedUtil'
-import newWalletUtil from './newWalletUtil'
+import newWallet from './newWalletUtil'
 import logout from './logoutUtil'
 import switchChain from './switchChain'
 import toggleUserIsOptedIn from './toggleUserIsOptedInUtil'
@@ -25,7 +26,8 @@ import './Settings.scss'
 type Props = {
   secretPhraseStore: SecretPhraseStore,
   errorReportingStore: ErrorReportingStore,
-  networkStore: NetworkStore
+  networkStore: NetworkStore,
+  redeemTokensStore: RedeemTokensStore
 };
 
 type State = {
@@ -36,7 +38,7 @@ type State = {
   newPasswordConfirmation: string
 };
 
-@inject('secretPhraseStore', 'errorReportingStore', 'networkStore')
+@inject('secretPhraseStore', 'errorReportingStore', 'networkStore', 'redeemTokensStore')
 @observer
 class Settings extends Component<Props, State> {
   state = {
@@ -69,6 +71,21 @@ class Settings extends Component<Props, State> {
   }
   onAutoLogoutMinutesChanged = (evt) => {
     this.props.secretPhraseStore.setAutoLogoutMinutes(evt.target.value)
+  }
+
+  onBlockZero = () => {
+    const { networkStore } = this.props
+    if (networkStore.blocks === 0) {
+      return true
+    }
+    return false
+  }
+  isTestnet() {
+    const { networkStore } = this.props
+    if (networkStore.chain === MAINNET) {
+      return false
+    }
+    return true
   }
 
   renderPassword() {
@@ -191,7 +208,7 @@ class Settings extends Component<Props, State> {
           <p>Wipe your wallet and import or create a new one</p>
         </Flexbox>
         <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block" onClick={newWalletUtil}>New wallet</button>
+          <button className="btn-block" onClick={newWallet}>New wallet</button>
         </Flexbox>
       </Flexbox>
     )
@@ -305,6 +322,26 @@ class Settings extends Component<Props, State> {
       </Flexbox>
     )
   }
+  //
+  renderGetGenesisToken() {
+    return (
+      <div>
+        { this.onBlockZero() && !this.isTestnet() &&
+        <Flexbox className="row">
+          <Flexbox flexDirection="column" className="description">
+            <h2 className="description-title">Import Genesis Block</h2>
+            <p>
+              In order to access tokens you purchased in the
+              crowdsale you must import the Genesis Block.
+            </p>
+          </Flexbox>
+          <Flexbox flexDirection="column" className="actions">
+            <button className="btn-block" onClick={() => this.props.redeemTokensStore.getGenesisToken()}>Import Genesis Block</button>
+          </Flexbox>
+        </Flexbox>}
+      </div>
+    )
+  }
   render() {
     return (
       <Layout className="settings-page">
@@ -313,12 +350,14 @@ class Settings extends Component<Props, State> {
         </Flexbox>
         {this.renderPassword()}
         {this.renderAutoLogout()}
+        <Offline>{this.renderGetGenesisToken()}</Offline>
         <Online>{this.renderMining()}</Online>
         <Online>{this.renderErrorReporting()}</Online>
         {this.renderChain()}
         {this.renderShowSeed()}
         {this.renderWipe()}
         {this.renderLogout()}
+
         {/* this.renderNewWallet() */}
         {/* this.renderResyncWallet() */}
       </Layout>

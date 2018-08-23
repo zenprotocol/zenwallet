@@ -7,6 +7,7 @@ import swal from 'sweetalert'
 import Highlight from 'react-highlight'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import cx from 'classnames'
+import { Online } from 'react-detect-offline'
 
 import ActiveContractsStore from '../../stores/activeContractsStore'
 import PortfolioStore from '../../stores/portfolioStore'
@@ -129,7 +130,8 @@ class SavedContracts extends Component<Props, State> {
             >
               <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
             </a>
-            {
+            <Online>
+              {
             savedContract.isActive ?
               (
                 <Link title="Run Contract" className="button small play margin-right play-upload-button" to={routes.RUN_CONTRACT} onClick={() => this.props.runContractStore.updateAddress(savedContract.address)}>
@@ -140,7 +142,8 @@ class SavedContracts extends Component<Props, State> {
                   <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
                 </Link>
               )
-          }
+            }
+            </Online>
             {
               <a
                 className="button small alert"

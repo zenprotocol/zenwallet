@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider } from 'mobx-react'
 import MobxDevTools from 'mobx-react-devtools'
 import ErrorBoundary from 'react-error-boundary'
+import { Online } from 'react-detect-offline'
 
 import ErrorScreen from './pages/ErrorScreen'
 import AppUpdater from './components/AppUpdater'
@@ -20,7 +21,7 @@ export default class App extends React.Component {
         <ErrorBoundary FallbackComponent={ErrorScreen}>
           <React.Fragment>
             <React.Fragment>
-              <AppUpdater />
+              <Online><AppUpdater /></Online>
               <WipeModal />
               <Idle />
               <div className="app-wrapper">

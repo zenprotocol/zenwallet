@@ -7,7 +7,6 @@ import cx from 'classnames'
 import { Online, Offline } from 'react-detect-offline'
 
 import NonMainNetBottomBar from '../../components/NonMainNetBottomBar'
-import OfflineBottomBar from '../../components/OfflineBottomBar'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../constants/versions'
 import { LOCALNET, MAINNET } from '../../constants'
 import { LOGO_SRC } from '../../constants/imgSources'
@@ -177,9 +176,7 @@ class Sidebar extends Component<Props> {
             </div>
           </Online>
           <Offline>
-            <div className={this.bottomDataClassNameOffline}>
-              { this.renderConnecting() }
-            </div>
+            <div className={this.bottomDataClassNameOffline} />
           </Offline>
         </div>
       )
@@ -241,7 +238,6 @@ class Sidebar extends Component<Props> {
         <SidebarMenu />
         {this.renderNetworkStatus()}
         <NonMainNetBottomBar width={SIDEBAR_WIDTH} />
-        <Offline><OfflineBottomBar width={SIDEBAR_WIDTH} /></Offline>
       </nav>
     )
   }
