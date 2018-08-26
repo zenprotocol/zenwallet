@@ -208,7 +208,6 @@ export async function postWalletMnemonicphrase(password: string): string {
 }
 
 export async function postBlockchainBlock(): string {
-  console.log(dataBlock.block)
   const response = await axios.post(`${getServerAddress()}/blockchain/publishblock`, dataBlock, {
     headers: { 'Content-Type': 'application/json' },
   })
