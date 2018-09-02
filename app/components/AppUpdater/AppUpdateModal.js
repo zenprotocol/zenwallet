@@ -2,11 +2,14 @@
 import React from 'react'
 import swal from 'sweetalert'
 import ReactDOM from 'react-dom'
-
-import ExternalLink from '../ExternalLink'
 import markdownIt from 'markdown-it'
 
-const md = markdownIt({linkify: true})
+import ExternalLink from '../ExternalLink'
+
+const md = markdownIt({
+  linkify: true,
+  html: true,
+})
 
 function getModalNode(url: string, message: string) {
   const wrapper = document.createElement('div')
@@ -15,14 +18,14 @@ function getModalNode(url: string, message: string) {
 }
 
 const appUpdateModal = (url: string, message: string) => swal({
-  title: 'Update',
+  title: 'A new version of the wallet is available!',
   button: false,
   content: getModalNode(url, message),
 })
 
 type Props = {
-    link: string,
-    message:string
+  link: string,
+  message: string
 };
 
 class AppUpdateModal extends React.Component<Props> {
@@ -35,16 +38,16 @@ class AppUpdateModal extends React.Component<Props> {
 
   render() {
     const { link, message } = this.props
-    const msgHTML = { __html: md.render(message)}
+    const html = md.render(message)
+    console.log('html', html)
+    const msgHTML = { __html: md.render(message) }
     return (
-      <div>
-        <p style={{ marginBottom: 25 }}>
-         A new version of the wallet is available!
-        </p>
-	<p>
-	Notes:
-	</p>
-	<div style={{ marginBottom: 25}} dangerouslySetInnerHTML= { msgHTML } />
+      <div className="update-message">
+        <div className="align-left">
+          <h2>Release Notes</h2>
+          <br />
+          <div style={{ marginBottom: 25}} dangerouslySetInnerHTML={ msgHTML } />
+        </div>
         <button className="secondary" onClick={this.onDismiss}>Close</button>
         <button className="button-on-right" onClick={this.onDownload}>
           <ExternalLink link={link} style={{ color: 'white', textDecoration: 'none' }}>Download</ExternalLink>

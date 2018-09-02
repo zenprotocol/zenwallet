@@ -28,6 +28,7 @@
  @import "components/Footer/Footer";
  @import "components/Sidebar/Sidebar";
  @import "components/FormResponseMessage/FormResponseMessage";
+ @import "components/AppUpdater/AppUpdater";
  //
  @import "pages/ErrorScreen/ErrorScreen";
  @import "pages/Portfolio/Portfolio";
@@ -48,7 +49,7 @@
  @import "onBoardingPages/SecretPhraseQuiz/SecretPhraseQuiz";
  @import "onBoardingPages/SetPassword/SetPassword";
  @import "onBoardingPages/TermsOfService/TermsOfService";
- 
+
  #root { height: 100%; }
 
 .app-wrapper {
