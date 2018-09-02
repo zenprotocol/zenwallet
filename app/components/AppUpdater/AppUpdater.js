@@ -6,12 +6,12 @@ import appUpdateModal from './AppUpdateModal'
 
 const POLL_INTERVAL = 1000 * 5 * 60
 const pollForUpdates = async () => {
-  const updateLink = await checkForUpdates()
-  if (!updateLink) {
+  const updateContent = await checkForUpdates()
+  if (!updateContent) {
     setTimeout(pollForUpdates, POLL_INTERVAL)
     return
   }
-  await appUpdateModal(updateLink)
+  await appUpdateModal(updateContent.url, updateContent.message)
 }
 
 class AppUpdater extends React.Component<{}> {
