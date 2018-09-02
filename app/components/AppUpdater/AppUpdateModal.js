@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/no-danger */
 import React from 'react'
 import swal from 'sweetalert'
 import ReactDOM from 'react-dom'
@@ -38,15 +39,13 @@ class AppUpdateModal extends React.Component<Props> {
 
   render() {
     const { link, message } = this.props
-    const html = md.render(message)
-    console.log('html', html)
     const msgHTML = { __html: md.render(message) }
     return (
       <div className="update-message">
         <div className="align-left">
           <h2>Release Notes</h2>
           <br />
-          <div style={{ marginBottom: 25}} dangerouslySetInnerHTML={ msgHTML } />
+          <div style={{ marginBottom: 25 }} dangerouslySetInnerHTML={msgHTML} />
         </div>
         <button className="secondary" onClick={this.onDismiss}>Close</button>
         <button className="button-on-right" onClick={this.onDownload}>
