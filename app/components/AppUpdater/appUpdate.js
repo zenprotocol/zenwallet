@@ -18,18 +18,21 @@ export const checkForUpdates = async (platform: string = process.platform): Prom
     if (compare(version, tagVersion) !== -1) {
       return
     }
-    var updateUrl
+    let updateUrl
     switch (platform) {
       case OSX:
         updateUrl = assetDownloadUrls.find(url => url.endsWith('.dmg'))
+        break
       case WINDOWS:
         updateUrl = assetDownloadUrls.find(url => url.endsWith('.exe'))
+        break
       case LINUX:
         updateUrl = assetDownloadUrls.find(url => url.endsWith('.tar.gz'))
+        break
       default:
         updateUrl = LATEST_RELEASE_URL
     }
-    return { 'url':updateUrl, 'message':updateMessage }
+    return { url: updateUrl, message: updateMessage }
   } catch (error) {
     console.error(error)
   }
