@@ -1,7 +1,8 @@
 import { observable, action, runInAction } from 'mobx'
 
-import { postTransaction } from '../services/api-service'
+import { postTransaction, postRawTransaction } from '../services/api-service'
 import { zenToKalapas, isZenAsset } from '../utils/zenUtils'
+
 
 class SendTxStore {
   @observable asset = ''
@@ -10,6 +11,7 @@ class SendTxStore {
   @observable status = ''
   @observable inprogress = false
   @observable errorMessage = ''
+  @observable responseOffline = ''
 
   @action
   async createTransaction(password) {
@@ -35,6 +37,39 @@ class SendTxStore {
       runInAction(() => {
         console.error('createTransaction error', error, error.response)
         this.errorMessage = error.response.data
+      })
+      this.inprogress = false
+      this.status = 'error'
+      setTimeout(() => {
+        this.status = ''
+      }, 15000)
+    }
+  }
+  @action
+  async createRawTransaction(password) {
+    try {
+      this.inprogress = true
+      const data = {
+        amount: isZenAsset(this.asset) ? zenToKalapas(this.amount) : this.amount,
+        asset: this.asset,
+        to: this.to,
+        password,
+      }
+      this.responseOffline = await postRawTransaction(data)
+      runInAction(() => {
+        console.log('createRawTransaction response', this.responseOffline)
+        this.resetForm()
+        this.status = 'success'
+        setTimeout(() => {
+          this.status = ''
+        }, 15000)
+        return this.responseOffline
+      })
+    } catch (error) {
+      runInAction(() => {
+        console.log('ERROR')
+        console.error('createTransaction error', error, error.responseOffline)
+        this.errorMessage = error.responseOffline.data
       })
       this.inprogress = false
       this.status = 'error'
@@ -73,6 +108,9 @@ class SendTxStore {
 
   get amount() {
     return Number(this.amountDisplay)
+  }
+  get offlineResponse() {
+    return this.responseOffline
   }
 }
 
