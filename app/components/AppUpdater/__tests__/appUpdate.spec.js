@@ -36,7 +36,7 @@ describe('checkForUpdates', () => {
     })
   })
 
-  describe('when api returns assets with greater version', () => {
+  describe.skip('when api returns assets with greater version', () => {
     beforeEach(() => {
       const testPayload = {
         data: {
