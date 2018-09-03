@@ -5,6 +5,7 @@ import Flexbox from 'flexbox-react'
 import { inject, observer } from 'mobx-react'
 import cx from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { Offline, Online } from 'react-detect-offline'
 
 import SendTxStore from '../../stores/sendTxStore'
 import PortfolioStore from '../../stores/portfolioStore'
@@ -15,25 +16,40 @@ import { ZENP_MAX_DECIMALS, ZENP_MIN_DECIMALS } from '../../constants'
 import Layout from '../../components/Layout'
 import IsValidIcon from '../../components/IsValidIcon'
 import ProtectedButton from '../../components/ProtectedButton'
+import OfflineButton from '../../components/ProtectedButton/OfflineButton'
 import AutoSuggestAssets from '../../components/AutoSuggestAssets'
 import FormResponseMessage from '../../components/FormResponseMessage'
 import AmountInput from '../../components/AmountInput'
 import PasteButton from '../../components/PasteButton'
+import ResetButton from '../../components/ResetButton'
+import Copy from '../../components/Copy'
 
 type Props = {
   sendTxStore: SendTxStore,
   portfolioStore: PortfolioStore
 };
 
+type State = {
+  isOfflineSent: boolean
+};
+
 @inject('portfolioStore', 'sendTxStore')
 @observer
-class SendTx extends Component<Props> {
+class SendTx extends Component<Props, State> {
+  state = {
+    isOfflineSent: false,
+  }
   componentDidMount() {
     this.props.portfolioStore.fetch()
   }
 
   onToChanged = (evt: SyntheticEvent<HTMLInputElement>) => {
     this.props.sendTxStore.to = evt.currentTarget.value.trim()
+    this.state.isOfflineSent = false
+  }
+
+  onReset = () => {
+    this.setState({ isOfflineSent: false })
   }
 
   onPasteClicked = (clipboardContents: string) => {
@@ -91,9 +107,44 @@ class SendTx extends Component<Props> {
     )
   }
 
+  renderRawTransactionBox(response) {
+    return (
+      this.state.isOfflineSent &&
+      <Offline>
+        <Flexbox flexDirection="column" className="offline-container">
+          <div className="input-container">
+            <Copy valueToCopy={response}>
+              <Copy.Label>Raw Transaction: </Copy.Label>
+              <Flexbox flexDirection="row" className="offline-button form-row">
+                <Copy.Input className="full-width input-container" />
+                <Copy.Button className="button-on-right" />
+                <ResetButton onClick={this.onReset} className="button-on-right" />
+              </Flexbox>
+              <Copy.ActiveMsg>
+                <Flexbox>
+                  <div className="bright-blue copied-to-clipboard-message">Raw transaction copied to clipboard</div>
+                </Flexbox>
+              </Copy.ActiveMsg>
+            </Copy>
+          </div>
+        </Flexbox>
+      </Offline>
+    )
+  }
+
   onSubmitButtonClicked = async (confirmedPassword: string) => {
     this.props.sendTxStore.createTransaction(confirmedPassword)
     // $FlowFixMe
+    this.AutoSuggestAssets.wrappedInstance.reset()
+  }
+
+  onSubmitOfflineButtonClicked = async (confirmedPassword: string) => {
+    this.state.isOfflineSent = true
+    this.props.sendTxStore.createRawTransaction(confirmedPassword)
+      .then(() => this.renderRawTransactionBox(this.props.sendTxStore.offlineResponse))
+      .catch((error) => error)
+    // $FlowFixMe
+
     this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
@@ -129,7 +180,8 @@ class SendTx extends Component<Props> {
         <Flexbox flexDirection="column" className="send-tx-container">
 
           <Flexbox className="page-title">
-            <h1>Send</h1>
+            <Online><h1>Send</h1></Online>
+            <Offline><h1>Send ( Offline Mode )</h1></Offline>
           </Flexbox>
 
           <Flexbox flexDirection="column" className="form-container">
@@ -184,18 +236,33 @@ class SendTx extends Component<Props> {
               />
             </Flexbox>
           </Flexbox>
+          <Flexbox className="middle-nav">
+            { this.renderRawTransactionBox(this.props.sendTxStore.offlineResponse) }
+          </Flexbox>
           <Flexbox flexDirection="row">
-            { this.renderSuccessResponse() }
+            <Online>{ this.renderSuccessResponse() }</Online>
             { this.renderErrorResponse() }
             <Flexbox flexGrow={2} />
             <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-              <ProtectedButton
-                className={cx('button-on-right', { loading: inprogress })}
-                disabled={this.isSubmitButtonDisabled}
-                onClick={this.onSubmitButtonClicked}
-              >
-                {inprogress ? 'Sending' : 'Send'}
-              </ProtectedButton>
+              <Online>
+                <ProtectedButton
+                  className={cx('button-on-right', { loading: inprogress })}
+                  disabled={this.isSubmitButtonDisabled}
+                  onClick={this.onSubmitButtonClicked}
+                >
+                  {inprogress ? 'Sending' : 'Send'}
+                </ProtectedButton>
+              </Online>
+              <Offline>
+                {!this.state.isOfflineSent &&
+                <OfflineButton
+                  className={cx('button-on-right', { loading: inprogress })}
+                  disabled={this.isSubmitButtonDisabled}
+                  onClick={this.onSubmitOfflineButtonClicked}
+                >
+                  {inprogress ? 'Generating' : 'Generate Raw Transaction'}
+                </OfflineButton>}
+              </Offline>
             </Flexbox>
           </Flexbox>
         </Flexbox>

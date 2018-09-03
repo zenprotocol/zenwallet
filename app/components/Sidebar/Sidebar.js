@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import cx from 'classnames'
-
+import { Online, Offline } from 'react-detect-offline'
 
 import NonMainNetBottomBar from '../../components/NonMainNetBottomBar'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../constants/versions'
@@ -33,6 +33,12 @@ class Sidebar extends Component<Props> {
   }
   get bottomDataClassName() {
     return cx('network-data-point bottom', { 'with-bottom-bar': this.isBottomBarPresent })
+  }
+  get bottomDataClassNameOffline() {
+    return cx('network-data-point bottom', {
+      'with-bottom-bar-and-offline': true && this.isBottomBarPresent,
+      'with-bottom-bar': true,
+    })
   }
   formattedBlockchainTime() {
     const { medianTime } = this.props.networkStore
@@ -115,6 +121,28 @@ class Sidebar extends Component<Props> {
     )
   }
 
+  renderNotConnectToANode() {
+    return (
+      <div>
+        <span className="data-name">
+          <FontAwesomeIcon icon={['fas', 'circle']} className="red" />
+        </span>
+        <span className="data-point"> Not Connected to a Node</span>
+      </div>
+    )
+  }
+
+  renderConnecting() {
+    return (
+      <div>
+        <span className="data-name">
+          <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
+        </span>
+        <span className="data-point"> Connecting</span>
+      </div>
+    )
+  }
+
   renderNetworkStatus() {
     const {
       chain, blocks, headers, difficulty, connections, connectedToNode,
@@ -124,12 +152,16 @@ class Sidebar extends Component<Props> {
       return (
         <div className="network-status">
           { this.renderVersions() }
-          <div className={this.bottomDataClassName}>
-            <span className="data-name">
-              <FontAwesomeIcon icon={['fas', 'circle']} className="red" />
-            </span>
-            <span className="data-point"> Not Connected to a Node</span>
-          </div>
+          <Online>
+            <div className={this.bottomDataClassName}>
+              { this.renderNotConnectToANode() }
+            </div>
+          </Online>
+          <Offline>
+            <div className={this.bottomDataClassNameOffline}>
+              { this.renderNotConnectToANode() }
+            </div>
+          </Offline>
         </div>
       )
     }
@@ -138,48 +170,58 @@ class Sidebar extends Component<Props> {
       return (
         <div className="network-status">
           { this.renderVersions() }
-          <div className={this.bottomDataClassName}>
-            <span className="data-name">
-              <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
-            </span>
-            <span className="data-point"> Connecting</span>
-          </div>
+          <Online>
+            <div className={this.bottomDataClassName}>
+              { this.renderConnecting() }
+            </div>
+          </Online>
+          <Offline>
+            <div className={this.bottomDataClassNameOffline} />
+          </Offline>
         </div>
       )
     }
 
     return (
       <div className="network-status">
-        <div className="network-data-point">
-          <span className="data-name">Chain: </span>
-          <span className="data-point">{chain}</span>
-        </div>
-        <div className="network-data-point">
-          <span className="data-name">Blocks: </span>
-          <span className="data-point">{blocks.toLocaleString()}</span>
-        </div>
-        <div className="network-data-point">
-          <span className="data-name">Headers: </span>
-          <span className="data-point">{headers.toLocaleString()}</span>
-        </div>
-        <div className="network-data-point truncate">
-          <span className="data-name">Mining Difficulty: </span>
-          <span className="data-point" title={difficulty}>{difficulty}</span>
-        </div>
-        { this.rednerHashingPower() }
-        <div className="network-data-point">
-          <span className="data-name" title="Median Time Past">MTP: </span>
-          <span className="data-point">{this.formattedBlockchainTime()}</span>
-        </div>
-        <div className="network-data-point">
-          <span className="data-name" title="Connections">Connections: </span>
-          <span className="data-point">{connections}</span>
-        </div>
-        { this.renderVersions() }
-        <div className={this.bottomDataClassName}>
-          { this.renderMiningStatus() }
-          { this.renderSyncingStatus() }
-        </div>
+        <Online>
+          <div className="network-data-point">
+            <span className="data-name">Chain: </span>
+            <span className="data-point">{chain}</span>
+          </div>
+          <div className="network-data-point">
+            <span className="data-name">Blocks: </span>
+            <span className="data-point">{blocks.toLocaleString()}</span>
+          </div>
+          <div className="network-data-point">
+            <span className="data-name">Headers: </span>
+            <span className="data-point">{headers.toLocaleString()}</span>
+          </div>
+          <div className="network-data-point truncate">
+            <span className="data-name">Mining Difficulty: </span>
+            <span className="data-point" title={difficulty}>{difficulty}</span>
+          </div>
+          { this.rednerHashingPower() }
+          <div className="network-data-point">
+            <span className="data-name" title="Median Time Past">MTP: </span>
+            <span className="data-point">{this.formattedBlockchainTime()}</span>
+          </div>
+          <div className="network-data-point">
+            <span className="data-name" title="Connections">Connections: </span>
+            <span className="data-point">{connections}</span>
+          </div>
+          { this.renderVersions() }
+          <div className={this.bottomDataClassName}>
+            { this.renderMiningStatus() }
+            { this.renderSyncingStatus() }
+          </div>
+        </Online>
+        <Offline>
+          <div className="network-data-point">
+            <span className="data-name">You are currently offline, reconnect!</span>
+            { this.renderVersions() }
+          </div>
+        </Offline>
       </div>
     )
   }

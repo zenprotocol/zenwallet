@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { NavLink } from 'react-router-dom'
+import { Online } from 'react-detect-offline'
 
 import routes from '../../constants/routes'
 import RedeemTokenState from '../../stores/redeemTokensStore'
@@ -21,10 +22,10 @@ class SidebarMenu extends Component<Props> {
           <li> <NavLink to={routes.SEND_TX} activeClassName="active">Send</NavLink></li>
           <li> <NavLink to={routes.RECEIVE} activeClassName="active">Receive</NavLink></li>
           <li> <NavLink to={routes.TX_HISTORY} activeClassName="active">Transactions</NavLink></li>
-          <li> <NavLink to={routes.ACTIVE_CONTRACTS} activeClassName="active">Active Contracts</NavLink></li>
+          <Online><li> <NavLink to={routes.ACTIVE_CONTRACTS} activeClassName="active">Active Contracts</NavLink></li></Online>
           <li> <NavLink to={routes.SAVED_CONTRACTS} activeClassName="active">Saved Contracts</NavLink></li>
-          {redeemTokensStore.isFaucetActive && <li> <NavLink to={routes.FAUCET} activeClassName="active">Access Software</NavLink></li>}
-          <li> <NavLink to={routes.BLOCKCHAIN_LOGS} activeClassName="active">Blockchain Logs</NavLink></li>
+          <Online>{redeemTokensStore.isFaucetActive && <li> <NavLink to={routes.FAUCET} activeClassName="active">Access Software</NavLink></li>}</Online>
+          <Online><li> <NavLink to={routes.BLOCKCHAIN_LOGS} activeClassName="active">Blockchain Logs</NavLink></li></Online>
           <li> <NavLink to={routes.SETTINGS} activeClassName="active">Settings</NavLink></li>
         </ul>
       </div>
