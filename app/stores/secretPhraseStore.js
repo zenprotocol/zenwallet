@@ -48,10 +48,10 @@ class secretPhraseStore {
     try {
       const response = await postImportWallet(this.mnemonicPhrase, password)
       runInAction(() => {
-        console.log('importWallet response', response)
+        console.log('importWallet response')
         this.isImporting = false
         if (response.status === 200) {
-          console.log('importWallet set password', password)
+          console.log('importWallet set password')
           this.isLoggedIn = true
           this.portfolioStore.initPolling()
           this.networkStore.initPolling()
