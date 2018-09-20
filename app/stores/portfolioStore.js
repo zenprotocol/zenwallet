@@ -50,9 +50,66 @@ class PortfolioStore {
 
     getAssetName(asset) { // eslint-disable-line class-methods-use-this
       if (asset === ZEN_ASSET_HASH) { return ZEN_ASSET_NAME }
-      const contractFromDb = savedContracts.find(contract => contract.contractId === asset)
+      const contractId = asset.substring(0, 64 + 8)
+      const contractFromDb = savedContracts.find(contract => contract.contractId === contractId)
       if (contractFromDb && contractFromDb.name) {
-        return contractFromDb.name
+        // eslint-disable-next-line prefer-destructuring
+        const name = contractFromDb.name
+
+        const subType = asset.substring(64 + 8)
+
+        if (subType) {
+          const buffer = Buffer.from(subType, 'hex')
+
+          // is a number candidate?
+          if (buffer[0] === 0) {
+            let isNumber = true
+
+            // eslint-disable-next-line no-plusplus
+            for (let i = 5; i < 32; i++) {
+              if (buffer[i] !== 0) {
+                isNumber = false
+                break
+              }
+            }
+
+            if (isNumber) {
+              const number = buffer.readInt32BE(1)
+
+              return `${name} - #${number}`
+            }
+          } else {
+            let isZero = false
+            let isStringCandidate = true
+            let stringLength = 0
+
+            // Check if buffer is padded with zeros up to the end
+            // eslint-disable-next-line no-plusplus
+            for (let i = 0; i < 32; i++) {
+              if (!isZero && buffer[i] === 0) {
+                isZero = true
+                stringLength = i
+              } else if (isZero && buffer[i] !== 0) {
+                isStringCandidate = false
+                break
+              } else if (!isZero) {
+                stringLength = i
+              }
+            }
+
+            if (isStringCandidate && stringLength > 0) {
+              const subTypeName = buffer.slice(0, stringLength)
+
+              // eslint-disable-next-line no-control-regex
+              if (/^[\x00-\x7F]*$/.test(subTypeName)) {
+                return `${name} - ${subTypeName}`
+              }
+            }
+          }
+
+          return ''
+        }
+        return name
       }
       return ''
     }

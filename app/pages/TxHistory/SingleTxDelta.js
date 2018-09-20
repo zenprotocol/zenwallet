@@ -4,14 +4,16 @@ import React from 'react'
 import { inject, observer } from 'mobx-react'
 import cx from 'classnames'
 
-import { getAssetName } from '../../utils/helpers'
+
 import { normalizeTokens, isZenAsset } from '../../utils/zenUtils'
 import CopyableTableCell from '../../components/CopyableTableCell'
 import ExternalLink from '../../components/ExternalLink'
 import NetworkStore from '../../stores/networkStore'
+import PortfolioStore from '../../stores/portfolioStore'
 
 type Props = {
   networkStore: NetworkStore,
+  portfolioStore: PortfolioStore,
   tx: {
     confirmations: number,
     amount: number,
@@ -19,7 +21,7 @@ type Props = {
   }
 };
 
-@inject('networkStore')
+@inject('networkStore', 'portfolioStore')
 @observer
 class SingleTxDelta extends React.Component<Props> {
   get displayAmount() {
@@ -28,7 +30,7 @@ class SingleTxDelta extends React.Component<Props> {
   }
   get assetName() {
     const { asset } = this.props.tx
-    return getAssetName(asset)
+    return this.props.portfolioStore.getAssetName(asset)
   }
   get blockNumber() {
     const { networkStore, tx } = this.props
