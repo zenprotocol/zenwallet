@@ -145,8 +145,7 @@ class SendTx extends Component<Props, State> {
   }
 
   explorerLink(response) {
-    console.log(`https://www.zp.io/pushTx/${response}`)
-    return `https://www.zp.io/pushTx/${response}`
+    return `https://zp.io/broadcastTx/${response}`
   }
 
   onSubmitButtonClicked = async (confirmedPassword: string) => {
