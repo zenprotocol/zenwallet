@@ -6,6 +6,7 @@ import { inject, observer } from 'mobx-react'
 import cx from 'classnames'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { Offline, Online } from 'react-detect-offline'
+import QRCode from 'qrcode.react'
 
 import SendTxStore from '../../stores/sendTxStore'
 import PortfolioStore from '../../stores/portfolioStore'
@@ -15,8 +16,8 @@ import { isZenAsset } from '../../utils/zenUtils'
 import { ZENP_MAX_DECIMALS, ZENP_MIN_DECIMALS } from '../../constants'
 import Layout from '../../components/Layout'
 import IsValidIcon from '../../components/IsValidIcon'
-import ProtectedButton from '../../components/ProtectedButton'
-import OfflineButton from '../../components/ProtectedButton/OfflineButton'
+import ProtectedButton from '../../components/Buttons'
+import OfflineButton from '../../components/Buttons/OfflineButton'
 import AutoSuggestAssets from '../../components/AutoSuggestAssets'
 import FormResponseMessage from '../../components/FormResponseMessage'
 import AmountInput from '../../components/AmountInput'
@@ -50,6 +51,13 @@ class SendTx extends Component<Props, State> {
 
   onReset = () => {
     this.setState({ isOfflineSent: false })
+    this.AutoSuggestAssets.wrappedInstance.reset()
+  }
+
+  onWrappedInstanceReset = () => {
+    const { sendTxStore } = this.props
+    sendTxStore.resetForm()
+    this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
   onPasteClicked = (clipboardContents: string) => {
@@ -127,9 +135,17 @@ class SendTx extends Component<Props, State> {
               </Copy.ActiveMsg>
             </Copy>
           </div>
+          <div className="input-container">
+            <h2 className="qrcode-text">Scan this to publish the transaction via the block explorer</h2>
+            <QRCode className="qrcode" value={this.explorerLink(response)} size={256} level="H" />
+          </div>
         </Flexbox>
       </Offline>
     )
+  }
+
+  explorerLink(response) {
+    return `https://zp.io/broadcastTx/${response}`
   }
 
   onSubmitButtonClicked = async (confirmedPassword: string) => {
@@ -143,9 +159,6 @@ class SendTx extends Component<Props, State> {
     this.props.sendTxStore.createRawTransaction(confirmedPassword)
       .then(() => this.renderRawTransactionBox(this.props.sendTxStore.offlineResponse))
       .catch((error) => error)
-    // $FlowFixMe
-
-    this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
   get isAmountValid() {
@@ -167,6 +180,7 @@ class SendTx extends Component<Props, State> {
     const { inprogress } = this.props.sendTxStore
     return inprogress || !this.areAllFieldsValid
   }
+
   render() {
     const {
       portfolioStore,
@@ -254,14 +268,15 @@ class SendTx extends Component<Props, State> {
                 </ProtectedButton>
               </Online>
               <Offline>
-                {!this.state.isOfflineSent &&
+                { !this.state.isOfflineSent &&
                 <OfflineButton
                   className={cx('button-on-right', { loading: inprogress })}
                   disabled={this.isSubmitButtonDisabled}
                   onClick={this.onSubmitOfflineButtonClicked}
                 >
                   {inprogress ? 'Generating' : 'Generate Raw Transaction'}
-                </OfflineButton>}
+                </OfflineButton> }
+                { !this.state.isOfflineSent && <ResetButton onClick={this.onWrappedInstanceReset} className="button-on-right" /> }
               </Offline>
             </Flexbox>
           </Flexbox>
