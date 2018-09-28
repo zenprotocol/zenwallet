@@ -1,0 +1,4 @@
+provider: s3
+bucket: zen-update
+endpoint: http://127.0.0.1:9000
+version: 0.9.74

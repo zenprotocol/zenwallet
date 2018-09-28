@@ -3,5 +3,15 @@
     p { padding: 10px 0; }
     h2 { font-size: 18px; padding: 10px 0; font-weight: 500; }
     ul { list-style-type: disc; margin-left: 15px; }
+	}
+	.app-update-modal {
+    button {
+      margin-right: 5px;
+      flex-grow: 1;
+      &.quit-and-install {
+        flex-grow: 2;
+        margin-right: 0;
+      }
+    }
   }
 }

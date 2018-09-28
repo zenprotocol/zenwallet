@@ -10,6 +10,7 @@ import RedeemTokensStore from './redeemTokensStore'
 import SecretPhraseStore from './secretPhraseStore'
 import Store from './blockchainLogsStore'
 import ErrorReportingStore from './errorReportingStore'
+import AutoUpdateStore from './autoUpdateStore'
 
 const errorReportingStore = new ErrorReportingStore()
 errorReportingStore.init()
@@ -26,6 +27,7 @@ const txHistoryStore = new TxHistoryStore()
 const deployContractStore = new DeployContractStore()
 const runContractStore = new RunContractStore(activeContractsStore)
 const blockchainLogsStore = new Store()
+const autoUpdateStore = new AutoUpdateStore()
 
 export default {
   portfolioStore,
@@ -40,4 +42,5 @@ export default {
   secretPhraseStore,
   blockchainLogsStore,
   errorReportingStore,
+  autoUpdateStore,
 }

@@ -12,12 +12,24 @@
  */
 import path from 'path'
 
-import { app, BrowserWindow, dialog } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import { autoUpdater } from 'electron-updater'
+import logger from 'electron-log'
 
 import ZenNode from './ZenNode'
 import db from './services/db'
 import MainProcessErrorReporter from './utils/errorReporting/MainProcessErrorReporter'
 import prereqCheck from './utils/prereqCheck'
+import {
+  APP_UPDATE_AVAILABLE,
+  APP_QUIT_AND_INSTALL,
+  APP_CHECK_FOR_UPDATES,
+  APP_DOWNLOAD_PROGRESS,
+  APP_CHECKING_FOR_UPDATES,
+  APP_UPDATE_DOWNLOADED,
+  APP_UPDATE_NOT_AVAILABLE,
+  APP_UPDATE_ERROR,
+} from './constants/autoUpdate'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
 
@@ -50,6 +62,54 @@ const installExtensions = async () => {
   return Promise
     .all(extensions.map(name => installer.default(installer[name], forceDownload)))
     .catch(console.log)
+}
+
+const setupAutoUpdate = ({ webContents }) => {
+  logger.transports.file.level = 'debug'
+  autoUpdater.logger = logger
+  autoUpdater.autoDownload = false
+
+  autoUpdater.on(APP_CHECK_FOR_UPDATES, () => {
+    webContents.send(APP_CHECKING_FOR_UPDATES)
+  })
+
+  autoUpdater.on(APP_UPDATE_AVAILABLE, (event, info) => {
+    webContents.send(APP_UPDATE_AVAILABLE, event, info)
+    logger.info('update avaiable')
+    logger.info(info)
+  })
+
+  autoUpdater.on(APP_UPDATE_NOT_AVAILABLE, () => {
+    logger.info(APP_UPDATE_NOT_AVAILABLE)
+    webContents.send(APP_UPDATE_NOT_AVAILABLE)
+  })
+
+  autoUpdater.on(APP_UPDATE_ERROR, error => {
+    webContents.send(APP_UPDATE_ERROR, error)
+  })
+
+  autoUpdater.on(APP_UPDATE_DOWNLOADED, (event, info) => {
+    webContents.send(APP_UPDATE_DOWNLOADED, event, info)
+    logger.info(APP_UPDATE_DOWNLOADED)
+  })
+
+  autoUpdater.on(APP_DOWNLOAD_PROGRESS, () => {
+    logger.info(APP_DOWNLOAD_PROGRESS)
+  })
+
+  if (process.env.NODE_ENV === 'development') {
+    autoUpdater.updateConfigPath = path.join(__dirname, '../dev-app-update.yml')
+  }
+
+  autoUpdater.checkForUpdates()
+
+  ipcMain.on(APP_QUIT_AND_INSTALL, () => {
+    autoUpdater.quitAndInstall()
+  })
+
+  ipcMain.on(APP_CHECK_FOR_UPDATES, () => {
+    autoUpdater.checkForUpdates()
+  })
 }
 
 let zenNode
@@ -104,6 +164,8 @@ app.on('ready', async () => {
     console.log('Please close zen-wallet by closing the app window. Now calling app.quit() ...')
     app.quit()
   })
+
+  setupAutoUpdate(mainWindow)
 })
 
 app.on('window-all-closed', () => {

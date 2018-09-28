@@ -5,8 +5,11 @@ import cx from 'classnames'
 import Switch from 'react-switch'
 import Checkbox from 'rc-checkbox'
 import { Online, Offline } from 'react-detect-offline'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { MAINNET } from '../../constants'
+import { APP_CHECKING_FOR_UPDATES } from '../../constants/autoUpdate'
+import AutoUpdateStore from '../../stores/autoUpdateStore'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 import ErrorReportingStore from '../../stores/errorReportingStore'
 import NetworkStore from '../../stores/networkStore'
@@ -27,7 +30,8 @@ type Props = {
   secretPhraseStore: SecretPhraseStore,
   errorReportingStore: ErrorReportingStore,
   networkStore: NetworkStore,
-  redeemTokensStore: RedeemTokensStore
+  redeemTokensStore: RedeemTokensStore,
+  autoUpdateStore: AutoUpdateStore
 };
 
 type State = {
@@ -38,7 +42,7 @@ type State = {
   newPasswordConfirmation: string
 };
 
-@inject('secretPhraseStore', 'errorReportingStore', 'networkStore', 'redeemTokensStore')
+@inject('secretPhraseStore', 'errorReportingStore', 'networkStore', 'redeemTokensStore', 'autoUpdateStore')
 @observer
 class Settings extends Component<Props, State> {
   state = {
@@ -80,12 +84,22 @@ class Settings extends Component<Props, State> {
     }
     return false
   }
+
   isTestnet() {
     const { networkStore } = this.props
     if (networkStore.chain === MAINNET) {
       return false
     }
     return true
+  }
+
+  toggleAutomaticallyCheckForUpdates = (autoUpdate) => {
+    const { autoUpdateStore } = this.props
+    autoUpdateStore.setAutoUpdateEnabled(autoUpdate)
+  }
+
+  checkForUpdates = () => {
+    this.props.autoUpdateStore.checkForUpdates()
   }
 
   renderPassword() {
@@ -290,6 +304,39 @@ class Settings extends Component<Props, State> {
     )
   }
 
+  renderAutoUpdate() {
+    const { autoUpdateEnabled, autoUpdateStatus } = this.props.autoUpdateStore
+    const checkingForUpdates = autoUpdateStatus === APP_CHECKING_FOR_UPDATES
+    return (
+      <Flexbox className="row">
+        <Flexbox flexDirection="column" className="description">
+          <h2 className="description-title">Automatically check for updates</h2>
+        </Flexbox>
+        <Flexbox flexDirection="column" className="actions">
+          <label htmlFor="automatically-download-updates-switch">
+            <Switch
+              className="pull-right"
+              onColor="#2f8be6"
+              offColor="#333333"
+              onChange={this.toggleAutomaticallyCheckForUpdates}
+              checked={autoUpdateEnabled}
+              id="automatically-download-updates-switch"
+              uncheckedIcon={false}
+              checkedIcon={false}
+            />
+          </label>
+          {!autoUpdateEnabled &&
+            <Flexbox flexDirection="column" className="auto-update-wrapper">
+              <button className="btn-block" onClick={this.checkForUpdates}>
+                {checkingForUpdates && <FontAwesomeIcon icon="spinner" spin />}
+                Check for updates
+              </button>
+            </Flexbox>}
+        </Flexbox>
+      </Flexbox>
+    )
+  }
+
   renderChain() {
     const { networkStore } = this.props
     return (
@@ -353,6 +400,7 @@ class Settings extends Component<Props, State> {
         <Offline>{this.renderGetGenesisToken()}</Offline>
         <Online>{this.renderMining()}</Online>
         <Online>{this.renderErrorReporting()}</Online>
+        <Online>{this.renderAutoUpdate()}</Online>
         {this.renderChain()}
         {this.renderShowSeed()}
         {this.renderWipe()}

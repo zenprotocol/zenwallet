@@ -44,4 +44,7 @@
     &:not(.isVisible) {display: none;}
     &.isVisible { opacity: block; }
   }
+  .auto-update-wrapper {
+    margin-top: 10px;
+  }
 }
