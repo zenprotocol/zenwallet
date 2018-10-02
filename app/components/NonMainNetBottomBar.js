@@ -46,7 +46,7 @@ function style(width) {
     left: 0,
     bottom: 0,
     width: width || '100%',
-    background: '#fd3a3a',
+    background: '#f68b3d',
     textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',

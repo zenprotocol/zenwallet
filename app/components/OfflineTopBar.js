@@ -13,13 +13,12 @@ type Props = {
 @observer
 class OfflineTopBar extends Component<Props> {
   style(width) {
-    // const bottom = this.isTestnet() ? 29 : 0
     return {
       position: 'fixed',
       right: '38%',
       top: 0,
       width: width || '100%',
-      background: '#fd3a3a',
+      background: '#f68b3d',
       textAlign: 'center',
       color: 'white',
       fontWeight: 'bold',
