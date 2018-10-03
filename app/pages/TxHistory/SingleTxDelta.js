@@ -10,6 +10,7 @@ import CopyableTableCell from '../../components/CopyableTableCell'
 import ExternalLink from '../../components/ExternalLink'
 import NetworkStore from '../../stores/networkStore'
 import PortfolioStore from '../../stores/portfolioStore'
+import { MAINNET } from '../../constants'
 
 type Props = {
   networkStore: NetworkStore,
@@ -36,6 +37,10 @@ class SingleTxDelta extends React.Component<Props> {
     const { networkStore, tx } = this.props
     return (networkStore.headers - tx.confirmations) + 1
   }
+  get getLink() {
+    const { networkStore } = this.props
+    return networkStore.chain === MAINNET ? '' : 'testnet.'
+  }
   render() {
     const { asset, amount, confirmations } = this.props.tx
     return (
@@ -43,7 +48,7 @@ class SingleTxDelta extends React.Component<Props> {
         <CopyableTableCell string={asset} />
         <td>{this.assetName}</td>
         <td>
-          <ExternalLink link={`https://zp.io/blocks/${this.blockNumber}`}>
+          <ExternalLink link={`https://${this.getLink}zp.io/blocks/${this.blockNumber}`}>
             {this.blockNumber}
           </ExternalLink>
         </td>
