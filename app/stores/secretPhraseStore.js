@@ -94,11 +94,7 @@ class secretPhraseStore {
         this.isLoggedIn = true
         this.portfolioStore.initPolling()
         this.networkStore.initPolling()
-        if (this.redeemTokensStore.shouldRedeemNonMainnetTokens) {
-          history.push(routes.FAUCET)
-        } else {
-          history.push(routes.PORTFOLIO)
-        }
+        history.push(routes.PORTFOLIO)
       })
     } catch (error) {
       runInAction(() => {
