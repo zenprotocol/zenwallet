@@ -1,5 +1,5 @@
 import { observable, action, runInAction, computed } from 'mobx'
-import _ from 'lodash'
+import _, { isEmpty } from 'lodash'
 import { fromYaml, serialize } from '@zen/zenjs/build/src/Data'
 
 import { postRunContract } from '../services/api-service'
@@ -12,6 +12,7 @@ class RunContractStore {
   @observable amountDisplay = ''
   @observable returnAddress = true
   @observable command = ''
+  @observable sign = ''
   @observable messageBody = ''
   @observable status = ''
   @observable inprogress = false
@@ -73,6 +74,16 @@ class RunContractStore {
     this.returnAddress = !this.returnAddress
   }
 
+  @action
+  toggleSign = () => {
+    if (isEmpty(this.sign)) {
+      this.sign = 'm/44\'/258\'/0\'/3/0'
+      return true
+    }
+    this.sign = ''
+    return false
+  }
+
   @computed
   get messageBodyError() {
     if (!this.messageBody) {
@@ -93,6 +104,7 @@ class RunContractStore {
     this.asset = ''
     this.address = ''
     this.returnAddress = false
+    this.sign = ''
     this.amountDisplay = ''
     this.command = ''
     this.messageBody = ''
@@ -111,7 +123,7 @@ class RunContractStore {
   get payloadData() {
     const data = {
       address: this.address,
-      options: { returnAddress: this.returnAddress },
+      options: { returnAddress: this.returnAddress, sign: this.sign },
     }
     if (this.asset) {
       data.spends = [{ asset: this.asset, amount: this.amountToSend }]

@@ -130,7 +130,7 @@ class RunContract extends Component<Props> {
   render() {
     const {
       command, amount, asset, inprogress, messageBody, address, amountDisplay, messageBodyError,
-      returnAddress, toggleReturnAddress,
+      returnAddress, toggleReturnAddress, sign, toggleSign,
     } = this.props.runContractStore
     const { activeContracts } = this.props.activeContractsStore
     return (
@@ -200,6 +200,12 @@ class RunContract extends Component<Props> {
                 <Checkbox type="checkbox" checked={returnAddress} onChange={toggleReturnAddress} />
                 <span className="checkbox-text">
                 &nbsp; Include return address
+                </span>
+              </label>
+              <label className="checkbox">
+                <Checkbox type="checkbox" checked={sign} onChange={toggleSign} />
+                <span className="checkbox-text">
+                  &nbsp; Include authentication
                 </span>
               </label>
             </Flexbox>
