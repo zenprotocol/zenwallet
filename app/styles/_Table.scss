@@ -1,56 +1,68 @@
-table {
+.align-left-headers .rt-th {
+  text-align: left;
+}
+
+.ReactTable input,
+.ReactTable select { color: #000 }
+
+table,
+.ReactTable {
   width: 100%;
   border-collapse: separate;
   color: $off-white;
   font-family: 'Roboto Mono', monospace;
 
-  thead {
+  thead,
+  .rt-thead {
     font-family: 'Source Sans Pro', sans-serif;
     text-align: left;
 
-    tr { background: $table-row-hover; }
+    tr,
+    .rt-tr { background: $table-row-hover; }
 
-    th { padding: 13px 16px; }
+    th,
+    .rt-th { padding: 13px 16px; }
   }
 
-  tbody {
-    tr { font-size: 0.85rem; }
-    td {
+  tbody,
+  .rt-tbody {
+    tr,
+    .rt-tr { font-size: 0.85rem; }
+    td,
+    .rt-td {
       width: 140px;
       padding: 12px 12px 12px 16px;
     }
-    td.amount.align-right:last-child {
+    td.amount.align-right:last-child,
+    .rt-td.amount.align-right:last-child {
       padding-right: 16px !important;
       width: 40px;
     }
   }
 
-  th { color: $bright-grey; }
+  th,
+  .rt-th { color: $bright-grey; }
 
-  tr {
+  tr,
+  .rt-tr {
     background: $dark-grey-2;
-    td.text { font-family: 'Source Sans Pro', sans-serif; }
+    td.text,
+    .rt-td { font-family: 'Source Sans Pro', sans-serif; }
     &.separator { height: 2px; }
-
     &:hover { background: $table-row-hover; }
-
-    &.with-sub-cells {
-      td {
-        // width: 20%;
-      }
-    }
   }
 
-  td.multiple-inner-tx-deltas {
-    table tbody td {
+  td.multiple-inner-tx-deltas,
+  .rt-td.multiple-inner-tx-deltas, {
+    table tbody td,
+    .ReactTable .rt-tbody .rt-td {
       padding: 3px 0px 12px 16px !important;
     }
   }
 
 
-  td.copyable {
-    // min-width: 142px;
-
+  td.copyable,
+  .rt-td .copyable {
     svg {
       opacity: 0;
       transition: 0.5s opacity;
@@ -59,11 +71,13 @@ table {
     &:hover svg { opacity: 1; }
   }
 
-  td.buttons {
+  td.buttons,
+  .rt-td.buttons, {
     i.fa { font-size: 12px; }
   }
 
-  td.multiple-inner-tx-deltas { padding: 0; }
+  td.multiple-inner-tx-deltas,
+  .rt-td.multiple-inner-tx-deltas { padding: 0; }
 
   tr:hover td.multiple-inner-tx-deltas table tbody tr td {
     background: $table-row-hover;
@@ -82,16 +96,12 @@ span.value {
   text-align: right;
 }
 
-
 @media screen and (max-width: 1255px) {
-  table {
-    tbody {
-      td.buttons {
-        span.button-text { display: none; }
-        i.fa { width: 0; }
-        .button.play { padding: 4px 9px 5px 11px; }
-        .button.code { padding: 4px 0px 5px 9px; }
-      }
-    }
+  table tbody td.buttons,
+  .ReactTable .rt-tbody, .rt-td.buttons {
+    span.button-text { display: none; }
+    i.fa { width: 0; }
+    .button.play { padding: 4px 9px 5px 11px; }
+    .button.code { padding: 4px 0px 5px 9px; }
   }
 }
