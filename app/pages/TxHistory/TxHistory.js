@@ -1,21 +1,27 @@
 // @flow
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import ReactTable from 'react-table'
+import cx from 'classnames'
 
+import { normalizeTokens, isZenAsset } from '../../utils/zenUtils'
 import Layout from '../../components/Layout'
 import OnScrollBottom from '../../components/OnScrollBottom'
 import CopyableTableCell from '../../components/CopyableTableCell'
+import ZpIoLink from '../../components/ZpIoLink'
 import TransactionHistoryState from '../../stores/txHistoryStore'
-
-import SingleTxDelta from './SingleTxDelta'
+import PortfolioState from '../../stores/portfolioStore'
+import NetworkState from '../../stores/networkStore'
 
 type Props = {
-  txHistoryStore: TransactionHistoryState
+  txHistoryStore: TransactionHistoryState,
+  portfolioStore: PortfolioState,
+  networkStore: NetworkState
 };
 
-@inject('txHistoryStore')
+@inject('txHistoryStore', 'portfolioStore', 'networkStore')
 @observer
 class TxHistory extends Component<Props> {
   componentDidMount() {
@@ -24,20 +30,6 @@ class TxHistory extends Component<Props> {
 
   componentWillUnmount() {
     this.props.txHistoryStore.reset()
-  }
-
-  renderRows() {
-    const { txHistoryStore } = this.props
-    return txHistoryStore.transactions.map((tx, index) => (
-      <Fragment key={`${tx.txHash}-${index}`}>
-        <tr>
-          <CopyableTableCell string={tx.txHash} istx />
-          {/* $FlowIssue */}
-          <SingleTxDelta tx={tx} />
-        </tr>
-        <tr className="separator" />
-      </Fragment>
-    ))
   }
 
   renderLoadingTransactions() {
@@ -52,6 +44,56 @@ class TxHistory extends Component<Props> {
       </tr>
     )
   }
+
+  blockNumber(tx) {
+    return String((this.props.networkStore.headers - tx.confirmations) + 1)
+  }
+
+  getDisplayAmount(tx) {
+    const { asset, amount } = tx
+    return normalizeTokens(amount, isZenAsset(asset))
+  }
+
+  get columns() {
+    return [
+      {
+        Header: 'Transaction Hash',
+        id: 'txHash',
+        accessor: tx => <CopyableTableCell string={tx.txHash} isTx isReactTable />,
+      },
+      {
+        Header: 'Asset Identifier',
+        accessor: 'asset',
+      },
+      {
+        Header: 'Asset Name',
+        id: 'assetName',
+        accessor: tx => this.props.portfolioStore.getAssetName(tx.asset),
+      },
+      {
+        Header: 'Block',
+        id: 'block',
+        accessor: tx => (
+          <ZpIoLink path={this.blockNumber(tx)}>
+            {this.blockNumber(tx)}
+          </ZpIoLink>
+        ),
+      },
+      {
+        Header: 'Confirmations',
+        accessor: 'confirmations',
+      },
+      {
+        Header: () => <div className="align-right">Amount</div>,
+        id: 'amount',
+        accessor: tx => (
+          <div className={cx('amount align-right', tx.amount > 0 ? 'green' : 'red')}>
+            {this.getDisplayAmount(tx)}
+          </div>
+        ),
+      }]
+  }
+
   render() {
     const { txHistoryStore } = this.props
     return (
@@ -62,23 +104,12 @@ class TxHistory extends Component<Props> {
         </Flexbox>
 
         <Flexbox className="balance-list">
-          <table>
-            <thead>
-              <tr>
-                <th className="align-left">Transaction Hash</th>
-                <th className="align-left">Asset Identifier</th>
-                <th className="align-left">Asset Name</th>
-                <th className="align-left">Block</th>
-                <th className="align-left">Confirmations</th>
-                <th className="align-right">Amount</th>
-              </tr>
-              <tr className="separator" />
-            </thead>
-            <tbody>
-              { this.renderRows() }
-              {/* { txHistoryStore.isFetching && this.renderLoadingTransactions() } */}
-            </tbody>
-          </table>
+          <ReactTable
+            className="align-left-headers"
+            minRows={1}
+            data={txHistoryStore.transactions}
+            columns={this.columns}
+          />
         </Flexbox>
         <OnScrollBottom onScrollBottom={txHistoryStore.fetch} />
       </Layout>

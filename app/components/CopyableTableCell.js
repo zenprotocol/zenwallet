@@ -4,18 +4,16 @@ import React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { inject } from 'mobx-react'
 
-import ExternalLink from '../components/ExternalLink'
+import ZpIoLink from '../components/ZpIoLink'
 import { truncateString } from '../utils/helpers'
 import { isZenAsset } from '../utils/zenUtils'
-import NetworkStore from '../stores/networkStore'
-import { MAINNET } from '../constants'
 
 const { clipboard } = require('electron')
 
 type Props = {
-  networkStore: NetworkStore,
   string: string,
-  istx?: boolean
+  isReactTable?: boolean,
+  isTx?: boolean
 };
 
 type State = {
@@ -38,29 +36,24 @@ class CopyableTableCell extends React.Component<Props, State> {
     }, 1250)
   }
 
-  get getLink() {
-    const { networkStore } = this.props
-    return networkStore.chain === MAINNET ? '' : 'testnet.'
-  }
-
   get formattedString() {
     const { string } = this.props
     return !isZenAsset(string) ? truncateString(string) : string
   }
   renderString() {
-    const { string, istx } = this.props
-    return istx ? (
-      <ExternalLink link={`https://${this.getLink}zp.io/tx/${string}`}>
+    const { string, isTx } = this.props
+    return isTx ? (
+      <ZpIoLink path={`tx/${string}`}>
         {this.formattedString}
-      </ExternalLink>
+      </ZpIoLink>
     ) : this.formattedString
   }
 
-  render() {
+  get renderInner() {
     const { string } = this.props
     const { copyText } = this.state
     return (
-      <td className="align-left copyable" title={string}>
+      <React.Fragment>
         <span title={string}>
           { this.renderString() }{' '}
         </span>
@@ -71,8 +64,15 @@ class CopyableTableCell extends React.Component<Props, State> {
         >
           <FontAwesomeIcon icon={['far', 'copy']} className="" />
         </span>
-      </td>
+      </React.Fragment>
     )
+  }
+
+  render() {
+    const { string, isReactTable } = this.props
+    return isReactTable
+      ? <div className="align-left copyable" title={string}>{this.renderInner}</div>
+      : <td className="align-left copyable" title={string}>{this.renderInner}</td>
   }
 }
 
