@@ -55,7 +55,7 @@ class Balances extends Component<Props> {
             <thead>
               <tr>
                 <th className="align-left">Asset Name</th>
-                <th className="align-left">Hash</th>
+                <th className="align-left">Asset Identifier</th>
                 <th className="align-left">Balance</th>
                 <th className="align-right">Actions</th>
               </tr>
