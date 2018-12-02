@@ -3,6 +3,8 @@ import db from '../services/db'
 import type { ZenNodeChain } from '../ZenNode'
 import { formatChainForZenNode } from '../utils/helpers'
 
+import db from '../services/db'
+
 const TESTNET_PORT = '31567'
 const LOCAL_NET_PORT = '36000'
 const MAIN_NET_PORT = '11567'
