@@ -113,6 +113,9 @@ app.on('ready', async () => {
   })
   // triggered if you were running a light node and intend to switch to a full node
   ipcMain.on(IPC_START_ZEN_NODE, () => {
+    if (zenNode) {
+      zenNode.shutdown()
+    }
     const webContents = mainWindow && mainWindow.webContents
     try {
       prereqCheck()

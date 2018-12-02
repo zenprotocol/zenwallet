@@ -37,6 +37,10 @@ class ImportOrCreateWallet extends Component {
           </Flexbox>
 
         </Flexbox>
+        <div className="devider before-buttons" />
+        <Flexbox flexGrow={1} justifyContent="flex-start" flexDirection="row">
+          <Link className="secondary button button-on-left" to={routes.CHOOSE_WALLET_MODE}>Back</Link>
+        </Flexbox>
 
       </OnBoardingLayout>
     )

@@ -21,8 +21,11 @@ type State = {
   selectedMode: WalletMode
 };
 
-class ChooseWalletMode extends React.Component<Props, State> {
-  state = { selectedMode: 'Light' }
+export class ChooseWalletMode extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = { selectedMode: props.walletModeStore.mode }
+  }
 
   onWalletModeChange = (selectedMode: WalletMode) => {
     this.setState({ selectedMode })

@@ -77,6 +77,10 @@ class ZenNode {
     }
   }
 
+  shutdown() {
+    this.node.kill(ZEN_NODE_SHUTDOWN_SIGNAL)
+  }
+
   onBlockchainLog = (chunk) => {
     const log = chunk.toString('utf8')
     this.logs = [...this.logs, log].slice(-100)
@@ -100,7 +104,7 @@ class ZenNode {
 
   onShutdownZenNode = (event, args) => {
     this.config = { ...this.config, ...args }
-    this.node.kill(ZEN_NODE_SHUTDOWN_SIGNAL)
+    this.shutdown()
   }
 
   onZenNodeExit = (code, signal) => {
