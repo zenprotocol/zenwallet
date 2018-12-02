@@ -2,12 +2,15 @@
 import { observable, action, runInAction, computed } from 'mobx'
 import { some } from 'lodash'
 
-import { postDeployContract } from '../services/api-service'
 import db from '../services/db'
+import { getWalletInstance } from '../services/wallet'
+import NetworkStore from '../stores/networkStore'
 
 const initialDragDropText = 'Drag and drop your contract file here. Only *.fst files will be accepted.'
 
 class DeployContractStore {
+  networkStore: NetworkStore
+
   @observable fileName = ''
   @observable dragDropText = initialDragDropText
   @observable name = ''
@@ -20,6 +23,10 @@ class DeployContractStore {
   @observable status: 'inprogress' | 'success' | 'error' | '' = ''
   @observable inprogress = false
   @observable errorMessage = ''
+
+  constructor(networkStore: NetworkStore) {
+    this.networkStore = networkStore
+  }
 
   @action
   init(placeholder: string) {
@@ -37,7 +44,8 @@ class DeployContractStore {
       password,
     }
     try {
-      const { address, contractId } = await postDeployContract(data)
+      const wallet = getWalletInstance(this.networkStore.chain)
+      const { address, contractId } = await wallet.activateContract(data)
       this.saveDeployedContractToDb({
         address, contractId, code: this.code, name: this.name,
       })

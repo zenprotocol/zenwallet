@@ -60,7 +60,7 @@ class WelcomeMessages extends Component {
   onNextClicked = () => {
     const nextPage = this.state.currentPage + 1
     if (nextPage === 4) {
-      history.push(routes.IMPORT_OR_CREATE_WALLET)
+      history.push(routes.CHOOSE_WALLET_MODE)
     } else {
       this.setState({ currentPage: nextPage })
     }

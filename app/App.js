@@ -7,6 +7,7 @@ import 'react-table/react-table.css'
 
 import ErrorScreen from './pages/ErrorScreen'
 import AppUpdater from './components/AppUpdater'
+import PrerequisitesNotification from './components/PrerequisitesNotification'
 import WipeModal from './components/WipeModal'
 import Idle from './components/Idle'
 import history from './services/history'
@@ -23,6 +24,7 @@ export default class App extends React.Component {
           <React.Fragment>
             <React.Fragment>
               <Online><AppUpdater /></Online>
+              <PrerequisitesNotification />
               <WipeModal />
               <Idle />
               <div className="app-wrapper">

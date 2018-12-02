@@ -2,7 +2,10 @@
 import { observable, action, runInAction } from 'mobx'
 
 import { getTxHistory, getTxHistoryCount } from '../services/api-service'
+import { getWalletInstance } from '../services/wallet'
 import PollManager from '../utils/PollManager'
+
+import NetworkStore from './networkStore'
 
 class TxHistoryStore {
   pageSizeOptions = ['5', '10', '20', '100']
@@ -12,15 +15,24 @@ class TxHistoryStore {
   @observable pageSize = 5
   @observable isFetchingCount = false
   @observable isFetchingTransactions = false
+ 
+  networkStore: NetworkStore
+
+  constructor(networkStore: NetworkStore) {
+    this.networkStore = networkStore
+  }
+
   fetchPollManager = new PollManager({
     name: 'tx history count fetch',
     fnToPoll: this.fetchCount,
     timeoutInterval: 5000,
   })
+
   @action
   initPolling() {
     this.fetchPollManager.initPolling()
   }
+
   @action
   stopPolling() {
     this.fetchPollManager.stopPolling()
@@ -49,11 +61,14 @@ class TxHistoryStore {
   async fetch() {
     this.isFetchingTransactions = true
     try {
-      const nextTransactions = await getTxHistory({ skip: this.skip, take: this.pageSize })
-      runInAction(() => {
-        this.transactions = nextTransactions
-        this.isFetchingTransactions = false
+      const wallet = getWalletInstance(this.networkStore.chain)
+      const nextTransactions = await wallet.getTransactions({
+        skip: this.skip, take: this.pageSize,
       })
+        runInAction(() => {
+                    this.transactions = nextTransactions
+                    this.isFetchingTransactions = false
+                    })
     } catch (error) {
       console.log('error fetching transactions', error)
       this.isFetchingTransactions = false

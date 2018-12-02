@@ -72,3 +72,9 @@ export const numberWithCommas = (x: number | string): string => {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   return parts.join('.')
 }
+
+// zen node expects chain to be "main" or "test", but the api call to `/blockchain/info`
+// returns "main" or "testnet", so we need to format before sending the signal
+export function formatChainForZenNode(chain: string) {
+  return chain.replace('net', '')
+}

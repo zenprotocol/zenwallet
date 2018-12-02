@@ -1,13 +1,19 @@
+// @flow
 import { observable, action, runInAction, computed } from 'mobx'
 import _, { isEmpty } from 'lodash'
 import { fromYaml, serialize } from '@zen/zenjs/build/src/Data'
 
-import { postRunContract } from '../services/api-service'
 import { getNamefromCodeComment } from '../utils/helpers'
 import { zenToKalapas, isZenAsset } from '../utils/zenUtils'
 import db from '../services/db'
+import { getWalletInstance } from '../services/wallet'
+import ActiveContractsStore from '../stores/activeContractsStore'
+import NetworkStore from '../stores/networkStore'
+import type { RunContractPayload } from '../services/api-service'
 
 class RunContractStore {
+  networkStore: NetworkStore
+  activeContractsStore: ActiveContractsStore
   @observable address = ''
   @observable amountDisplay = ''
   @observable returnAddress = true
@@ -15,19 +21,22 @@ class RunContractStore {
   @observable sign = ''
   @observable messageBody = ''
   @observable status = ''
+  @observable errorMessage = ''
   @observable inprogress = false
   @observable asset = ''
 
-  constructor(activeContractsStore) {
+  constructor(activeContractsStore: ActiveContractsStore, networkStore: NetworkStore) {
     this.activeContractsStore = activeContractsStore
+    this.networkStore = networkStore
   }
 
   @action
-  async run(password) {
+  async run(password: string) {
     this.inprogress = true
     const payloadData = { ...this.payloadData, password }
     try {
-      await postRunContract(payloadData)
+      const wallet = getWalletInstance(this.networkStore.chain)
+      await wallet.runContract(payloadData)
       this.saveRunContractToDb(payloadData.address)
       runInAction(() => {
         this.inprogress = false
@@ -54,18 +63,18 @@ class RunContractStore {
   }
 
   @action
-  updateAddress(address) {
+  updateAddress(address: string) {
     this.address = address
     this.amountDisplay = ''
   }
 
   @action
-  updateAmountDisplay(amountDisplay) {
+  updateAmountDisplay(amountDisplay: string) {
     this.amountDisplay = amountDisplay
   }
 
   @action
-  updateMessageBody(messageBody) {
+  updateMessageBody(messageBody: string) {
     this.messageBody = messageBody
   }
 
@@ -121,7 +130,7 @@ class RunContractStore {
   }
 
   get payloadData() {
-    const data = {
+    const data: RunContractPayload = {
       address: this.address,
       options: { returnAddress: this.returnAddress, sign: this.sign },
     }
@@ -137,7 +146,7 @@ class RunContractStore {
     return data
   }
 
-  saveRunContractToDb(runContractAddress) {
+  saveRunContractToDb(runContractAddress: string) {
     const activeContract =
       this.activeContractsStore.activeContracts.find(ac => ac.address === runContractAddress)
     const savedContracts = db.get('savedContracts').value()

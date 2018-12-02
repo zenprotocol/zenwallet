@@ -1,17 +1,25 @@
+// @flow
 import { observable, computed, action, runInAction } from 'mobx'
 import { find } from 'lodash'
 
 import PollManager from '../utils/PollManager'
 import { zenBalanceDisplay, kalapasToZen, isZenAsset } from '../utils/zenUtils'
 import { numberWithCommas } from '../utils/helpers'
-import { getBalances } from '../services/api-service'
+import type { Asset } from '../services/api-service'
 import db from '../services/db'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../../app/constants'
+import { getWalletInstance } from '../services/wallet'
+
+import ActiveContractStore from './activeContractsStore'
+import NetworkStore from './networkStore'
 
 const savedContracts = db.get('savedContracts').value()
 
 class PortfolioStore {
-    @observable rawAssets = []
+    activeContractsStore: ActiveContractStore
+    networkStore: NetworkStore
+
+    @observable rawAssets: Asset[] = []
     @observable searchQuery = ''
     fetchPollManager = new PollManager({
       name: 'Balances fetch',
@@ -19,14 +27,16 @@ class PortfolioStore {
       timeoutInterval: 5000,
     })
 
-    constructor(activeContractsStore) {
+    constructor(activeContractsStore: ActiveContractStore, networkStore: NetworkStore) {
       this.activeContractsStore = activeContractsStore
+      this.networkStore = networkStore
     }
 
     @action
     initPolling() {
       this.fetchPollManager.initPolling()
     }
+
     @action
     stopPolling() {
       this.fetchPollManager.stopPolling()
@@ -34,7 +44,8 @@ class PortfolioStore {
 
     @action.bound
     async fetch() {
-      const rawAssets = await getBalances()
+      const wallet = getWalletInstance(this.networkStore.chain)
+      const rawAssets = await wallet.getBalances()
       runInAction(() => this.rawAssets.replace(rawAssets))
       // if there's a balance without asset name, check ACS if matching contract exists
       // if it does, save it to DB
@@ -48,7 +59,7 @@ class PortfolioStore {
         })
     }
 
-    getAssetName(asset) { // eslint-disable-line class-methods-use-this
+    getAssetName(asset: string) { // eslint-disable-line class-methods-use-this
       if (asset === ZEN_ASSET_HASH) { return ZEN_ASSET_NAME }
       const contractId = asset.substring(0, 64 + 8)
       const contractFromDb = savedContracts.find(contract => contract.contractId === contractId)
@@ -114,7 +125,7 @@ class PortfolioStore {
       return ''
     }
 
-    getBalanceFor(asset) {
+    getBalanceFor(asset: string) {
       const result = find(this.assets, { asset })
       return result ? result.balance : 0
     }

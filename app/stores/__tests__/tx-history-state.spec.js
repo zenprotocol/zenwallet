@@ -1,5 +1,7 @@
 import TxHistoryStore from '../txHistoryStore'
 import { getTxHistory, getTxHistoryCount } from '../../services/api-service'
+import NetworkStore from '../NetworkStore'
+import WalletModeStore from '../WalletModeStore'
 
 jest.mock('../../services/api-service', () => ({
   getTxHistory: jest.fn(),
@@ -30,7 +32,8 @@ afterEach(() => {
 
 let txHistoryState
 beforeEach(() => {
-  txHistoryState = new TxHistoryStore()
+  const networkStore = new NetworkStore(new WalletModeStore())
+  txHistoryState = new TxHistoryStore(networkStore)
 })
 describe('TxHistoryStore', () => {
   describe('after construction', () => {

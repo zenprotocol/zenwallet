@@ -15,6 +15,7 @@ export default {
   SETTINGS: '/settings',
   // Onboarding routes
   WELCOME_MESSAGES: '/welcome-messages',
+  CHOOSE_WALLET_MODE: '/choose-wallet-mode',
   IMPORT_OR_CREATE_WALLET: '/import-or-create-wallet',
   IMPORT_WALLET: '/import-wallet',
   SECRET_PHRASE: '/secret-phrase',

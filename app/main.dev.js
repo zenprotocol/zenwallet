@@ -12,15 +12,15 @@
  */
 import path from 'path'
 
-import { app, BrowserWindow, dialog } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 
-import ZenNode from './ZenNode'
+import ZenNode, { IPC_START_ZEN_NODE } from './ZenNode'
 import db from './services/db'
 import MainProcessErrorReporter from './utils/errorReporting/MainProcessErrorReporter'
-import prereqCheck from './utils/prereqCheck'
+import prereqCheck, { PREREQUISITES_CHECK_FAILED } from './utils/prereqCheck'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
-
+const isFullNode = () => db.get('wallet.mode').value() !== 'Light'
 let mainWindow = null
 
 if (process.env.NODE_ENV === 'production') {
@@ -63,33 +63,40 @@ app.on('ready', async () => {
     await installExtensions()
   }
 
-  prereqCheck()
 
   console.log('process.argv', process.argv)
-
+  console.log('wallet mode:', db.get('wallet.mode').value())
   mainWindow = getMainWindow(app.getName())
   mainWindow.on('resize', saveWindowDimensionsToDb)
   mainWindow.setMenu(null)
   const mainProcessErrorReporter = new MainProcessErrorReporter(mainWindow.webContents)
   mainProcessErrorReporter.init()
   process.on('uncaughtException', registerUncaughtException(mainProcessErrorReporter))
-  if (!isUiOnly) {
-    zenNode = new ZenNode({
-      webContents: mainWindow.webContents,
-      onClose: () => { app.quit() },
-      onError: mainProcessErrorReporter.report,
-    })
-    zenNode.init()
-  }
+
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
-    if (!isUiOnly) {
-      zenNode.onWebContentsFinishLoad()
+    if (isFullNode() && !isUiOnly) {
+      const webContents = mainWindow && mainWindow.webContents
+      try {
+        prereqCheck()
+        zenNode = new ZenNode({
+          webContents,
+          onClose: () => {},
+          onError: mainProcessErrorReporter.report,
+        })
+        zenNode.init()
+        zenNode.onWebContentsFinishLoad()
+      } catch (err) {
+        if (webContents) {
+          webContents.send(PREREQUISITES_CHECK_FAILED)
+        }
+      }
     }
+
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined')
     }
@@ -104,6 +111,23 @@ app.on('ready', async () => {
     console.log('Please close zen-wallet by closing the app window. Now calling app.quit() ...')
     app.quit()
   })
+  // triggered if you were running a light node and intend to switch to a full node
+  ipcMain.on(IPC_START_ZEN_NODE, () => {
+    const webContents = mainWindow && mainWindow.webContents
+    try {
+      prereqCheck()
+      zenNode = new ZenNode({
+        webContents,
+        onClose: () => {},
+        onError: mainProcessErrorReporter.report,
+      })
+      zenNode.init()
+    } catch (err) {
+      if (webContents) {
+        webContents.send(PREREQUISITES_CHECK_FAILED)
+      }
+    }
+  })
 })
 
 app.on('window-all-closed', () => {
@@ -114,7 +138,7 @@ app.on('window-all-closed', () => {
 
 app.on('will-quit', () => {
   console.log('******* [will-quit] *******')
-  if (!isUiOnly) {
+  if (!isUiOnly && isFullNode()) {
     console.log('Gracefully shutting down the zen-node')
     zenNode.node.kill()
   }

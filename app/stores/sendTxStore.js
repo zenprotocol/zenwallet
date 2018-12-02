@@ -1,10 +1,14 @@
+// @flow
 import { observable, action, runInAction } from 'mobx'
 
-import { postTransaction, postRawTransaction } from '../services/api-service'
 import { zenToKalapas, isZenAsset } from '../utils/zenUtils'
+import { getWalletInstance } from '../services/wallet'
 
+import NetworkStore from './networkStore'
 
 class SendTxStore {
+  assetName: string
+
   @observable asset = ''
   @observable to = ''
   @observable amountDisplay = ''
@@ -13,17 +17,24 @@ class SendTxStore {
   @observable errorMessage = ''
   @observable responseOffline = ''
 
+  networkStore: NetworkStore
+
+  constructor(networkStore: NetworkStore) {
+    this.networkStore = networkStore
+  }
+
   @action
-  async createTransaction(password) {
+  async createTransaction(password: string) {
     try {
       this.inprogress = true
+      const wallet = getWalletInstance(this.networkStore.chain)
       const data = {
         amount: isZenAsset(this.asset) ? zenToKalapas(this.amount) : this.amount,
         asset: this.asset,
         to: this.to,
         password,
       }
-      const response = await postTransaction(data)
+      const response = await wallet.sendTransaction(data)
 
       runInAction(() => {
         console.log('createTransaction response', response)
@@ -46,7 +57,7 @@ class SendTxStore {
     }
   }
   @action
-  async createRawTransaction(password) {
+  async createRawTransaction(password: string) {
     try {
       this.inprogress = true
       const data = {
@@ -55,7 +66,8 @@ class SendTxStore {
         to: this.to,
         password,
       }
-      this.responseOffline = await postRawTransaction(data)
+      const wallet = getWalletInstance(this.networkStore.chain)
+      this.responseOffline = await wallet.createRawTransaction(data)
       runInAction(() => {
         console.log('createRawTransaction response', this.responseOffline)
         this.inprogress = false
@@ -80,18 +92,18 @@ class SendTxStore {
   }
 
   @action
-  updateAsset({ asset }) {
+  updateAsset({ asset }: { asset: string }) {
     this.asset = asset
   }
 
   @action
-  updateAssetFromSuggestions(asset) {
+  updateAssetFromSuggestions(asset: string) {
     this.asset = asset
     this.amountDisplay = ''
   }
 
   @action
-  updateAmountDisplay(amountDisplay) {
+  updateAmountDisplay(amountDisplay: string) {
     this.amountDisplay = amountDisplay
   }
 

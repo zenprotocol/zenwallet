@@ -16,8 +16,11 @@ export const IPC_ZEN_NODE_NON_ZERO_EXIT = 'zenNodeNonZeroExit'
 export const IPC_ASK_IF_WIPED_DUE_TO_VERSION = 'askIfWipedDueToVersion'
 export const IPC_ANSWER_IF_WIPED_DUE_TO_VERSION = 'answerIfWipedDueToVersion'
 export const IPC_RESTART_ZEN_NODE = 'restartZenNode'
+export const IPC_START_ZEN_NODE = 'startZenNode'
+export const IPC_SHUT_DOWN_ZEN_NODE = 'shutdownZenNode'
 export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
 export const ZEN_NODE_RESTART_SIGNAL = 'SIGKILL'
+export const ZEN_NODE_SHUTDOWN_SIGNAL = 'SIGINT'
 
 class ZenNode {
   static zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
@@ -46,7 +49,7 @@ class ZenNode {
     wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || ZenNode.zenNodeVersionRequiredWipe,
     wipeFull: process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1,
     isMining: getInitialIsMining(),
-    net: getInitialNet(),
+    net: db.get('chain').value() || getInitialNet(),
   }
 
   init() {
@@ -67,6 +70,7 @@ class ZenNode {
       this.node.stdout.pipe(process.stdout)
       this.node.stdout.on('data', this.onBlockchainLog)
       ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)
+      ipcMain.once(IPC_SHUT_DOWN_ZEN_NODE, this.onShutdownZenNode)
       this.node.on('exit', this.onZenNodeExit)
     } catch (err) {
       this.onZenNodeError('init catch', err)
@@ -92,6 +96,11 @@ class ZenNode {
     }
     this.config = { ...this.config, ...args }
     this.node.kill(ZEN_NODE_RESTART_SIGNAL)
+  }
+
+  onShutdownZenNode = (event, args) => {
+    this.config = { ...this.config, ...args }
+    this.node.kill(ZEN_NODE_SHUTDOWN_SIGNAL)
   }
 
   onZenNodeExit = (code, signal) => {

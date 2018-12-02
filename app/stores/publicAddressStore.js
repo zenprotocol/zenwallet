@@ -1,6 +1,9 @@
+// @flow
 import { observable, action, runInAction } from 'mobx'
 
-import { getPublicAddress, getPublicPkHash } from '../services/api-service'
+import { getWalletInstance } from '../services/wallet'
+
+import NetworkStore from './networkStore'
 
 class PublicAddressStore {
     @observable address = ''
@@ -9,10 +12,17 @@ class PublicAddressStore {
     @observable pkHash = ''
     @observable pkHashError = ''
 
+    networkStore: NetworkStore
+
+    constructor(networkStore: NetworkStore) {
+      this.networkStore = networkStore
+    }
+
     @action
     async fetch() {
       try {
-        const address = await getPublicAddress()
+        const wallet = getWalletInstance(this.networkStore.chain)
+        const address = await wallet.getAddress()
         runInAction(() => {
           this.fetchPkHash(address)
           this.address = address
@@ -25,9 +35,10 @@ class PublicAddressStore {
     }
 
     @action
-    async fetchPkHash(address) {
+    async fetchPkHash(address: string) {
       try {
-        const pkHash = await getPublicPkHash(address)
+        const wallet = getWalletInstance(this.networkStore.chain)
+        const pkHash = await wallet.getPublicKeyHash(address)
         runInAction(() => {
           this.pkHash = pkHash
           this.pkHashError = ''

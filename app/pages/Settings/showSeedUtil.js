@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import swal from 'sweetalert'
 
 import withCountdown from '../../hocs/withCountdown'
-import { postWalletMnemonicphrase } from '../../services/api-service'
 import confirmPasswordModal from '../../services/confirmPasswordModal'
+import { getWalletInstance } from '../../services/wallet'
+import { networkStore } from '../../stores'
 
 const showSeed = async () => {
   const doesUserAcceptsRisk = await swal({
@@ -22,7 +23,8 @@ const showSeed = async () => {
     return
   }
   try {
-    const seedString = await postWalletMnemonicphrase(confirmedPassword)
+    const wallet = getWalletInstance(networkStore.chain)
+    const seedString = await wallet.getMnemonicPhrase(confirmedPassword)
     swal({
       title: 'Your Mnemonic Passphrase (seed)',
       text: 'Write down the following words in chronological order and save it in a secure place.',

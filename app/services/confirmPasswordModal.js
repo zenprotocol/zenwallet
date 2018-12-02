@@ -5,14 +5,16 @@ import swal from 'sweetalert'
 import { networkStore } from '../stores'
 import { MAINNET } from '../constants'
 
-import { postCheckPassword } from './api-service'
+import { getWalletInstance } from './wallet'
 
 const passwordModal = async () => {
   const submittedPassword = await submitPasswordModal()
   if (!submittedPassword) {
     await swal('You must insert a password')
   }
-  const isPasswordCorrect = await postCheckPassword(submittedPassword)
+
+  const wallet = getWalletInstance(networkStore.chain)
+  const isPasswordCorrect = await wallet.checkPassword(submittedPassword)
   if (!isPasswordCorrect) {
     await swal('Wrong password!')
   } else {

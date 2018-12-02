@@ -1,17 +1,15 @@
 // @flow
 import axios from 'axios'
-import type { observableArray } from 'mobx-react'
 
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
 
 import dataBlock from './firstBlock.json'
 
-
 const crowdsaleServerAddress = getCrowdsaleServerAddress()
 
 type Hash = string;
 type Address = string;
-type Asset = {
+export type Asset = {
   asset: string,
   balance: number
 };
@@ -37,7 +35,8 @@ type Transaction = {
   amount: number
 };
 type Password = { password: string };
-export async function postTransaction(tx: Transaction & Password): Promise<string> {
+export type SendTransactionPayload = Transaction & Password;
+export async function postTransaction(tx: SendTransactionPayload): Promise<string> {
   const {
     password, to, asset, amount,
   } = tx
@@ -57,7 +56,8 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
   return response.data
 }
 
-export async function postRawTransaction(tx: Transaction & Password): Promise<string> {
+export type RawTransactionPayload = Transaction & Password;
+export async function postRawTransaction(tx: RawTransactionPayload): Promise<string> {
   const {
     password, to, asset, amount,
   } = tx
@@ -77,8 +77,8 @@ export async function postRawTransaction(tx: Transaction & Password): Promise<st
   return response.data
 }
 
-type DeployContractPayload = { code: string, numberOfBlocks: number } & Password;
-type NewContract = { address: Address, contractId: string };
+export type DeployContractPayload = { code: string, numberOfBlocks: number } & Password;
+export type NewContract = { address: Address, contractId: string };
 
 export async function postDeployContract(data: DeployContractPayload): Promise<NewContract> {
   const response = await axios.post(`${getServerAddress()}/wallet/contract/activate`, data, {
@@ -87,23 +87,24 @@ export async function postDeployContract(data: DeployContractPayload): Promise<N
   return response.data
 }
 
-type RunContractPayload = {
+export type RunContractPayload = {
   address: Address,
   options: {
     returnAddress: boolean
   },
   command?: string,
   messageBody?: string,
-  spends?: Array<{asset: Hash, amount: number}>
+  spends?: Array<{asset: Hash, amount: number}>,
+  password?: string
 };
-export async function postRunContract(data: RunContractPayload & Password) {
+export async function postRunContract(data: RunContractPayload) {
   const response = await axios.post(`${getServerAddress()}/wallet/contract/execute`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
 }
 
-type ActiveContract = {
+export type ActiveContract = {
   contractId: Hash,
   address: Address,
   expire: number,
@@ -114,7 +115,7 @@ export async function getActiveContracts(): Promise<ActiveContract[]> {
   return response.data
 }
 
-type TransactionRequest = {
+export type TransactionRequest = {
   skip: number,
   take: number
 };
@@ -139,6 +140,7 @@ export async function getTxHistory({
   })
   return response.data
 }
+export type ApiResponseChain = 'main' | 'testnet';
 
 export async function getTxHistoryCount() {
   const response = await axios.get(`${getServerAddress()}/wallet/transactioncount`, {
@@ -147,13 +149,18 @@ export async function getTxHistoryCount() {
   return response.data
 }
 
-type BlockChainInfo = {
-  chain: string,
+export type BlockChainInfo = {
+  chain: ApiResponseChain,
   blocks: number,
   headers: number,
   difficulty: number,
-  medianTime: number
+  medianTime: number,
+  connections: number,
+  initialBlockDownload: boolean,
+  connectedToNode: boolean,
+  tip: string
 };
+
 export async function getNetworkStatus(): Promise<BlockChainInfo> {
   const response = await axios.get(`${getServerAddress()}/blockchain/info`)
   return response.data
@@ -181,7 +188,7 @@ export async function getIsAccountLocked(): Promise<boolean> {
   return response.data
 }
 
-export async function postImportWallet(secretPhraseArray: observableArray, password: string) {
+export async function postImportWallet(secretPhraseArray: string[], password: string) {
   const data = {
     words: secretPhraseArray,
     password,
@@ -206,20 +213,18 @@ export async function getWalletResync() {
   return response.data
 }
 
-export async function postWalletMnemonicphrase(password: string): string {
+export async function postWalletMnemonicphrase(password: string): Promise<string> {
   const data = { password }
   const response = await axios.post(`${getServerAddress()}/wallet/mnemonicphrase`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
-  // $FlowFixMe
   return response.data
 }
 
-export async function postBlockchainBlock(): string {
+export async function postBlockchainBlock(): Promise<string> {
   const response = await axios.post(`${getServerAddress()}/blockchain/publishblock`, dataBlock, {
     headers: { 'Content-Type': 'application/json' },
   })
-  // $FlowFixMe
   return response.data
 }
 

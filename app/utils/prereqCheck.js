@@ -2,14 +2,13 @@ import path from 'path'
 import { execSync } from 'child_process'
 
 import arch from 'arch'
-import { dialog } from 'electron'
 
 import { getZenNodePath } from '../ZenNode'
 
 import { isOsx, isWindows, isLinux } from './platformUtils'
 
 export default prereqCheck
-
+export const PREREQUISITES_CHECK_FAILED = 'PREREQUISITES_CHECK_FAILED'
 const ERR_STATUS = 'ERR_STATUS'
 
 function prereqCheck() {
@@ -24,11 +23,7 @@ function validateOs() {
   if (arch() !== 'x64') {
     const msg = 'Zen-node can only run on 64 bit OS'
     console.log(msg)
-    dialog.showErrorBox(
-      'Operating system not supported',
-      msg,
-    )
-    process.exit(1)
+    throw new Error('Operating system not supported')
   } else {
     console.log('OS .64 version check passed')
   }
@@ -44,11 +39,7 @@ function validateZ3() {
     }
     console.log('Z3 check passed')
   } catch (err) {
-    dialog.showErrorBox(
-      'Z3 check failed',
-      `Failed to run z3\n${err.message}`,
-    )
-    process.exit(1)
+    throw new Error('Z3 check failed')
   }
 }
 
@@ -62,18 +53,14 @@ function getZ3PathForPlatform() {
 }
 
 function validateMono() {
-  if (!isOsx()) {
+  if (isWindows()) {
     console.log('mono version check passed (not needed for non OSX)')
     return
   }
   const { status, msg } = getMonoStatus()
   if (status === ERR_STATUS) {
     console.error(msg)
-    dialog.showErrorBox(
-      'Mono check failed',
-      msg,
-    )
-    process.exit(1)
+    throw new Error('Mono check failed')
   } else {
     console.log('mono version check passed')
   }

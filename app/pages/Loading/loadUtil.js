@@ -1,14 +1,16 @@
-import { getWalletExists } from '../../services/api-service'
+// @flow
 import history from '../../services/history'
 import routes from '../../constants/routes'
 import { networkStore } from '../../stores'
+import { getWalletInstance } from '../../services/wallet'
 
 const LOADING_INTERVAL = 1000
 
 const load = async () => {
   try {
     networkStore.fetch()
-    if (!await getWalletExists()) {
+    const wallet = getWalletInstance(networkStore.chain)
+    if (!await wallet.exists()) {
       history.push(routes.WELCOME_MESSAGES)
     } else {
       history.push(routes.UNLOCK_WALLET)

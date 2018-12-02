@@ -6,10 +6,12 @@ import { Online } from 'react-detect-offline'
 import routes from '../../constants/routes'
 
 
-@inject('redeemTokensStore')
+@inject('walletModeStore', 'redeemTokensStore')
 @observer
 class SidebarMenu extends Component<Props> {
   render() {
+    const { walletModeStore } = this.props
+
     return (
       <div className="menu">
         <ul>
@@ -19,7 +21,8 @@ class SidebarMenu extends Component<Props> {
           <li> <NavLink to={routes.TX_HISTORY} activeClassName="active">Transactions</NavLink></li>
           <Online><li> <NavLink to={routes.ACTIVE_CONTRACTS} activeClassName="active">Active Contracts</NavLink></li></Online>
           <li> <NavLink to={routes.SAVED_CONTRACTS} activeClassName="active">Saved Contracts</NavLink></li>
-          <Online><li> <NavLink to={routes.BLOCKCHAIN_LOGS} activeClassName="active">Blockchain Logs</NavLink></li></Online>
+          { walletModeStore.isFullNode() &&
+          <Online><li> <NavLink to={routes.BLOCKCHAIN_LOGS} activeClassName="active">Blockchain Logs</NavLink></li></Online> }
           <li> <NavLink to={routes.SETTINGS} activeClassName="active">Settings</NavLink></li>
         </ul>
       </div>

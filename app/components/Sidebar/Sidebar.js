@@ -13,16 +13,18 @@ import { LOGO_SRC } from '../../constants/imgSources'
 import routes from '../../constants/routes'
 import NetworkStore from '../../stores/networkStore'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
+import WalletModeStore from '../../stores/walletModeStore'
 
 import SidebarMenu from './SidebarMenu'
 
 type Props = {
   className?: string,
   networkStore: NetworkStore,
+  walletModeStore: WalletModeStore,
   secretPhraseStore: SecretPhraseStore
 };
 
-@inject('secretPhraseStore', 'networkStore')
+@inject('walletModeStore', 'networkStore', 'secretPhraseStore')
 @observer
 class Sidebar extends Component<Props> {
   static defaultProps = {
@@ -95,16 +97,18 @@ class Sidebar extends Component<Props> {
   }
 
   renderVersions() {
+    const { walletModeStore } = this.props
     return (
       <React.Fragment>
         <div className="network-data-point">
           <span className="data-name" title="Wallet Version">Wallet Version: </span>
           <span className="data-point">{WALLET_VERSION}</span>
         </div>
+        { walletModeStore.isFullNode() &&
         <div className="network-data-point">
           <span className="data-name" title="Node Version">Node Version: </span>
           <span className="data-point">{ZEN_NODE_VERSION}</span>
-        </div>
+        </div>}
       </React.Fragment>
     )
   }
@@ -147,7 +151,7 @@ class Sidebar extends Component<Props> {
     const {
       chain, blocks, headers, difficulty, connections, connectedToNode,
     } = this.props.networkStore
-
+    const { walletModeStore } = this.props
     if (!connectedToNode) {
       return (
         <div className="network-status">
@@ -166,7 +170,7 @@ class Sidebar extends Component<Props> {
       )
     }
 
-    if (connections === 0 && chain !== LOCALNET) {
+    if (connections === 0 && chain !== LOCALNET && walletModeStore.isFullNode()) {
       return (
         <div className="network-status">
           { this.renderVersions() }
@@ -185,6 +189,10 @@ class Sidebar extends Component<Props> {
     return (
       <div className="network-status">
         <Online>
+          <div className="network-data-point">
+            <span className="data-name">Wallet Mode: </span>
+            <span className="data-point">{walletModeStore.mode}</span>
+          </div>
           <div className="network-data-point">
             <span className="data-name">Chain: </span>
             <span className="data-point">{chain}</span>
@@ -206,10 +214,11 @@ class Sidebar extends Component<Props> {
             <span className="data-name" title="Median Time Past">MTP: </span>
             <span className="data-point">{this.formattedBlockchainTime()}</span>
           </div>
-          <div className="network-data-point">
-            <span className="data-name" title="Connections">Connections: </span>
-            <span className="data-point">{connections}</span>
-          </div>
+          { walletModeStore.isFullNode() &&
+            <div className="network-data-point">
+              <span className="data-name" title="Connections">Connections: </span>
+              <span className="data-point">{connections}</span>
+            </div> }
           { this.renderVersions() }
           <div className={this.bottomDataClassName}>
             { this.renderMiningStatus() }

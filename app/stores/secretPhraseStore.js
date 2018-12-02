@@ -1,3 +1,4 @@
+// @flow
 import { observable, action, runInAction } from 'mobx'
 import bip39 from 'bip39'
 import { ipcRenderer } from 'electron'
@@ -9,9 +10,24 @@ import db from '../services/db'
 import history from '../services/history'
 import { isDev } from '../utils/helpers'
 import { IPC_RESTART_ZEN_NODE, getInitialIsMining } from '../ZenNode'
-import { getWalletExists, postImportWallet, getWalletResync, postCheckPassword } from '../services/api-service'
+import { type IWallet, getWalletInstance } from '../services/wallet'
+
+import NetworkStore from './networkStore'
+import PortfolioStore from './portfolioStore'
+import ActiveContractStore from './activeContractsStore'
+import RedeemTokenStore from './redeemTokensStore'
+import WalletModeStore from './walletModeStore'
+import TxHistoryStore from './txHistoryStore'
 
 class secretPhraseStore {
+  networkStore: NetworkStore
+  portfolioStore: PortfolioStore
+  activeContractsStore: ActiveContractStore
+  redeemTokensStore: RedeemTokenStore
+  walletModeStore: WalletModeStore
+txHistoryStore: TxHistoryStore
+  wallet: IWallet
+
   @observable mnemonicPhrase = []
   @observable isLoggedIn = false
   @observable autoLogoutMinutes = db.get('config.autoLogoutMinutes').value()
@@ -21,13 +37,17 @@ class secretPhraseStore {
   @observable status = ''
   @observable isMining = getInitialIsMining()
 
-  constructor({
-    networkStore, portfolioStore, activeContractsStore, redeemTokensStore, txHistoryStore,
-  }) {
+  constructor(
+    networkStore: NetworkStore,
+    portfolioStore: PortfolioStore, activeContractsStore: ActiveContractStore,
+    redeemTokensStore: RedeemTokenStore, walletModeStore: WalletModeStore,
+              txHistoryStore: TxHistoryStore
+  ) {
     this.networkStore = networkStore
     this.portfolioStore = portfolioStore
     this.activeContractsStore = activeContractsStore
     this.redeemTokensStore = redeemTokensStore
+    this.walletModeStore = walletModeStore
     this.txHistoryStore = txHistoryStore
     if (isDev()) {
       this.initDev()
@@ -40,16 +60,18 @@ class secretPhraseStore {
   }
 
   @action
-  setMnemonicToImport(userInputWords) {
+  setMnemonicToImport(userInputWords: string[]) {
     this.mnemonicPhrase = userInputWords
     history.push(routes.SET_PASSWORD)
   }
 
   @action
-  async importWallet(password) {
+  async importWallet(password: string) {
     this.isImporting = true
     try {
-      const response = await postImportWallet(this.mnemonicPhrase, password)
+      const mnemonicString = this.mnemonicPhrase.join(' ')
+      const wallet = getWalletInstance(this.networkStore.chain)
+      const response = await wallet.import(mnemonicString, password)
       runInAction(() => {
         console.log('importWallet response')
         this.isImporting = false
@@ -82,19 +104,21 @@ class secretPhraseStore {
   }
 
   @action
-  async unlockWallet(password) {
+  async unlockWallet(password: string) {
     this.inprogress = true
 
     try {
-      const isPasswordCorrect = await postCheckPassword(password)
+      const wallet = getWalletInstance(this.networkStore.chain)
+      const isUnlocked = await wallet.unlock(password)
 
-      runInAction(() => {
+      runInAction(async () => {
         this.inprogress = false
-        if (!isPasswordCorrect) {
+        if (!isUnlocked) {
           this.inprogress = false
           this.status = 'error'
           return
         }
+
         this.isLoggedIn = true
         this.portfolioStore.initPolling()
         this.networkStore.initPolling()
@@ -123,7 +147,8 @@ class secretPhraseStore {
   async resync() { // eslint-disable-line class-methods-use-this
     console.log('wallet resync')
     try {
-      const response = await getWalletResync()
+      const wallet = getWalletInstance(this.networkStore.chain)
+      const response = await wallet.resync()
       console.log('resync response', response)
     } catch (err) {
       if (err && err.response) {
@@ -135,7 +160,7 @@ class secretPhraseStore {
   }
 
   @action
-  setAutoLogoutMinutes(minutes) {
+  setAutoLogoutMinutes(minutes: number) {
     minutes = Number(minutes)
     if (minutes < 1) { minutes = 1 }
     if (minutes > 120) { minutes = 120 }
@@ -144,15 +169,19 @@ class secretPhraseStore {
   }
 
   @action.bound
-  toggleMining(isMining) {
-    this.setMining(isMining)
-    ipcRenderer.send(IPC_RESTART_ZEN_NODE, { isMining })
+  toggleMining(isMining: boolean) {
+    if (this.walletModeStore.isFullNode()) {
+      this.setMining(isMining)
+      ipcRenderer.send(IPC_RESTART_ZEN_NODE, { isMining })
+    }
   }
 
   @action
-  setMining(isMining) {
-    db.set('config.isMining', isMining).write()
-    this.isMining = isMining
+  setMining(isMining: boolean) {
+    if (this.walletModeStore.isFullNode()) {
+      db.set('config.isMining', isMining).write()
+      this.isMining = isMining
+    }
   }
 
   @action
@@ -177,7 +206,8 @@ class secretPhraseStore {
   // so this will mimic somewhat the unlocking of the wallet
   @action
   initDev() {
-    getWalletExists()
+    const wallet = getWalletInstance(this.networkStore.chain)
+    wallet.exists()
       .then(doesWalletExists => {
         // eslint-disable-next-line promise/always-return
         if (doesWalletExists) {

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
@@ -10,16 +11,18 @@ import { MAINNET } from '../../constants'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 import ErrorReportingStore from '../../stores/errorReportingStore'
 import NetworkStore from '../../stores/networkStore'
+import WalletModeStore from '../../stores/walletModeStore'
 import { RedeemTokensStore } from '../../stores/redeemTokensStore'
-import { disablePaste } from '../../utils/helpers'
 import ToggleVisibilityIcon from '../../components/ToggleVisibilityIcon'
 import Layout from '../../components/Layout'
 
 import wipeBlockchain from './wipeBlockchainUtil'
+import wipeStorage from './wipeStorage'
 import showSeed from './showSeedUtil'
 import newWallet from './newWalletUtil'
 import logout from './logoutUtil'
 import switchChain from './switchChain'
+import switchWalletMode from './switchWalletMode'
 import toggleUserIsOptedIn from './toggleUserIsOptedInUtil'
 import './Settings.scss'
 
@@ -27,7 +30,8 @@ type Props = {
   secretPhraseStore: SecretPhraseStore,
   errorReportingStore: ErrorReportingStore,
   networkStore: NetworkStore,
-  redeemTokensStore: RedeemTokensStore
+  redeemTokensStore: RedeemTokensStore,
+  walletModeStore: WalletModeStore
 };
 
 type State = {
@@ -38,7 +42,7 @@ type State = {
   newPasswordConfirmation: string
 };
 
-@inject('secretPhraseStore', 'errorReportingStore', 'networkStore', 'redeemTokensStore')
+@inject('walletModeStore', 'secretPhraseStore', 'errorReportingStore', 'networkStore', 'redeemTokensStore')
 @observer
 class Settings extends Component<Props, State> {
   state = {
@@ -133,7 +137,7 @@ class Settings extends Component<Props, State> {
                 value={newPasswordConfirmation}
                 placeholder="Confirm new password"
                 className="input-group-field"
-                onPaste={disablePaste}
+                onPaste={undefined}
                 onChange={this.onNewPasswordConfirmationChanged}
               />
             </div>
@@ -173,17 +177,29 @@ class Settings extends Component<Props, State> {
   }
 
   renderWipe() {
-    return (
-      <Flexbox className="row">
-        <Flexbox flexDirection="column" className="description">
-          <h2 className="description-title">Wipe blockchain</h2>
-          <p>Wipe your local copy of the blockchain, with an option to wipe your wallet as well</p>
+    return this.props.walletModeStore.isFullNode() ?
+      (
+        <Flexbox className="row">
+          <Flexbox flexDirection="column" className="description">
+            <h2 className="description-title">Wipe blockchain</h2>
+            <p>Wipe your local copy of the blockchain, with an option to wipe your wallet as well</p>
+          </Flexbox>
+          <Flexbox flexDirection="column" className="actions">
+            <button className="btn-block" onClick={wipeBlockchain}>Wipe Blockchain</button>
+          </Flexbox>
         </Flexbox>
-        <Flexbox flexDirection="column" className="actions">
-          <button className="btn-block" onClick={wipeBlockchain}>Wipe Blockchain</button>
+      ) :
+      (
+        <Flexbox className="row">
+          <Flexbox flexDirection="column" className="description">
+            <h2 className="description-title">Wipe your storage</h2>
+            <p>Wipe your storage if want to create or import a new wallet</p>
+          </Flexbox>
+          <Flexbox flexDirection="column" className="actions">
+            <button className="btn-block" onClick={wipeStorage}>Wipe your storage</button>
+          </Flexbox>
         </Flexbox>
-      </Flexbox>
-    )
+      )
   }
 
   renderShowSeed() {
@@ -255,6 +271,7 @@ class Settings extends Component<Props, State> {
       </Flexbox>
     )
   }
+
   renderErrorReporting() {
     const { errorReportingStore } = this.props
     return (
@@ -310,6 +327,26 @@ class Settings extends Component<Props, State> {
       </Flexbox>
     )
   }
+
+  renderWalletMode() {
+    const { walletModeStore } = this.props
+    const [currentWalletMode, otherWalletMode] = walletModeStore.modes
+    return (
+      <Flexbox className="row">
+        <Flexbox flexDirection="column" className="description">
+          <h2 className="description-title">Switch Wallet Mode</h2>
+          <p>
+            You are currently running a {currentWalletMode}.
+            Switch to {otherWalletMode}
+          </p>
+        </Flexbox>
+        <Flexbox flexDirection="column" className="actions">
+          <button className="btn-block" onClick={switchWalletMode}>Switch to {otherWalletMode}</button>
+        </Flexbox>
+      </Flexbox>
+    )
+  }
+
   renderLogout() {
     return (
       <Flexbox className="row">
@@ -343,6 +380,8 @@ class Settings extends Component<Props, State> {
     )
   }
   render() {
+    const { walletModeStore } = this.props
+    const fullNode = walletModeStore.isFullNode()
     return (
       <Layout className="settings-page">
         <Flexbox className="page-title">
@@ -350,10 +389,11 @@ class Settings extends Component<Props, State> {
         </Flexbox>
         {/* {this.renderPassword()} */}
         {this.renderAutoLogout()}
-        <Offline>{this.renderGetGenesisToken()}</Offline>
-        <Online>{this.renderMining()}</Online>
-        <Online>{this.renderErrorReporting()}</Online>
+        { fullNode && <Offline>{this.renderGetGenesisToken()}</Offline>}
+        { fullNode && <Online>{this.renderMining()}</Online> }
+        { fullNode && <Online>{this.renderErrorReporting()}</Online> }
         {this.renderChain()}
+        {this.renderWalletMode()}
         {this.renderShowSeed()}
         {this.renderWipe()}
         {this.renderLogout()}

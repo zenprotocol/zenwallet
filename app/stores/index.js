@@ -10,24 +10,28 @@ import RedeemTokensStore from './redeemTokensStore'
 import SecretPhraseStore from './secretPhraseStore'
 import Store from './blockchainLogsStore'
 import ErrorReportingStore from './errorReportingStore'
+import WalletModeStore from './walletModeStore'
 
 const errorReportingStore = new ErrorReportingStore()
 errorReportingStore.init()
 
-const activeContractsStore = new ActiveContractsStore()
-const portfolioStore = new PortfolioStore(activeContractsStore)
-const publicAddressStore = new PublicAddressStore()
-const networkStore = new NetworkStore()
+const walletModeStore = new WalletModeStore()
+const networkStore = new NetworkStore(walletModeStore)
+const activeContractsStore = new ActiveContractsStore(networkStore)
+const publicAddressStore = new PublicAddressStore(networkStore)
+const portfolioStore = new PortfolioStore(activeContractsStore, networkStore)
 const redeemTokensStore = new RedeemTokensStore(networkStore)
-const txHistoryStore = new TxHistoryStore()
+const txHistoryStore = new TxHistoryStore(networkStore)
 const secretPhraseStore =
-  new SecretPhraseStore({
+  new SecretPhraseStore(
     networkStore, portfolioStore, activeContractsStore, redeemTokensStore, txHistoryStore,
-  })
-const sendTxStore = new SendTxStore()
-const deployContractStore = new DeployContractStore()
-const runContractStore = new RunContractStore(activeContractsStore)
+    walletModeStore,
+  )
+const sendTxStore = new SendTxStore(networkStore)
+const deployContractStore = new DeployContractStore(networkStore)
+const runContractStore = new RunContractStore(activeContractsStore, networkStore)
 const blockchainLogsStore = new Store()
+
 
 export default {
   portfolioStore,
@@ -42,4 +46,5 @@ export default {
   secretPhraseStore,
   blockchainLogsStore,
   errorReportingStore,
+  walletModeStore,
 }
