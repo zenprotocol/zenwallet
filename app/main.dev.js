@@ -80,6 +80,9 @@ app.on('ready', async () => {
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
     if (isFullNode() && !isUiOnly) {
+      if (zenNode) {
+        zenNode.shutdown()
+      }
       const webContents = mainWindow && mainWindow.webContents
       try {
         prereqCheck()

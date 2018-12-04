@@ -137,7 +137,6 @@ class Settings extends Component<Props, State> {
                 value={newPasswordConfirmation}
                 placeholder="Confirm new password"
                 className="input-group-field"
-                onPaste={undefined}
                 onChange={this.onNewPasswordConfirmationChanged}
               />
             </div>
