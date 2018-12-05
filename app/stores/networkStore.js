@@ -6,7 +6,7 @@ import { LOCALNET, TESTNET, MAINNET } from '../constants'
 import { getNetworkStatus, getNetworkConnections } from '../services/api-service'
 import { getNetworkStatus as getRemoteNetworkStatus } from '../services/remote-node-api-service'
 import type { BlockChainInfo, ApiResponseChain } from '../services/api-service'
-import db from '../services/db';
+import db from '../services/db'
 
 import WalletModeStore from './walletModeStore'
 
@@ -52,6 +52,7 @@ class NetworkStore {
         // since the API returns 'main' for mainnet but 'testnet' for testnet, we
         // normalize the value we save on this.chain, for consistency in the UI
         this.chain = formatChainResult(result.chain)
+        db.set('chain', this.chain).write()
         this.blocks = result.blocks
         this.headers = result.headers
         this.difficulty = result.difficulty
