@@ -66,7 +66,7 @@ class ZenNode {
     wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || ZenNode.zenNodeVersionRequiredWipe,
     wipeFull: process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1,
     isMining: getInitialIsMining(),
-    net: db.get('chain').value() || getInitialNet(),
+    net: getInitialNet(),
   }
 
   init() {

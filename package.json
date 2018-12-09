@@ -213,6 +213,7 @@
     "moment": "^2.22.0",
     "node-abi": "^2.5.1",
     "normalize.css": "^8.0.0",
+    "npm": "^6.4.1",
     "prop-types": "^15.6.1",
     "qrcode.react": "^0.8.0",
     "randomstring": "^1.1.5",
