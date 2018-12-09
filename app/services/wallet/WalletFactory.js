@@ -1,7 +1,7 @@
 // @flow
-import type { ApiResponseChain } from '../api-service'
 import type { WalletMode } from '../../stores/walletModeStore'
 import db from '../db'
+import type { AppChain } from '../../constants'
 
 import RemoteWallet from './RemoteWallet'
 import LocalWallet from './LocalWallet'
@@ -13,7 +13,7 @@ const walletInstances = {
   Full: {},
 }
 
-const getWalletInstance = (chain: ApiResponseChain): IWallet => {
+const getWalletInstance = (chain: AppChain): IWallet => {
   const mode: WalletMode = db.get('wallet.mode').value() || 'Light'
   if (mode === 'Light') {
     if (!walletInstances.Light[chain]) {

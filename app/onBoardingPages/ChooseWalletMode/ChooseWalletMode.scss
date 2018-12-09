@@ -7,7 +7,12 @@
         text-align: center;
         position: relative;
         min-height: 280px;
+        cursor: pointer;
 
+        &:hover {
+            outline: 1px solid $dark-grey-2;
+            background-color: lighten($dark-grey-2, 15%);
+        }
         &.selected {
             outline: 1px solid $dark-grey-2;
             background-color: lighten($dark-grey-2, 10%);

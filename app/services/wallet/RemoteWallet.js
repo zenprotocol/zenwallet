@@ -6,8 +6,10 @@ import db from '../db'
 import { getActiveContracts as getActiveContractsRemote } from '../remote-node-api-service'
 import type {
   RunContractPayload, SendTransactionPayload,
-  ApiResponseChain, Asset,
+  Asset,
 } from '../api-service'
+import type { AppChain } from '../../constants'
+
 
 import type { IWallet, Chain } from './index'
 import { networkMap } from './index'
@@ -18,7 +20,7 @@ class RemoteWallet implements IWallet {
     chain: Chain
     instance: any
 
-    constructor(chain: ApiResponseChain) {
+    constructor(chain: AppChain) {
       this.chain = networkMap[chain]
     }
 

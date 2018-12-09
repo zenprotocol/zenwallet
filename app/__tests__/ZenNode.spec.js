@@ -106,21 +106,21 @@ test('init when wiping full', () => {
 
 test('zenNodeArgs empty args', () => {
   const zenNode = getZenNode()
-  expect(zenNode.zenNodeArgs).toEqual([])
+  expect(zenNode.zenNodeArgs).toEqual(['--chain', 'main'])
 })
 test('zenNodeArgs wipe from command line', () => {
   // setup
   process.env.WIPE = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--wipe'])
+  expect(zenNode.zenNodeArgs).toEqual(['--wipe', '--chain', 'main'])
 })
 test('zenNodeArgs wipe full from command line', () => {
   // setup
   process.env.WIPEFULL = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--wipe', 'full'])
+  expect(zenNode.zenNodeArgs).toEqual(['--wipe', 'full', '--chain', 'main'])
 })
 test('zenNodeArgs running local net from command line', () => {
   // setup

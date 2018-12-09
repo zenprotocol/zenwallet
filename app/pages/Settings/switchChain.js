@@ -1,10 +1,11 @@
+// @flow
 import swal from 'sweetalert'
 import { ipcRenderer } from 'electron'
 
 import history from '../../services/history'
 import { IPC_RESTART_ZEN_NODE } from '../../ZenNode'
 import { networkStore, secretPhraseStore, walletModeStore } from '../../stores'
-import { MAINNET } from '../../constants'
+import { MAINNET } from '../../constants/constants'
 import routes from '../../constants/routes'
 import { formatChainForZenNode } from '../../utils/helpers'
 import db from '../../services/db'
@@ -14,17 +15,19 @@ const switchChain = async () => {
   if (!shouldSwitch) {
     return
   }
-  const args = { net: formatChainForZenNode(networkStore.otherChain) }
+  networkStore.stopPolling()
+  db.set('chain', networkStore.otherChain).write()
 
   if (walletModeStore.isFullNode()) {
+    let isMining
     if (networkStore.otherChain === MAINNET && secretPhraseStore.isMining) {
-      args.isMining = false
+      isMining = false
       secretPhraseStore.setMining(false)
     }
+    const args = { net: formatChainForZenNode(networkStore.otherChain), isMining }
     ipcRenderer.send(IPC_RESTART_ZEN_NODE, args)
   }
   networkStore.chain = networkStore.otherChain
-  db.set('chain', args.net).write()
   history.push(routes.LOADING)
 }
 

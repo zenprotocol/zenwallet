@@ -83,7 +83,7 @@ class Sidebar extends Component<Props> {
 
   renderMiningStatus() {
     const { isMining } = this.props.secretPhraseStore
-    if (!isMining) {
+    if (!isMining || !this.props.walletModeStore.isFullNode()) {
       return
     }
     return (

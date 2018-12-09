@@ -4,6 +4,7 @@ import bech32 from 'bech32'
 
 import db from '../services/db'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../constants'
+import type { ZenNodeChain } from '../ZenNode'
 
 const validPrefixes = ['zen', 'tzn', 'czen', 'ctzn']
 const savedContracts = db.get('savedContracts').value()
@@ -75,6 +76,6 @@ export const numberWithCommas = (x: number | string): string => {
 
 // zen node expects chain to be "main" or "test", but the api call to `/blockchain/info`
 // returns "main" or "testnet", so we need to format before sending the signal
-export function formatChainForZenNode(chain: string) {
-  return chain.replace('net', '')
+export function formatChainForZenNode(chain: string): ZenNodeChain {
+  return ((chain.replace('net', ''): any): ZenNodeChain)
 }

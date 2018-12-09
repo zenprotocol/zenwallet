@@ -8,7 +8,7 @@ import { getZenNodePath } from '../ZenNode'
 import { isOsx, isWindows, isLinux } from './platformUtils'
 
 export default prereqCheck
-export const PREREQUISITES_CHECK_FAILED = 'PREREQUISITES_CHECK_FAILED'
+export const IPC_PREREQUISITES_CHECK_FAILED = 'IPC_PREREQUISITES_CHECK_FAILED'
 const ERR_STATUS = 'ERR_STATUS'
 
 function prereqCheck() {

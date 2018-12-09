@@ -24,7 +24,7 @@ describe('NetworkStore', () => {
   describe('when db has a chain value', () => {
     it('should initialise the chain from the db chain', () => {
       const networkStore = new NetworkStore(walletModeStore)
-      expect(networkStore.chain).toBe('test')
+      expect(networkStore.chain).toBe('testnet')
     })
   })
 

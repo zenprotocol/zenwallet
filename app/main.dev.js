@@ -17,7 +17,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import ZenNode, { IPC_START_ZEN_NODE } from './ZenNode'
 import db from './services/db'
 import MainProcessErrorReporter from './utils/errorReporting/MainProcessErrorReporter'
-import prereqCheck, { PREREQUISITES_CHECK_FAILED } from './utils/prereqCheck'
+import prereqCheck, { IPC_PREREQUISITES_CHECK_FAILED } from './utils/prereqCheck'
 
 const isUiOnly = (process.env.UIONLY || process.argv.indexOf('--uionly') > -1 || process.argv.indexOf('uionly') > -1)
 const isFullNode = () => db.get('wallet.mode').value() !== 'Light'
@@ -95,7 +95,7 @@ app.on('ready', async () => {
         zenNode.onWebContentsFinishLoad()
       } catch (err) {
         if (webContents) {
-          webContents.send(PREREQUISITES_CHECK_FAILED)
+          webContents.send(IPC_PREREQUISITES_CHECK_FAILED)
         }
       }
     }
@@ -130,7 +130,7 @@ app.on('ready', async () => {
       zenNode.init()
     } catch (err) {
       if (webContents) {
-        webContents.send(PREREQUISITES_CHECK_FAILED)
+        webContents.send(IPC_PREREQUISITES_CHECK_FAILED)
       }
     }
   })

@@ -2,7 +2,7 @@
 import { observable, action, runInAction, computed } from 'mobx'
 
 import PollManager from '../utils/PollManager'
-import { LOCALNET, TESTNET, MAINNET } from '../constants'
+import { LOCALNET, TESTNET, MAINNET, type AppChain } from '../constants/constants'
 import { getNetworkStatus, getNetworkConnections } from '../services/api-service'
 import { getNetworkStatus as getRemoteNetworkStatus } from '../services/remote-node-api-service'
 import type { BlockChainInfo, ApiResponseChain } from '../services/api-service'
@@ -15,7 +15,7 @@ const initialState = getInitialState()
 class NetworkStore {
   walletModeStore: WalletModeStore
 
-  @observable chain: ApiResponseChain = formatChainResult(initialState.chain)
+  @observable chain: AppChain = formatChainResult(initialState.chain)
   @observable blocks = initialState.blocks
   @observable headers = initialState.headers
   @observable difficulty = initialState.difficulty
@@ -129,7 +129,7 @@ class NetworkStore {
 }
 
 export default NetworkStore
-function formatChainResult(chainResult: ApiResponseChain) {
+function formatChainResult(chainResult: ApiResponseChain): AppChain {
   if (chainResult === 'main') {
     return MAINNET
   }
@@ -139,7 +139,7 @@ function formatChainResult(chainResult: ApiResponseChain) {
   if (chainResult === 'testnet') {
     return TESTNET
   }
-  return chainResult
+  return TESTNET
 }
 
 function getInitialState(): BlockChainInfo {

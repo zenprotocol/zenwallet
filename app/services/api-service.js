@@ -140,7 +140,7 @@ export async function getTxHistory({
   })
   return response.data
 }
-export type ApiResponseChain = 'main' | 'testnet';
+export type ApiResponseChain = 'main' | 'testnet' | 'local';
 
 export async function getTxHistoryCount() {
   const response = await axios.get(`${getServerAddress()}/wallet/transactioncount`, {

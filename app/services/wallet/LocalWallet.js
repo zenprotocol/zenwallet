@@ -7,15 +7,16 @@ import {
 } from '../api-service'
 import type {
   RunContractPayload, SendTransactionPayload, RawTransactionPayload,
-  TransactionRequest, ApiResponseChain, DeployContractPayload,
+  TransactionRequest, DeployContractPayload,
 } from '../api-service'
+import type { AppChain } from '../../constants'
 
 import type { IWallet, Chain } from './index'
 import { networkMap } from './index'
 
 class LocalWallet implements IWallet {
     chain: Chain
-    constructor(chain: ApiResponseChain) {
+    constructor(chain: AppChain) {
       this.chain = networkMap[chain]
     }
 

@@ -1,6 +1,7 @@
 // DO NOT MOVE THIS FILE
 // This file must be in the same folder as the main.dev.js
 // otherwise packing for npm breaks the path for the zen node
+// @flow
 import path from 'path'
 
 import compare from 'semver-compare'
@@ -9,6 +10,7 @@ import { ipcMain, dialog } from 'electron'
 import spwanZenNodeChildProcess from '@zen/zen-node'
 
 import { shout } from './utils/dev'
+import { formatChainForZenNode } from './utils/helpers'
 import db from './services/db'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from './constants/versions'
 
@@ -21,11 +23,23 @@ export const IPC_SHUT_DOWN_ZEN_NODE = 'shutdownZenNode'
 export const IPC_BLOCKCHAIN_LOGS = 'blockchainLogs'
 export const ZEN_NODE_RESTART_SIGNAL = 'SIGKILL'
 export const ZEN_NODE_SHUTDOWN_SIGNAL = 'SIGINT'
+export type ZenNodeChain = 'test' | 'main' | 'local';
+type ZenNodeConfig = {
+  wipe: boolean | string,
+  wipeFull: boolean | string,
+  isMining: boolean,
+  net: ZenNodeChain
+};
 
+type ConstructorArgs = {
+  webContents: *,
+  onClose: () => void,
+  onError: (Error, *) => void
+};
 class ZenNode {
   static zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
   ipcMessagesToSendOnFinishedLoad = []
-  logs = []
+  logs: string[] = []
   webContentsFinishedLoad = false
   node = {
     stderr: { pipe: _.noop, on: _.noop },
@@ -34,7 +48,10 @@ class ZenNode {
     kill: _.noop,
   }
   onClose = _.noop
-  constructor({ webContents, onClose, onError }) {
+  onError: (Error, *) => void
+  webContents: *
+
+  constructor({ webContents, onClose, onError }: ConstructorArgs) {
     this.webContents = webContents
     this.onClose = onClose
     this.onError = onError
@@ -45,15 +62,15 @@ class ZenNode {
     this.webContents.send(IPC_ANSWER_IF_WIPED_DUE_TO_VERSION, ZenNode.zenNodeVersionRequiredWipe)
   }
 
-  config = {
+  config: ZenNodeConfig = {
     wipe: process.env.WIPE || process.argv.indexOf('--wipe') > -1 || process.argv.indexOf('wipe') > -1 || ZenNode.zenNodeVersionRequiredWipe,
     wipeFull: process.env.WIPEFULL || process.argv.indexOf('--wipe full') > -1 || process.argv.indexOf('wipefull') > -1,
     isMining: getInitialIsMining(),
-    net: db.get('chain').value() || getInitialNet(),
+    net: getInitialNet(),
   }
 
   init() {
-    console.log('[ZEN NODE]: LAUNCHING ZEN NODE')
+    console.log('[ZEN NODE]: LAUNCHING ZEN NODE', this.zenNodeArgs)
     try {
       const node = spwanZenNodeChildProcess(this.zenNodeArgs, getZenNodePath())
       this.node = node
@@ -81,36 +98,35 @@ class ZenNode {
     this.node.kill(ZEN_NODE_SHUTDOWN_SIGNAL)
   }
 
-  onBlockchainLog = (chunk) => {
+  onBlockchainLog = (chunk: Buffer) => {
     const log = chunk.toString('utf8')
     this.logs = [...this.logs, log].slice(-100)
     console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
     this.webContents.send(IPC_BLOCKCHAIN_LOGS, log)
   }
-  onZenNodeStderr = (chunk) => {
+  onZenNodeStderr = (chunk: Buffer) => {
     const log = chunk.toString('utf8')
     this.logs = [...this.logs, log].slice(-100)
     shout('zen node stderr', log)
   }
 
-  onRestartZenNode = (event, args) => {
+  onRestartZenNode = (event: *, args: ZenNodeConfig) => {
     if ('net' in args) {
-      this.webContents.send('switchChain', args.net)
+      db.set('chain', args.net).write()
       this.webContents.reloadIgnoringCache()
     }
     this.config = { ...this.config, ...args }
     this.node.kill(ZEN_NODE_RESTART_SIGNAL)
   }
 
-  onShutdownZenNode = (event, args) => {
+  onShutdownZenNode = (event: *, args: ZenNodeConfig) => {
     this.config = { ...this.config, ...args }
     this.shutdown()
   }
 
-  onZenNodeExit = (code, signal) => {
+  onZenNodeExit = (code: number, signal: string) => {
     if (signal === ZEN_NODE_RESTART_SIGNAL) {
       shout('[ZEN NODE]: Restart through GUI')
-      this.init()
     } else if (code === 1) {
       shout('zen node non zero exit code')
       dialog.showErrorBox(
@@ -138,7 +154,7 @@ class ZenNode {
       zenNodeVersion: ZEN_NODE_VERSION,
     }).write()
   }
-  onZenNodeError(identifier, err) {
+  onZenNodeError(identifier: string, err: *) {
     shout(`[ZEN NODE]: ${identifier}\n`, err)
     dialog.showErrorBox(
       `${err.message} (Wallet will shutdown)`,
@@ -147,23 +163,18 @@ class ZenNode {
     this.onError(err, { errorType: `zen node: ${identifier}` })
     this.onClose()
   }
-  onMessage = (message) => {
+
+  onMessage = (message: string) => {
     shout('[ZEN NODE]: message:\n', message)
   }
+
   onWebContentsFinishLoad() {
     this.webContentsFinishedLoad = true
     this.ipcMessagesToSendOnFinishedLoad.forEach(({ signal, data }) => {
       this.webContents.send(signal, data)
     })
-    // if user started the app, changed net, and hit refresh, the renderer process
-    // will load the initial chain while the zen node will remain on the changed net
-    if (this.netChangedSinceInit) {
-      this.webContents.send('switchChain', this.config.net)
-    }
   }
-  get netChangedSinceInit() {
-    return getInitialNet() !== this.config.net
-  }
+
   get zenNodeArgs() {
     const {
       isMining, wipe, wipeFull, net,
@@ -200,6 +211,7 @@ export function getZenNodePath() {
 }
 
 function isInstalledWithInstaller() {
+  // $FlowFixMe
   return !process.resourcesPath.includes(path.join('node_modules', 'electron', 'dist'))
 }
 
@@ -210,14 +222,17 @@ export function getInitialIsMining() {
   return !!(process.env.MINER || process.argv.indexOf('--miner') > -1 || process.argv.indexOf('miner') > -1 || db.get('config.isMining').value())
 }
 
-function getInitialNet() {
+function getInitialNet(): ZenNodeChain {
+  const dbChain = db.get('chain').value() || ''
+  const net = formatChainForZenNode(dbChain)
+  if (net !== '') { return net }
   if (process.env.ZEN_LOCAL_NET) {
     return 'local'
   }
   if (process.env.ZEN_TEST_NET) {
     return 'test'
   }
-  return ''
+  return 'main'
 }
 
 function doesZenNodeVersionRequiredWipe() {
@@ -248,5 +263,5 @@ function logWipeNeeded(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVers
 }
 
 function initialNetIsMainnet() {
-  return getInitialNet() === ''
+  return getInitialNet() === 'main'
 }

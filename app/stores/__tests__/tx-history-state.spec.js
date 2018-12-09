@@ -1,7 +1,7 @@
 import TxHistoryStore from '../txHistoryStore'
 import { getTxHistory, getTxHistoryCount } from '../../services/api-service'
-import NetworkStore from '../NetworkStore'
-import WalletModeStore from '../WalletModeStore'
+import NetworkStore from '../networkStore'
+import WalletModeStore from '../walletModeStore'
 
 jest.mock('../../services/api-service', () => ({
   getTxHistory: jest.fn(),
