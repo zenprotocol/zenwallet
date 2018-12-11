@@ -16,6 +16,12 @@
     </script>
   </head>
   <body>
+      <h1>Data:</h1>
+      <p>Received this data <input id="data"/></p>
+      <script>
+        const {getLink} = require('electron').remote.require('./main.js');
+        document.querySelector('#data').value = getLink();
+      </script>
     <div id="root"></div>
     <script>
       {

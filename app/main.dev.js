@@ -106,6 +106,16 @@ app.on('ready', async () => {
   })
 })
 
+let link
+
+// This will catch clicks on links such as <a href="foobar://abc=1">open in foobar</a>
+app.on('open-url', (event, data) => {
+  event.preventDefault();
+  link = data;
+})
+
+app.setAsDefaultProtocolClient('foobar')
+
 app.on('window-all-closed', () => {
   console.log('******* [window-all-closed] *******')
   console.log('Calling app.quit because (window-all-closed)')
@@ -147,3 +157,5 @@ function registerUncaughtException(mainProcessErrorReporter) {
     mainProcessErrorReporter.report(error)
   }
 }
+
+module.exports.getLink = () => link

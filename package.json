@@ -9,6 +9,7 @@
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
     "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
+    "dapp-communication-example": "http-server ./dapp-communication-example",
     "dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 ZEN_TEST_NET=1 npm run start-renderer-dev",
     "dev-ui-only": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 UIONLY=1 npm run start-renderer-dev",
     "dev-local": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 ZEN_LOCAL_NET=1 npm run start-renderer-dev",
@@ -45,6 +46,12 @@
     "productName": "Zen-Protocol-Wallet",
     "extraResources": "node_modules/@zen/zen-node",
     "appId": "com.zenprotocol.wallet",
+    "protocols": {
+      "name": "foobar-protocol",
+      "schemes": [
+        "foobar"
+      ]
+    },
     "publish": {
       "provider": "github",
       "publishAutoUpdate": false
@@ -164,6 +171,7 @@
     "file-loader": "^1.1.6",
     "flow-bin": "^0.73.0",
     "flow-typed": "^2.3.0",
+    "http-server": "^0.11.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.1.4",
     "mobx-react-devtools": "^5.0.1",
