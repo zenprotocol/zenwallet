@@ -176,8 +176,8 @@ class Settings extends Component<Props, State> {
   }
 
   renderWipe() {
-    return this.props.walletModeStore.isFullNode() ?
-      (
+    if (this.props.walletModeStore.isFullNode()) {
+      return (
         <Flexbox className="row">
           <Flexbox flexDirection="column" className="description">
             <h2 className="description-title">Wipe blockchain</h2>
@@ -187,18 +187,19 @@ class Settings extends Component<Props, State> {
             <button className="btn-block" onClick={wipeBlockchain}>Wipe Blockchain</button>
           </Flexbox>
         </Flexbox>
-      ) :
-      (
-        <Flexbox className="row">
-          <Flexbox flexDirection="column" className="description">
-            <h2 className="description-title">Wipe your storage</h2>
-            <p>Wipe your storage if want to create or import a new wallet</p>
-          </Flexbox>
-          <Flexbox flexDirection="column" className="actions">
-            <button className="btn-block" onClick={wipeStorage}>Wipe your storage</button>
-          </Flexbox>
-        </Flexbox>
       )
+    }
+    return (
+      <Flexbox className="row">
+        <Flexbox flexDirection="column" className="description">
+          <h2 className="description-title">Wipe your storage</h2>
+          <p>Wipe your storage if want to create or import a new wallet</p>
+        </Flexbox>
+        <Flexbox flexDirection="column" className="actions">
+          <button className="btn-block" onClick={wipeStorage}>Wipe your storage</button>
+        </Flexbox>
+      </Flexbox>
+    )
   }
 
   renderShowSeed() {
@@ -328,8 +329,8 @@ class Settings extends Component<Props, State> {
   }
 
   renderWalletMode() {
-    const { walletModeStore } = this.props
-    const [currentWalletMode, otherWalletMode] = walletModeStore.modes
+    const [currentWalletMode, otherWalletMode] = this.props.walletModeStore.isFullNode() ?
+      ['Full Node', 'Light wallet'] : ['Light wallet', 'Full Node']
     return (
       <Flexbox className="row">
         <Flexbox flexDirection="column" className="description">

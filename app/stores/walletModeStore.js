@@ -23,11 +23,6 @@ class WalletModeStore {
     isFullNode() {
       return this._mode === 'Full'
     }
-
-    get modes() {
-      return this.isFullNode() ?
-        ['Full Node', 'Light wallet'] : ['Light wallet', 'Full Node']
-    }
 }
 
 export default WalletModeStore

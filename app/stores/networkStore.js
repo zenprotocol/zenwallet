@@ -130,7 +130,7 @@ class NetworkStore {
 
 export default NetworkStore
 function formatChainResult(chainResult: ApiResponseChain): AppChain {
-  if (chainResult === 'main') {
+  if (chainResult === 'main' || chainResult === MAINNET) {
     return MAINNET
   }
   if (chainResult === 'local') {

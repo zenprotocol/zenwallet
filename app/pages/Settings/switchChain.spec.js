@@ -5,6 +5,7 @@ import { walletModeStore, networkStore } from '../../stores'
 import history from '../../services/history'
 import routes from '../../constants/routes'
 import { IPC_RESTART_ZEN_NODE } from '../../ZenNode'
+import db from '../../services/db'
 
 import switchChain from './switchChain'
 
@@ -21,10 +22,12 @@ jest.mock('electron', () => ({
 jest.mock('sweetalert')
 jest.mock('../../services/history')
 
+const dbSetSpy = jest.spyOn(db, 'set')
 describe('Switch Chain Mode', () => {
   afterEach(() => {
     ipcRenderer.send.mockReset()
     ipcMain.send.mockReset()
+    dbSetSpy.mockClear()
   })
 
   describe('when sweetalert returns false', () => {
@@ -69,6 +72,10 @@ describe('Switch Chain Mode', () => {
         it('sets chain to mainnet', () => {
           expect(networkStore.chain).toBe('mainnet')
         })
+
+        it('writes mainnet to db', () => {
+          expect(dbSetSpy).toHaveBeenCalledWith('chain', 'mainnet')
+        })
       })
 
       describe('and network is mainnet', () => {
@@ -83,6 +90,10 @@ describe('Switch Chain Mode', () => {
 
         it('sets chain to testnet', () => {
           expect(networkStore.chain).toBe('testnet')
+        })
+
+        it('writes testnet to db', () => {
+          expect(dbSetSpy).toHaveBeenCalledWith('chain', 'testnet')
         })
       })
     })

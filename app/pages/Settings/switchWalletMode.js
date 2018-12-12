@@ -28,7 +28,8 @@ const switchWalletMode = async () => {
 export default switchWalletMode
 
 function shouldSwitchModal(): boolean {
-  const [currentWalletMode, otherWalletMode] = walletModeStore.modes
+  const [currentWalletMode, otherWalletMode] = walletModeStore.isFullNode() ?
+    ['Full Node', 'Light wallet'] : ['Light wallet', 'Full Node']
   return swal({
     title: 'Confirm switching wallet mode',
     text: `Switch from ${currentWalletMode} to ${otherWalletMode}?
