@@ -12,9 +12,11 @@ import Layout from '../../components/Layout'
 import CopyableTableCell from '../../components/CopyableTableCell'
 import ActiveContractsStore from '../../stores/activeContractsStore'
 import RunContractStore from '../../stores/runContractStore'
+import WalletModeStore from '../../stores/walletModeStore'
 
 type Props = {
   activeContractsStore: ActiveContractsStore,
+  walletModeStore: WalletModeStore,
   runContractStore: RunContractStore
 };
 
@@ -22,7 +24,7 @@ type State = {
   showCodeSnippetForContractAddress: string
 };
 
-@inject('activeContractsStore', 'runContractStore')
+@inject('activeContractsStore', 'runContractStore', 'walletModeStore')
 @observer
 class ActiveContracts extends Component<Props, State> {
   state = {
@@ -44,8 +46,19 @@ class ActiveContracts extends Component<Props, State> {
   }
 
   renderActiveContractRows() {
-    const { activeContractsStore } = this.props
+    const { activeContractsStore, walletModeStore } = this.props
     const { showCodeSnippetForContractAddress } = this.state
+
+    const renderRunContract = () => {
+      if (walletModeStore.isFullNode()) {
+        return (
+          <Link title="Run Contract" className="button small play" to={routes.RUN_CONTRACT} onClick={() => this.props.runContractStore.updateAddress(contract.address)}>
+            <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
+          </Link>
+        )
+      }
+      return null
+    }
     return activeContractsStore.activeContracts.map((contract) => {
       const formattedActiveUntil = contract.expire.toLocaleString()
       const isCodeCurrentyViewed = showCodeSnippetForContractAddress === contract.address
@@ -64,9 +77,7 @@ class ActiveContracts extends Component<Props, State> {
               >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
               </a>
-              <Link title="Run Contract" className="button small play" to={routes.RUN_CONTRACT} onClick={() => this.props.runContractStore.updateAddress(contract.address)}>
-                <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
-              </Link>
+              { renderRunContract() }
             </td>
           </tr>
           <tr className={cx('code', { 'display-none': !isCodeCurrentyViewed })}>
@@ -82,6 +93,20 @@ class ActiveContracts extends Component<Props, State> {
         </Fragment>
       )
     })
+  }
+
+  renderUploadContract() {
+    if (this.props.walletModeStore.isFullNode()) {
+      return (
+        <Flexbox justifyContent="flex-end" className="page-buttons">
+          <Link className="button with-icon" to={routes.DEPLOY_CONTRACT} title="Upload Contract">
+            <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
+          </Link>
+        </Flexbox>
+      )
+    }
+
+    return null
   }
 
   render() {
@@ -101,11 +126,7 @@ class ActiveContracts extends Component<Props, State> {
                 the tokens they generate to move freely.
               </h3>
             </Flexbox>
-            <Flexbox justifyContent="flex-end" className="page-buttons">
-              <Link className="button with-icon" to={routes.DEPLOY_CONTRACT} title="Upload Contract">
-                <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
-              </Link>
-            </Flexbox>
+            { this.renderUploadContract()}
           </Flexbox>
 
           <Flexbox className="contracts-list" flexGrow={1}>

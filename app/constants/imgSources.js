@@ -6,3 +6,5 @@ export const CANCEL_ICON_SRC = `${IMG_BASE}/cancel-icon.png`
 export const LOADING_GIF_SRC = `${IMG_BASE}/loading.gif`
 export const LOGO_GIF_SRC = `${IMG_BASE}/zen-animated-logo.gif`
 export const BUG_SRC = `${IMG_BASE}/bug.png`
+export const LIGHT_WALLET = `${IMG_BASE}/light-node.png`
+export const FULL_NODE = `${IMG_BASE}/full-node.png`

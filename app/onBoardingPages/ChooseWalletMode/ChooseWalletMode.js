@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { ipcRenderer } from 'electron'
 
 import routes from '../../constants/routes'
+import { LIGHT_WALLET, FULL_NODE } from '../../constants/imgSources'
 import type { WalletMode } from '../../stores/walletModeStore'
 import OnBoardingLayout from '../Layout/Layout'
 import WalletModeStore from '../../stores/walletModeStore'
@@ -55,6 +56,7 @@ export class ChooseWalletMode extends React.Component<Props, State> {
             className={`${classnames(selectedMode === 'Light' && 'selected', 'box')}`}
             flexDirection="column"
           >
+            <img src={LIGHT_WALLET} alt="Light wallet" />
             <h5>Light wallet</h5>
             <p>
               Using a light wallet allows quick access to zen without running a full node.
@@ -66,6 +68,7 @@ export class ChooseWalletMode extends React.Component<Props, State> {
             className={`${classnames(selectedMode === 'Full' && 'selected', 'box')}`}
             flexDirection="column"
           >
+            <img src={FULL_NODE} alt="Full node" />
             <h5>Full node</h5>
             <p>
               By running a full node you will download the zen protocol

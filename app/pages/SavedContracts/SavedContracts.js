@@ -12,6 +12,7 @@ import { Online } from 'react-detect-offline'
 import ActiveContractsStore from '../../stores/activeContractsStore'
 import PortfolioStore from '../../stores/portfolioStore'
 import RunContractStore from '../../stores/runContractStore'
+import WalletModeStore from '../../stores/walletModeStore'
 import DeployContractStore from '../../stores/deployContractStore'
 import routes from '../../constants/routes'
 import Layout from '../../components/Layout'
@@ -23,7 +24,8 @@ type Props = {
   activeContractsStore: ActiveContractsStore,
   runContractStore: RunContractStore,
   deployContractStore: DeployContractStore,
-  portfolioStore: PortfolioStore
+  portfolioStore: PortfolioStore,
+  walletModeStore: WalletModeStore
 };
 
 type State = {
@@ -47,7 +49,7 @@ type DBSavedContract = {
   name?: string
 };
 
-@inject('deployContractStore', 'runContractStore', 'activeContractsStore', 'portfolioStore')
+@inject('deployContractStore', 'runContractStore', 'activeContractsStore', 'portfolioStore', 'walletModeStore')
 @observer
 class SavedContracts extends Component<Props, State> {
   state = {
@@ -115,6 +117,24 @@ class SavedContracts extends Component<Props, State> {
 
   renderSavedContractRow = (savedContract: SavedContract) => {
     const cannotDelete = this.contractExistsInAssets(savedContract.contractId)
+
+    const renderUploadOrRun = () => {
+      if (!this.props.walletModeStore.isFullNode()) {
+        return null
+      }
+      if (savedContract.isActive) {
+        return (
+          <Link title="Run Contract" className="button small play margin-right play-upload-button" to={routes.RUN_CONTRACT} onClick={() => this.props.runContractStore.updateAddress(savedContract.address)}>
+            <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
+          </Link>
+        )
+      }
+      return (
+        <Link className="button small margin-right play-upload-button" to={routes.DEPLOY_CONTRACT} title="Upload Contract" onClick={() => { this.props.deployContractStore.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
+          <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
+        </Link>
+      )
+    }
     return (
       <Fragment key={savedContract.contractId}>
         <tr key={savedContract.contractId}>
@@ -130,20 +150,7 @@ class SavedContracts extends Component<Props, State> {
             >
               <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
             </a>
-            <Online>
-              {
-            savedContract.isActive ?
-              (
-                <Link title="Run Contract" className="button small play margin-right play-upload-button" to={routes.RUN_CONTRACT} onClick={() => this.props.runContractStore.updateAddress(savedContract.address)}>
-                  <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
-                </Link>
-              ) : (
-                <Link className="button small margin-right play-upload-button" to={routes.DEPLOY_CONTRACT} title="Upload Contract" onClick={() => { this.props.deployContractStore.prepareToUploadSavedContract(savedContract.name, savedContract.code) }}>
-                  <FontAwesomeIcon icon={['far', 'cloud-upload']} /> <span className="button-text">Upload</span>
-                </Link>
-              )
-            }
-            </Online>
+            <Online> {renderUploadOrRun() } </Online>
             {
               <a
                 className="button small alert"
@@ -192,8 +199,6 @@ class SavedContracts extends Component<Props, State> {
               even after they have left the Active Contract Set.
             </h3>
           </Flexbox>
-
-
           <Flexbox className="contracts-list" flexGrow={1}>
             <table>
               <thead>
