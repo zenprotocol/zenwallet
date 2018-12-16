@@ -39,7 +39,10 @@ afterAll(() => {
   process.resourcesPath = originalProcessResourcePath
 })
 
-const mockedWebContents = { send: jest.fn() }
+const mockedWebContents = {
+  send: jest.fn(),
+  reloadIgnoringCache: jest.fn(),
+}
 const mockedOnClose = jest.fn()
 const mockedOnError = jest.fn()
 
@@ -159,6 +162,22 @@ test('onBlockchainLog', () => {
   // assertion
   expect(mockedWebContents.send).toHaveBeenCalledTimes(1)
   expect(mockedWebContents.send).toHaveBeenCalledWith(IPC_BLOCKCHAIN_LOGS, '')
+})
+
+test('onRestartZenNode if net is in args', () => {
+  const zenNode = getZenNode()
+  const initSpy = jest.spyOn(zenNode, 'init')
+  zenNode.onRestartZenNode(null, { net: 'testnet' })
+  expect(mockedWebContents.reloadIgnoringCache).toHaveBeenCalled()
+  expect(initSpy).not.toHaveBeenCalled()
+})
+
+test('onRestartZenNode if net is not in args', () => {
+  const zenNode = getZenNode()
+  const initSpy = jest.spyOn(zenNode, 'init')
+  zenNode.onRestartZenNode(null, { wipe: true })
+  expect(mockedWebContents.reloadIgnoringCache).not.toHaveBeenCalled()
+  expect(initSpy).toHaveBeenCalled()
 })
 
 function getZenNode() {

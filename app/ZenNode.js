@@ -111,12 +111,14 @@ class ZenNode {
   }
 
   onRestartZenNode = (event: *, args: ZenNodeConfig) => {
+    this.config = { ...this.config, ...args }
+    this.node.kill(ZEN_NODE_RESTART_SIGNAL)
     if ('net' in args) {
       db.set('chain', args.net).write()
       this.webContents.reloadIgnoringCache()
+    } else {
+      this.init()
     }
-    this.config = { ...this.config, ...args }
-    this.node.kill(ZEN_NODE_RESTART_SIGNAL)
   }
 
   onShutdownZenNode = (event: *, args: ZenNodeConfig) => {
