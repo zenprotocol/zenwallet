@@ -2,15 +2,16 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import ReactTable from 'react-table'
 import cx from 'classnames'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import { normalizeTokens, isZenAsset } from '../../utils/zenUtils'
 import Layout from '../../components/Layout'
-import OnScrollBottom from '../../components/OnScrollBottom'
+import ReactTablePagination from '../../components/ReactTablePagination'
 import CopyableTableCell from '../../components/CopyableTableCell'
 import ZpIoLink from '../../components/ZpIoLink'
+import Dropdown from '../../components/Dropdown'
 import TransactionHistoryState from '../../stores/txHistoryStore'
 import PortfolioState from '../../stores/portfolioStore'
 import NetworkState from '../../stores/networkStore'
@@ -24,27 +25,9 @@ type Props = {
 @inject('txHistoryStore', 'portfolioStore', 'networkStore')
 @observer
 class TxHistory extends Component<Props> {
-  componentDidMount() {
-    this.props.txHistoryStore.initPolling()
+  componentWillMount() {
+    this.props.txHistoryStore.fetch()
   }
-
-  componentWillUnmount() {
-    this.props.txHistoryStore.reset()
-  }
-
-  renderLoadingTransactions() {
-    return (
-      <tr className="loading-transactions">
-        <td colSpan={5}>
-          <Flexbox>
-            <Flexbox flexGrow={1} >Loading transactions ...</Flexbox>
-            <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
-          </Flexbox>
-        </td>
-      </tr>
-    )
-  }
-
   blockNumber(tx) {
     return String((this.props.networkStore.headers - tx.confirmations) + 1)
   }
@@ -94,24 +77,51 @@ class TxHistory extends Component<Props> {
       }]
   }
 
-  render() {
-    const { txHistoryStore } = this.props
+  get renderSelectPageSize() {
+    const { pageSize, pageSizeOptions } = this.props.txHistoryStore
     return (
-      <Layout className="balances">
+      <div className="select-page-size">
+        <span >SHOW</span>
+        <Dropdown
+          options={pageSizeOptions}
+          value={String(pageSize)}
+          onChange={this.selectPageSize}
+        />
+        <span>ENTRIES</span>
+      </div>
+    )
+  }
 
+  selectPageSize = (selected: { value: string }) => {
+    this.props.txHistoryStore.selectPageSize(Number(selected.value))
+  }
+
+  render() {
+    const {
+      pageSize, pagesCount, pageIdx, transactions, onPageChange,
+    } = this.props.txHistoryStore
+    return (
+      <Layout className="tx-history">
         <Flexbox className="page-title">
           <h1>Transactions</h1>
+          {this.renderSelectPageSize}
         </Flexbox>
-
         <Flexbox className="balance-list">
           <ReactTable
+            page={pageIdx}
+            manual
+            onPageChange={onPageChange}
+            pages={pagesCount}
+            PaginationComponent={ReactTablePagination}
             className="align-left-headers"
             minRows={1}
-            data={txHistoryStore.transactions}
+            data={transactions}
+            pageSize={pageSize}
             columns={this.columns}
+            previousText={<FontAwesomeIcon icon={['fas', 'angle-double-left']} />}
+            nextText={<FontAwesomeIcon icon={['fas', 'angle-double-right']} />}
           />
         </Flexbox>
-        <OnScrollBottom onScrollBottom={txHistoryStore.fetch} />
       </Layout>
     )
   }

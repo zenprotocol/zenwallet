@@ -32,6 +32,7 @@ export const checkForUpdates = async (platform: string = process.platform): Prom
       default:
         updateUrl = LATEST_RELEASE_URL
     }
+    // $FlowFixMe
     return { url: updateUrl, message: updateMessage }
   } catch (error) {
     console.error(error)

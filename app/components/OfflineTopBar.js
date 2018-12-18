@@ -12,6 +12,7 @@ type Props = {
 
 @observer
 class OfflineTopBar extends Component<Props> {
+  // $FlowFixMe
   style(width) {
     return {
       position: 'fixed',

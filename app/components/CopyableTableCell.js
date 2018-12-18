@@ -43,6 +43,7 @@ class CopyableTableCell extends React.Component<Props, State> {
   renderString() {
     const { string, isTx } = this.props
     return isTx ? (
+      // $FlowFixMe
       <ZpIoLink path={`tx/${string}`}>
         {this.formattedString}
       </ZpIoLink>
