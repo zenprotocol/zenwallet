@@ -140,6 +140,13 @@ export async function getTxHistory({
   return response.data
 }
 
+export async function getTxHistoryCount() {
+  const response = await axios.get(`${getServerAddress()}/wallet/transactioncount`, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response.data
+}
+
 type BlockChainInfo = {
   chain: string,
   blocks: number,
@@ -159,7 +166,8 @@ export async function getNetworkConnections(): Promise<number> {
 
 export async function getWalletExists(): Promise<boolean> {
   const response = await axios.get(`${getServerAddress()}/wallet/exists`)
-  console.log('getWalletExists()', response.data)
+  const msg = response.data ? 'wallet exists' : 'wallet does NOT exist'
+  console.log(msg)
   return response.data
 }
 
@@ -211,6 +219,7 @@ export async function postBlockchainBlock(): string {
   const response = await axios.post(`${getServerAddress()}/blockchain/publishblock`, dataBlock, {
     headers: { 'Content-Type': 'application/json' },
   })
+  // $FlowFixMe
   return response.data
 }
 

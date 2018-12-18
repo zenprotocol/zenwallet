@@ -221,6 +221,7 @@
     "react-autosuggest": "^9.3.4",
     "react-detect-offline": "^2.1.2",
     "react-dom": "^16.3.1",
+    "react-dropdown": "^1.6.2",
     "react-dropzone": "^4.2.9",
     "react-error-boundary": "^1.2.3",
     "react-highlight": "^0.12.0",

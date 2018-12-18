@@ -33,10 +33,10 @@ class ErrorReportingStore {
   @action
   initReporting() {
     if (this.isReporting) {
-      console.warn('error reporting intialized already')
+      console.warn('[initReporting] error reporting intialized already')
       return
     }
-    console.log('Initialize reporting errors')
+    console.log('Reporting errors')
     this.isReporting = true
     crashReporter.start(crashReporterOpts)
   }
@@ -46,7 +46,7 @@ class ErrorReportingStore {
     this.userIsOptedIn = true
     db.set('config.userIsOptedInToReportErrors', true).write()
     if (this.isReporting) {
-      console.warn('already reporting errors')
+      console.warn('[userOptsIn] error reporting intialized already')
       return
     }
     ipcRenderer.send(IPC_START_ERROR_REPORTING)

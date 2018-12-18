@@ -19,10 +19,12 @@ const portfolioStore = new PortfolioStore(activeContractsStore)
 const publicAddressStore = new PublicAddressStore()
 const networkStore = new NetworkStore()
 const redeemTokensStore = new RedeemTokensStore(networkStore)
-const secretPhraseStore =
-  new SecretPhraseStore(networkStore, portfolioStore, activeContractsStore, redeemTokensStore)
-const sendTxStore = new SendTxStore()
 const txHistoryStore = new TxHistoryStore()
+const secretPhraseStore =
+  new SecretPhraseStore({
+    networkStore, portfolioStore, activeContractsStore, redeemTokensStore, txHistoryStore,
+  })
+const sendTxStore = new SendTxStore()
 const deployContractStore = new DeployContractStore()
 const runContractStore = new RunContractStore(activeContractsStore)
 const blockchainLogsStore = new Store()
