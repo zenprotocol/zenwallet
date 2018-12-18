@@ -12,7 +12,8 @@ const fileName = 'zen-wallet-db.json'
 
 const appDataPath = electronApp.getPath('appData')
 const userDataPath = path.join(appDataPath, 'zenwallet')
-console.log('db userDataPath', userDataPath)
+
+// console.log('db folder:', userDataPath)
 
 const doesFolderExist = fs.existsSync(userDataPath)
 

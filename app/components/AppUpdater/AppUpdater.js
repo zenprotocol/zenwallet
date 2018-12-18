@@ -6,6 +6,7 @@ import appUpdateModal from './AppUpdateModal'
 
 const POLL_INTERVAL = 1000 * 5 * 60
 const pollForUpdates = async () => {
+  // $FlowFixMe
   const updateContent = await checkForUpdates()
   if (!updateContent) {
     setTimeout(pollForUpdates, POLL_INTERVAL)

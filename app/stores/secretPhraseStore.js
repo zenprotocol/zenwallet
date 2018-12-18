@@ -21,11 +21,14 @@ class secretPhraseStore {
   @observable status = ''
   @observable isMining = getInitialIsMining()
 
-  constructor(networkStore, portfolioStore, activeContractsStore, redeemTokensStore) {
+  constructor({
+    networkStore, portfolioStore, activeContractsStore, redeemTokensStore, txHistoryStore,
+  }) {
     this.networkStore = networkStore
     this.portfolioStore = portfolioStore
     this.activeContractsStore = activeContractsStore
     this.redeemTokensStore = redeemTokensStore
+    this.txHistoryStore = txHistoryStore
     if (isDev()) {
       this.initDev()
     }
@@ -55,6 +58,8 @@ class secretPhraseStore {
           this.isLoggedIn = true
           this.portfolioStore.initPolling()
           this.networkStore.initPolling()
+          this.txHistoryStore.initPolling()
+          this.txHistoryStore.fetch()
           this.activeContractsStore.fetch()
           this.resync()
           this.mnemonicPhrase = []
@@ -85,7 +90,6 @@ class secretPhraseStore {
 
       runInAction(() => {
         this.inprogress = false
-        console.log('isPasswordCorrect', isPasswordCorrect)
         if (!isPasswordCorrect) {
           this.inprogress = false
           this.status = 'error'
@@ -94,6 +98,8 @@ class secretPhraseStore {
         this.isLoggedIn = true
         this.portfolioStore.initPolling()
         this.networkStore.initPolling()
+        this.txHistoryStore.initPolling()
+        this.txHistoryStore.fetch()
         history.push(routes.PORTFOLIO)
       })
     } catch (error) {
@@ -163,16 +169,22 @@ class secretPhraseStore {
     this.isLoggedIn = false
     this.networkStore.stopPolling()
     this.portfolioStore.stopPolling()
+    this.txHistoryStore.stopPolling()
   }
 
+  // [AdGo] 13.12.2018 - use when you want to manually set the initial route
+  // to the page you are working on, thus bypassying unlocking the wallet
+  // so this will mimic somewhat the unlocking of the wallet
   @action
   initDev() {
     getWalletExists()
       .then(doesWalletExists => {
         // eslint-disable-next-line promise/always-return
         if (doesWalletExists) {
+          this.isLoggedIn = true
           this.portfolioStore.initPolling()
           this.networkStore.initPolling()
+          this.txHistoryStore.initPolling()
           this.activeContractsStore.fetch()
         }
       })

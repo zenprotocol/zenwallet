@@ -23,7 +23,9 @@ class ZpIoLink extends React.Component<Props> {
       : 'https://testnet.zp.io/'
   }
   render() {
-    const { path, children, ...restOfProps } = this.props
+    const {
+      path, children, networkStore, ...restOfProps
+    } = this.props
     return <ExternalLink {...restOfProps} link={`${this.base}/${path}`}>{children}</ExternalLink>
   }
 }

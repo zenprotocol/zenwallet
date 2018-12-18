@@ -218,14 +218,20 @@ function doesZenNodeVersionRequiredWipe() {
   const mockNoWipeRecordVersion = '0.0.0'
   const lastWipedOnZenNodeVersion = db.get('lastWipe.zenNodeVersion').value() || mockNoWipeRecordVersion
   const isWipeNeeded = compare(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVersion) === 1
-  console.log(`
-********** WIPE DUE TO ZEN NODE VERSION NEEDED? **********
-${isWipeNeeded ? 'Yes' : 'No'}
-Last version requiring wipe: ${latestZenNodeVersionRequiringWipe}
-Last wiped on version: ${lastWipedOnZenNodeVersion === mockNoWipeRecordVersion ? 'no local record of wiping found' : lastWipedOnZenNodeVersion}
-********** WIPE DUE TO ZEN NODE VERSION NEEDED? **********
-`)
+  if (isWipeNeeded) {
+    logWipeNeeded(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVersion, mockNoWipeRecordVersion)
+  }
   return isWipeNeeded
+}
+
+// eslint-disable-next-line max-len
+function logWipeNeeded(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVersion, mockNoWipeRecordVersion) {
+  console.log(`
+  [********** ZEN NODE VERSION REQUIRES WIPE **********]
+  Last version requiring wipe: ${latestZenNodeVersionRequiringWipe}
+  Last wiped on version: ${lastWipedOnZenNodeVersion === mockNoWipeRecordVersion ? 'no local record of wiping found' : lastWipedOnZenNodeVersion}
+  [********** /ZEN NODE VERSION REQUIRES WIPE **********]
+  `)
 }
 
 function initialNetIsMainnet() {

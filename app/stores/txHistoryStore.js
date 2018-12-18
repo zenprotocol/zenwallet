@@ -1,18 +1,20 @@
 // @flow
 import { observable, action, runInAction } from 'mobx'
 
-import { getTxHistory } from '../services/api-service'
+import { getTxHistory, getTxHistoryCount } from '../services/api-service'
 import PollManager from '../utils/PollManager'
 
 class TxHistoryStore {
-  @observable batchSize = 100
+  pageSizeOptions = ['5', '10', '20', '100']
   @observable transactions = []
-  @observable skip = 0
-  @observable currentPageSize = 0
-  @observable isFetching = false
+  @observable count = 0
+  @observable pageIdx = 0
+  @observable pageSize = 5
+  @observable isFetchingCount = false
+  @observable isFetchingTransactions = false
   fetchPollManager = new PollManager({
-    name: 'tx history fetch',
-    fnToPoll: this.fetch,
+    name: 'tx history count fetch',
+    fnToPoll: this.fetchCount,
     timeoutInterval: 5000,
   })
   @action
@@ -27,33 +29,66 @@ class TxHistoryStore {
   @action
   reset() {
     this.stopPolling()
-    runInAction(() => {
-      this.skip = 0
-      this.currentPageSize = 0
-      this.transactions = []
-      this.isFetching = false
-    })
+    this.isFetchingCount = false // goldy note to self: this used to be wrapped in runInAction
   }
 
   @action.bound
-  fetch = async () => {
-    if (this.isFetching) { return }
-    this.isFetching = true
+  selectPageSize(nextPageSize: number) {
+    this.pageIdx = Math.floor((this.pageSize * this.pageIdx) / nextPageSize)
+    this.pageSize = nextPageSize
+    this.fetch()
+  }
+
+  @action.bound
+  onPageChange(nextPageIdx: number) {
+    this.pageIdx = nextPageIdx
+    this.fetch()
+  }
+
+  @action.bound
+  async fetch() {
+    this.isFetchingTransactions = true
     try {
-      const result = await getTxHistory({
-        skip: this.skip, take: this.currentPageSize + this.batchSize,
-      })
+      const nextTransactions = await getTxHistory({ skip: this.skip, take: this.pageSize })
       runInAction(() => {
-        if (result.length) {
-          this.currentPageSize = result.length
-          this.transactions = result
-        }
-        this.isFetching = false
+        this.transactions = nextTransactions
+        this.isFetchingTransactions = false
       })
     } catch (error) {
-      console.log('error', error)
-      this.isFetching = false
+      console.log('error fetching transactions', error)
+      this.isFetchingTransactions = false
     }
+  }
+
+  @action.bound
+  async fetchCount() {
+    if (this.isFetchingCount) { return }
+    this.isFetchingCount = true
+    try {
+      const nextCount = await getTxHistoryCount()
+      runInAction(() => {
+        if (nextCount > this.count) {
+          this.count = nextCount
+          // TODO Toast for new transaction, unless it's the first time
+          // we fetched the count, to not toast about old transcations when logging in
+          // feature idea:
+          // show new transactions since user last logged in. we can do that
+          // by saving transaction count to DB, and check it on load
+        }
+        this.isFetchingCount = false
+      })
+    } catch (error) {
+      console.log('error fecthing txHistoryCount', error)
+      this.isFetchingCount = false
+    }
+  }
+
+  get pagesCount() {
+    return Math.ceil(this.count / this.pageSize)
+  }
+
+  get skip() {
+    return this.pageIdx * this.pageSize
   }
 }
 
