@@ -1,0 +1,89 @@
+
+.Dropdown {
+  $dd-padding-y: 8px;
+
+  &.Dropdown-root {
+    position: relative;
+  }
+  
+  .Dropdown-control {
+    position: relative;
+    // overflow: hidden;
+    background-color: #14171a;
+    border: none;
+    border-radius: 2px;
+    color: #f2f2f2;
+    cursor: default;
+    outline: none;
+    padding: $dd-padding-y 52px $dd-padding-y 14px;
+    transition: all 150ms ease;
+  }
+  
+  .Dropdown-control:hover {
+    background-color: #1b2024;
+  }
+  
+  .Dropdown-arrow-wrapper {
+    position: absolute;
+    top: $dd-padding-y;  
+    right: 14px;
+  }
+  
+  .Dropdown-menu {
+    background-color: #14171a;
+    border: 1px solid #1b2024;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    margin-top: -1px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    z-index: 1000;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .Dropdown-menu .Dropdown-group > .Dropdown-title {
+    padding: $dd-padding-y 14px;
+    color: #f2f2f2;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+  
+  .Dropdown-option {
+    box-sizing: border-box;
+    color: #f2f2f2;
+    cursor: pointer;
+    display: block;
+    padding: $dd-padding-y 14px;
+  }
+  
+  .Dropdown-option:last-child {
+    border-bottom-right-radius: 2px;
+     border-bottom-left-radius: 2px;
+  }
+  
+  .Dropdown-option:hover {
+    background-color: #1b2024;
+  }
+  
+  .Dropdown-option.is-selected {
+    background-color: #1b2024;
+  }
+  
+  .Dropdown-noresults {
+    box-sizing: border-box;
+    color: #ccc;
+    cursor: default;
+    display: block;
+    padding: $dd-padding-y 14px;
+  }
+
+  .Dropdown-placeholder {
+    color: #999;
+
+    &.is-selected {
+      color: #f2f2f2;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.tx-history {
+  .page-title {
+    justify-content: space-between;
+  }
+  .select-page-size {
+    display: flex;
+    align-items: center;
+    .Dropdown {
+      margin: 0 5px;
+    }
+  }
+  .pagination-bottom {
+    margin-top: 2rem;
+  }
+  .-pagination {
+    justify-content: flex-end;
+  }
+  
+  .pagination-bottom .pagination {
+    margin-bottom: 0;
+  }
+}

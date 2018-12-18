@@ -9,6 +9,7 @@ type Props = {
 
 @observer
 class OnlineTopBar extends Component<Props> {
+  // $FlowFixMe
   style(width) {
     return {
       position: 'fixed',

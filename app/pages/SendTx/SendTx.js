@@ -51,12 +51,14 @@ class SendTx extends Component<Props, State> {
 
   onReset = () => {
     this.setState({ isOfflineSent: false })
+    // $FlowFixMe
     this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
   onWrappedInstanceReset = () => {
     const { sendTxStore } = this.props
     sendTxStore.resetForm()
+    // $FlowFixMe
     this.AutoSuggestAssets.wrappedInstance.reset()
   }
 
@@ -115,6 +117,7 @@ class SendTx extends Component<Props, State> {
     )
   }
 
+  // $FlowFixMe
   renderRawTransactionBox(response) {
     return (
       this.state.isOfflineSent &&
@@ -144,7 +147,7 @@ class SendTx extends Component<Props, State> {
     )
   }
 
-  explorerLink(response) {
+  explorerLink(response: string) {
     return `https://zp.io/broadcastTx/${response}`
   }
 
@@ -272,6 +275,7 @@ class SendTx extends Component<Props, State> {
                 <OfflineButton
                   className={cx('button-on-right', { loading: inprogress })}
                   disabled={this.isSubmitButtonDisabled}
+                  // $FlowFixMe
                   onClick={this.onSubmitOfflineButtonClicked}
                 >
                   {inprogress ? 'Generating' : 'Generate Raw Transaction'}
