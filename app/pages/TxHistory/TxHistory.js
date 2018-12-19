@@ -57,7 +57,7 @@ class TxHistory extends Component<Props> {
         Header: 'Block',
         id: 'block',
         accessor: tx => (
-          <ZpIoLink path={this.blockNumber(tx)}>
+          <ZpIoLink path={`blocks/${this.blockNumber(tx)}`}>
             {this.blockNumber(tx)}
           </ZpIoLink>
         ),
