@@ -19,8 +19,8 @@ type Props = {
 class ZpIoLink extends React.Component<Props> {
   get base() {
     return this.props.networkStore.chain === MAINNET
-      ? 'https://zp.io/'
-      : 'https://testnet.zp.io/'
+      ? 'https://zp.io'
+      : 'https://testnet.zp.io'
   }
   render() {
     const {
