@@ -7,7 +7,7 @@ import cx from 'classnames'
 import { Online, Offline } from 'react-detect-offline'
 
 import NetBottomBar from '../../components/NetBottomBar'
-import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../constants/versions'
+import { ZEN_NODE_VERSION, ZEN_JS_VERSION, WALLET_VERSION } from '../../constants/versions'
 import { LOCALNET, MAINNET } from '../../constants'
 import { LOGO_SRC } from '../../constants/imgSources'
 import routes from '../../constants/routes'
@@ -104,11 +104,16 @@ class Sidebar extends Component<Props> {
           <span className="data-name" title="Wallet Version">Wallet Version: </span>
           <span className="data-point">{WALLET_VERSION}</span>
         </div>
-        { walletModeStore.isFullNode() &&
-        <div className="network-data-point">
-          <span className="data-name" title="Node Version">Node Version: </span>
-          <span className="data-point">{ZEN_NODE_VERSION}</span>
-        </div>}
+        { walletModeStore.isFullNode() ?
+          <div className="network-data-point">
+            <span className="data-name" title="Node Version">Node Version: </span>
+            <span className="data-point">{ZEN_NODE_VERSION}</span>
+          </div> :
+          <div className="network-data-point">
+            <span className="data-name" title="ZenJs Version">ZenJs Version: </span>
+            <span className="data-point">{ZEN_JS_VERSION}</span>
+          </div>
+        }
       </React.Fragment>
     )
   }

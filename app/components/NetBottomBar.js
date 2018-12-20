@@ -6,33 +6,42 @@ import { inject, observer } from 'mobx-react'
 import FontAwesomeIcon from '../vendor/@fortawesome/react-fontawesome'
 import { MAINNET } from '../constants'
 import NetworkStore from '../stores/networkStore'
+import WalletModeStore from '../stores/walletModeStore'
 import switchChain from '../pages/Settings/switchChain'
 
 type Props = {
   networkStore: NetworkStore,
+  walletModeStore: WalletModeStore,
   isSidebar?: boolean,
   width?: number
 };
 
-@inject('networkStore')
+@inject('networkStore', 'walletModeStore')
 @observer
 class NetBottomBar extends Component<Props> {
   renderMainnetBar() {
     if (this.props.isSidebar) {
       return null
     }
+    const walletMode = this.props.walletModeStore.isFullNode() ? "Full Node" : "Light Wallet"
     return (
       <div style={this.style}>
-        MAINNET <a style={this.switchStyle} onClick={switchChain}>(Switch to Testnet)</a>
+        MAINNET {walletMode} <a style={this.switchStyle} onClick={switchChain}>(Switch to Testnet)</a>
       </div>
     )
   }
 
   renderTestnetBar() {
+    let walletMode = ""
+    if (this.props.isSidebar) {
+      walletMode = ""
+    } else {
+      walletMode = this.props.walletModeStore.isFullNode() ? "Full Node" : "Light Wallet"
+    }
     return (
       <div style={this.style}>
         <FontAwesomeIcon style={{ marginRight: 5 }} icon={['fas', 'exclamation-triangle']} />
-        TESTNET <a style={this.switchStyle} onClick={switchChain}>(Switch to Mainnet)</a>
+        TESTNET {walletMode} <a style={this.switchStyle} onClick={switchChain}>(Switch to Mainnet)</a>
       </div>
     )
   }
