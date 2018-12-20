@@ -6,7 +6,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { inject, observer } from 'mobx-react'
 import cx from 'classnames'
 
-import NonMainNetBottomBar from '../../components/NonMainNetBottomBar'
+import NetBottomBar from '../../components/NetBottomBar'
 import ToggleVisibilityIcon from '../../components/ToggleVisibilityIcon'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 
@@ -105,7 +105,7 @@ class UnlockWallet extends Component<Props, State> {
             Forgot your password? Import your wallet again or create a new one
           </a>
           {/* $FlowFixMe */ }
-          <NonMainNetBottomBar />
+          <NetBottomBar />
         </Flexbox>
       </Flexbox>
     )
