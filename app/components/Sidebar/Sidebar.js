@@ -6,7 +6,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import cx from 'classnames'
 import { Online, Offline } from 'react-detect-offline'
 
-import NonMainNetBottomBar from '../../components/NonMainNetBottomBar'
+import NetBottomBar from '../../components/NetBottomBar'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../constants/versions'
 import { LOCALNET, MAINNET } from '../../constants'
 import { LOGO_SRC } from '../../constants/imgSources'
@@ -237,7 +237,7 @@ class Sidebar extends Component<Props> {
         </div>
         <SidebarMenu />
         {this.renderNetworkStatus()}
-        <NonMainNetBottomBar width={SIDEBAR_WIDTH} />
+        <NetBottomBar width={SIDEBAR_WIDTH} isSidebar />
       </nav>
     )
   }
