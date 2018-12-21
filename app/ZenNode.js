@@ -219,7 +219,7 @@ function doesZenNodeVersionRequiredWipe() {
   const lastWipedOnZenNodeVersion = db.get('lastWipe.zenNodeVersion').value() || mockNoWipeRecordVersion
   const isWipeNeeded = compare(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVersion) === 1
   if (isWipeNeeded) {
-    logWipeNeeded(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVersion, mockNoWipeRecordVersion)
+    logWipeNeeded(latestZenNodeVersionRequiringWipe, lastWipedOnZenNodeVersion, mockNoWipeRecordVersion) // eslint-disable-line max-len
   }
   return isWipeNeeded
 }
