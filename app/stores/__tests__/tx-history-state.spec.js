@@ -1,8 +1,9 @@
 import TxHistoryStore from '../txHistoryStore'
-import { getTxHistory } from '../../services/api-service'
+import { getTxHistory, getTxHistoryCount } from '../../services/api-service'
 
 jest.mock('../../services/api-service', () => ({
   getTxHistory: jest.fn(),
+  getTxHistoryCount: jest.fn(),
 }))
 
 jest.spyOn(window, 'setInterval')
@@ -22,6 +23,7 @@ const mockTransactions = [
 
 afterEach(() => {
   getTxHistory.mockReset()
+  getTxHistoryCount.mockReset()
   window.setInterval.mockReset()
   window.clearInterval.mockReset()
 })
@@ -33,28 +35,24 @@ beforeEach(() => {
 describe('TxHistoryStore', () => {
   describe('after construction', () => {
     it('sets the tx object to the correct zero values', () => {
-      expect(txHistoryState.skip).toBe(0)
+      expect(txHistoryState.count).toBe(0)
+      expect(txHistoryState.pageIdx).toBe(0)
       expect(txHistoryState.transactions).toEqual([])
-      expect(txHistoryState.currentPageSize).toBe(0)
-      expect(txHistoryState.isFetching).toBe(false)
+      expect(txHistoryState.pageSize).toBe(5)
+      expect(txHistoryState.isFetchingCount).toBe(false)
+      expect(txHistoryState.isFetchingTransactions).toBe(false)
     })
   })
 
   describe('when reset is called', () => {
     beforeEach(() => {
-      txHistoryState.currentPageSize = 90
-      txHistoryState.skip = 9
-      txHistoryState.isFetching = true
-      txHistoryState.transactions = [...mockTransactions]
+      txHistoryState.isFetchingCount = true
 
       txHistoryState.reset()
     })
 
     it('sets the tx object to the correct zero values', () => {
-      expect(txHistoryState.skip).toBe(0)
-      expect(txHistoryState.transactions).toEqual([])
-      expect(txHistoryState.currentPageSize).toBe(0)
-      expect(txHistoryState.isFetching).toBe(false)
+      expect(txHistoryState.isFetchingCount).toBe(false)
     })
   })
 
@@ -68,7 +66,7 @@ describe('TxHistoryStore', () => {
         txHistoryState.fetch()
       })
       it('does not call getTxHistory', () => {
-        expect(getTxHistory).not.toHaveBeenCalled()
+        expect(getTxHistoryCount).not.toHaveBeenCalled()
       })
     })
   })
@@ -82,10 +80,10 @@ describe('TxHistoryStore', () => {
         })
 
         it('calls getTxHistory with skip: 0 and take: txHistoryState.batchSize', () => {
-          expect(getTxHistory).toHaveBeenCalledWith({ skip: 0, take: txHistoryState.batchSize })
+          expect(getTxHistory).toHaveBeenCalledWith({ skip: 0, take: 5 })
         })
         it('sets isFetching to true', () => {
-          expect(txHistoryState.isFetching).toBe(true)
+          expect(txHistoryState.isFetchingTransactions).toBe(true)
         })
       })
 
@@ -97,11 +95,11 @@ describe('TxHistoryStore', () => {
         })
 
         it('sets isFetching to false', () => {
-          expect(txHistoryState.isFetching).toBe(false)
+          expect(txHistoryState.isFetchingTransactions).toBe(false)
         })
 
         it('increments the currentPageSize by the size of the transactions', () => {
-          expect(txHistoryState.currentPageSize).toBe(2)
+          expect(txHistoryState.transactions.length).toBe(2)
         })
 
         it('sets the transtions to the resolved transactions', () => {
@@ -110,25 +108,22 @@ describe('TxHistoryStore', () => {
       })
 
       describe('after getTxHistory has resolved with an empty list', () => {
-        const testExistingTransactions = [...mockTransactions, ...mockTransactions]
-
         beforeEach(() => {
           getTxHistory.mockReturnValue(Promise.resolve([]))
-          txHistoryState.transactions = testExistingTransactions
-          txHistoryState.currentPageSize = 60
+          txHistoryState.transactions = [...mockTransactions, ...mockTransactions]
           txHistoryState.fetch()
         })
 
         it('sets isFetching to false', () => {
-          expect(txHistoryState.isFetching).toBe(false)
+          expect(txHistoryState.isFetchingTransactions).toBe(false)
         })
 
         it('does not affect currentPageSize', () => {
-          expect(txHistoryState.currentPageSize).toBe(60)
+          expect(txHistoryState.transactions.length).toBe(0)
         })
 
         it('does not affect existing transactions', () => {
-          expect(txHistoryState.transactions).toEqual(testExistingTransactions)
+          expect(txHistoryState.transactions).toEqual([])
         })
       })
     })
