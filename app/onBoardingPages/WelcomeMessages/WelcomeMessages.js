@@ -57,6 +57,15 @@ class WelcomeMessages extends Component {
   state = {
     currentPage: 0,
   }
+
+  componentDidMount() {
+    const params = new URLSearchParams(this.props.location.search)
+    const currentPage = params.get('currentPage')
+    if (!Number.isNaN(currentPage)) {
+      this.setState({ currentPage: +currentPage })
+    }
+  }
+
   onNextClicked = () => {
     const nextPage = this.state.currentPage + 1
     if (nextPage === 4) {

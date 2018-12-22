@@ -78,7 +78,7 @@ export class ChooseWalletMode extends React.Component<Props, State> {
         </Flexbox>
         <div className="devider before-buttons" />
         <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-          <Link className="secondary button button-on-left" to={routes.WELCOME_MESSAGES}>Back</Link>
+          <Link className="secondary button button-on-left" to={`${routes.WELCOME_MESSAGES}?currentPage=3`}>Back</Link>
           <button className="button button-on-right" onClick={this.onNextClicked}>Next</button>
         </Flexbox>
       </OnBoardingLayout>
