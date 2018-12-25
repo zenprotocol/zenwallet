@@ -1,8 +1,9 @@
 @import "styles/Variables";
 
 .header {
+  margin-left: 5px;
   height: 100px;
-    background: $dark-grey;
+  background: $light-grey;
 
 		.back-buttons {
 			padding: 24px;
