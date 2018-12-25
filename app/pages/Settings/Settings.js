@@ -348,7 +348,7 @@ class Settings extends Component<Props, State> {
         <Flexbox className="page-title">
           <h1>General settings</h1>
         </Flexbox>
-        {this.renderPassword()}
+        {/* {this.renderPassword()} */}
         {this.renderAutoLogout()}
         <Offline>{this.renderGetGenesisToken()}</Offline>
         <Online>{this.renderMining()}</Online>
