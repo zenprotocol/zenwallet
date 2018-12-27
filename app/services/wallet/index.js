@@ -22,6 +22,7 @@ export interface IWallet {
     getActiveContracts():Promise<ActiveContract[]>;
     getPublicKeyHash(string): Promise<string>;
     getTransactions(TransactionRequest): Promise<TransactionResponse[]>;
+    getTransactionsCount(): Promise<number>;
     getBalances(): Promise<Asset[]>;
     runContract(RunContractPayload): Promise<*>;
     sendTransaction(SendTransactionPayload): Promise<string>;

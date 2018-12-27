@@ -26,47 +26,39 @@ describe('ChooseWalletMode', () => {
   const walletModeStore = new WalletModeStore()
   const ChooseWalletModeWithHistory = withHistoryAndState(ChooseWalletMode)
   let component
-  describe('when wallet mode is Full', () => {
-    beforeEach(() => {
-      walletModeStore.mode = 'Full'
-      component = mount(<ChooseWalletModeWithHistory walletModeStore={walletModeStore} />)
-    })
-    describe('and next is clicked', () => {
-      beforeEach(() => {
-        pushSpy.mockReset()
-        ipcRenderer.send.mockReset()
-        component.find('.button-on-right').simulate('click')
-      })
-
-      it('navigates to the import or create route', () => {
-        expect(pushSpy).toHaveBeenCalledWith(routes.IMPORT_OR_CREATE_WALLET)
-      })
-
-      it('sends Start zen signal to ipcRenderer', () => {
-        expect(ipcRenderer.send).toHaveBeenCalledWith(IPC_START_ZEN_NODE)
-      })
-    })
-  })
-
-  describe('when wallet mode is Light', () => {
+  describe('when wallet Full node is clicked', () => {
     beforeEach(() => {
       walletModeStore.mode = 'Light'
       component = mount(<ChooseWalletModeWithHistory walletModeStore={walletModeStore} />)
+      pushSpy.mockReset()
+      ipcRenderer.send.mockReset()
+      component.find('.full-node').simulate('click')
     })
-    describe('and next is clicked', () => {
-      beforeEach(() => {
-        pushSpy.mockReset()
-        ipcRenderer.send.mockReset()
-        component.find('.button-on-right').simulate('click')
-      })
 
-      it('navigates to the import or create route', () => {
-        expect(pushSpy).toHaveBeenCalledWith(routes.IMPORT_OR_CREATE_WALLET)
-      })
+    it('navigates to the import or create route', () => {
+      expect(pushSpy).toHaveBeenCalledWith(routes.IMPORT_OR_CREATE_WALLET)
+    })
 
-      it('sends Start zen signal to ipcRenderer', () => {
-        expect(ipcRenderer.send).toHaveBeenCalledWith(IPC_SHUT_DOWN_ZEN_NODE)
-      })
+    it('sends Start zen signal to ipcRenderer', () => {
+      expect(ipcRenderer.send).toHaveBeenCalledWith(IPC_START_ZEN_NODE)
+    })
+  })
+
+  describe('when wallet Light wallet is clicked', () => {
+    beforeEach(() => {
+      walletModeStore.mode = 'Full'
+      component = mount(<ChooseWalletModeWithHistory walletModeStore={walletModeStore} />)
+      pushSpy.mockReset()
+      ipcRenderer.send.mockReset()
+      component.find('.light-wallet').simulate('click')
+    })
+
+    it('navigates to the import or create route', () => {
+      expect(pushSpy).toHaveBeenCalledWith(routes.IMPORT_OR_CREATE_WALLET)
+    })
+
+    it('sends Start zen signal to ipcRenderer', () => {
+      expect(ipcRenderer.send).toHaveBeenCalledWith(IPC_SHUT_DOWN_ZEN_NODE)
     })
   })
 })

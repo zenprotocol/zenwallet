@@ -28,18 +28,17 @@ export class ChooseWalletMode extends React.Component<Props, State> {
     this.state = { selectedMode: props.walletModeStore.mode }
   }
 
-  onWalletModeChange = (selectedMode: WalletMode) => {
-    this.setState({ selectedMode })
-    this.props.walletModeStore.mode = selectedMode
+  chooseLightWallet = () => {
+    this.setState({ selectedMode: 'Light' })
+    this.props.walletModeStore.mode = 'Light'
+    ipcRenderer.send(IPC_SHUT_DOWN_ZEN_NODE)
+    history.push(routes.IMPORT_OR_CREATE_WALLET)
   }
 
-  onNextClicked = () => {
-    const { walletModeStore } = this.props
-    if (walletModeStore.mode === 'Full') {
-      ipcRenderer.send(IPC_START_ZEN_NODE)
-    } else {
-      ipcRenderer.send(IPC_SHUT_DOWN_ZEN_NODE)
-    }
+  chooseFullNode = () => {
+    this.setState({ selectedMode: 'Full' })
+    this.props.walletModeStore.mode = 'Full'
+    ipcRenderer.send(IPC_START_ZEN_NODE)
     history.push(routes.IMPORT_OR_CREATE_WALLET)
   }
 
@@ -52,7 +51,6 @@ export class ChooseWalletMode extends React.Component<Props, State> {
         <div className="devider after-title" />
         <Flexbox flexDirection="row" justifyContent="space-between">
           <Flexbox
-            onClick={() => { this.onWalletModeChange('Light') }}
             className={`${classnames(selectedMode === 'Light' && 'selected', 'box')}`}
             flexDirection="column"
           >
@@ -62,9 +60,10 @@ export class ChooseWalletMode extends React.Component<Props, State> {
               Using a light wallet allows quick access to zen without running a full node.
               Instead you will securely connect to the zen protocol remote node.
             </p>
+            <button className="button light-wallet" onClick={this.chooseLightWallet}>Light Wallet</button>
+
           </Flexbox>
           <Flexbox
-            onClick={() => { this.onWalletModeChange('Full') }}
             className={`${classnames(selectedMode === 'Full' && 'selected', 'box')}`}
             flexDirection="column"
           >
@@ -74,12 +73,12 @@ export class ChooseWalletMode extends React.Component<Props, State> {
               By running a full node you will download the zen protocol
               blockchain to your machine and help secure the network.
             </p>
+            <button className="button full-node" onClick={this.chooseFullNode}>Full Node</button>
           </Flexbox>
         </Flexbox>
         <div className="devider before-buttons" />
-        <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
+        <Flexbox flexGrow={1} justifyContent="flex-start" flexDirection="row">
           <Link className="secondary button button-on-left" to={`${routes.WELCOME_MESSAGES}?currentPage=3`}>Back</Link>
-          <button className="button button-on-right" onClick={this.onNextClicked}>Next</button>
         </Flexbox>
       </OnBoardingLayout>
     )

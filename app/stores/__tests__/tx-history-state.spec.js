@@ -2,11 +2,17 @@ import TxHistoryStore from '../txHistoryStore'
 import { getTxHistory, getTxHistoryCount } from '../../services/api-service'
 import NetworkStore from '../networkStore'
 import WalletModeStore from '../walletModeStore'
+import LocalWallet from '../../services/wallet/LocalWallet'
+import { getWalletInstance } from '../../services/wallet'
 
 jest.mock('../../services/api-service', () => ({
   getTxHistory: jest.fn(),
   getTxHistoryCount: jest.fn(),
 }))
+
+const localWallet = new LocalWallet('testnet')
+jest.mock('../../services/wallet')
+getWalletInstance.mockReturnValue(localWallet)
 
 jest.spyOn(window, 'setInterval')
 jest.spyOn(window, 'clearInterval')
@@ -35,6 +41,7 @@ beforeEach(() => {
   const networkStore = new NetworkStore(new WalletModeStore())
   txHistoryState = new TxHistoryStore(networkStore)
 })
+
 describe('TxHistoryStore', () => {
   describe('after construction', () => {
     it('sets the tx object to the correct zero values', () => {

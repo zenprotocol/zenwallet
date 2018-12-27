@@ -1,7 +1,6 @@
 // @flow
 import { observable, action, runInAction } from 'mobx'
 
-import { getTxHistory, getTxHistoryCount } from '../services/api-service'
 import { getWalletInstance } from '../services/wallet'
 import PollManager from '../utils/PollManager'
 
@@ -15,7 +14,7 @@ class TxHistoryStore {
   @observable pageSize = 5
   @observable isFetchingCount = false
   @observable isFetchingTransactions = false
- 
+
   networkStore: NetworkStore
 
   constructor(networkStore: NetworkStore) {
@@ -65,10 +64,10 @@ class TxHistoryStore {
       const nextTransactions = await wallet.getTransactions({
         skip: this.skip, take: this.pageSize,
       })
-        runInAction(() => {
-                    this.transactions = nextTransactions
-                    this.isFetchingTransactions = false
-                    })
+      runInAction(() => {
+        this.transactions = nextTransactions
+        this.isFetchingTransactions = false
+      })
     } catch (error) {
       console.log('error fetching transactions', error)
       this.isFetchingTransactions = false
@@ -80,7 +79,8 @@ class TxHistoryStore {
     if (this.isFetchingCount) { return }
     this.isFetchingCount = true
     try {
-      const nextCount = await getTxHistoryCount()
+      const wallet = getWalletInstance(this.networkStore.chain)
+      const nextCount = await wallet.getTransactionsCount()
       runInAction(() => {
         if (nextCount > this.count) {
           this.count = nextCount

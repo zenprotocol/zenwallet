@@ -70,6 +70,11 @@ class RemoteWallet implements IWallet {
       return this.instance.getTransactions()
     }
 
+    async getTransactionsCount() {
+      const transactions = await this.getTransactions()
+      return transactions.length
+    }
+
     async getBalances() {
       await this.resync()
       const balance: {[string]: number} = this.instance.getBalance()

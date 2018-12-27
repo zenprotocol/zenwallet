@@ -18,7 +18,7 @@ import BlockchainLogs from './pages/BlockchainLogs'
 import Settings from './pages/Settings'
 // Onboarding routes
 import WelcomeMessages from './onBoardingPages/WelcomeMessages/WelcomeMessages'
-import ChooseWalletMode from './onBoardingPages/ChooseWalletMode/ChooseWalletMode'
+import ChooseWalletModePage from './onBoardingPages/ChooseWalletMode/ChooseWalletMode'
 import ImportOrCreateWallet from './onBoardingPages/ImportOrCreateWallet/ImportOrCreateWallet'
 import ImportWallet from './onBoardingPages/ImportWallet/ImportWallet'
 import SecretPhrase from './onBoardingPages/SecretPhrase/SecretPhrase'
@@ -45,7 +45,7 @@ const Routes = () => (
       <Route exact path={routes.SETTINGS} component={Settings} />
       { /* Onboarding Routes */ }
       <Route exact path={routes.WELCOME_MESSAGES} component={WelcomeMessages} />
-      <Route exact path={routes.CHOOSE_WALLET_MODE} component={ChooseWalletMode} />
+      <Route exact path={routes.CHOOSE_WALLET_MODE} component={ChooseWalletModePage} />
       <Route exact path={routes.IMPORT_OR_CREATE_WALLET} component={ImportOrCreateWallet} />
       <Route exact path={routes.IMPORT_WALLET} component={ImportWallet} />
       <Route exact path={routes.SECRET_PHRASE} component={SecretPhrase} />

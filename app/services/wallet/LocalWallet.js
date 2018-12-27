@@ -4,6 +4,7 @@ import {
   getIsAccountLocked, getLockWallet, postWalletMnemonicphrase, getBalances,
   getPublicAddress, getPublicPkHash, getActiveContracts, postRunContract,
   getTxHistory, postTransaction, postDeployContract, postRawTransaction,
+  getTxHistoryCount,
 } from '../api-service'
 import type {
   RunContractPayload, SendTransactionPayload, RawTransactionPayload,
@@ -34,6 +35,10 @@ class LocalWallet implements IWallet {
 
     getTransactions(payload: TransactionRequest) {
       return getTxHistory(payload)
+    }
+
+    getTransactionsCount() {
+      return getTxHistoryCount()
     }
 
     runContract(payload: RunContractPayload) {

@@ -41,7 +41,7 @@ txHistoryStore: TxHistoryStore
     networkStore: NetworkStore,
     portfolioStore: PortfolioStore, activeContractsStore: ActiveContractStore,
     redeemTokensStore: RedeemTokenStore, walletModeStore: WalletModeStore,
-              txHistoryStore: TxHistoryStore
+    txHistoryStore: TxHistoryStore,
   ) {
     this.networkStore = networkStore
     this.portfolioStore = portfolioStore

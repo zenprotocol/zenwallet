@@ -24,8 +24,8 @@ const redeemTokensStore = new RedeemTokensStore(networkStore)
 const txHistoryStore = new TxHistoryStore(networkStore)
 const secretPhraseStore =
   new SecretPhraseStore(
-    networkStore, portfolioStore, activeContractsStore, redeemTokensStore, txHistoryStore,
-    walletModeStore,
+    networkStore, portfolioStore, activeContractsStore, redeemTokensStore,
+    walletModeStore, txHistoryStore,
   )
 const sendTxStore = new SendTxStore(networkStore)
 const deployContractStore = new DeployContractStore(networkStore)
