@@ -49,6 +49,8 @@ db.defaults({
     walletVersion: null,
     zenNodeVersion: null,
   },
+  'transactionCount-testnet': 0,
+  'transactionCount-mainnet': 0,
 }).write()
 
 export default db

@@ -1,11 +1,17 @@
 // @flow
+import React from 'react'
 import { observable, action, runInAction } from 'mobx'
+import { toast } from 'react-toastify'
 
+import routes from '../constants/routes'
+import ToastLink from '../components/ToastLink'
+import db from '../services/db'
 import { getTxHistory, getTxHistoryCount } from '../services/api-service'
 import PollManager from '../utils/PollManager'
 
 class TxHistoryStore {
   pageSizeOptions = ['5', '10', '20', '100']
+  @observable didFetchCountSinceLastLogin = false
   @observable transactions = []
   @observable count = 0
   @observable pageIdx = 0
@@ -17,6 +23,9 @@ class TxHistoryStore {
     fnToPoll: this.fetchCount,
     timeoutInterval: 5000,
   })
+  constructor({ networkStore }) {
+    this.networkStore = networkStore
+  }
   @action
   initPolling() {
     this.fetchPollManager.initPolling()
@@ -24,6 +33,7 @@ class TxHistoryStore {
   @action
   stopPolling() {
     this.fetchPollManager.stopPolling()
+    this.didFetchCountAlreadyInThisPoll = false
   }
 
   @action
@@ -47,6 +57,7 @@ class TxHistoryStore {
 
   @action.bound
   async fetch() {
+    // cuurently not used, left here to support loading indicator for the UI
     this.isFetchingTransactions = true
     try {
       const nextTransactions = await getTxHistory({ skip: this.skip, take: this.pageSize })
@@ -67,20 +78,45 @@ class TxHistoryStore {
     try {
       const nextCount = await getTxHistoryCount()
       runInAction(() => {
-        if (nextCount > this.count) {
+        // check if there are new transactions
+        if (nextCount === this.count
+          || nextCount === this.txCountInDb) {
           this.count = nextCount
-          // TODO Toast for new transaction, unless it's the first time
-          // we fetched the count, to not toast about old transcations when logging in
-          // feature idea:
-          // show new transactions since user last logged in. we can do that
-          // by saving transaction count to DB, and check it on load
+          this.didFetchCountSinceLastLogin = true
+          this.isFetchingCount = false
+          return
         }
+        const deltaOfNewTransactions = nextCount - this.txCountInDb
+        this.count = nextCount
+        if (!this.didFetchCountSinceLastLogin) {
+          this.toastNewOfflineTxs(deltaOfNewTransactions)
+        } else {
+          toast.info(<ToastLink to={routes.TX_HISTORY}>New transaction</ToastLink>)
+        }
+        this.count = nextCount
+        this.didFetchCountSinceLastLogin = true
         this.isFetchingCount = false
+        db.set(this.txCountInDbKey, nextCount).write()
       })
     } catch (error) {
       console.log('error fecthing txHistoryCount', error)
       this.isFetchingCount = false
     }
+  }
+
+  toastNewOfflineTxs(deltaOfNewTransactions) {
+    const msg = deltaOfNewTransactions > 1
+      ? `${deltaOfNewTransactions} New transactions since last login`
+      : `${deltaOfNewTransactions} New transaction since last login`
+    toast.info(<ToastLink to={routes.TX_HISTORY}>{msg}</ToastLink>)
+  }
+
+  get txCountInDb() {
+    return db.get(this.txCountInDbKey).value()
+  }
+
+  get txCountInDbKey() {
+    return `transactionCount-${this.networkStore.chain}`
   }
 
   get pagesCount() {

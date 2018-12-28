@@ -19,7 +19,7 @@ const portfolioStore = new PortfolioStore(activeContractsStore)
 const publicAddressStore = new PublicAddressStore()
 const networkStore = new NetworkStore()
 const redeemTokensStore = new RedeemTokensStore(networkStore)
-const txHistoryStore = new TxHistoryStore()
+const txHistoryStore = new TxHistoryStore({ networkStore })
 const secretPhraseStore =
   new SecretPhraseStore({
     networkStore, portfolioStore, activeContractsStore, redeemTokensStore, txHistoryStore,
