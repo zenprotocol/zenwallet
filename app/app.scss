@@ -24,12 +24,14 @@
  @import "components/Layout/Layout";
  @import "components/Container/Container";
  @import "components/Main/Main";
+ @import "components/BoxLabel/BoxLabel";
  @import "components/Topbar/Topbar";
  @import "components/Footer/Footer";
  @import "components/Sidebar/Sidebar";
  @import "components/FormResponseMessage/FormResponseMessage";
  @import "components/AppUpdater/AppUpdater";
  @import "components/Dropdown/Dropdown";
+ @import "components/Chart/ChartLoader";
  //
  @import "pages/ErrorScreen/ErrorScreen";
  @import "pages/Portfolio/Portfolio";
@@ -42,6 +44,8 @@
  @import "pages/SavedContracts/SavedContracts";
  @import "pages/Loading/Loading";
  @import "pages/UnlockWallet/UnlockWallet";
+ @import "pages/Allocation/Allocation";
+ @import "pages/CGP/CGP";
  @import "pages/BlockchainLogs/BlockchainLogs";
  //
  @import "onBoardingPages/Layout/Layout";

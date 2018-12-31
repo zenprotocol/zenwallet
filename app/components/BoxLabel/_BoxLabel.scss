@@ -1,0 +1,27 @@
+@import "styles/Variables";
+
+.box {
+  background: $darker-gray;
+  width: 24%;
+  margin-right: 24px;
+  height: 90px;
+
+  .first-input {
+    font-size: 20px;
+    font-weight: 500;
+    padding-top: 25px;
+    padding-left: 30px;
+    color: $light-white;
+  }
+
+  .second-input {
+    font-size: 14px;
+    padding-left: 30px;
+    padding-top: 0;
+  }
+
+  div {
+    justify-content: space-between;
+  }
+}
+

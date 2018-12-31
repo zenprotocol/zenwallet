@@ -3,6 +3,7 @@ import axios from 'axios'
 import type { observableArray } from 'mobx-react'
 
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
+import { zenToKalapas } from '../utils/zenUtils'
 
 import dataBlock from './firstBlock.json'
 
@@ -25,10 +26,97 @@ export async function getPublicAddress(): Promise<string> {
   const response = await axios.get(`${getServerAddress()}/wallet/address`)
   return response.data
 }
+type AllocationVote = {
+  allocation: string,
+  count: string
+};
+
+type PayoutVote = {
+  recipient: string,
+  amount: string,
+  count: string
+};
+
+export type CGP = {
+  allocation: {
+    votes: AllocationVote[],
+    result: string
+  },
+  payout: {
+    votes: PayoutVote[],
+    result: {
+      recipient: string,
+      amount: string
+    }
+  }
+};
+
+export async function getCGP(): Promise<CGP> {
+  const response = await axios.get(`${getServerAddress()}/blockchain/cgp`)
+  return response.data
+}
 
 export async function getPublicPkHash(publicAddress: string): Promise<string> {
   const response = await axios.get(`${getServerAddress()}/address/decode?address=${publicAddress}`)
   return response.data.pkHash
+}
+
+export async function getGenesisTimestamp() {
+  const response = await axios.get(`${getServerAddress()}/blockchain/block?blockNumber=2`)
+  return response.data.header.timestamp
+}
+
+type Utilization = {
+  outstanding: number,
+  utilized: number,
+  vote: {}
+};
+
+export async function getUtilization(): Promise<Utilization> {
+  const response = await axios.get(`${getServerAddress()}/wallet/vote`)
+  return response.data
+}
+
+type Allocation = {
+  allocation: number
+};
+
+type Payout = {
+  payout: {
+    recipient: string,
+    amount: number
+  }
+};
+
+export async function postPayoutVote(tx: Allocation & Password): Promise<string> {
+  const { password, payout } = tx
+  const data = {
+    payout: {
+      recipient: payout.recipient,
+      amount: zenToKalapas(payout.amount),
+    },
+    password,
+  }
+
+  const response = await axios.post(`${getServerAddress()}/wallet/vote/payout`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  return response.data
+}
+
+export async function postAllocationVote(tx: Payout & Password): Promise<string> {
+  const { password, allocation } = tx
+  const data = {
+    allocation,
+    password,
+  }
+
+  const response = await axios.post(`${getServerAddress()}/wallet/vote/allocation`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  return response.data
 }
 
 type Transaction = {

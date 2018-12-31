@@ -15,6 +15,8 @@ import Faucet from './pages/Faucet/Faucet'
 import Loading from './pages/Loading/Loading'
 import UnlockWallet from './pages/UnlockWallet/UnlockWallet'
 import BlockchainLogs from './pages/BlockchainLogs'
+import CGP from './pages/CGP'
+import Allocation from './pages/Allocation/Allocation'
 import Settings from './pages/Settings'
 // Onboarding routes
 import WelcomeMessages from './onBoardingPages/WelcomeMessages/WelcomeMessages'
@@ -41,6 +43,8 @@ const Routes = () => (
       <Route exact path={routes.LOADING} component={Loading} />
       <Route exact path={routes.UNLOCK_WALLET} component={UnlockWallet} />
       <Route exact path={routes.BLOCKCHAIN_LOGS} component={BlockchainLogs} />
+      <Route exact path={routes.CGP} component={CGP} />
+      <Route exact path={routes.ALLOCATION} component={Allocation} />
       <Route exact path={routes.SETTINGS} component={Settings} />
       { /* Onboarding Routes */ }
       <Route exact path={routes.WELCOME_MESSAGES} component={WelcomeMessages} />
