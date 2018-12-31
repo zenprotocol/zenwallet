@@ -353,7 +353,7 @@ class Settings extends Component<Props, State> {
         <Offline>{this.renderGetGenesisToken()}</Offline>
         <Online>{this.renderMining()}</Online>
         <Online>{this.renderErrorReporting()}</Online>
-        {this.renderChain()}
+        {/* this.renderChain() */}
         {this.renderShowSeed()}
         {this.renderWipe()}
         {this.renderLogout()}
