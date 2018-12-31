@@ -32,7 +32,7 @@ class ImportOrCreateWallet extends Component {
             <img src={IMPORT_WALLET_SRC} alt="Import wallet" />
             <h5>Import Existing Wallet</h5>
             <p>It is not reccommended to import your 24 word seed in the release candidate network.</p>
-            <button className="button secondary" disabled>Import Wallet</button>
+            <button className="button secondary" disabled>Not Available</button>
           </Flexbox>
 
         </Flexbox>
