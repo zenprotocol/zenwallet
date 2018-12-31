@@ -31,9 +31,8 @@ class ImportOrCreateWallet extends Component {
           <Flexbox className="box import-wallet" flexDirection="column">
             <img src={IMPORT_WALLET_SRC} alt="Import wallet" />
             <h5>Import Existing Wallet</h5>
-            <p>If you already have a secret phrase (seed) you can simply import it and get access to all of your assets.</p>
-            <Link className="button secondary" to={routes.IMPORT_WALLET}>Import Wallet</Link>
-
+            <p>It is not reccommended to import your 24 word seed in the release candidate network.</p>
+            <button className="button secondary" disabled>Import Wallet</button>
           </Flexbox>
 
         </Flexbox>
