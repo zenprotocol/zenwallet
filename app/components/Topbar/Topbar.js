@@ -22,6 +22,9 @@ class Header extends Component<Props> {
     const { portfolioStore, className } = this.props
     return (
       <Flexbox className={cx('header', className)} element="header" >
+        <Flexbox className="release-candidate-header">
+          <p>Yesod - Release Candidate</p>
+        </Flexbox>
         <Flexbox flexGrow={1} />
         <div className="balance">
           <div className="balance-and-ticker">
