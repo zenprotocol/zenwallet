@@ -29,7 +29,7 @@ class Loading extends Component {
       <Flexbox flexDirection="column" className="loading-container">
         <Flexbox flexDirection="column" className="center">
           <img className="zen-logo" src={LOGO_GIF_SRC} alt="Zen Protocol Logo" />
-          <h1>Welcome to Zen Protocol</h1>
+          <h1>Zen Protocol Yesod Release Candidate</h1>
           <p>Loading, please wait</p>
           {shouldDisplayLoading && <img className="loading-dots" src={LOADING_GIF_SRC} alt="Loading Gif" />}
         </Flexbox>
