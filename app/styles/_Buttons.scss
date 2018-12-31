@@ -36,6 +36,7 @@
   &.secondary {
     background-color: $button-grey;
     border: 1px solid $button-grey;
+    color: white;
   }
   &.secondary:hover { background-color: $button-grey-hover; }
   &.secondary:focus { background-color: $button-grey-focus; }
