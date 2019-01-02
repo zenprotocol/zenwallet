@@ -134,28 +134,32 @@ class CGP extends Component<Props> {
     } = this.props
     return (
       <Flexbox>
-        <Flexbox className="vote-box" flexDirection="column">
-          <label className="vote-title">Vote for next distribution</label>
-          <label className="address">Proposal Address</label>
-          <Flexbox flexDirection="column">
+        <Flexbox className="vote-box" flexDirection="column" >
+          <h3 className="vote-title">Vote for next distribution</h3>
+
+          <Flexbox flexDirection="column" className="form-row">
+            <label className="address">Proposal Address</label>
             <input
-              id="payoutAddress"
-              ref={ref('elTo').bind(this)}
-              name="payoutAddress"
-              type="text"
-              placeholder="Destination address"
-              className={cx({ 'is-valid': this.isToValid, error: this.isToInvalid })}
-              onChange={this.updateAddressDisplay}
-              value={payoutAddress}
-              autoFocus
+            id="payoutAddress"
+            ref={ref('elTo').bind(this)}
+            name="payoutAddress"
+            type="text"
+            placeholder="Destination address"
+            className={cx({ 'is-valid': this.isToValid, error: this.isToInvalid })}
+            onChange={this.updateAddressDisplay}
+            value={payoutAddress}
+            autoFocus
             />
             <IsValidIcon
-              isValid={isValidAddress(payoutAddress)}
-              className="input-icon"
-              hasColors
-              isHidden={!payoutAddress}
+            isValid={isValidAddress(payoutAddress)}
+            className="input-icon"
+            hasColors
+            isHidden={!payoutAddress}
             />
             {this.renderAddressErrorMessage()}
+          </Flexbox>
+
+          <Flexbox flexDirection="column" className="form-row">
             <AmountInput
               amount={payoutAmount}
               amountDisplay={payoutAmount}
@@ -168,14 +172,20 @@ class CGP extends Component<Props> {
               label="Amount"
               classname="amount"
             />
-            <ProtectedButton
-              className={cx('vote-button', { loading: inprogress })}
-              disabled={this.isSubmitButtonDisabled}
-              onClick={this.onSubmitButtonClicked}
-            >
-              {inprogress ? 'Voting' : 'Vote'}
-            </ProtectedButton>
           </Flexbox>
+
+          <Flexbox flexDirection="row" justifyContent="flex-end" className="form-row button-row">
+
+            <ProtectedButton
+            className={cx('button-on-right', { loading: inprogress })}
+            disabled={this.isSubmitButtonDisabled}
+            onClick={this.onSubmitButtonClicked}
+            >
+            {inprogress ? 'Voting' : 'Vote'}
+            </ProtectedButton>
+
+          </Flexbox>
+
         </Flexbox>
       </Flexbox>
     )
@@ -259,14 +269,13 @@ class CGP extends Component<Props> {
             <BoxLabel firstLine={`${fund ? kalapasToZen(fund) : 0} ZP`} secondLine="Available for next distribution" />
             <BoxLabel firstLine={`${totalPayoutAmountVoted ? kalapasToZen(totalPayoutAmountVoted) : 0} ZP`} secondLine="Voted for next distribution" />
             <BoxLabel firstLine={this.calcRemainingBlock()} secondLine="Blocks remaining" />
-            <Flexbox flexGrow={1} />
           </Flexbox>
           <Flexbox flexDirection="row" >
-            <Flexbox flexDirection="column" >
+            <Flexbox flexDirection="column" flexGrow={1} >
               { this.renderVote() }
               { this.renderResult() }
             </Flexbox>
-            <Flexbox className="active-proposal">
+            <Flexbox className="active-proposal" flexGrow={1} >
               <table>
                 <thead>
                   <tr>

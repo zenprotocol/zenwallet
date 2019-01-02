@@ -7,14 +7,19 @@
 }
 
 .box-bar {
-  margin-bottom: 10px;
+  margin:0 -10px;
 }
 
 .vote-box {
   background: $light-grey-2;
-  padding: 10px 300px 10px 10px;
+  padding: 24px;
   border-left: 2px solid $blue;
-  margin-right: 10px;
+  margin-right: 20px;
+  width: 100%;
+
+  .button-row {
+    margin-top: 20px;
+  }
 }
 
 .payout-result {
@@ -24,24 +29,18 @@
   margin-top: 10px;
 }
 
-.vote-title {
+h3.vote-title {
   font-size: 16px;
   color: $off-white;
   font-weight: 400;
-}
-
-.address {
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 1.5rem;
+  margin-bottom: 24px;
 }
 
 .vote-button {
-  margin-left: 150%;
+  // margin-left: 150%;
 }
 
 .active-proposal {
   background: $light-grey-2;
-  width: 100%;
   height: 400px;
 }
