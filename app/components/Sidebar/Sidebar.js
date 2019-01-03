@@ -8,7 +8,7 @@ import { Online, Offline } from 'react-detect-offline'
 
 import NetBottomBar from '../../components/NetBottomBar'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../constants/versions'
-import { LOCALNET, MAINNET } from '../../constants'
+import { LOCALNET, MAINNET, SIDEBAR_WIDTH } from '../../constants'
 import { LOGO_SRC } from '../../constants/imgSources'
 import routes from '../../constants/routes'
 import NetworkStore from '../../stores/networkStore'
@@ -227,7 +227,6 @@ class Sidebar extends Component<Props> {
   }
 
   render() {
-    const SIDEBAR_WIDTH = 230
     return (
       <nav className={`sidebar ${this.props.className}`}>
         <div className="logo">

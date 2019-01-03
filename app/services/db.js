@@ -50,6 +50,11 @@ db.defaults({
     zenNodeVersion: null,
   },
   blockchainLogs: [],
+  'txCountInLastLogin-testnet': 0,
+  'txCountInLastLogin-mainnet': 0,
+  'txCountInLastVisitToTransactionsRoute-testnet': 0,
+  'txCountInLastVisitToTransactionsRoute-mainnet': 0,
+
 }).write()
 
 export default db
