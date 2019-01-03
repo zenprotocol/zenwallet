@@ -4,6 +4,8 @@ import MobxDevTools from 'mobx-react-devtools'
 import ErrorBoundary from 'react-error-boundary'
 import { Online } from 'react-detect-offline'
 import 'react-table/react-table.css'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import ErrorScreen from './pages/ErrorScreen'
 import AppUpdater from './components/AppUpdater'
@@ -21,15 +23,14 @@ export default class App extends React.Component {
       <Provider history={history} {...stores}>
         <ErrorBoundary FallbackComponent={ErrorScreen}>
           <React.Fragment>
-            <React.Fragment>
-              <Online><AppUpdater /></Online>
-              <WipeModal />
-              <Idle />
-              <div className="app-wrapper">
-                <Routes />
-              </div>
-            </React.Fragment>
+            <Online><AppUpdater /></Online>
+            <WipeModal />
+            <Idle />
+            <div className="app-wrapper">
+              <Routes />
+            </div>
             {process.env.NODE_ENV !== 'production' && <MobxDevTools />}
+            <ToastContainer />
           </React.Fragment>
         </ErrorBoundary>
       </Provider>

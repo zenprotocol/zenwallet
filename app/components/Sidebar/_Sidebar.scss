@@ -41,6 +41,21 @@ nav.sidebar {
   .menu {
     height: calc(100% - 330px);
     position: relative;
+
+    .badge {
+      border-radius: 50%;
+      background: $blue;
+      float: right;
+      padding: 0px;
+      width: 13px;
+      height: 13px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 9px;
+      margin-top: 5px;
+      color: #fff;
+    }
   }
 
   ul {

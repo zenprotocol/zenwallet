@@ -1,0 +1,17 @@
+/* left here to customize toasts */
+.Toastify__close-button {
+  min-width: auto; /* override global button */
+}
+
+.Toastify__toast-body .toast-link {
+  color: inherit;
+  position: absolute;
+  left: 0;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+}
