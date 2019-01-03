@@ -62,7 +62,6 @@ class NetBottomBar extends Component<Props> {
 
   render() {
     const { networkStore } = this.props
-    console.log('networkStore.chain', networkStore.chain)
     return networkStore.chain === MAINNET ? this.renderMainnetBar() : this.renderTestnetBar()
   }
 }

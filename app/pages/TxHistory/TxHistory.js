@@ -25,8 +25,9 @@ type Props = {
 @inject('txHistoryStore', 'portfolioStore', 'networkStore')
 @observer
 class TxHistory extends Component<Props> {
-  componentWillMount() {
+  componentDidMount() {
     this.props.txHistoryStore.fetch()
+    this.props.txHistoryStore.resetNewTxsCountSinceUserVisitedTransactionsPage()
   }
   blockNumber(tx) {
     return String((this.props.networkStore.headers - tx.confirmations) + 1)
