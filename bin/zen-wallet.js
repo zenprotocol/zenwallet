@@ -10,8 +10,8 @@ if (process.argv.indexOf('wipe') > -1) { argsArray.push('wipe') }
 if (process.argv.indexOf('wipefull') > -1) { argsArray.push('wipefull') }
 if (process.argv.indexOf('miner') > -1) { argsArray.push('miner') }
 if (process.argv.indexOf('uionly') > -1) { argsArray.push('uionly') }
-if (process.argv.indexOf('localnet') > -1) { argsArray.push('--chain', 'local') }
-if (process.argv.indexOf('testnet') > -1) { argsArray.push('--chain', 'test') }
+if (process.argv.indexOf('localnet') > -1) { argsArray.push('--Local', '0') }
+argsArray.push('--test')
 
 if (process.platform !== 'win32') {
   wallet = proc.spawn('npm', argsArray, { cwd: path.join(__dirname, '..', 'app') })
