@@ -4,7 +4,7 @@ import { ipcRenderer } from 'electron'
 
 const TESTNET_PORT = '31567'
 const LOCAL_NET_PORT = '36000'
-const MAIN_NET_PORT = '11567'
+const MAIN_NET_PORT = '31567'
 const LOCALHOST = 'http://127.0.0.1'
 
 let chain = getInitialChain()
@@ -45,5 +45,5 @@ function getInitialChain() {
   if (process.env.ZEN_TEST_NET) {
     return 'test'
   }
-  return ''
+  return 'test'
 }
