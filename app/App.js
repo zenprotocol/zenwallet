@@ -3,7 +3,6 @@ import { Provider } from 'mobx-react'
 import MobxDevTools from 'mobx-react-devtools'
 import ErrorBoundary from 'react-error-boundary'
 import { Online } from 'react-detect-offline'
-import 'react-table/react-table.css'
 
 import ErrorScreen from './pages/ErrorScreen'
 import AppUpdater from './components/AppUpdater'
