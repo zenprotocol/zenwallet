@@ -162,7 +162,7 @@ class ZenNode {
   }
   get zenNodeArgs() {
     const {
-      isMining, wipe, wipeFull, net,
+      isMining, wipe, wipeFull,
     } = this.config
     const args = []
     if (wipe) {
@@ -173,9 +173,9 @@ class ZenNode {
     if (isMining) {
       args.push('--miner')
     }
-    if (net) {
-      args.push('--chain', net)
-    }
+    args.push('--test')
+    args.push('--data-path', 'data/test-beta')
+
 
     if (process.env.ZEN_NODE_API_PORT) {
       args.push('--api', `127.0.0.1:${process.env.ZEN_NODE_API_PORT}`)

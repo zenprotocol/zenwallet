@@ -9,10 +9,6 @@ set -o errexit
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-if [ "${BRANCH}" != 'master' ]; then
-  echo "must release from master"
-  exit 0
-fi
 
 if [ "$#" != "1" ]; then
     echo "Illegal number of parameters, write only a number in the following format _._._"
