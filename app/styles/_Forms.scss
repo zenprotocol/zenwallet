@@ -69,7 +69,6 @@ input[type=password],
 
 .amountInputContainer {
 	padding: 0px;
-	width: 290px;
 
 	&.is-focused {
 		border-color: $bright-grey;
@@ -156,7 +155,7 @@ input[type=password],
 
 label {
   line-height: 2.5rem;
-  color: $bright-grey;
+  color: $pinkish-grey;
 	font-size: 1rem;
 	&[for] {
 		cursor: pointer;
