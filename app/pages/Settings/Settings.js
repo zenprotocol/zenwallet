@@ -381,6 +381,9 @@ class Settings extends Component<Props, State> {
   }
   render() {
     const { walletModeStore } = this.props
+    if (walletModeStore.isSwitching) {
+      return null
+    }
     const fullNode = walletModeStore.isFullNode()
     return (
       <Layout className="settings-page">

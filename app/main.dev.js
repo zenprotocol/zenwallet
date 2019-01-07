@@ -16,6 +16,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 
 import ZenNode, { IPC_START_ZEN_NODE } from './ZenNode'
 import db from './services/db'
+import { postImportWallet } from './services/api-service'
 import MainProcessErrorReporter from './utils/errorReporting/MainProcessErrorReporter'
 import prereqCheck, { IPC_PREREQUISITES_CHECK_FAILED } from './utils/prereqCheck'
 

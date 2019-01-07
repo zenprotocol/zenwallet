@@ -6,6 +6,7 @@ import { Online } from 'react-detect-offline'
 import 'react-table/react-table.css'
 
 import ErrorScreen from './pages/ErrorScreen'
+import WalletSwitchInProgress from './pages/WalletSwitchInProgress'
 import AppUpdater from './components/AppUpdater'
 import PrerequisitesNotification from './components/PrerequisitesNotification'
 import WipeModal from './components/WipeModal'
@@ -29,6 +30,7 @@ export default class App extends React.Component {
               <Idle />
               <div className="app-wrapper">
                 <Routes />
+                <WalletSwitchInProgress />
               </div>
             </React.Fragment>
             {process.env.NODE_ENV !== 'production' && <MobxDevTools />}
