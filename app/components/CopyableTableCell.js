@@ -4,7 +4,6 @@ import React from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { inject } from 'mobx-react'
 
-import ZpIoLink from '../components/ZpIoLink'
 import { truncateString } from '../utils/helpers'
 import { isZenAsset } from '../utils/zenUtils'
 
@@ -12,8 +11,7 @@ const { clipboard } = require('electron')
 
 type Props = {
   string: string,
-  isReactTable?: boolean,
-  isTx?: boolean
+  isReactTable?: boolean
 };
 
 type State = {
@@ -41,13 +39,7 @@ class CopyableTableCell extends React.Component<Props, State> {
     return !isZenAsset(string) ? truncateString(string) : string
   }
   renderString() {
-    const { string, isTx } = this.props
-    return isTx ? (
-      // $FlowFixMe
-      <ZpIoLink path={`tx/${string}`}>
-        {this.formattedString}
-      </ZpIoLink>
-    ) : this.formattedString
+    return this.formattedString
   }
 
   get renderInner() {

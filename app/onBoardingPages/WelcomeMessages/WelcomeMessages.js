@@ -3,7 +3,6 @@ import Flexbox from 'flexbox-react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 import history from '../../services/history'
-import { IMG_BASE } from '../../constants/imgSources'
 import routes from '../../constants/routes'
 import OnBoardingLayout from '../Layout/Layout'
 

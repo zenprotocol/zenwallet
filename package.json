@@ -42,7 +42,7 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "Zen-Protocol-Wallet",
+    "productName": "Zen-Protocol-Wallet-Yesod",
     "extraResources": "node_modules/@zen/zen-node",
     "appId": "com.zenprotocol.wallet",
     "publish": {

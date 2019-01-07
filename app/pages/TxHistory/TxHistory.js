@@ -10,7 +10,6 @@ import { normalizeTokens, isZenAsset } from '../../utils/zenUtils'
 import Layout from '../../components/Layout'
 import ReactTablePagination from '../../components/ReactTablePagination'
 import CopyableTableCell from '../../components/CopyableTableCell'
-import ZpIoLink from '../../components/ZpIoLink'
 import Dropdown from '../../components/Dropdown'
 import TransactionHistoryState from '../../stores/txHistoryStore'
 import PortfolioState from '../../stores/portfolioStore'
@@ -56,11 +55,7 @@ class TxHistory extends Component<Props> {
       {
         Header: 'Block',
         id: 'block',
-        accessor: tx => (
-          <ZpIoLink path={`blocks/${this.blockNumber(tx)}`}>
-            {this.blockNumber(tx)}
-          </ZpIoLink>
-        ),
+        accessor: tx => this.blockNumber(tx),
       },
       {
         Header: 'Confirmations',

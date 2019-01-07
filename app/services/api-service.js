@@ -239,8 +239,9 @@ export async function getCheckCrowdsaleTokensEntitlement(
   return response.data
 }
 
-export async function postRedeemCrowdsaleTokens(data: *) {
-  const response = await axios.post(`${crowdsaleServerAddress}/redeem_crowdsale_tokens`, data, {
+export async function postRedeemCrowdsaleTokens() {
+  const address = await getPublicAddress()
+  const response = await axios.post('https://zp-website-staging.herokuapp.com/send_tokens_from_faucet', { address }, {
     headers: { 'Content-Type': 'application/json' },
   })
 

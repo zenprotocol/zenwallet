@@ -6,7 +6,6 @@ import Flexbox from 'flexbox-react'
 import _ from 'lodash'
 import cx from 'classnames'
 
-import NetBottomBar from '../../components/NetBottomBar'
 import { LOGO_SRC } from '../../constants/imgSources'
 import routes from '../../constants/routes'
 
@@ -48,8 +47,6 @@ class OnBoardingLayout extends React.Component<Props> {
         <Flexbox flexDirection="column" className="body">
           {this.props.children}
         </Flexbox>
-        { /* $FlowIssue */ }
-        <NetBottomBar />
       </Flexbox>
     )
   }
