@@ -20,7 +20,7 @@ class BlockchainLogs extends React.Component<Props> {
     return (
       <Layout className="blockchain-logs">
         <Flexbox className="page-title">
-          <h1>Blockchain Logs</h1>
+          <h1>Node Logs</h1>
         </Flexbox>
         <Flexbox flexDirection="column" className="contract-code form-row">
           <Highlight className="shell-session">
