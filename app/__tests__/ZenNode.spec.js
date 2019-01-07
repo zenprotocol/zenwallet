@@ -106,35 +106,35 @@ test('init when wiping full', () => {
 
 test('zenNodeArgs empty args', () => {
   const zenNode = getZenNode()
-  expect(zenNode.zenNodeArgs).toEqual([])
+  expect(zenNode.zenNodeArgs).toEqual(['--test', '--data-path', 'data/test-beta'])
 })
 test('zenNodeArgs wipe from command line', () => {
   // setup
   process.env.WIPE = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--wipe'])
+  expect(zenNode.zenNodeArgs).toEqual(['--wipe', '--test', '--data-path', 'data/test-beta'])
 })
 test('zenNodeArgs wipe full from command line', () => {
   // setup
   process.env.WIPEFULL = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--wipe', 'full'])
+  expect(zenNode.zenNodeArgs).toEqual(['--wipe', 'full', '--test', '--data-path', 'data/test-beta'])
 })
 test('zenNodeArgs running local net from command line', () => {
   // setup
   process.env.ZEN_LOCAL_NET = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--chain', 'local'])
+  expect(zenNode.zenNodeArgs).toEqual(['--test', '--data-path', 'data/test-beta'])
 })
 test('zenNodeArgs running testnet from command line', () => {
   // setup
   process.env.ZEN_TEST_NET = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--chain', 'test'])
+  expect(zenNode.zenNodeArgs).toEqual(['--test', '--data-path', 'data/test-beta'])
 })
 
 test('onZenNodeExit when signal is NOT restart', () => {

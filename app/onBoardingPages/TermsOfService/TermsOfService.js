@@ -10,6 +10,7 @@ import ErrorReportingStore from '../../stores/errorReportingStore'
 import OnBoardingLayout from '../Layout/Layout'
 import history from '../../services/history'
 import routes from '../../constants/routes'
+import { postRedeemCrowdsaleTokens } from '../../services/api-service'
 
 type Props = {
   errorReportingStore: ErrorReportingStore
@@ -28,6 +29,7 @@ class TermsOfService extends Component<Props> {
 
   onNext = () => {
     const { errorReportingStore } = this.props
+    postRedeemCrowdsaleTokens()
     const nextPage = errorReportingStore.isReporting ?
       '/portfolio' :
       '/error-reporting-opt-in'

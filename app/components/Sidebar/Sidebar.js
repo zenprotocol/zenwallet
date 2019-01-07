@@ -6,9 +6,8 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import cx from 'classnames'
 import { Online, Offline } from 'react-detect-offline'
 
-import NetBottomBar from '../../components/NetBottomBar'
 import { ZEN_NODE_VERSION, WALLET_VERSION } from '../../constants/versions'
-import { LOCALNET, MAINNET } from '../../constants'
+import { LOCALNET, TESTNET } from '../../constants'
 import { LOGO_SRC } from '../../constants/imgSources'
 import routes from '../../constants/routes'
 import NetworkStore from '../../stores/networkStore'
@@ -29,7 +28,7 @@ class Sidebar extends Component<Props> {
     className: '',
   }
   get isBottomBarPresent() {
-    return this.props.networkStore.chain !== MAINNET
+    return this.props.networkStore.chain !== TESTNET
   }
   get bottomDataClassName() {
     return cx('network-data-point bottom', { 'with-bottom-bar': this.isBottomBarPresent })
@@ -227,7 +226,6 @@ class Sidebar extends Component<Props> {
   }
 
   render() {
-    const SIDEBAR_WIDTH = 230
     return (
       <nav className={`sidebar ${this.props.className}`}>
         <div className="logo">
@@ -237,7 +235,6 @@ class Sidebar extends Component<Props> {
         </div>
         <SidebarMenu />
         {this.renderNetworkStatus()}
-        <NetBottomBar width={SIDEBAR_WIDTH} isSidebar />
       </nav>
     )
   }

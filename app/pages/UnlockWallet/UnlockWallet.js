@@ -6,7 +6,6 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { inject, observer } from 'mobx-react'
 import cx from 'classnames'
 
-import NetBottomBar from '../../components/NetBottomBar'
 import ToggleVisibilityIcon from '../../components/ToggleVisibilityIcon'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 
@@ -104,8 +103,6 @@ class UnlockWallet extends Component<Props, State> {
           <a style={{ textDecoration: 'underline' }} onClick={forgotPasswordModal} className="forgot-password">
             Forgot your password? Import your wallet again or create a new one
           </a>
-          {/* $FlowFixMe */ }
-          <NetBottomBar />
         </Flexbox>
       </Flexbox>
     )
