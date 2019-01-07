@@ -12,6 +12,8 @@ export default {
   LOADING: '/loading',
   UNLOCK_WALLET: '/unlock-wallet',
   BLOCKCHAIN_LOGS: '/blockchain-logs',
+  CGP: '/cgp',
+  ALLOCATION: '/allocation',
   SETTINGS: '/settings',
   // Onboarding routes
   WELCOME_MESSAGES: '/welcome-messages',
