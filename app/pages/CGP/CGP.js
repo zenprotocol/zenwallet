@@ -43,7 +43,7 @@ class CGP extends Component<Props> {
     this.props.voteStore.initPolling()
   }
 
-  getNextDistribution = (headers) => Math.round((headers / intervalLength))
+  getNextDistribution = (headers) => Math.ceil((headers / intervalLength))
 
   calcNextDistribution = () => {
     const { headers } = this.props.networkStore
@@ -183,6 +183,10 @@ class CGP extends Component<Props> {
               label="Amount"
               classname="amount"
             />
+          </Flexbox>
+
+          <Flexbox flexDirection="row" justifyContent="flex-end" className="form-row button-row">
+
             <ProtectedButton
               className={cx('button-on-right', { loading: inprogress })}
               disabled={this.isSubmitButtonDisabled}
@@ -190,7 +194,9 @@ class CGP extends Component<Props> {
             >
               {inprogress ? 'Voting' : 'Vote'}
             </ProtectedButton>
+
           </Flexbox>
+
         </Flexbox>
       </Flexbox>
     )
@@ -256,9 +262,9 @@ class CGP extends Component<Props> {
         <Flexbox flexDirection="column" className="CGP-container">
           <Flexbox className="page-title" justifyContent="space-between" flexDirection="column">
             <h1>Common Goods Pool</h1>
-            <h3>
-              Every 10,000 blocks funds are distributed from the CGP to the winning proposal
-              (100 blocks for the testnet).
+            <h3 className="page-title" >
+              Every 10,000 blocks (100 blocks for the testnet)
+              funds are distributed from the CGP to the winning proposal.
               Users can influence the outcome on a coin-weighted basis by voting on their
               preferred proposal prior to the end of the interval.
               <br />
@@ -281,10 +287,9 @@ class CGP extends Component<Props> {
             <BoxLabel firstLine={`${fund ? kalapasToZen(fund) : 0} ZP`} secondLine="Available for next distribution" />
             <BoxLabel firstLine={`${totalPayoutAmountVoted ? kalapasToZen(totalPayoutAmountVoted) : 0} ZP`} secondLine="Voted for next distribution" />
             <BoxLabel firstLine={this.calcRemainingBlock()} secondLine="Blocks remaining" />
-            <Flexbox flexGrow={1} />
           </Flexbox>
           <Flexbox flexDirection="row" >
-            <Flexbox flexDirection="column" >
+            <Flexbox flexDirection="column" flexGrow={1} >
               { this.renderVote() }
               { this.renderResult() }
             </Flexbox>

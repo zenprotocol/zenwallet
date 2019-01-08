@@ -2,26 +2,21 @@
 
 .box {
   background: $darker-gray;
-  width: 24%;
-  margin-right: 24px;
-  height: 90px;
+  padding: 25px;
+  height: 40px;
+  margin: 20px 10px;
 
   .first-input {
     font-size: 20px;
     font-weight: 500;
-    padding-top: 25px;
-    padding-left: 30px;
     color: $light-white;
   }
 
   .second-input {
     font-size: 14px;
-    padding-left: 30px;
-    padding-top: 0;
   }
 
   div {
     justify-content: space-between;
   }
 }
-
