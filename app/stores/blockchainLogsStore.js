@@ -15,7 +15,7 @@ class Store {
 
     setInterval(() => {
       runInAction(() => {
-        this.logs = this.logs.concat(this.pending).slice(-200)
+        this.logs = this.logs.concat(this.pending)
         this.pending = []
       })
     }, 2000)
