@@ -1,4 +1,4 @@
-import { observable, runInAction } from 'mobx'
+import { observable } from 'mobx'
 import { ipcRenderer } from 'electron'
 
 import db from '../services/db'
@@ -12,17 +12,11 @@ class BlockchainLogsStore {
     // load logs from DB in case of switching chains
     this.logs = this.logs.concat(db.get('blockchainLogs').value())
     db.set('blockchainLogs', []).write()
-    ipcRenderer.on(IPC_BLOCKCHAIN_LOGS, (event, log) => {
-      if (!log) { return }
-      this.pending.push(log)
+    ipcRenderer.on(IPC_BLOCKCHAIN_LOGS, (event, logs) => {
+      console.log('incoming logs', logs.length)
+      if (!logs.length) { return }
+      this.logs = [...this.logs, ...logs]
     })
-
-    setInterval(() => {
-      runInAction(() => {
-        this.logs = this.logs.concat(this.pending)
-        this.pending = []
-      })
-    }, 2000)
   }
 }
 
