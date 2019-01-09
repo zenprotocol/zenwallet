@@ -114,37 +114,57 @@ class Allocation extends Component<Props, State> {
       voteStore: { inprogress },
     } = this.props
     return (
-      <Flexbox className="allocation-input" flexDirection="column">
+      <Flexbox className="allocation-input" flexDirection="column" flexGrow={2}>
         <label className="allocation-title">How would you like to distribute the allocation?</label>
-        <Flexbox flexDirection="column">
-          <Flexbox flexDirection="row">
-            <label className="top-left ">CGP</label>
-            <label className="top-right">Mining Allocation</label>
+
+					<Flexbox flexDirection="row">
+
+						<Flexbox flexDirection="column" className="slider-div" width="100%">
+
+							<Flexbox flexDirection="row" justifyContent="space-between" className="word-labels">
+								<Flexbox flexDirection="row">
+									<label>CGP</label>
+								</Flexbox>
+								<Flexbox flexDirection="row" justifyContent="flex-end">
+									<label>Mining Allocation</label>
+								</Flexbox>
+							</Flexbox>
+
+							<Flexbox flexDirection="row" height="25px">
+								<input
+									type="range"
+									value={this.state.value}
+									min={0}
+									max={100}
+									onChange={this.handleChange.bind(this)}
+									step={10}
+									data-value={this.state.value / 100}
+								/>
+							</Flexbox>
+
+							<Flexbox flexDirection="row"  justifyContent="space-between" className="number-labels">
+								<Flexbox flexDirection="row">
+									<label>{this.state.value}%</label>
+								</Flexbox>
+								<Flexbox flexDirection="row" justifyContent="flex-end">
+									<label>{100 - this.state.value}%</label>
+								</Flexbox>
+							</Flexbox>
+
+						</Flexbox>
+
+						<Flexbox flexDirection="row" className="button-div">
+							<ProtectedButton
+								className={cx('allocation-button', { loading: inprogress })}
+								disabled={this.isSubmitButtonDisabled}
+								onClick={this.onSubmitButtonClicked}
+								>
+									{inprogress ? 'Voting' : 'Vote'}
+								</ProtectedButton>
+							</Flexbox>
+
           </Flexbox>
-          <Flexbox flexDirection="row">
-            <input
-              type="range"
-              value={this.state.value}
-              min={0}
-              max={100}
-              onChange={this.handleChange.bind(this)}
-              step={10}
-              data-value={this.state.value / 100}
-            />
-            <span className="separator" />
-            <ProtectedButton
-              className={cx('allocation-button', { loading: inprogress })}
-              disabled={this.isSubmitButtonDisabled}
-              onClick={this.onSubmitButtonClicked}
-            >
-              {inprogress ? 'Voting' : 'Vote'}
-            </ProtectedButton>
-          </Flexbox>
-          <Flexbox flexDirection="row">
-            <label className="bottom-left">{this.state.value}%</label>
-            <label className="bottom-right">{100 - this.state.value}%</label>
-          </Flexbox>
-        </Flexbox>
+
       </Flexbox>
     )
   }
@@ -195,9 +215,9 @@ class Allocation extends Component<Props, State> {
               className="box"
             />
           </Flexbox>
-          <Flexbox flexDirection="row" className="form-row">
+          <Flexbox flexDirection="row">
             { this.renderVote() }
-            <Flexbox className="potential-outcome" flexDirection="column">
+            <Flexbox className="potential-outcome" flexDirection="column" flexGrow={1}>
               <label className="allocation-title">Potential Outcome</label>
               <div className="bar-chart">
                 <ChartLoader
