@@ -1,5 +1,62 @@
 @import "styles/Variables";
 
+.rc-slider {
+	height: 15px;
+	.rc-slider-rail {
+		height: 15px;
+		border-radius: 0;
+		background-color: #bfbfbf;
+	}
+	.rc-slider-track {
+		height: 15px;
+		background-color: #2f8be6;
+		border-radius: 0;
+	}
+
+	.rc-slider-handle {
+		position: relative;
+    width: 14px;
+    height: 24px;
+    margin-left: -6px;
+    background-color: #d8d8d8;
+    border-radius: 0;
+		border: 0.5px solid #000000;
+
+		&:active,
+		&:focus,
+		&:hover { box-shadow: 0 0 5px #545454;	}
+		&:after {
+			content:"";
+			position: absolute;
+			bottom: -6px;
+			left: 0px;
+			width:0px;
+			height:0px;
+			border-left: 6.25px solid transparent;
+			border-right: 6.25px solid transparent;
+			border-top: 6px solid #d8d8d8;
+		}
+	}
+
+	.rc-slider-dot {
+		position: absolute;
+    bottom: -6px;
+    margin-left: -4px;
+    width: 5px;
+    height: 5px;
+    border: 1px solid #ffffff;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 0;
+    vertical-align: middle;
+    border-top: 0;
+    border-bottom: 0;
+	}
+
+}
+
+
+
 .allocation-container {
 
 	.page-subtitle { color: $pinkish-grey; }

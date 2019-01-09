@@ -1,5 +1,6 @@
 import { inject, observer } from 'mobx-react'
 import React, { Component } from 'react'
+import Slider from 'rc-slider'
 import Flexbox from 'flexbox-react'
 import moment from 'moment'
 import cx from 'classnames'
@@ -16,6 +17,17 @@ import ChartLoader from '../../components/Chart'
 import { kalapasToZen } from '../../utils/zenUtils'
 
 const intervalLength = 100
+const marks = {
+  10: '',
+  20: '',
+  30: '',
+  40: '',
+  50: '',
+  60: '',
+  70: '',
+  80: '',
+  90: '',
+}
 
 type State = {
   value: number
@@ -71,10 +83,9 @@ class Allocation extends Component<Props, State> {
     voteStore.updateAmountDisplay(amountDisplay)
   }
 
-  handleChange(event) {
-    const value = event.currentTarget.value.trim()
-    this.setState({ value: Number(value) })
-    this.props.voteStore.allocationAmount = Number(value)
+  onChange = values => {
+    this.setState({ value: values })
+    this.props.voteStore.allocationAmount = Number(values)
   }
 
   getOutstanding = () => {
@@ -134,15 +145,14 @@ class Allocation extends Component<Props, State> {
             </Flexbox>
 
             <Flexbox flexDirection="row" height="25px">
-              <input
-                type="range"
-                value={this.state.value}
+              <Slider
                 min={0}
                 max={100}
-                onChange={this.handleChange.bind(this)}
                 step={10}
-                data-value={this.state.value / 100}
+                onChange={this.onChange}
+                marks={marks}
               />
+
             </Flexbox>
 
             <Flexbox flexDirection="row" justifyContent="space-between" className="number-labels">
@@ -225,7 +235,6 @@ class Allocation extends Component<Props, State> {
                   showTitle={false}
                   externalChartData={this.getData}
                   externalChartLoading={false}
-                  handleChartClick={this.handleChange.bind(this)}
                   current={[{
                     amount: this.state.value,
                     count: pastAllocation === this.state.value ? outstanding : zenCount,
