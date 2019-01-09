@@ -23,6 +23,7 @@ class ZenNode {
   static zenNodeVersionRequiredWipe = doesZenNodeVersionRequiredWipe()
   ipcMessagesToSendOnFinishedLoad = []
   logs = []
+  pendingLogsToSendToRenderer = []
   webContentsFinishedLoad = false
   node = {
     stderr: { pipe: _.noop, on: _.noop },
@@ -68,6 +69,7 @@ class ZenNode {
       this.node.stdout.on('data', this.onBlockchainLog)
       ipcMain.once(IPC_RESTART_ZEN_NODE, this.onRestartZenNode)
       this.node.on('exit', this.onZenNodeExit)
+      setInterval(this.sendPendingLogsToRenderer, 2000)
     } catch (err) {
       this.onZenNodeError('init catch', err)
     }
@@ -76,8 +78,15 @@ class ZenNode {
   onBlockchainLog = (chunk) => {
     const log = chunk.toString('utf8')
     this.logs = [...this.logs, log].slice(-100)
+    this.pendingLogsToSendToRenderer = [...this.pendingLogsToSendToRenderer, log]
     console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
-    this.webContents.send(IPC_BLOCKCHAIN_LOGS, log)
+  }
+  sendPendingLogsToRenderer = () => {
+    if (!this.pendingLogsToSendToRenderer.length) {
+      return
+    }
+    this.webContents.send(IPC_BLOCKCHAIN_LOGS, this.pendingLogsToSendToRenderer)
+    this.pendingLogsToSendToRenderer = []
   }
   onZenNodeStderr = (chunk) => {
     const log = chunk.toString('utf8')

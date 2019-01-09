@@ -39,6 +39,10 @@ afterAll(() => {
   process.resourcesPath = originalProcessResourcePath
 })
 
+beforeEach(() => {
+  jest.useFakeTimers()
+})
+
 const mockedWebContents = { send: jest.fn() }
 const mockedOnClose = jest.fn()
 const mockedOnError = jest.fn()
@@ -84,6 +88,8 @@ test('init', () => {
   expect(ipcMain.once).toHaveBeenCalledWith(IPC_RESTART_ZEN_NODE, zenNode.onRestartZenNode)
   expect(zenNode.node.on).toHaveBeenCalledTimes(3)
   expect(zenNode.node.on).toHaveBeenCalledWith('exit', zenNode.onZenNodeExit)
+  expect(setInterval).toHaveBeenCalledTimes(1)
+  expect(setInterval).toHaveBeenCalledWith(zenNode.sendPendingLogsToRenderer, 2000)
 })
 test('init when wiping', () => {
   // setup
@@ -154,11 +160,36 @@ test('onZenNodeExit when signal is NOT restart', () => {
 test('onBlockchainLog', () => {
   // setup
   const zenNode = getZenNode()
+  const log = 'foo'
   // action
-  zenNode.onBlockchainLog('')
+  zenNode.onBlockchainLog(log)
   // assertion
-  expect(mockedWebContents.send).toHaveBeenCalledTimes(1)
-  expect(mockedWebContents.send).toHaveBeenCalledWith(IPC_BLOCKCHAIN_LOGS, '')
+  expect(zenNode.logs).toEqual([log])
+  expect(zenNode.pendingLogsToSendToRenderer).toEqual([log])
+})
+
+test('sendPendingLogsToRenderer when there are no pending logs', () => {
+  // setup
+  const zenNode = getZenNode()
+  // action
+  zenNode.sendPendingLogsToRenderer()
+  // assertion
+  expect(zenNode.webContents.send).toHaveBeenCalledTimes(0)
+  expect(zenNode.pendingLogsToSendToRenderer).toEqual([])
+})
+
+test('sendPendingLogsToRenderer', () => {
+  // setup
+  const zenNode = getZenNode()
+  const logs = ['foo', 'bar']
+  zenNode.pendingLogsToSendToRenderer = [...logs]
+  // action
+  zenNode.sendPendingLogsToRenderer()
+  // assertion
+  expect(zenNode.webContents.send).toHaveBeenCalledTimes(1)
+  expect(zenNode.webContents.send)
+    .toHaveBeenCalledWith(IPC_BLOCKCHAIN_LOGS, logs)
+  expect(zenNode.pendingLogsToSendToRenderer).toEqual([])
 })
 
 function getZenNode() {
