@@ -1,0 +1,30 @@
+@import "styles/Variables";
+
+.Chart {
+  background-color: $grey;
+  width: 100%;
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $dark-grey;
+
+      .title a {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .title {
+    font-weight: 400;
+    border-bottom-width: 1px;
+    border-style: solid;
+    padding: 25px;
+    margin-bottom: 40px;
+  }
+
+  .title a {
+    color: inherit;
+  }
+}
