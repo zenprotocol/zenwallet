@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron'
 
 import { IPC_BLOCKCHAIN_LOGS } from '../ZenNode'
 
-class Store {
+class BlockchainLogsStore {
   @observable logs = []
   pending = []
 
@@ -22,4 +22,4 @@ class Store {
   }
 }
 
-export default Store
+export default BlockchainLogsStore

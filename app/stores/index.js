@@ -8,7 +8,7 @@ import ActiveContractsStore from './activeContractsStore'
 import NetworkStore from './networkStore'
 import RedeemTokensStore from './redeemTokensStore'
 import SecretPhraseStore from './secretPhraseStore'
-import Store from './blockchainLogsStore'
+import BlockchainLogsStore from './blockchainLogsStore'
 import ErrorReportingStore from './errorReportingStore'
 
 const errorReportingStore = new ErrorReportingStore()
@@ -27,7 +27,7 @@ const secretPhraseStore =
 const sendTxStore = new SendTxStore()
 const deployContractStore = new DeployContractStore()
 const runContractStore = new RunContractStore(activeContractsStore)
-const blockchainLogsStore = new Store()
+const blockchainLogsStore = new BlockchainLogsStore()
 
 export default {
   portfolioStore,
