@@ -43,18 +43,28 @@ nav.sidebar {
     position: relative;
 
     .badge {
-      border-radius: 50%;
+      border-radius: 10px;
       background: $blue;
       float: right;
       padding: 0px;
-      width: 13px;
-      height: 13px;
+      width: 20px;
+      height: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 9px;
-      margin-top: 5px;
+      font-size: 12px;
+      margin-top: 4px;
       color: #fff;
+      &.two-digits {
+        width: 28px;
+      }
+      &.three-digits {
+        width: 36px;
+      }
+      &.four-digits {
+        width: 44px;
+      }
+
     }
   }
 
