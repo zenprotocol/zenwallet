@@ -1,17 +1,47 @@
-/* left here to customize toasts */
+/* 
+ * [AdGo] 08/01/19 - HACK: change paddings and positioning in order to make 
+ * the toast link cover the entire toast, making the entire toast clickable, instead of just the
+ * text itself 
+*/
+
+$toast-close-button-width: 8px;
+$toast-close-button-offset: 10px;
+.Toastify__toast-container--top-right {
+  top: $topbar-height;
+}
 .Toastify__close-button {
   min-width: auto; /* override global button */
+  height: auto;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  width: $toast-close-button-width;
+  height: $toast-close-button-width;
 }
 
-.Toastify__toast-body .toast-link {
+.Toastify__toast {
+  border-radius: 2px;
+  min-height: 52px;
+  padding: 0;
+}
+
+.Toastify__toast-body {
+  font-size: 12px;
+  color: $light-white;
+  .toast-link {
   color: inherit;
   position: absolute;
   left: 0;
-  right: 20px;
+  right: $toast-close-button-width + $toast-close-button-offset;
   top: 0;
   bottom: 0;
   margin: auto;
-  padding-left: 10px;
+  padding-left: 23px;
   display: flex;
   align-items: center;
+  }
+}
+
+.Toastify__toast--info {
+  background: $blue;
 }
