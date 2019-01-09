@@ -49,6 +49,7 @@ db.defaults({
     walletVersion: null,
     zenNodeVersion: null,
   },
+  blockchainLogs: [],
 }).write()
 
 export default db

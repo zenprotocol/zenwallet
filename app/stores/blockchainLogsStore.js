@@ -1,6 +1,7 @@
 import { observable, runInAction } from 'mobx'
 import { ipcRenderer } from 'electron'
 
+import db from '../services/db'
 import { IPC_BLOCKCHAIN_LOGS } from '../ZenNode'
 
 class BlockchainLogsStore {
@@ -8,6 +9,9 @@ class BlockchainLogsStore {
   pending = []
 
   constructor() {
+    // load logs from DB in case of switching chains
+    this.logs = this.logs.concat(db.get('blockchainLogs').value())
+    db.set('blockchainLogs', []).write()
     ipcRenderer.on(IPC_BLOCKCHAIN_LOGS, (event, log) => {
       if (!log) { return }
       this.pending.push(log)
