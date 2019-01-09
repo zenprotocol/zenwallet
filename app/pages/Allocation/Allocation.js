@@ -193,7 +193,7 @@ class Allocation extends Component<Props, State> {
               Next Estimated Distribution : {this.calcNextDistribution().format('MMMM DD, YYYY')}
             </span>
           </Flexbox>
-          <Flexbox flexDirection="row" className="form-row" >
+          <Flexbox flexDirection="row" className="box-bar" >
             <BoxLabel
               firstLine={`${this.getOutstanding()} / ${kalapasToZen(zenCount)} ZP`}
               secondLine="Outstanding Vote"
@@ -206,7 +206,6 @@ class Allocation extends Component<Props, State> {
               firstLine="Current Allocation"
               secondLine={(
                 <span className="form-row td">
-                  <br />
                   <span className="dot off-white" /> Mining reward:
                   <span className="reward" > {100 - resultAllocation}%</span>
                   <span className="dot blue" /> CGP:
