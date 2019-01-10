@@ -2,14 +2,15 @@
 
 .box {
   background: $darker-gray;
-  padding: 25px;
+  padding: 17px;
   height: 40px;
   margin: 20px 10px;
 
   .first-input {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: bold;
     color: $light-white;
+		margin-bottom: 5px;
   }
 
   .second-input {

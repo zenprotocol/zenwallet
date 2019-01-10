@@ -10,7 +10,7 @@ import RedeemTokensStore from './redeemTokensStore'
 import SecretPhraseStore from './secretPhraseStore'
 import BlockchainLogsStore from './blockchainLogsStore'
 import ErrorReportingStore from './errorReportingStore'
-import CGPStore from './CGPStore'
+import CgpStore from './cgpStore'
 import VoteStore from './voteStore'
 
 const errorReportingStore = new ErrorReportingStore()
@@ -30,7 +30,7 @@ const sendTxStore = new SendTxStore()
 const deployContractStore = new DeployContractStore()
 const runContractStore = new RunContractStore(activeContractsStore)
 const blockchainLogsStore = new BlockchainLogsStore()
-const cGPStore = new CGPStore(networkStore)
+const cgpStore = new CgpStore(networkStore)
 const voteStore = new VoteStore()
 
 export default {
@@ -45,7 +45,7 @@ export default {
   redeemTokensStore,
   secretPhraseStore,
   blockchainLogsStore,
-  cGPStore,
+  cgpStore,
   voteStore,
   errorReportingStore,
 }

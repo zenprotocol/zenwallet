@@ -37,7 +37,7 @@ type PayoutVote = {
   count: string
 };
 
-export type CGP = {
+export type Cgp = {
   allocation: {
     votes: AllocationVote[],
     result: string
@@ -51,7 +51,7 @@ export type CGP = {
   }
 };
 
-export async function getCGP(): Promise<CGP> {
+export async function getCgp(): Promise<Cgp> {
   const response = await axios.get(`${getServerAddress()}/blockchain/cgp`)
   return response.data
 }

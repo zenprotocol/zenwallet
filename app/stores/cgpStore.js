@@ -1,10 +1,10 @@
 import { observable, action, runInAction } from 'mobx'
 
-import { getCGP, getGenesisTimestamp } from '../services/api-service'
+import { getCgp, getGenesisTimestamp } from '../services/api-service'
 import PollManager from '../utils/PollManager'
 
 
-class CGPStore {
+class CgpStore {
   @observable allocationVote = []
   @observable resultAllocation = ''
   @observable totalPayoutVoted = 0
@@ -14,7 +14,7 @@ class CGPStore {
   @observable error = ''
   @observable genesisTimestamp = 0
   fetchPollManager = new PollManager({
-    name: 'CGP fetch',
+    name: 'Cgp fetch',
     fnToPoll: this.fetch,
     timeoutInterval: 2500,
   })
@@ -27,11 +27,15 @@ class CGPStore {
   initPolling() {
     this.fetchPollManager.initPolling()
   }
+  @action
+  stopPolling() {
+    this.fetchPollManager.stopPolling()
+  }
 
   @action.bound
   async fetch() {
     try {
-      const cgp = await getCGP()
+      const cgp = await getCgp()
       const currentInterval = Math.floor(this.networkStore.headers / 100)
       runInAction(() => {
         this.resultAllocation = cgp.resultAllocation
@@ -55,17 +59,14 @@ class CGPStore {
     })
   }
 
-  getAmountVoted(voteArray: Array) {
-    if (!voteArray) {
+  getAmountVoted(votes: Array) {
+    if (!votes) {
       return
     }
-    let vote = 0
-    voteArray.forEach((payoutVote) => {
-      const { count } = payoutVote
-      vote += Number(count)
-    })
-    return vote
+    return votes
+      .map(vote => Number(vote.count))
+      .reduce((amount, voteCount) => amount + voteCount, 0)
   }
 }
 
-export default CGPStore
+export default CgpStore

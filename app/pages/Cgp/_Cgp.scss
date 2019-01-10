@@ -1,4 +1,4 @@
-@import "../../styles/Variables";
+@import "styles/Variables";
 
 .line-break {
   width: 100%;
@@ -24,9 +24,9 @@
 }
 
 .payout-result {
-  background: $light-grey-2;
+  background: $darker-gray;
   margin-top: 10px;
-  margin-right: 10px;
+  margin-right: 20px;
 
   .result {
     margin: 12px 24px 24px;
@@ -41,13 +41,13 @@ h3.vote-title {
   margin-bottom: 10px;
 }
 
-.proposal { margin: 24px; }
-
-.vote-button {
-  // margin-left: 150%;
+h3.page-title {
+  max-width: 900px;
 }
 
+.proposal { margin: 24px; }
+
 .active-proposal {
-  background: $light-grey-2;
+  background: $darker-gray;
   height: 400px;
 }

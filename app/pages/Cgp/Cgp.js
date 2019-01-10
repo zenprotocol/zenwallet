@@ -10,7 +10,7 @@ import moment from 'moment'
 import PasteButton from '../../components/PasteButton'
 import { ref } from '../../utils/domUtils'
 import Layout from '../../components/Layout/Layout'
-import CGPStore from '../../stores/CGPStore'
+import CgpStore from '../../stores/cgpStore'
 import NetworkStore from '../../stores/networkStore'
 import VoteStore from '../../stores/voteStore'
 import BoxLabel from '../../components/BoxLabel/BoxLabel'
@@ -29,16 +29,16 @@ const intervalLength = 100
 
 
 type Props = {
-  cGPStore: CGPStore,
+  cgpStore: CgpStore,
   networkStore: NetworkStore,
   voteStore: VoteStore
 };
 
-@inject('cGPStore', 'networkStore', 'voteStore')
+@inject('cgpStore', 'networkStore', 'voteStore')
 @observer
 class CGP extends Component<Props> {
   componentDidMount() {
-    this.props.cGPStore.initPolling()
+    this.props.cgpStore.initPolling()
     this.props.networkStore.initPolling()
     this.props.voteStore.initPolling()
   }
@@ -47,24 +47,24 @@ class CGP extends Component<Props> {
 
   calcNextDistribution = () => {
     const { headers } = this.props.networkStore
-    const { genesisTimestamp } = this.props.cGPStore
+    const { genesisTimestamp } = this.props.cgpStore
     const time = genesisTimestamp + (headers * 240000) // 360) * 86400000)
     return moment(new Date(time))
   }
 
   calcTimeRemaining = () => {
-    const time = this.calcNextDistribution() - Date.now()
-
-    const days = Math.floor(time / 86400000)
-    const hours = Math.floor((time % 86400000) / 3600000)
-    const minutes = Math.floor((time % 3600000) / 60000)
-    const second = Math.floor((time % 60000) / 1000)
-    return `${days} : ${hours} : ${minutes} : ${second}`
+    const time = this.calcRemainingBlock() * 4
+    const days = Math.floor(time / (24 * 60))
+    const hours = Math.floor((time - (days * 24 * 60)) / 60)
+    const minutes = Math.floor(time - (days * 24 * 60) - (hours * 60))
+    const dayAdded = days === 0 ? '' : `${days} ${days === 1 ? 'day,' : 'days,'}`
+    const hourAdded = hours === 0 ? '' : `${hours} ${hours === 1 ? 'hour,' : 'hours,'}`
+    return `${dayAdded} ${hourAdded}  ${minutes} minutes`
   }
 
   calcRemainingBlock = () => {
     const { headers } = this.props.networkStore
-    return ((this.getNextDistribution(headers) + 1) * intervalLength) - headers
+    return (this.getNextDistribution(headers) * intervalLength) - headers
   }
 
   get isToInvalid() {
@@ -110,7 +110,7 @@ class CGP extends Component<Props> {
   get areAllFieldsValid() {
     const { payoutAmount, payoutAddress } = this.props.voteStore
     return !!(payoutAmount && payoutAddress &&
-      (payoutAmount <= this.props.cGPStore.fund) && this.isToValid)
+      (payoutAmount <= this.props.cgpStore.fund) && this.isToValid)
   }
 
   get isSubmitButtonDisabled() {
@@ -134,12 +134,12 @@ class CGP extends Component<Props> {
   renderVote() {
     const {
       voteStore: { payoutAmount, payoutAddress, inprogress },
-      cGPStore: { fund },
+      cgpStore: { fund },
     } = this.props
     return (
       <Flexbox>
         <Flexbox className="vote-box" flexDirection="column" >
-          <h3 className="vote-title">Vote for next distribution</h3>
+          <h3 className="vote-title">Vote for next distribution:</h3>
           <Flexbox flexDirection="column" className="destination-address-input form-row">
             <label htmlFor="to">Destination Address</label>
             <Flexbox flexDirection="row" className="destination-address-input">
@@ -208,8 +208,8 @@ class CGP extends Component<Props> {
   }
 
   renderRows() {
-    const { cGPStore } = this.props
-    return cGPStore.payoutVote.map((vote, index) => (
+    const { cgpStore } = this.props
+    return cgpStore.payoutVote.map((vote, index) => (
       <Fragment key={`${vote.recipient}-${index}`}>
         <tr onClick={this.onRowClicked.bind(this, vote)}>
           <SingleVoteDelta vote={vote} />
@@ -228,7 +228,7 @@ class CGP extends Component<Props> {
   }
 
   renderResult() {
-    const { resultPayout } = this.props.cGPStore
+    const { resultPayout } = this.props.cgpStore
     return (
       <Flexbox className="payout-result" flexGrow={1} flexDirection="column" >
         <Flexbox className="result" flexDirection="column" >
@@ -254,7 +254,7 @@ class CGP extends Component<Props> {
   }
 
   render() {
-    const { fund, totalPayoutAmountVoted } = this.props.cGPStore
+    const { fund, totalPayoutAmountVoted } = this.props.cgpStore
     const { outstanding, utilized } = this.props.voteStore
     const zenCount = Number(utilized) + Number(outstanding)
     return (
@@ -267,7 +267,6 @@ class CGP extends Component<Props> {
               funds are distributed from the CGP to the winning proposal.
               Users can influence the outcome on a coin-weighted basis by voting on their
               preferred proposal prior to the end of the interval.
-              <br />
               A proposal ‘ballot’ consists of both an <span className="bold">address</span> and an <span className="bold">amount</span>.
               Note that ‘ballots’ which pay to the same address
               but a different amount will be considered different ballots.
@@ -280,12 +279,12 @@ class CGP extends Component<Props> {
           <Flexbox flexDirection="row" className="box-bar">
             <BoxLabel
               firstLine={`${this.getOutstanding()} / ${kalapasToZen(zenCount)} ZP`}
-              secondLine="Outstanding Votes"
+              secondLine="Outstanding votes"
               className={cx(outstanding !== 0 ? 'box-row' : 'box')}
             />
             <BoxLabel firstLine={this.calcTimeRemaining()} secondLine="Time remaining" />
             <BoxLabel firstLine={`${fund ? kalapasToZen(fund) : 0} ZP`} secondLine="Available for next distribution" />
-            <BoxLabel firstLine={`${totalPayoutAmountVoted ? kalapasToZen(totalPayoutAmountVoted) : 0} ZP`} secondLine="Voted for next distribution" />
+            <BoxLabel firstLine={`${totalPayoutAmountVoted ? kalapasToZen(totalPayoutAmountVoted) : 0} ZP`} secondLine="Votes for next distribution" />
             <BoxLabel firstLine={this.calcRemainingBlock()} secondLine="Blocks remaining" />
           </Flexbox>
           <Flexbox flexDirection="row" >
@@ -307,7 +306,7 @@ class CGP extends Component<Props> {
                       <tr className="separator" />
                     </thead>
                     <tbody>
-                      { !!this.props.cGPStore && this.renderRows() }
+                      { !!this.props.cgpStore && this.renderRows() }
                     </tbody>
                   </table>
                 </Flexbox>

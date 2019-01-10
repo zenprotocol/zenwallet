@@ -25,6 +25,10 @@ class VoteStore {
   initPolling() {
     this.fetchPollManager.initPolling()
   }
+  @action
+  stopPolling() {
+    this.fetchPollManager.stopPolling()
+  }
 
   @action.bound
   async fetch() {

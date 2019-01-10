@@ -1,8 +1,8 @@
 @import "styles/Variables";
 
 .allocation-container {
-  width: 100%;
-  .page-subtitle { color: $pinkish-grey; }
+
+	.page-subtitle { color: $pinkish-grey; }
 
   .allocation-input {
     background: $light-grey-2;
@@ -19,21 +19,19 @@
   }
 
   .allocation-title {
-    padding: 10px;
     font-size: 16px;
     color: $off-white;
-    font-weight: 300;
+    font-weight: 500;
   }
+
 }
 
 .potential-outcome {
   background: $darker-gray;
   margin-left: 25px;
-  width: 50%;
-
-  .bar-chart {
-    padding: 10px;
-  }
+  width: 35%;
+	padding: 5px 20px;
+  .bar-chart { padding: 10px; }
 }
 
 .dot {
@@ -45,7 +43,7 @@
 
 .off-white { background-color: $off-white; }
 
-.blue { background-color: $CGP-blue; }
+.blue { background-color: $cgp-blue; }
 
 hr {
   width: 100%;
@@ -87,20 +85,9 @@ td {
   margin-bottom: 6px;
 }
 
-.top-right {
-  white-space: nowrap;
-  margin-left: 60%;
-  margin-bottom: 20px;
-}
-
-.bottom-right {
-  margin-left: 67%;
-}
-
-.allocation-button {
-  margin-right: 10px;
-  margin-top: -13px;
-  margin-left: 10px;
+.button-div {
+	margin: 0 10px;
+	.allocation-button { margin: auto; }
 }
 
 input[type=range] {
@@ -115,13 +102,11 @@ input[type=range] {
   display: flex;
   //overflow: hidden;
   height: 100%;
-  margin-left: 10px;
-  width: 75%;
-  margin-right: 10px;
+  width: 100%;
 }
 
 input::-webkit-slider-runnable-track {
-  background: $CGP-blue;
+  background: $cgp-blue;
   content: '';
   height: 8px;
   pointer-events: none;
