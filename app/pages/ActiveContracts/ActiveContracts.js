@@ -44,11 +44,12 @@ class ActiveContracts extends Component<Props, State> {
   }
 
   renderActiveContractRows() {
-    const { activeContractsStore } = this.props
+    const { activeContractsStore, runContractStore } = this.props
     const { showCodeSnippetForContractAddress } = this.state
     return activeContractsStore.activeContracts.map((contract) => {
       const formattedActiveUntil = contract.expire.toLocaleString()
       const isCodeCurrentyViewed = showCodeSnippetForContractAddress === contract.address
+      const isContractSavedToDb = runContractStore.isContractSavedToDb(contract.address)
       return (
         <Fragment key={contract.contractId}>
           <tr>
@@ -63,6 +64,14 @@ class ActiveContracts extends Component<Props, State> {
                 className="button secondary small margin-right code"
               >
                 <FontAwesomeIcon icon={['far', 'code']} /> <span className="button-text">Code</span>
+              </a>
+              <a
+                title={isContractSavedToDb ? 'Contract already saved locally' : 'Save Contract'}
+                onClick={() => (isContractSavedToDb ? null :
+                  runContractStore.saveContractToDb(contract.address, { shouldToast: true }))}
+                className={cx('button small margin-right save', { isDisabled: isContractSavedToDb })}
+              >
+                <FontAwesomeIcon icon={['far', 'download']} /> <span className="button-text">Save</span>
               </a>
               <Link title="Run Contract" className="button small play" to={routes.RUN_CONTRACT} onClick={() => this.props.runContractStore.updateAddress(contract.address)}>
                 <FontAwesomeIcon icon={['far', 'play']} /> <span className="button-text">Run</span>
