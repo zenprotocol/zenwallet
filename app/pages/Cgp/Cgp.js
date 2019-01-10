@@ -139,7 +139,7 @@ class CGP extends Component<Props> {
     return (
       <Flexbox>
         <Flexbox className="vote-box" flexDirection="column" >
-          <h3 className="vote-title">Vote for next distribution:</h3>
+          <h3 className="vote-title">How would you like to vote for next distribution?</h3>
           <Flexbox flexDirection="column" className="destination-address-input form-row">
             <label htmlFor="to">Destination Address</label>
             <Flexbox flexDirection="row" className="destination-address-input">
@@ -232,7 +232,7 @@ class CGP extends Component<Props> {
     return (
       <Flexbox className="payout-result" flexGrow={1} flexDirection="column" >
         <Flexbox className="result" flexDirection="column" >
-          <h3 className="vote-title">Distributed to:</h3>
+          <h3 className="vote-title">Previous Distribution</h3>
           <Flexbox flexDirection="row" flexGrow={1} >
             <table>
               <thead>
@@ -278,7 +278,7 @@ class CGP extends Component<Props> {
           </Flexbox>
           <Flexbox flexDirection="row" className="box-bar">
             <BoxLabel
-              firstLine={`${this.getOutstanding()} / ${kalapasToZen(zenCount)} ZP`}
+              firstLine={`${this.getOutstanding()} ZP / ${kalapasToZen(zenCount)} ZP`}
               secondLine="Outstanding votes"
               className={cx(outstanding !== 0 ? 'box-row' : 'box')}
             />
@@ -294,7 +294,7 @@ class CGP extends Component<Props> {
             </Flexbox>
             <Flexbox className="active-proposal" flexGrow={1} flexDirection="column" >
               <Flexbox className="proposal" flexDirection="column" >
-                <h3 className="vote-title">Votes in the current interval:</h3>
+                <h3 className="vote-title">Current Distribution Votes</h3>
                 <Flexbox flexDirection="row" flexGrow={1} >
                   <table>
                     <thead>

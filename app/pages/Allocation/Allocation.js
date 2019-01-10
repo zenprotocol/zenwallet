@@ -181,13 +181,13 @@ class Allocation extends Component<Props, State> {
         <Flexbox flexDirection="column" className="allocation-container">
           <Flexbox className="page-title" flexDirection="column">
             <h1>Mining Allocation</h1>
-            <h3>
+            <h3 className="page-title">
               Vote for your preferred division of fund allocation
               between miners and the Common Goods Pool.
-              Allocation correction is capped to 15% (5% for the testnet) per interval.
+              Users can influence the outcome on a coin-weighted basis by
+              voting on their preferred allocation correction prior to the end of the interval.
               Votes occur on a 10,000 block interval basis (100 blocks for the testnet).
-              Funds which are diverted to the Cgp can then
-              be used to incentivize community initiatives.
+              Allocation correction is capped to 15% (5% for the testnet) per interval.
             </h3>
             <hr />
             <span className="page-subtitle">
