@@ -1,7 +1,11 @@
+import React from 'react'
 import { observable, action, runInAction, computed } from 'mobx'
 import _, { isEmpty } from 'lodash'
 import { fromYaml, serialize } from '@zen/zenjs/build/src/Data'
+import { toast } from 'react-toastify'
 
+import routes from '../constants/routes'
+import ToastLink from '../components/ToastLink'
 import { postRunContract } from '../services/api-service'
 import { getNamefromCodeComment } from '../utils/helpers'
 import { zenToKalapas, isZenAsset } from '../utils/zenUtils'
@@ -28,7 +32,9 @@ class RunContractStore {
     const payloadData = { ...this.payloadData, password }
     try {
       await postRunContract(payloadData)
-      this.saveRunContractToDb(payloadData.address)
+      if (!this.isContractSavedToDb(payloadData.address)) {
+        this.saveContractToDb(payloadData.address)
+      }
       runInAction(() => {
         this.inprogress = false
         this.resetForm()
@@ -137,20 +143,27 @@ class RunContractStore {
     return data
   }
 
-  saveRunContractToDb(runContractAddress) {
-    const activeContract =
-      this.activeContractsStore.activeContracts.find(ac => ac.address === runContractAddress)
+  isContractSavedToDb(address) {
     const savedContracts = db.get('savedContracts').value()
-    const isInSavedContracts = _.some(savedContracts, { contractId: activeContract.contractId })
-    if (isInSavedContracts) {
-      return
-    }
+    const activeContract = this.getActiveContract(address)
+    return _.some(savedContracts, { contractId: activeContract.contractId })
+  }
+
+  saveContractToDb(address, { shouldToast } = {}) {
+    const activeContract = this.getActiveContract(address)
     db.get('savedContracts').push({
       code: activeContract.code,
       name: getNamefromCodeComment(activeContract.code),
       contractId: activeContract.contractId,
       address: activeContract.address,
     }).write()
+    if (shouldToast) {
+      toast.info(<ToastLink to={routes.SAVED_CONTRACTS}>Contract saved locally</ToastLink>)
+    }
+  }
+
+  getActiveContract(address) {
+    return this.activeContractsStore.activeContracts.find(ac => ac.address === address)
   }
 }
 

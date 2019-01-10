@@ -13,7 +13,6 @@ class BlockchainLogsStore {
     this.logs = this.logs.concat(db.get('blockchainLogs').value())
     db.set('blockchainLogs', []).write()
     ipcRenderer.on(IPC_BLOCKCHAIN_LOGS, (event, logs) => {
-      console.log('incoming logs', logs.length)
       if (!logs.length) { return }
       this.logs = [...this.logs, ...logs]
     })

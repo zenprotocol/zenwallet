@@ -77,6 +77,7 @@ table,
 
   td.buttons,
   .rt-td.buttons, {
+    .button.isDisabled { opacity: 0.6; cursor: not-allowed; }
     i.fa { font-size: 12px; }
   }
 
@@ -106,6 +107,7 @@ span.value {
     span.button-text { display: none; }
     i.fa { width: 0; }
     .button.play { padding: 4px 9px 5px 11px; }
+    .button.save { padding: 4px 1px 5px 8px; }
     .button.code { padding: 4px 0px 5px 9px; }
   }
 }
