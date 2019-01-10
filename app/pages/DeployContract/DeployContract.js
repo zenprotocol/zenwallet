@@ -121,8 +121,7 @@ class DeployContract extends Component<Props> {
 
   get isFormValid() {
     const { deployContractStore } = this.props
-    return this.isAmountValid && !!deployContractStore.name
-      && !isContractNameReserved(deployContractStore.name)
+    return this.isAmountValid && !isContractNameReserved(deployContractStore.name)
   }
 
   get isAmountValid() {
