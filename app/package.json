@@ -1,7 +1,7 @@
 {
   "name": "zen-wallet",
-  "version": "1.0.0-beta3",
-  "description": "Zen Wallet",
+  "version": "1.0.0-beta4",
+  "description": "Zen Wallet Yesod",
   "main": "./main.prod.js",
   "scripts": {
     "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",

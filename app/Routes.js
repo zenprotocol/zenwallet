@@ -15,7 +15,7 @@ import Faucet from './pages/Faucet/Faucet'
 import Loading from './pages/Loading/Loading'
 import UnlockWallet from './pages/UnlockWallet/UnlockWallet'
 import BlockchainLogs from './pages/BlockchainLogs'
-import Cgp from './pages/CGP'
+import Cgp from './pages/Cgp'
 import Allocation from './pages/Allocation/Allocation'
 import Settings from './pages/Settings'
 // Onboarding routes
