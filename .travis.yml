@@ -31,6 +31,6 @@ script:
 - npm run build
 - npm run lint
 - npm run test-no-watch
-after_success: 
-  - npm run release
+after_success:
+  - if [ ! -z "$TRAVIS_TAG" ]; then npm run release; fi
   - if [ $TRAVIS_OS_NAME = linux ] && [ ! -z "$TRAVIS_TAG" ]; then npm publish; fi

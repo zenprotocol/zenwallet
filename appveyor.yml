@@ -24,4 +24,4 @@ test_script:
   - node --version
   - npm --version
   - npm run build
-  - npm run release
+  - ps: if($env:APPVEYOR_REPO_TAG -eq "true") { npm run release } else { echo "Not a tagg" }
