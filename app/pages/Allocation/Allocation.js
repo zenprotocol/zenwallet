@@ -26,7 +26,6 @@ const marks = {
   60: '',
   70: '',
   80: '',
-  90: '',
 }
 
 type State = {
@@ -147,7 +146,7 @@ class Allocation extends Component<Props, State> {
             <Flexbox flexDirection="row" height="25px">
               <Slider
                 min={0}
-                max={100}
+                max={90}
                 step={10}
                 onChange={this.onChange}
                 marks={marks}

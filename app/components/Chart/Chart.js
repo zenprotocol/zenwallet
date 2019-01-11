@@ -22,7 +22,7 @@ export default function Chart(props) {
     },
     chart: {
       height: '50%',
-      backgroundColor: '#181818',
+      backgroundColor: '#151515',
       borderWidth: 0,
       style: { color: COLORS.text },
     },
