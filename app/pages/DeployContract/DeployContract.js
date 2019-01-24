@@ -212,7 +212,7 @@ class DeployContract extends Component<Props> {
     } = this.props
 
     return (
-      <Layout>
+      <Layout className="deploy-contract-page">
         <Flexbox flexDirection="column" className="send-tx-container">
           <Flexbox flexDirection="column" className="page-title">
             <h1>Upload a contract to the ACS</h1>

@@ -54,3 +54,24 @@ h5 { font-size: 18px; color: $light-white; font-weight: 300; }
 .bold { font-weight: 500 !important; }
 
 .display-none { display: none !important; }
+
+pre,
+.pre {
+  border-radius: 2px;
+  background-color: $dark-grey;
+  border: 1px solid $border-color;
+  padding: 10px 15px;
+  line-height: 1.1rem;
+  font-size: 0.8rem;
+
+  &::-webkit-resizer { background: transparent; }
+  &::-webkit-scrollbar { width: 27px; }
+  &::-webkit-scrollbar-track { background-color: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background-color: $button-grey;
+    border-radius: 15px;
+    border: 9px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+  }
+  &::-webkit-scrollbar-corner { background: transparent; }
+}
