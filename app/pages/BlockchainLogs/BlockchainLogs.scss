@@ -1,7 +1,17 @@
 .blockchain-logs {
-  .contract-code.form-row {
-    pre {
-      height: 600px;
-    }
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .ReactVirtualized__Grid__innerScrollContainer {
+    overflow-x: auto !important;
+  }
+  .log-list-item {
+    white-space: nowrap;
+    width: auto !important;
+  }
+  .ReactVirtualized__Grid.ReactVirtualized__List {
+    @extend .pre;
   }
 }

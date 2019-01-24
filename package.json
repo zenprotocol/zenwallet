@@ -209,6 +209,7 @@
     "electron-context-menu": "^0.9.1",
     "electron-debug": "^1.5.0",
     "flexbox-react": "^4.4.0",
+    "highlight.js": "^9.13.1",
     "history": "^4.7.2",
     "js-base64": "^2.4.3",
     "lodash": "^4.17.5",
@@ -239,6 +240,7 @@
     "react-switch": "^2.3.2",
     "react-table": "^6.8.6",
     "react-toastify": "^4.5.1",
+    "react-virtualized": "^9.21.0",
     "semver-compare": "^1.0.0",
     "source-map-support": "^0.5.3",
     "sweetalert": "^2.1.0"

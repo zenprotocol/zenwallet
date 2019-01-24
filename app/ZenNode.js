@@ -79,7 +79,7 @@ class ZenNode {
     const log = chunk.toString('utf8')
     this.logs = [...this.logs, log].slice(-100)
     this.pendingLogsToSendToRenderer = [...this.pendingLogsToSendToRenderer, log]
-    console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
+    console.log(`[ZEN NODE]: ${log}`)
   }
   sendPendingLogsToRenderer = () => {
     if (!this.pendingLogsToSendToRenderer.length) {
