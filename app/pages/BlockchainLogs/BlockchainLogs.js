@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import List from 'react-virtualized/dist/commonjs/List'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-// import hljs from 'highlight.js'
+import hljs from 'highlight.js'
 
 import Layout from '../../components/Layout'
 import BlockchainLogsStore from '../../stores/blockchainLogsStore'
@@ -29,25 +29,24 @@ class BlockchainLogs extends React.Component<Props> {
   }
   dontAutoScrollToBottom = false
   onScroll = ({ clientHeight, scrollHeight, scrollTop }) => {
-    console.log('onScroll', 'scrollTop', scrollTop)
     if (scrollTop === 0) { // avoid disabling scroll on initial render
       return
     }
-    if (this.didScrollToBottom(clientHeight, scrollHeight, scrollTop)) {
-      this.dontAutoScrollToBottom = false
-    } else {
-      this.dontAutoScrollToBottom = true
-    }
+    this.dontAutoScrollToBottom = !this.didScrollToBottom(clientHeight, scrollHeight, scrollTop)
   }
   didScrollToBottom(clientHeight, scrollHeight, scrollTop) {
     // eslint-disable-next-line max-len
     return clientHeight + scrollTop + 15 >= scrollHeight // [AdGo] 17/01/2019 - there's an offset of 15 when scrolling to the bottom, don't know why exactly 15
   }
   scrollToBottom = () => {
-    const { logs } = this.props.blockchainLogsStore
     if (this.List) {
-      this.List.scrollToRow(logs.length)
+      this.List.scrollToPosition(this.lastRowOffset)
     }
+  }
+  get lastRowOffset() {
+    const { logs } = this.props.blockchainLogsStore
+    // 10 is added to compensate for horizontal scrollbar
+    return this.List.getOffsetForRow({ index: logs.length - 1 }) + 10
   }
   rowRenderer = ({
     key, // Unique key within array of rows
@@ -66,10 +65,12 @@ class BlockchainLogs extends React.Component<Props> {
     )
   }
   onRowsRendered = () => {
-    // This breaks the UI, disabled for now
-    // if (this.container) {
-    //   hljs.highlightBlock(this.container)
-    // }
+    const logNodes = document.getElementsByClassName('log-list-item')
+    if (logNodes.length) {
+      [...logNodes].forEach(logNode => {
+        hljs.highlightBlock(logNode)
+      })
+    }
   }
   render() {
     const { logs } = this.props.blockchainLogsStore
