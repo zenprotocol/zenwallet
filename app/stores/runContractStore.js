@@ -23,9 +23,9 @@ class RunContractStore {
   }
 
   @action
-  async run(password) {
+  async run(password, payload?) {
     this.inprogress = true
-    const payloadData = { ...this.payloadData, password }
+    const payloadData = payload ? { ...payload, password } : { ...this.payloadData, password }
     try {
       await postRunContract(payloadData)
       this.saveRunContractToDb(payloadData.address)
