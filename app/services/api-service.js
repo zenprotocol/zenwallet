@@ -57,6 +57,38 @@ export async function postTransaction(tx: Transaction & Password): Promise<strin
   return response.data
 }
 
+type WalletKey = {
+  "publicKey": string,
+  "path": string
+};
+export async function postWalletKeys(password: Password): Promise<WalletKey[]> {
+  const data = { password }
+  const response = await axios.post(`${getServerAddress()}/wallet/keys`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response.data
+}
+
+type Sign = {
+  "message": string,
+  "path": string
+};
+export async function postSign(sign: Sign & Password): Promise<string> {
+  const {
+    password, message, path,
+  } = sign
+  const data = {
+    message,
+    path,
+    password,
+  }
+
+  const response = await axios.post(`${getServerAddress()}/wallet/sign`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  return response.data
+}
 export async function postRawTransaction(tx: Transaction & Password): Promise<string> {
   const {
     password, to, asset, amount,
@@ -178,7 +210,7 @@ export async function postImportWallet(secretPhraseArray: observableArray, passw
     words: secretPhraseArray,
     password,
   }
-  console.log('postImportWallet data', data)
+  console.log('postImportWallet data')
   const response = await axios.post(`${getServerAddress()}/wallet/import`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
