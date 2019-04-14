@@ -127,14 +127,14 @@ test('zenNodeArgs running local net from command line', () => {
   process.env.ZEN_LOCAL_NET = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--chain', 'local'])
+  expect(zenNode.zenNodeArgs).toEqual(['--local'])
 })
 test('zenNodeArgs running testnet from command line', () => {
   // setup
   process.env.ZEN_TEST_NET = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--chain', 'test'])
+  expect(zenNode.zenNodeArgs).toEqual(['--test'])
 })
 
 test('onZenNodeExit when signal is NOT restart', () => {

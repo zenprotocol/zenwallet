@@ -35,7 +35,7 @@ class RunContractStore {
         this.status = 'success'
         setTimeout(() => {
           this.status = ''
-        }, 15000)
+        }, 25000)
       })
     } catch (err) {
       console.error('err', err.message, err)
