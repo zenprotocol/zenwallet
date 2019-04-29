@@ -25,12 +25,6 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: true,
-      test: !process.env.DEBUG_PROD ? /\.js$/i : /cantTouchThis/,
-    }),
-
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true',
