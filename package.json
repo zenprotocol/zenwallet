@@ -1,6 +1,6 @@
 {
   "name": "@zen/zen-wallet",
-  "version": "0.9.77",
+  "version": "0.9.78",
   "description": "Zen Protocol Wallet",
   "main": "app/main.prod.js",
   "scripts": {
@@ -185,7 +185,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "@zen/zen-node": "^0.9.30",
+    "@zen/zen-node": "0.9.31",
     "arch": "^2.1.1",
     "axios": "^0.18.0",
     "backtrace-js": "0.0.10",
