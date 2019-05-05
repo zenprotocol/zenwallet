@@ -8,6 +8,16 @@ export const isValidBip39Word = (string: ?string) =>
 export const isBip39Word = (string: ?string) =>
   !!(string && bip39Words.find(word => word === string))
 
+export const setWordFromFirstBox = (value, idx) => {
+  if (!idx) {
+    const userInputWords = getSeedFromClipboard(value)
+    if (!userInputWords) {
+      return false
+    }
+    return userInputWords
+  }
+}
+
 export const parseSeedFromClipboard = (clipboardContents) => {
   if (!clipboardContents) {
     return false
