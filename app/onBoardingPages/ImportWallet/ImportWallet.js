@@ -10,7 +10,7 @@ import swal from 'sweetalert'
 import { clipboard } from 'electron'
 
 import { isAnyInputActive } from '../../utils/domUtils'
-import { isValidBip39Word, isBip39Word, getSeedFromClipboard } from '../../utils/seedUtils'
+import { isValidBip39Word, isBip39Word, setWordFromFirstBox } from '../../utils/seedUtils'
 import routes from '../../constants/routes'
 import SecretPhraseStore from '../../stores/secretPhraseStore'
 import PasteButton from '../../components/PasteButton'
@@ -49,8 +49,19 @@ class ImportWallet extends Component<Props, State> {
   registerOnChangeFor = (idx: number) => (evt: SyntheticEvent<HTMLInputElement>) => {
     const { value } = evt.currentTarget // persist evt, don't delete! see https://reactjs.org/docs/events.html#event-pooling
     this.setState(({ userInputWords }) => {
-      userInputWords[idx] = value
+      const words = setWordFromFirstBox(value, idx)
+
+      if (words) {
+        userInputWords = words
+      } else {
+        userInputWords[idx] = value
+      }
       return { userInputWords }
+    }, () => {
+      if (this.isInputPerfect(idx) && idx < 23) {
+        // $FlowFixMe
+        this[`input${idx + 1}`].focus()
+      }
     })
   }
   isInputPerfect = (idx: number) => {
@@ -87,16 +98,21 @@ class ImportWallet extends Component<Props, State> {
     this.setState({ userInputWords: getInitialInputsState() })
   }
   paste = (clipboardContents: string) => {
-    const arraySeed = getSeedFromClipboard(clipboardContents)
-    if (!arraySeed) {
-      swal({
-        icon: 'warning',
-        title: 'bad format',
-        text: 'your clipboard content is not formatted as a valid seed',
-      })
-      return
-    }
-    this.setState({ userInputWords: arraySeed })
+    this.setState(({ userInputWords }) => {
+      const words = setWordFromFirstBox(clipboardContents, 0)
+
+      if (words) {
+        userInputWords = words
+      } else {
+        swal({
+          icon: 'warning',
+          title: 'bad format',
+          text: 'your clipboard content is not formatted as a valid seed',
+        })
+        return
+      }
+      return { userInputWords }
+    })
   }
   onSubmitClicked = () => {
     const { secretPhraseStore } = this.props
