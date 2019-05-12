@@ -1,6 +1,9 @@
 // @flow
 
 import bech32 from 'bech32'
+import Data from '@zen/zenjs/build/src/Data'
+import { sha3_256 as sha } from 'js-sha3'
+import BigInteger from 'bigi'
 
 import db from '../services/db'
 import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../constants'
@@ -43,6 +46,24 @@ export const isValidAddress = (address: ?string, type?: 'contract' | 'pubKey' = 
     // console.error('validateAddress err', err)
     return false
   }
+}
+
+export const isValidHex = (hex: string): boolean => /[0-9a-f]{40}/g.test(hex)
+
+export const hashVoteData = (commitID: string, interval = 1) => Buffer.from(sha
+  .update(sha(Data.serialize(new Data.UInt32(BigInteger.valueOf(interval)))))
+  .update(sha(Data.serialize(new Data.String(commitID)))).toString(), 'hex')
+
+export const payloadData = (address, messageBody, commitId) => {
+  const data = {
+    address,
+    command: commitId,
+    options: {
+      returnAddress: false,
+    },
+    messageBody: Data.serialize(messageBody),
+  }
+  return data
 }
 
 export const getNamefromCodeComment = (code: string) => {

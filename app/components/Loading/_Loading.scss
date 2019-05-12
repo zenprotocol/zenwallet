@@ -1,0 +1,14 @@
+@import "styles/Variables";
+
+.Loading {
+  font-size: 1.25rem;
+  .icon {
+    color: $blue;
+  }
+  .text {
+    display: inline-block;
+    text-align: left;
+    width: 120px;
+    padding-left: 10px;
+  }
+}

@@ -38,6 +38,7 @@ class NetworkStore {
         // since the API returns 'main' for mainnet but 'testnet' for testnet, we
         // normalize the value we save on this.chain, for consistency in the UI
         this.chain = this.formatChainResult(result.chain)
+        this.chainUnformatted = result.chain
         this.blocks = result.blocks
         this.headers = result.headers
         this.difficulty = result.difficulty

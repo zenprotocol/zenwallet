@@ -13,6 +13,7 @@ export default {
   UNLOCK_WALLET: '/unlock-wallet',
   BLOCKCHAIN_LOGS: '/blockchain-logs',
   SETTINGS: '/settings',
+  AUTHORIZED_PROTOCOL: '/authorized-protocol',
   // Onboarding routes
   WELCOME_MESSAGES: '/welcome-messages',
   IMPORT_OR_CREATE_WALLET: '/import-or-create-wallet',
