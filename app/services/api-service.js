@@ -21,6 +21,28 @@ export async function getBalances(): Promise<Asset[]> {
   const response = await axios.get(`${getServerAddress()}/wallet/balance`)
   return response.data
 }
+const mainnetBlockExplorer = axios.create({
+  baseURL: 'https://zp.io/api/votes/',
+  headers: { 'Access-Control-Allow-Origin': '*' },
+
+})
+
+const testnetBlockExplorer = axios.create({
+  baseURL: 'https://testnet.zp.io/api/votes/',
+  headers: { 'Access-Control-Allow-Origin': '*' },
+})
+
+const getBE = (chain) => (chain === MAINNET ? mainnetBlockExplorer : testnetBlockExplorer)
+
+export async function getCurrentInterval(chain) {
+  const response = await getBE(chain).get('relevant')
+  return response.data.data
+}
+
+export async function getNextInterval(chain) {
+  const response = await getBE(chain).get('next')
+  return response.data.data
+}
 
 export async function getPublicAddress(): Promise<string> {
   const response = await axios.get(`${getServerAddress()}/wallet/address`)
@@ -226,6 +248,16 @@ export async function postImportWallet(secretPhraseArray: observableArray, passw
   }
   console.log('postImportWallet data')
   const response = await axios.post(`${getServerAddress()}/wallet/import`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response
+}
+
+export async function postRemoveWallet(password: string) {
+  const data = {
+    password,
+  }
+  const response = await axios.post(`${getServerAddress()}/wallet/remove`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response
