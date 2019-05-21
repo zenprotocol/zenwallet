@@ -21,6 +21,7 @@
  @import "styles/MonokaiSublime";
  @import "styles/Balloon";
  //
+ @import "components/BoxLabel/BoxLabel";
  @import "components/Loading/Loading";
  @import "components/Layout/Layout";
  @import "components/Container/Container";
@@ -31,6 +32,7 @@
  @import "components/FormResponseMessage/FormResponseMessage";
  @import "components/AppUpdater/AppUpdater";
  //
+ @import "pages/AuthorizedProtocol/AuthorizedProtocol";
  @import "pages/ErrorScreen/ErrorScreen";
  @import "pages/Portfolio/Portfolio";
  @import "pages/Receive/Receive";
