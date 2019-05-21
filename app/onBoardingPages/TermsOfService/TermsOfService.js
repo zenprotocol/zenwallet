@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities,max-len,no-irregular-whitespace */
 
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import Flexbox from 'flexbox-react'
 import Checkbox from 'rc-checkbox'
 import { observer, inject } from 'mobx-react'
@@ -10,6 +9,8 @@ import ErrorReportingStore from '../../stores/errorReportingStore'
 import OnBoardingLayout from '../Layout/Layout'
 import history from '../../services/history'
 import routes from '../../constants/routes'
+import { postRemoveWallet } from '../../services/api-service'
+import ProtectedButton from '../../components/Buttons/ProtectedButton'
 
 type Props = {
   errorReportingStore: ErrorReportingStore
@@ -24,6 +25,11 @@ class TermsOfService extends Component<Props> {
 
   onChange = (evt) => {
     this.setState({ checked: evt.target.checked })
+  }
+
+  onBack = async (confirmedPassword: string) => {
+    await postRemoveWallet(confirmedPassword)
+    history.push(routes.IMPORT_OR_CREATE_WALLET)
   }
 
   onNext = () => {
@@ -42,7 +48,6 @@ class TermsOfService extends Component<Props> {
         <h1>Terms and Conditions</h1>
         <h3>Please carefully read these terms before accepting.</h3>
         <div className="devider after-title" />
-
         <div className="terms-of-service-content">
           <h1> Zen Authorized Protocol </h1>
           <h2> Preamble </h2>
@@ -87,7 +92,7 @@ class TermsOfService extends Component<Props> {
             <ul>
               <li>
                 <span >Section 1.01 Authorized Protocol​.</span> The Authorized Protocol is the set of rules and processes by which blocks
-                are added to the CommunityRelease Blockchain in a manner that the Community Release does, always linked to the Genesis Block.
+                are added to the Community Release Blockchain in a manner that the Community Release does, always linked to the Genesis Block.
                 The Authorized Protocol includes the version of the Licensed Software that accepts those blocks and transactions that the
                 Community Release accepts and rejects those blocks and transactions which the Community Release rejects.
               </li>
@@ -170,7 +175,7 @@ class TermsOfService extends Component<Props> {
                   the next version of the Community Release (as of the date determined in the Community Vote).
                 </li>
                 <li>
-                  <span>Community Release Proposal Requirements​ </span> n order to be eligible for a vote, a proposal for a new Community Release must:
+                  <span>Community Release Proposal Requirements​ </span> In order to be eligible for a vote, a proposal for a new Community Release must:
                   <ol type="i">
                     <li>
                       be on an actual implementation with publicly available code;
@@ -179,7 +184,7 @@ class TermsOfService extends Component<Props> {
                       have a blockchain which accepts the initial Genesis Block and the blocks later derived from it based on the ‘legitimate’ technical
                       consensus mechanism as agreed on in the previous vote (i.e., the longest chain). ​For example​: in the period of time between the
                       Genesis Block and the first Community Vote the legitimate mechanism is SHA-3 proof-of-work. If there is a change in proof-of-work
-                      based on the vote that occurs in 6 months (EG to SHA-256) than between interval 1 and interval 2the legitimate mechanism is Sha 256.
+                      based on the vote that occurs in 6 months (EG to SHA-256) than between interval 1 and interval 2 the legitimate mechanism is Sha 256.
                       Therefore the Authorised protocol at the end of 1 year should contain roughly 64,800 blocks of SHA-256 preceded by 64,800 blocks of
                       SHA-3 that terminate/originate with genesis block X;
                     </li>
@@ -404,7 +409,7 @@ class TermsOfService extends Component<Props> {
 
                 <ol type="a">
                   <li>
-                    <u>Grant of License.</u> Conditioned upon Your compliance with <span className="bold">Section 2, 3</span>
+                    <u>Grant of License.</u> Conditioned upon Your compliance with <span className="bold">Section 2, 3 </span>
                     and <span className="bold">4</span> of this Agreement, Licensor grants to You a limited, non-exclusive, personal,
                     non-transferable right and license to Use any number of instances of the Licensed
                     Software solely in connection with Your operation of Authorized Nodes and Your Wallet
@@ -679,7 +684,7 @@ class TermsOfService extends Component<Props> {
                   </li>
                   <li>
                     <u>Equitable Relief.</u> You acknowledges that a breach of any provision of
-                    <span className="bold">Section 2, 3</span> or <span className="bold">4</span> of this Agreement shall cause Licensor irreparable injury and damage.
+                    <span className="bold"> Section 2, 3</span> or <span className="bold">4</span> of this Agreement shall cause Licensor irreparable injury and damage.
                     Therefore, those breaches may be stopped through injunctive proceedings, without
                     posting of any bond, in addition to any other rights and remedies which may be available
                     to Licensor at law or in equity, and You will not urge that such remedy is not appropriate
@@ -744,7 +749,7 @@ class TermsOfService extends Component<Props> {
           </Flexbox>
           <Flexbox flexGrow={2} />
           <Flexbox flexGrow={1} justifyContent="flex-end" flexDirection="row">
-            <Link className="button secondary" to={routes.IMPORT_OR_CREATE_WALLET}>Back</Link>
+            <ProtectedButton onClick={this.onBack} className="button secondary"> Back </ProtectedButton>
             <button
               disabled={!checked}
               className="button-on-right"
