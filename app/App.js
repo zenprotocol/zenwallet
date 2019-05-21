@@ -7,7 +7,6 @@ import { Online } from 'react-detect-offline'
 import ErrorScreen from './pages/ErrorScreen'
 import AppUpdater from './components/AppUpdater'
 import WipeModal from './components/WipeModal'
-import Idle from './components/Idle'
 import history from './services/history'
 import './services/rendererZenNodeNonZeroExit'
 import stores from './stores'
@@ -23,7 +22,6 @@ export default class App extends React.Component {
             <React.Fragment>
               <Online><AppUpdater /></Online>
               <WipeModal />
-              <Idle />
               <div className="app-wrapper">
                 <Routes />
               </div>
