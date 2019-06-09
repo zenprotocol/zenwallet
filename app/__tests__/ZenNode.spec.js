@@ -1,6 +1,10 @@
 import { ipcMain } from 'electron'
 
-import ZenNode, { IPC_ASK_IF_WIPED_DUE_TO_VERSION, IPC_RESTART_ZEN_NODE, IPC_BLOCKCHAIN_LOGS } from '../ZenNode'
+import ZenNode, {
+  IPC_ASK_IF_WIPED_DUE_TO_VERSION,
+  IPC_RESTART_ZEN_NODE,
+  IPC_BLOCKCHAIN_LOGS,
+} from '../ZenNode'
 
 jest.mock('@zen/zen-node', () => () => ({
   stderr: { pipe: jest.fn(), on: jest.fn() },
@@ -15,15 +19,15 @@ jest.mock('electron', () => ({
 jest.unmock('services/db')
 
 jest.mock('services/db', () => ({
-  get: (key) => {
+  get: key => {
     if (key === 'config.isMining') {
-      return ({
+      return {
         value: () => false,
-      })
+      }
     }
-    return ({
+    return {
       value: () => undefined,
-    })
+    }
   },
   set: jest.fn(() => ({
     write: jest.fn(),
@@ -109,21 +113,21 @@ test('init when wiping full', () => {
 
 test('zenNodeArgs empty args', () => {
   const zenNode = getZenNode()
-  expect(zenNode.zenNodeArgs).toEqual(['--chain', 'main'])
+  expect(zenNode.zenNodeArgs).toEqual([])
 })
 test('zenNodeArgs wipe from command line', () => {
   // setup
   process.env.WIPE = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--wipe', '--chain', 'main'])
+  expect(zenNode.zenNodeArgs).toEqual(['--wipe'])
 })
 test('zenNodeArgs wipe full from command line', () => {
   // setup
   process.env.WIPEFULL = 'true'
   const zenNode = getZenNode()
   // assertion
-  expect(zenNode.zenNodeArgs).toEqual(['--wipe', 'full', '--chain', 'main'])
+  expect(zenNode.zenNodeArgs).toEqual(['--wipe', 'full'])
 })
 test('zenNodeArgs running testnet from command line', () => {
   // setup
