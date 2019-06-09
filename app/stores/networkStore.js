@@ -51,7 +51,8 @@ class NetworkStore {
       runInAction(() => {
         // since the API returns 'main' for mainnet but 'testnet' for testnet, we
         // normalize the value we save on this.chain, for consistency in the UI
-        this.chain = formatChainResult(result.chain)
+        this.chain = this.formatChainResult(result.chain)
+        this.chainUnformatted = result.chain
         db.set('chain', this.chain).write()
         this.blocks = result.blocks
         this.headers = result.headers

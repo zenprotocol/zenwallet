@@ -2,6 +2,7 @@
 import axios from 'axios'
 
 import { getServerAddress, getCrowdsaleServerAddress } from '../config/server-address'
+import { MAINNET } from '../constants/constants'
 
 import dataBlock from './firstBlock.json'
 
@@ -17,6 +18,28 @@ export type Asset = {
 export async function getBalances(): Promise<Asset[]> {
   const response = await axios.get(`${getServerAddress()}/wallet/balance`)
   return response.data
+}
+const mainnetBlockExplorer = axios.create({
+  baseURL: 'https://zp.io/api/votes/',
+  headers: { 'Access-Control-Allow-Origin': '*' },
+
+})
+
+const testnetBlockExplorer = axios.create({
+  baseURL: 'https://testnet.zp.io/api/votes/',
+  headers: { 'Access-Control-Allow-Origin': '*' },
+})
+
+const getBE = (chain) => (chain === MAINNET ? mainnetBlockExplorer : testnetBlockExplorer)
+
+export async function getCurrentInterval(chain) {
+  const response = await getBE(chain).get('relevant')
+  return response.data.data
+}
+
+export async function getNextInterval(chain) {
+  const response = await getBE(chain).get('next')
+  return response.data.data
 }
 
 export async function getPublicAddress(): Promise<string> {
@@ -50,6 +73,39 @@ export async function postTransaction(tx: SendTransactionPayload): Promise<strin
   }
 
   const response = await axios.post(`${getServerAddress()}/wallet/send`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  return response.data
+}
+
+type WalletKey = {
+  "publicKey": string,
+  "path": string
+};
+export async function postWalletKeys(password: Password): Promise<WalletKey[]> {
+  const data = { password }
+  const response = await axios.post(`${getServerAddress()}/wallet/keys`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response.data
+}
+
+type Sign = {
+  "message": string,
+  "path": string
+};
+export async function postSign(sign: Sign & Password): Promise<string> {
+  const {
+    password, message, path,
+  } = sign
+  const data = {
+    message,
+    path,
+    password,
+  }
+
+  const response = await axios.post(`${getServerAddress()}/wallet/sign`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
 
@@ -140,6 +196,20 @@ export async function getTxHistory({
   })
   return response.data
 }
+
+export async function getContractHistory(chain: string, contractId: string, skip, take) {
+  const endpoint = chain === MAINNET ? '18.219.248.93:5050' : '3.19.92.99:8085'
+  const data = {
+    skip,
+    take,
+    contractId,
+  }
+  const response = await axios.post(`http://${endpoint}/addressdb/contract/history/`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response.data
+}
+
 export type ApiResponseChain = 'main' | 'testnet' | 'local';
 
 export async function getTxHistoryCount(): Promise<number> {
@@ -193,8 +263,18 @@ export async function postImportWallet(secretPhraseArray: string[], password: st
     words: secretPhraseArray,
     password,
   }
-  console.log('postImportWallet data', data)
+  console.log('postImportWallet data')
   const response = await axios.post(`${getServerAddress()}/wallet/import`, data, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return response
+}
+
+export async function postRemoveWallet(password: string) {
+  const data = {
+    password,
+  }
+  const response = await axios.post(`${getServerAddress()}/wallet/remove`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response

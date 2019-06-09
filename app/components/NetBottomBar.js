@@ -23,7 +23,7 @@ class NetBottomBar extends Component<Props> {
     if (this.props.isSidebar) {
       return null
     }
-    const walletMode = this.props.walletModeStore.isFullNode() ? "Full Node" : "Light Wallet"
+    const walletMode = this.props.walletModeStore.isFullNode() ? 'Full Node' : 'Light Wallet'
     return (
       <div style={this.style}>
         MAINNET {walletMode} <a style={this.switchStyle} onClick={switchChain}>(Switch to Testnet)</a>
@@ -32,11 +32,11 @@ class NetBottomBar extends Component<Props> {
   }
 
   renderTestnetBar() {
-    let walletMode = ""
+    let walletMode = ''
     if (this.props.isSidebar) {
-      walletMode = ""
+      walletMode = ''
     } else {
-      walletMode = this.props.walletModeStore.isFullNode() ? "Full Node" : "Light Wallet"
+      walletMode = this.props.walletModeStore.isFullNode() ? 'Full Node' : 'Light Wallet'
     }
     return (
       <div style={this.style}>

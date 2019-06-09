@@ -38,7 +38,7 @@ class FormResponseMessage extends React.Component<Props, State> {
         flexDirection="row"
         className={cx('form-response-message', this.props.className)}
       >
-        <FontAwesomeIcon icon={['far', 'check']} />
+        {this.props.className === 'error' ? <FontAwesomeIcon icon={['far', 'exclamation-triangle']} /> : <FontAwesomeIcon icon={['far', 'check']} />}
         <Flexbox flexDirection="column">
           {this.props.children}
         </Flexbox>

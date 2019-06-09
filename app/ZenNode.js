@@ -190,8 +190,8 @@ class ZenNode {
     if (isMining) {
       args.push('--miner')
     }
-    if (net) {
-      args.push('--chain', net)
+    if (net === 'test') {
+      args.push('--'.concat(net))
     }
 
     if (process.env.ZEN_NODE_API_PORT) {

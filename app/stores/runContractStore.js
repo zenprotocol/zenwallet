@@ -31,9 +31,9 @@ class RunContractStore {
   }
 
   @action
-  async run(password: string) {
+  async run(password: string, payload) {
     this.inprogress = true
-    const payloadData = { ...this.payloadData, password }
+    const payloadData = payload ? { ...payload, password } : { ...this.payloadData, password }
     try {
       const wallet = getWalletInstance(this.networkStore.chain)
       await wallet.runContract(payloadData)
@@ -44,7 +44,7 @@ class RunContractStore {
         this.status = 'success'
         setTimeout(() => {
           this.status = ''
-        }, 15000)
+        }, 25000)
       })
     } catch (err) {
       console.error('err', err.message, err)

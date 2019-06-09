@@ -10,7 +10,6 @@ import WalletSwitchInProgress from './pages/WalletSwitchInProgress'
 import AppUpdater from './components/AppUpdater'
 import PrerequisitesNotification from './components/PrerequisitesNotification'
 import WipeModal from './components/WipeModal'
-import Idle from './components/Idle'
 import history from './services/history'
 import './services/rendererZenNodeNonZeroExit'
 import stores from './stores'
@@ -27,7 +26,6 @@ export default class App extends React.Component {
               <Online><AppUpdater /></Online>
               <PrerequisitesNotification />
               <WipeModal />
-              <Idle />
               <div className="app-wrapper">
                 <Routes />
                 <WalletSwitchInProgress />

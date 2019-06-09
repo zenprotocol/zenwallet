@@ -1,5 +1,6 @@
 // @flow
 import { observable, action, runInAction } from 'mobx'
+import { isEmpty } from 'lodash'
 
 import { getWalletInstance } from '../services/wallet'
 import PollManager from '../utils/PollManager'
@@ -7,26 +8,22 @@ import PollManager from '../utils/PollManager'
 import NetworkStore from './networkStore'
 
 class TxHistoryStore {
-  pageSizeOptions = ['5', '10', '20', '100']
-  @observable transactions = []
-  @observable count = 0
-  @observable pageIdx = 0
-  @observable pageSize = 5
-  @observable isFetchingCount = false
-  @observable isFetchingTransactions = false
-
-  networkStore: NetworkStore
-
+  networkStore: NetworkStore;
+  @observable batchSize = 100;
+  pageSizeOptions = ['5', '10', '20', '100'];
+  @observable transactions = [];
+  @observable skip = 0;
+  @observable currentPageSize = 0;
+  @observable snapshotBlock: number;
+  @observable isFetching = false;
+  fetchPollManager = new PollManager({
+    name: 'tx history count fetch',
+    fnToPoll: this.fetch,
+    timeoutInterval: 5000,
+  });
   constructor(networkStore: NetworkStore) {
     this.networkStore = networkStore
   }
-
-  fetchPollManager = new PollManager({
-    name: 'tx history count fetch',
-    fnToPoll: this.fetchCount,
-    timeoutInterval: 5000,
-  })
-
   @action
   initPolling() {
     this.fetchPollManager.initPolling()
@@ -40,71 +37,55 @@ class TxHistoryStore {
   @action
   reset() {
     this.stopPolling()
-    this.isFetchingCount = false // goldy note to self: this used to be wrapped in runInAction
+    runInAction(() => {
+      this.skip = 0
+      this.currentPageSize = 0
+      this.transactions = []
+      this.isFetching = false
+    })
   }
 
-  @action.bound
-  selectPageSize(nextPageSize: number) {
-    this.pageIdx = Math.floor((this.pageSize * this.pageIdx) / nextPageSize)
-    this.pageSize = nextPageSize
-    this.fetch()
-  }
+  @action
+  fetchSnapshot = async () => {
+    const wallet = getWalletInstance(this.networkStore.chain)
+    const data = await wallet.getTransactions({ skip: 0, take: 10000000 })
+    if (isEmpty(data)) return 0
+    const final = data
+      .filter(x => x.asset === '00')
+      .map(({ amount, confirmations }) => ({
+        amount,
+        blockNumber: this.networkStore.blocks - confirmations,
+      }))
+      .filter(item => item.blockNumber <= this.snapshotBlock)
+      .map(item => item.amount)
+    if (isEmpty(final)) return 0
+    return final.reduce((total, n) => total + n)
+  };
 
   @action.bound
-  onPageChange(nextPageIdx: number) {
-    this.pageIdx = nextPageIdx
-    this.fetch()
-  }
-
-  @action.bound
-  async fetch() {
-    this.isFetchingTransactions = true
-    try {
-      const wallet = getWalletInstance(this.networkStore.chain)
-      const nextTransactions = await wallet.getTransactions({
-        skip: this.skip, take: this.pageSize,
-      })
-      runInAction(() => {
-        this.transactions = nextTransactions
-        this.isFetchingTransactions = false
-      })
-    } catch (error) {
-      console.log('error fetching transactions', error)
-      this.isFetchingTransactions = false
+  fetch = async () => {
+    if (this.isFetching) {
+      return
     }
-  }
-
-  @action.bound
-  async fetchCount() {
-    if (this.isFetchingCount) { return }
-    this.isFetchingCount = true
+    this.isFetching = true
     try {
       const wallet = getWalletInstance(this.networkStore.chain)
-      const nextCount = await wallet.getTransactionsCount()
+      const result = await wallet.getTransactions({
+        skip: this.skip,
+        take: this.currentPageSize + this.batchSize,
+      })
       runInAction(() => {
-        if (nextCount > this.count) {
-          this.count = nextCount
-          // TODO Toast for new transaction, unless it's the first time
-          // we fetched the count, to not toast about old transcations when logging in
-          // feature idea:
-          // show new transactions since user last logged in. we can do that
-          // by saving transaction count to DB, and check it on load
+        if (result.length) {
+          this.currentPageSize = result.length
+          this.transactions = result
         }
-        this.isFetchingCount = false
+        this.isFetching = false
       })
     } catch (error) {
       console.log('error fecthing txHistoryCount', error)
-      this.isFetchingCount = false
+      this.isFetching = false
     }
-  }
-
-  get pagesCount() {
-    return Math.ceil(this.count / this.pageSize)
-  }
-
-  get skip() {
-    return this.pageIdx * this.pageSize
-  }
+  };
 }
 
 export default TxHistoryStore
