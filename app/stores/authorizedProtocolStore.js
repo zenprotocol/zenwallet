@@ -16,9 +16,7 @@ class AuthorizedProtocolStore {
   @observable snapshotBalance = 0
   @observable snapshotBlock = 0
   @observable tallyBlock = 0
-  @observable contractId = this.networkStore.chain === MAINNET ?
-    'czen1qqqqqqq8rzylch7w03dmym9zad7vuvs4akp5azdaa6hm7gnc7wk287k9qgs7409ea' :
-    'ctzn1qqqqqqq8rzylch7w03dmym9zad7vuvs4akp5azdaa6hm7gnc7wk287k9qgssqskgv'
+  @observable contractId = 'czen1qqqqqqq8rzylch7w03dmym9zad7vuvs4akp5azdaa6hm7gnc7wk287k9qgs7409ea'
   fetchPollManager = new PollManager({
     name: 'tx history fetch',
     fnToPoll: this.fetch,
@@ -39,6 +37,9 @@ class AuthorizedProtocolStore {
 
   @action.bound
   fetch = async () => {
+    this.contractId = this.networkStore.chain === MAINNET ?
+      'czen1qqqqqqq8rzylch7w03dmym9zad7vuvs4akp5azdaa6hm7gnc7wk287k9qgs7409ea' :
+      'ctzn1qqqqqqq8rzylch7w03dmym9zad7vuvs4akp5azdaa6hm7gnc7wk287k9qgssqskgv'
     if (this.isFetching) { return }
     this.isFetching = true
     try {
