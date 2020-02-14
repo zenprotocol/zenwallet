@@ -10,7 +10,6 @@ class TxHistoryStore {
   @observable transactions = []
   @observable skip = 0
   @observable currentPageSize = 0
-  @observable snapshotBlock
   @observable isFetching = false
   fetchPollManager = new PollManager({
     name: 'tx history fetch',
@@ -41,7 +40,7 @@ class TxHistoryStore {
   }
 
   @action
-  fetchSnapshot = async () => {
+  fetchSnapshot = async (snapshotBlock) => {
     const data = await getTxHistory({ skip: 0, take: 10000000 })
     if (isEmpty(data)) return 0
     const final = data
@@ -50,7 +49,7 @@ class TxHistoryStore {
         amount,
         blockNumber: this.networkStore.blocks - confirmations,
       }))
-      .filter(item => item.blockNumber <= this.snapshotBlock)
+      .filter(item => item.blockNumber < snapshotBlock)
       .map(item => item.amount)
     if (isEmpty(final)) return 0
     return final.reduce((total, n) => total + n)

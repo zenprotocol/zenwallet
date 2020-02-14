@@ -18,17 +18,8 @@ class ProtectedButton extends React.Component<Props> {
     requireSync: true,
   }
   onClick = async (evt: SyntheticEvent<HTMLButtonElement>) => {
-    const { requireSync } = this.props
     evt.persist()
-    if (requireSync) {
-      console.log('entering require sync')
-      const canContinue = await enforceSyncedModal()
-      if (!canContinue) {
-        return
-      }
-    }
-    console.log('passed require sync')
-    const confirmedPassword = await confirmPasswordModal()
+    const confirmedPassword = await protectedModals(this.props)
     if (!confirmedPassword) {
       return
     }
@@ -36,9 +27,7 @@ class ProtectedButton extends React.Component<Props> {
   }
 
   render() {
-    const {
-      requireSync, children, ...remainingProps
-    } = this.props
+    const { requireSync, children, ...remainingProps } = this.props
     return (
       <button {...remainingProps} onClick={this.onClick}>
         {children}
@@ -48,3 +37,19 @@ class ProtectedButton extends React.Component<Props> {
 }
 
 export default ProtectedButton
+
+export async function protectedModals({ requireSync } = {}) {
+  if (requireSync) {
+    console.log('entering require sync')
+    const canContinue = await enforceSyncedModal()
+    if (!canContinue) {
+      return null
+    }
+  }
+  console.log('passed require sync')
+  const confirmedPassword = await confirmPasswordModal()
+  if (!confirmedPassword) {
+    return null
+  }
+  return confirmedPassword
+}

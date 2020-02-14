@@ -1,6 +1,7 @@
 import { observable, action, runInAction, computed } from 'mobx'
 import _, { isEmpty } from 'lodash'
-import { fromYaml, serialize } from '@zen/zenjs/build/src/Data'
+import { Data } from '@zen/zenjs'
+
 
 import { postRunContract } from '../services/api-service'
 import { getNamefromCodeComment } from '../utils/helpers'
@@ -28,7 +29,6 @@ class RunContractStore {
     const payloadData = payload ? { ...payload, password } : { ...this.payloadData, password }
     try {
       await postRunContract(payloadData)
-      this.saveRunContractToDb(payloadData.address)
       runInAction(() => {
         this.inprogress = false
         this.resetForm()
@@ -90,7 +90,7 @@ class RunContractStore {
       return ''
     }
     try {
-      fromYaml('main', this.messageBody)
+      Data.fromYaml('main', this.messageBody)
       return ''
     } catch (err) {
       console.error('error parsing message body', err)
@@ -132,7 +132,7 @@ class RunContractStore {
       data.command = this.command
     }
     if (this.messageBody) {
-      data.messageBody = serialize(fromYaml('main', this.messageBody))
+      data.messageBody = Data.serialize(Data.fromYaml('main', this.messageBody))
     }
     return data
   }

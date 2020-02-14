@@ -28,7 +28,7 @@ const mainnetBlockExplorer = axios.create({
 })
 
 const testnetBlockExplorer = axios.create({
-  baseURL: 'https://testnet.zp.io/api/votes/',
+  baseURL: 'https://staging-testnet.zp.io/api/votes/',
   headers: { 'Access-Control-Allow-Origin': '*' },
 })
 
@@ -41,6 +41,11 @@ export async function getCurrentInterval(chain) {
 
 export async function getNextInterval(chain) {
   const response = await getBE(chain).get('next')
+  return response.data.data
+}
+
+export async function getCandidates(chain) {
+  const response = await getBE(chain).get('candidates')
   return response.data.data
 }
 
@@ -196,13 +201,13 @@ export async function getTxHistory({
 }
 
 export async function getContractHistory(chain: string, contractId: string, skip, take) {
-  const endpoint = chain === MAINNET ? '18.219.248.93:5050' : '3.19.92.99:8085'
+  const endpoint = chain === MAINNET ? '' : 'testnet-'
   const data = {
     skip,
     take,
     contractId,
   }
-  const response = await axios.post(`http://${endpoint}/addressdb/contract/history/`, data, {
+  const response = await axios.post(`https://${endpoint}remote-node.zp.io/addressdb/contract/history/`, data, {
     headers: { 'Content-Type': 'application/json' },
   })
   return response.data
