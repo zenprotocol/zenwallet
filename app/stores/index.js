@@ -28,7 +28,7 @@ const deployContractStore = new DeployContractStore()
 const runContractStore = new RunContractStore(activeContractsStore)
 const blockchainLogsStore = new Store()
 const authorizedProtocolStore =
-  new AuthorizedProtocolStore(publicAddressStore, networkStore, txHistoryStore)
+  new AuthorizedProtocolStore(publicAddressStore, networkStore, txHistoryStore, runContractStore)
 
 export default {
   portfolioStore,

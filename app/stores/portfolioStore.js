@@ -38,14 +38,14 @@ class PortfolioStore {
       runInAction(() => this.rawAssets.replace(rawAssets))
       // if there's a balance without asset name, check ACS if matching contract exists
       // if it does, save it to DB
-      rawAssets.filter(asset => !this.getAssetName(asset.asset))
+      /* rawAssets.filter(asset => !this.getAssetName(asset.asset))
         .forEach(asset => {
           const matchingActiveContract =
             this.activeContractsStore.activeContracts.find(ac => ac.contractId === asset.asset)
-          if (matchingActiveContract) {
+          /!*if (matchingActiveContract) {
             db.get('savedContracts').push(matchingActiveContract).write()
-          }
-        })
+          }*!/
+        }) */
     }
 
     getAssetName(asset) { // eslint-disable-line class-methods-use-this

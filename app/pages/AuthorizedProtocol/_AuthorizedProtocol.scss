@@ -17,3 +17,18 @@
 h3 {
   width: 800px;
 }
+.underline {
+  text-decoration: underline;
+}
+.ul-auth {
+  list-style-type: disc;
+  margin-left: 15px;
+}
+
+.vote-once-modal-content {
+  ul {
+    list-style-type: disc;
+    text-align: left;
+    margin: 0 40px;
+  }
+}
