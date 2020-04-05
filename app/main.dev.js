@@ -66,8 +66,8 @@ app.on('ready', async () => {
   prereqCheck()
 
   console.log('process.argv', process.argv)
-
-  mainWindow = getMainWindow(app.getName())
+  app.allowRendererProcessReuse = true
+  mainWindow = getMainWindow(app.name)
   mainWindow.on('resize', saveWindowDimensionsToDb)
   mainWindow.setMenu(null)
   const mainProcessErrorReporter = new MainProcessErrorReporter(mainWindow.webContents)
@@ -149,6 +149,9 @@ function getMainWindow(title) {
     height,
     title,
     backgroundColor: '#121212',
+    webPreferences: {
+      nodeIntegration: true,
+    },
   })
 }
 

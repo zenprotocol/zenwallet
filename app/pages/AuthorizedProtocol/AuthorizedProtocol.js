@@ -176,7 +176,6 @@ class AuthorizedProtocol extends Component<Props, State> {
     if (!this.props.authorizedProtocolStore.isBetweenInterval
       && !this.props.authorizedProtocolStore.isBeforeSnapshot
       && !this.props.authorizedProtocolStore.isVotingInterval) return null
-    console.log(this.state.isCandidate, this.props.authorizedProtocolStore.isBetweenInterval)
     return (
       <MessageWithExplorerLink
         showLink={

@@ -12,7 +12,7 @@
     "email": "info@zenprotocol.com"
   },
   "dependencies": {
-    "@zen/zenjs": "0.0.44",
+    "@zen/zenjs": "0.0.45",
     "cross-env": "^5.1.4"
   }
 }
