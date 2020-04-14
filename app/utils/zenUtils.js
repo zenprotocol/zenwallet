@@ -8,11 +8,26 @@ export const zenToKalapas = zen => Decimal.mul(zen, ZEN_TO_KALAPA_RATIO).toNumbe
 export const kalapasToZen = kalapas => Decimal.div(kalapas, ZEN_TO_KALAPA_RATIO).toNumber()
 
 /* eslint-disable function-paren-newline */
-export const zenBalanceDisplay = kalapas =>
+export const zenBalanceDisplay = (kalapas, fixed = ZENP_MAX_DECIMALS) =>
   numberWithCommas(
     minimumDecimalPoints(
-      kalapasToZen(kalapas).toFixed(ZENP_MAX_DECIMALS),
+      kalapasToZen(kalapas).toFixed(fixed),
       2,
+    ),
+  )
+export const zenDisplay = (zen, fixed = ZENP_MAX_DECIMALS) =>
+  numberWithCommas(
+    minimumDecimalPoints(
+      zen.toFixed(fixed),
+      2,
+    ),
+  )
+
+export const zenKalapasBalanceDisplay = (kalapas, fixed = ZENP_MAX_DECIMALS) =>
+  numberWithCommas(
+    minimumDecimalPoints(
+      kalapasToZen(kalapas).toFixed(fixed),
+      8,
     ),
   )
 /* eslint-enable function-paren-newline */

@@ -1,0 +1,170 @@
+@import "styles/Variables";
+
+.cgp {
+  .form-container {
+    min-width: 320px;
+    margin-bottom: 20px;
+  }
+  section {
+    width: 100%;
+    margin-bottom: 22px;
+
+    &::last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    padding-top: 10px;
+    padding-bottom: 20px;
+
+    h1 {
+      color: $off-white;
+      margin-bottom: 10px;
+    }
+  }
+
+  .before-vote-icon {
+    font-size: 2rem;
+    margin-right: 20px;
+  }
+
+  .allocation-form-container {
+    &.disabled {
+      .allocation-input {
+        .input-range__track--active {
+          background-color: $blue-disabled;
+        }
+        .input-range__slider {
+          background-color: $blue-disabled;
+          border-color: $blue-disabled;
+          cursor: wait;
+        }
+        .input-range__label-container {
+          .value {
+            background-color: $blue-disabled;
+          }
+        }
+      }
+    }
+
+    &.invalid {
+      .allocation-input {
+        .input-range__track--active {
+          background-color: $red;
+        }
+        .input-range__slider {
+          background-color: $red-focus;
+          border-color: $red-focus;
+        }
+        .input-range__label-container {
+          .value {
+            background-color: $red;
+          }
+        }
+      }
+    }
+  }
+
+  .allocation-form-container,
+  .payout-form-container {
+    margin-bottom: 40px;
+  }
+
+  .disable-cgp {
+    background: #343434;
+  }
+
+  .ballot-table-container {
+    margin-left: 20px;
+    max-width: 33%;
+
+    .ballot-table {
+      max-height: 620px;
+      overflow-y: hidden;
+      overflow-x: hidden;
+
+      .ballot-row {
+        cursor: pointer;
+      }
+
+      .zp-voted {
+        min-width: 60px;
+      }
+    }
+
+  }
+
+  .allocation-form {
+    .allocation-input-container {
+      margin-top: 20px;
+    }
+    .allocation-input-box {
+      margin-top: 60px;
+      margin-left: 40px;
+    }
+    .slider-div {
+      .word-labels label {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+    }
+    .allocation-input {
+      .input-range__track--active {
+        background-color: $blue;
+      }
+      .input-range__slider {
+        background-color: $blue-focus;
+        border-color: $blue-focus;
+      }
+      .input-range__label-container {
+        left: 0;
+
+        .value {
+          border-radius: 5px;
+          top: -2px;
+          background-color: $blue;
+          padding: 2px 5px;
+          position: relative;
+          left: -50%;
+        }
+      }
+    }
+  }
+
+  .remove-container {
+    label {
+      display: block;
+      visibility: hidden;
+    }
+    .btn-plus-minus {
+      color: #96a1a8;
+      box-sizing: content-box;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      padding: 0 0 0 22px;
+      min-width: 0;
+      font-size: 20px;
+      align-self: flex-end;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+}
+
+.underline {
+  text-decoration: underline;
+  color: $off-white;
+}
+
+.vote-once-modal-content {
+  ul {
+    list-style-type: disc;
+    text-align: left;
+    margin: 0 40px;
+  }
+}

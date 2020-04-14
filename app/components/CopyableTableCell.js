@@ -1,21 +1,29 @@
 // @flow
 
 import React from 'react'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { inject } from 'mobx-react'
 
-import ExternalLink from '../components/ExternalLink'
+import FontAwesomeIcon from '../vendor/@fortawesome/react-fontawesome'
 import { truncateString } from '../utils/helpers'
 import { isZenAsset } from '../utils/zenUtils'
 import NetworkStore from '../stores/networkStore'
 import { MAINNET } from '../constants'
+
+import ExternalLink from './ExternalLink'
 
 const { clipboard } = require('electron')
 
 type Props = {
   networkStore: NetworkStore,
   string: string,
-  istx?: boolean
+  isTx?: boolean,
+  isReactTable?: boolean,
+  hideIcon?: boolean,
+  normalText?: boolean,
+  isSpan?: boolean,
+  isAddress?: boolean,
+  isBlock?: boolean,
+  className?: string
 };
 
 type State = {
@@ -40,28 +48,54 @@ class CopyableTableCell extends React.Component<Props, State> {
 
   get getLink() {
     const { networkStore } = this.props
-    return networkStore.chain === MAINNET ? '' : 'staging-testnet.'
+    return networkStore.chain === MAINNET ? '' : 'testnet.'
   }
 
   get formattedString() {
     const { string } = this.props
+    if (this.props.normalText) return string
     return !isZenAsset(string) ? truncateString(string) : string
   }
   renderString() {
-    const { string, istx } = this.props
-    return istx ? (
-      <ExternalLink link={`https://${this.getLink}zp.io/tx/${string}`}>
-        {this.formattedString}
-      </ExternalLink>
-    ) : this.formattedString
+    const {
+      string, isTx, isAddress, isBlock,
+    } = this.props
+    if (isTx) {
+      return (
+        <ExternalLink link={`https://${this.getLink}zp.io/tx/${string}`}>
+          {this.formattedString}
+        </ExternalLink>
+      )
+    }
+    if (isAddress) {
+      return (
+        <ExternalLink link={`https://${this.getLink}zp.io/address/${string}`}>
+          {this.formattedString}
+        </ExternalLink>
+      )
+    }
+    if (isBlock) {
+      return (
+        <ExternalLink link={`https://${this.getLink}zp.io/blocks/${string}`}>
+          {this.formattedString}
+        </ExternalLink>
+      )
+    }
+    return this.formattedString
   }
 
-  render() {
+  get renderInner() {
     const { string } = this.props
     const { copyText } = this.state
     return (
-      <td className="align-left copyable" title={string}>
-        <span title={string}>
+      <React.Fragment>
+        <span
+          title={string}
+          onClick={() => { this.copyToClipboard(string) }}
+          data-balloon={copyText}
+          data-balloon-pos="up"
+          className={this.props.className}
+        >
           { this.renderString() }{' '}
         </span>
         <span
@@ -69,10 +103,17 @@ class CopyableTableCell extends React.Component<Props, State> {
           data-balloon={copyText}
           data-balloon-pos="up"
         >
-          <FontAwesomeIcon icon={['far', 'copy']} className="" />
+          {!this.props.hideIcon && <FontAwesomeIcon icon={['far', 'copy']} />}
         </span>
-      </td>
+      </React.Fragment>
     )
+  }
+
+  render() {
+    const { string, isReactTable, isSpan } = this.props
+    if (isSpan) return <span className="align-left copyable" title={string}>{this.renderInner}</span>
+    if (isReactTable) return <div className="align-left copyable" title={string}>{this.renderInner}</div>
+    return <td className="align-left copyable" title={string}>{this.renderInner}</td>
   }
 }
 

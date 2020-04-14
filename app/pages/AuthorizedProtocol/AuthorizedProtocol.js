@@ -146,7 +146,7 @@ class AuthorizedProtocol extends Component<Props, State> {
 
   get getLink() {
     const { networkStore } = this.props
-    return networkStore.chain === MAINNET ? '' : 'staging-testnet.'
+    return networkStore.chain === MAINNET ? '' : 'testnet.'
   }
 
   renderIntervalEnded() {
@@ -444,7 +444,7 @@ function MessageWithExplorerLink({
   // eslint-disable-next-line react/prop-types
   message, chain = 'mainnet', showLink = false, isVoting = false, success = false, isFinished = false,
 }) {
-  const link = chain === MAINNET ? '' : 'staging-testnet.'
+  const link = chain === MAINNET ? '' : 'testnet.'
   return (
     <Flexbox flexGrow={2} flexDirection="row" className={cx('form-response-message', success ? 'success' : 'warning')}>
       <FontAwesomeIcon icon={['far', 'exclamation-circle']} />

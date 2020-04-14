@@ -14,6 +14,7 @@ export default {
   BLOCKCHAIN_LOGS: '/blockchain-logs',
   SETTINGS: '/settings',
   AUTHORIZED_PROTOCOL: '/authorized-protocol',
+  CGP: '/cgp',
   // Onboarding routes
   WELCOME_MESSAGES: '/welcome-messages',
   IMPORT_OR_CREATE_WALLET: '/import-or-create-wallet',

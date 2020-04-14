@@ -7,7 +7,7 @@ import {
   getContractHistory,
   postWalletMnemonicphrase,
   getCurrentInterval,
-  getCandidates,
+  getRepoCandidates,
   getNextInterval,
 } from '../services/api-service'
 import { MAINNET } from '../constants/constants'
@@ -158,7 +158,7 @@ class AuthorizedProtocolStore {
   fetchCandidates = async () => {
     this.isFetching = true
     try {
-      const result = await getCandidates(this.networkStore.chain)
+      const result = await getRepoCandidates(this.networkStore.chain)
       if (result) {
         runInAction(() => {
           this.candidates = result
@@ -194,6 +194,7 @@ class AuthorizedProtocolStore {
   async signMessage(message: Buffer, path: Wallet.Path, password) {
     const seedString = await postWalletMnemonicphrase(password)
     const account = Wallet.fromMnemonic(seedString, this.networkStore.chainUnformatted === MAINNET ? 'main' : this.networkStore.chain.slice(0, -3), new Wallet.RemoteNodeWalletActions(this.networkStore.chainUnformatted === MAINNET ? 'https://remote-node.zp.io' : 'https://testnet-remote-node.zp.io'))
+    console.log(account)
     try {
       this.inprogress = true
       const response = account.signMessage(message, path)

@@ -4,8 +4,8 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import cx from 'classnames'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
+import FontAwesomeIcon from '../../vendor/@fortawesome/react-fontawesome'
 import { minimumDecimalPoints, numberWithCommas } from '../../utils/helpers'
 import { ref } from '../../utils/domUtils'
 
@@ -20,7 +20,11 @@ type Props = {
   shouldShowMaxAmount?: boolean,
   exceedingErrorMessage: string,
   onAmountDisplayChanged: (string) => void,
-  label: string
+  disable: boolean,
+  label: string,
+  className: string,
+  operationalAmount: number,
+  showPlaceHolder: boolean
 };
 
 type State = {
@@ -36,6 +40,14 @@ class AmountInput extends React.Component<Props, State> {
     amount: null,
     maxAmount: null,
     shouldShowMaxAmount: false,
+    // eslint-disable-next-line react/default-props-match-prop-types
+    disable: false,
+    // eslint-disable-next-line react/default-props-match-prop-types
+    className: '',
+    // eslint-disable-next-line react/default-props-match-prop-types
+    operationalAmount: 1,
+    // eslint-disable-next-line react/default-props-match-prop-types
+    hidePlaceHolder: undefined,
   }
   state = {
     isFocused: false,
@@ -51,7 +63,9 @@ class AmountInput extends React.Component<Props, State> {
   }
 
   onKeyDown = (evt: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    if (evt.keyCode === 38) { this.increaseAmount() } // UP
+    if (evt.keyCode === 38 && this.props.amount !== this.props.maxAmount) {
+      this.increaseAmount()
+    } // UP
     if (evt.keyCode === 40) { this.decreaseAmount() } // DOWN
   }
 
@@ -59,17 +73,17 @@ class AmountInput extends React.Component<Props, State> {
     const { amount, onAmountDisplayChanged } = this.props
     let newAmount
     if (amount === undefined || amount === '') {
-      newAmount = 1
+      newAmount = this.props.operationalAmount
     } else {
-      newAmount = amount + 1
+      newAmount = parseFloat(amount, 10) + this.props.operationalAmount
     }
     onAmountDisplayChanged(String(newAmount))
   }
 
   decreaseAmount = () => {
     const { amount, onAmountDisplayChanged } = this.props
-    if (amount !== undefined && amount >= 1) {
-      onAmountDisplayChanged(String(amount - 1))
+    if (amount !== undefined && amount >= this.props.operationalAmount) {
+      onAmountDisplayChanged(String(amount - this.props.operationalAmount))
     }
   }
 
@@ -109,7 +123,9 @@ class AmountInput extends React.Component<Props, State> {
   onBlur = () => this.setState({ isFocused: false })
 
   render() {
-    const { label, amountDisplay } = this.props
+    const {
+      label, amountDisplay, amount, maxAmount, showPlaceHolder,
+    } = this.props
     return (
       <Flexbox flexGrow={0} flexDirection="column" className="amount">
         <label htmlFor="amount">{label}</label>
@@ -122,22 +138,24 @@ class AmountInput extends React.Component<Props, State> {
               error: this.isExceedingMaxAmount(),
               'is-focused': this.state.isFocused,
             },
+            this.props.className,
           )}
         >
           <input
             id="amount"
-            placeholder="Enter amount"
+            placeholder={showPlaceHolder ? '' : 'Enter amount'}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             value={numberWithCommas(amountDisplay)}
             ref={ref('el').bind(this)}
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
+            disabled={this.props.disable}
           />
           { this.renderMaxAmountDiv() }
           <Flexbox flexDirection="column" className="amountArrows">
-            <FontAwesomeIcon onClick={this.increaseAmount} icon={['far', 'angle-up']} />
-            <FontAwesomeIcon onClick={this.decreaseAmount} icon={['far', 'angle-down']} />
+            {!this.props.disable && <FontAwesomeIcon onClick={amount !== maxAmount ? this.increaseAmount : undefined} icon={['far', 'angle-up']} />}
+            {!this.props.disable && <FontAwesomeIcon onClick={this.decreaseAmount} icon={['far', 'angle-down']} />}
           </Flexbox>
         </Flexbox>
         {this.renderExceedingMaxAmountError()}

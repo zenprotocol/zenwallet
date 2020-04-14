@@ -1,0 +1,54 @@
+.container-bar {
+  padding: 26px 26px 26px 10px;
+  width: 40%;
+  min-width: 370px;
+
+  .input-top {
+    font-size: 18px;
+    margin-bottom: -8px;
+    color: $light-white;
+  }
+  .end-input {
+    align-self: flex-end;
+  }
+  .input-bottom {
+    margin-top: -10px;
+    font-size: 14px;
+    margin-bottom: -55px;
+    color: $light-blue;
+  }
+  .input-bottom-inside {
+    margin: -35px 10px 0px;
+    font-size: 10px;
+    color: $light-white;
+  }
+
+  .progress-line {
+    width: 100%;
+    margin-top: -50px;
+    border: 1px solid #303841;
+    height: 28px;
+  }
+
+  div {
+    justify-content: space-between;
+  }
+
+  .devider-vertical {
+    position: relative;
+    height: 90px;
+    margin-left: 50%;
+    margin-bottom: 20px;
+    border-left: 3px solid #303841;
+  }
+}
+
+.test-grey {
+  border: 3px solid #303841;
+}
+.test-green {
+  border: 3px solid green;
+}
+.test-red {
+  border: 3px solid red;
+}

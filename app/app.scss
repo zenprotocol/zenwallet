@@ -2,58 +2,64 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
- @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
- @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
- @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+//
+@import "~normalize.css/normalize";
+@import "~react-input-range/lib/css/index.css";
+//
+@import "styles/react-table";
+@import "styles/utils";
+@import "styles/Reset";
+@import "styles/Variables";
+@import "styles/Shared";
+@import "styles/KeyFrames";
+@import "styles/Swal";
+@import "styles/Table";
+@import "styles/Buttons";
+@import "styles/Forms";
+@import "styles/AutoSuggest";
+@import "styles/MonokaiSublime";
+@import "styles/Balloon";
+//
+@import "components/BoxLabel/BoxLabel";
+@import "components/ProgressBar/ProgressBar";
+@import "components/Loading/Loading";
+@import "components/Layout/Layout";
+@import "components/Container/Container";
+@import "components/Main/Main";
+@import "components/Topbar/Topbar";
+@import "components/Footer/Footer";
+@import "components/Sidebar/Sidebar";
+@import "components/FormResponseMessage/FormResponseMessage";
+@import "components/AppUpdater/AppUpdater";
+@import "components/Dropdown/Dropdown";
+//
+@import "pages/ErrorScreen/ErrorScreen";
+@import "pages/Portfolio/Portfolio";
+@import "pages/TxHistory/TxHistory";
+@import "pages/Receive/Receive";
+@import "pages/SendTx/SendTx";
+@import "pages/Faucet/Faucet";
+@import "pages/DeployContract/DeployContract";
+@import "pages/ActiveContracts/ActiveContracts";
+@import "pages/SavedContracts/SavedContracts";
+@import "pages/Loading/Loading";
+@import "pages/UnlockWallet/UnlockWallet";
+@import "pages/BlockchainLogs/BlockchainLogs";
+@import "pages/CGP/CGP";
+@import "pages/AuthorizedProtocol/AuthorizedProtocol";
+//
+@import "onBoardingPages/Layout/Layout";
+@import "onBoardingPages/WelcomeMessages/WelcomeMessages";
+@import "onBoardingPages/ImportOrCreateWallet/ImportOrCreateWallet";
+@import "onBoardingPages/SecretPhrase/SecretPhrase";
+@import "onBoardingPages/SecretPhraseQuiz/SecretPhraseQuiz";
+@import "onBoardingPages/SetPassword/SetPassword";
+@import "onBoardingPages/TermsOfService/TermsOfService";
 
- @import "~normalize.css/normalize";
-
- @import "styles/utils";
- @import "styles/Reset";
- @import "styles/Variables";
- @import "styles/Shared";
- @import "styles/KeyFrames";
- @import "styles/Swal";
- @import "styles/Table";
- @import "styles/Buttons";
- @import "styles/Forms";
- @import "styles/AutoSuggest";
- @import "styles/MonokaiSublime";
- @import "styles/Balloon";
- //
- @import "components/BoxLabel/BoxLabel";
- @import "components/Loading/Loading";
- @import "components/Layout/Layout";
- @import "components/Container/Container";
- @import "components/Main/Main";
- @import "components/Topbar/Topbar";
- @import "components/Footer/Footer";
- @import "components/Sidebar/Sidebar";
- @import "components/FormResponseMessage/FormResponseMessage";
- @import "components/AppUpdater/AppUpdater";
- //
- @import "pages/AuthorizedProtocol/AuthorizedProtocol";
- @import "pages/ErrorScreen/ErrorScreen";
- @import "pages/Portfolio/Portfolio";
- @import "pages/Receive/Receive";
- @import "pages/SendTx/SendTx";
- @import "pages/Faucet/Faucet";
- @import "pages/DeployContract/DeployContract";
- @import "pages/ActiveContracts/ActiveContracts";
- @import "pages/SavedContracts/SavedContracts";
- @import "pages/Loading/Loading";
- @import "pages/UnlockWallet/UnlockWallet";
- @import "pages/BlockchainLogs/BlockchainLogs";
- //
- @import "onBoardingPages/Layout/Layout";
- @import "onBoardingPages/WelcomeMessages/WelcomeMessages";
- @import "onBoardingPages/ImportOrCreateWallet/ImportOrCreateWallet";
- @import "onBoardingPages/SecretPhrase/SecretPhrase";
- @import "onBoardingPages/SecretPhraseQuiz/SecretPhraseQuiz";
- @import "onBoardingPages/SetPassword/SetPassword";
- @import "onBoardingPages/TermsOfService/TermsOfService";
-
- #root { height: 100%; }
+#root { height: 100%; }
 
 .app-wrapper {
   height: 100%;

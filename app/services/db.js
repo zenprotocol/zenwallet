@@ -12,7 +12,6 @@ const fileName = 'zen-wallet-db.json'
 
 const appDataPath = electronApp.getPath('appData')
 const userDataPath = path.join(appDataPath, 'zenwallet')
-console.log('db userDataPath', userDataPath)
 
 const doesFolderExist = fs.existsSync(userDataPath)
 
@@ -48,6 +47,10 @@ db.defaults({
     walletVersion: null,
     zenNodeVersion: null,
   },
+  'txCountInLastLogin-testnet': 0,
+  'txCountInLastLogin-main': 0,
+  'txCountInLastVisitToTransactionsRoute-testnet': 0,
+  'txCountInLastVisitToTransactionsRoute-main': 0,
 }).write()
 
 export default db

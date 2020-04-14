@@ -1,16 +1,16 @@
 .form-container, .input-container {
-	background: $grey;
-	padding: 7px 20px 20px 20px;
-	margin-bottom: 20px;
-	min-width: 225px;
-	&.container-on-right { margin-left: 20px; }
+  background: $grey;
+  padding: 7px 20px 20px 20px;
+  margin-bottom: 20px;
+  min-width: 225px;
+  &.container-on-right { margin-left: 20px; }
 }
 .form-container {	margin-bottom: 35px; }
 
 .success-message {
-	a { text-decoration: none; }
-	p { margin-bottom: 10px; }
-	img.success-icon { height: 13px; padding: 0 13px; }
+  a { text-decoration: none; }
+  p { margin-bottom: 10px; }
+  img.success-icon { height: 13px; padding: 0 13px; }
 }
 
 .form-row { margin-bottom: 10px; }
@@ -34,18 +34,18 @@ input[type=password],
   border-radius: $border-radius;
   font-size: 13px;
 
-	-webkit-transition: border-color 0.2s ease-in-out;
+  -webkit-transition: border-color 0.2s ease-in-out;
   -moz-transition: border-color 0.2s ease-in-out;
   -ms-transition: border-color 0.2s ease-in-out;
   -o-transition: border-color 0.2s ease-in-out;
 
-	// &.is-valid { border: 1px solid $blue;	}
-	&:focus {
-		border-color: $bright-grey;
-		outline: none;
-		&.is-valid { border: 1px solid $blue;	}
-	}
-	&.error {	border: 1px solid $red;	}
+  // &.is-valid { border: 1px solid $blue;	}
+  &:focus {
+    border-color: $bright-grey;
+    outline: none;
+    &.is-valid { border: 1px solid $blue;	}
+  }
+  &.error {	border: 1px solid $red;	}
 }
 
 .select-contract { position: relative; }
@@ -53,102 +53,126 @@ input[type=password],
 .with-input-on-right { margin-right: 21px; }
 
 .chosenAssetName, .chosenContractName {
-	display: inline;
+  display: inline;
   position: absolute;
   right: 1.5px;
   top: 41.5px;
-  padding: 11px;
-	font-size: 12px;
+  padding: 10px;
+  font-size: 12px;
   text-transform: uppercase;
-	border-left: solid 1px $input-border-color;
-	color: $blue;
-	background: $dark-grey-2;
+  border-left: solid 1px $input-border-color;
+  color: $blue;
+  background: $dark-grey-2;
 }
 
-.chosenContractName { top: 1px; }
+.chosenCGP {
+  display: inline;
+  position: absolute;
+  right: 1.5px;
+  top: 41.5px;
+  margin: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: $blue;
+}
+
+.chosenAssetNameNoLabel {
+  display: inline;
+  position: absolute;
+  right: 1.5px;
+  top: 1.5px;
+  padding: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  border-left: solid 1px $input-border-color;
+  color: $blue;
+  background: $dark-grey-2;
+}
+
+.chosenContractName, .chosenCGP { top: 1px; }
 
 .amountInputContainer {
-	padding: 0px;
-	width: 290px;
+  padding: 0px;
+  width: 290px;
 
-	&.is-focused {
-		border-color: $bright-grey;
-		&.error {	border: 1px solid $red;	}
-	}
+  &.is-focused {
+    border-color: $bright-grey;
+    &.error {	border: 1px solid $red;	}
+  }
 
-	.maxAmount {
-		padding: 12px 10px 0px 0px;
-		width: 120px;
-		text-align: right;
-		color: $blue;
-		white-space: nowrap;
-	}
+  .maxAmount {
+    padding: 12px 10px 0px 0px;
+    width: 120px;
+    text-align: right;
+    color: $blue;
+    white-space: nowrap;
+  }
 
-	.amountArrows {
-		position: relative;
-		top: 0.5px;
-		right: 0.5px;
+  .amountArrows {
+    position: relative;
+    top: 0.5px;
+    right: 0.5px;
 
-		height: 100%;
-		background: $dark-grey-2;
-		border-left: 1px solid $input-border-color;
-		border-radius: 0 2px 2px 0;
-		svg { color: $blue; }
-		svg.fa-angle-up { padding: 4px 11px 0px 11px; }
-		svg.fa-angle-down { padding: 0 11px 4px 11px }
-	}
+    height: 100%;
+    background: $dark-grey-2;
+    border-left: 1px solid $input-border-color;
+    border-radius: 0 2px 2px 0;
+    svg { color: $blue; }
+    svg.fa-angle-up { padding: 4px 11px 0px 11px; }
+    svg.fa-angle-down { padding: 0 11px 4px 11px }
+  }
 
-	input#amount {
-		width: 100%;
-		outline: none;
-		border: none;
-		padding: 0px 0px 0px 10px;
-		background: transparent;
-		color: $off-white;
-		line-height: 2.2rem;
-	}
+  input#amount {
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0px 0px 0px 10px;
+    background: transparent;
+    color: $off-white;
+    line-height: 2.2rem;
+  }
 
-	input#amount::-webkit-inner-spin-button,
-	input#amount::-webkit-outer-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
+  input#amount::-webkit-inner-spin-button,
+  input#amount::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-	&.asset-chosen {
-		input#amount { width: 129.4px; }
-	}
+  &.asset-chosen {
+    input#amount { width: 129.4px; }
+  }
 
 }
 
 .input-message {
-	text-transform: uppercase;
-	font-size: 12px;
-	padding: 7px 3px;
-	letter-spacing: 0.4px;
-	color: $blue;
-	text-align: left;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 7px 3px;
+  letter-spacing: 0.4px;
+  color: $blue;
+  text-align: left;
 
-	&.error { color: $red; }
+  &.error { color: $red; }
 
-	svg { padding: 0 5px; }
+  svg { padding: 0 5px; }
 }
 
 .upload-contract-dropzone {
-	position: relative;
+  position: relative;
 
-	.dropzone  {
-		background-color: $dark-grey-2;
-		p { display: inline; }
-		// &.file-chosen {  }
-		&.active { border: 1px solid $blue; }
-	}
+  .dropzone  {
+    background-color: $dark-grey-2;
+    p { display: inline; }
+    // &.file-chosen {  }
+    &.active { border: 1px solid $blue; }
+  }
 
-	a.cancel-button {
-		position: absolute;
-		right: 137px;
-		padding: 11px;
-		img { height: 11px; }
-	}
+  a.cancel-button {
+    position: absolute;
+    right: 137px;
+    padding: 11px;
+    img { height: 11px; }
+  }
 
 }
 
@@ -157,10 +181,10 @@ input[type=password],
 label {
   line-height: 2.5rem;
   color: $bright-grey;
-	font-size: 1rem;
-	&[for] {
-		cursor: pointer;
-	}
+  font-size: 1rem;
+  &[for] {
+    cursor: pointer;
+  }
 }
 
 select::-ms-expand { display: none; }
@@ -193,16 +217,16 @@ select {
 
   &:focus {
     background-image:
-    linear-gradient(45deg, gray 50%, transparent 50%),
-    linear-gradient(135deg, transparent 50%, gray 50%);
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%);
     background-position:
-    calc(100% - 15px) 1em,
-    calc(100% - 20px) 1em,
-    calc(100% - 2.5em) 0.5em;
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
     background-size:
-    5px 5px,
-    5px 5px,
-    1px 1.5em;
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
     background-repeat: no-repeat;
     outline: 0;
   }
@@ -211,20 +235,20 @@ select {
 
 label.checkbox {
 
-	&:hover {
-		input ~ .rc-checkbox-inner { background-color: $dark-grey-d; }
-		input:checked ~ .rc-checkbox-inner { background-color: $blue; }
-	}
+  &:hover {
+    input ~ .rc-checkbox-inner { background-color: $dark-grey-d; }
+    input:checked ~ .rc-checkbox-inner { background-color: $blue; }
+  }
 
-	.checkbox-text {
-		font-size: 14px;
-		font-weight: 300;
-		line-height: 1.29;
-		color: $bright-grey;
-		position: relative;
-		top: 2px;
-		cursor: pointer;
-	}
+  .checkbox-text {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.29;
+    color: $bright-grey;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+  }
 }
 
 /* The container */
@@ -240,68 +264,68 @@ label.checkbox {
   -ms-user-select: none;
   user-select: none;
 
-	/* Hide the browser's default checkbox */
-	input { position: absolute; opacity: 0;	cursor: pointer; }
+  /* Hide the browser's default checkbox */
+  input { position: absolute; opacity: 0;	cursor: pointer; }
 
-	/* On mouse-over, add a grey background color */
-	&:hover input ~ .rc-checkbox-inner { background-color: $dark-grey-d; }
+  /* On mouse-over, add a grey background color */
+  &:hover input ~ .rc-checkbox-inner { background-color: $dark-grey-d; }
 
-	/* When the checkbox is checked, add a blue background */
-	input:checked ~ .rc-checkbox-inner { background-color: $blue; }
+  /* When the checkbox is checked, add a blue background */
+  input:checked ~ .rc-checkbox-inner { background-color: $blue; }
 
-	/* Show the checkbox when checked */
-	input:checked ~ .rc-checkbox-inner:after { display: block; }
+  /* Show the checkbox when checked */
+  input:checked ~ .rc-checkbox-inner:after { display: block; }
 
-	/* Style the checkbox/indicator */
-	.rc-checkbox-inner:after {
-		left: 8px;
-		top: 3px;
-		width: 5px;
-		height: 10px;
-		border: solid white;
-		border-width: 0 2px 2px 0;
-		-webkit-transform: rotate(45deg);
-		-ms-transform: rotate(45deg);
-		transform: rotate(45deg);
-	}
+  /* Style the checkbox/indicator */
+  .rc-checkbox-inner:after {
+    left: 8px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 
-	/* Create a custom checkbox */
-	.rc-checkbox-inner {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 22px;
-		width: 22px;
-		background-color: #070707;
-		border: 1px solid $border-color;
-		border-radius: 2px;
+  /* Create a custom checkbox */
+  .rc-checkbox-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #070707;
+    border: 1px solid $border-color;
+    border-radius: 2px;
 
-		/* Create the checkbox/indicator (hidden when not checked) */
-		&:after {
-			content: "";
-			position: absolute;
-			display: none;
-		}
+    /* Create the checkbox/indicator (hidden when not checked) */
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
 
-	}
+  }
 
-	&.rc-checkbox-checked {
+  &.rc-checkbox-checked {
 
-		.rc-checkbox-inner {
-			background-color: $blue;
-			border: 1px solid $blue;
-		}
+    .rc-checkbox-inner {
+      background-color: $blue;
+      border: 1px solid $blue;
+    }
 
-	}
+  }
 
 }
 
 
 .input-group {
 
-	border: solid 1px $input-border-color;
-	background: $dark-grey;
-	border-radius: 2px;
+  border: solid 1px $input-border-color;
+  background: $dark-grey;
+  border-radius: 2px;
 
   display: -webkit-box;
   display: -webkit-flex;
@@ -316,19 +340,19 @@ label.checkbox {
 
   padding: 0.4px;
 
-	&.valid {
-		border: 1px solid $blue;
-		.fa.fa-check { color: $blue; }
-	}
+  &.valid {
+    border: 1px solid $blue;
+    .fa.fa-check { color: $blue; }
+  }
   &.error {
-  	border: 1px solid $red;
-		.fa.fa-times { color: $red; }
+    border: 1px solid $red;
+    .fa.fa-times { color: $red; }
   }
 
-	input.input-group-field {
-		border: none;
+  input.input-group-field {
+    border: none;
 
-		font-family: Roboto;
+    font-family: Roboto;
     font-size: 13px;
     font-weight: 300;
     letter-spacing: 0.5px;
@@ -342,59 +366,58 @@ label.checkbox {
     min-width: 0;
 
     box-sizing: border-box;
-	}
+  }
 
-	.input-group-label {
-		padding: 0 12px;
-		text-align: center;
-		white-space: nowrap;
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: -ms-flexbox;
-		display: flex;
-		-webkit-box-flex: 0;
-		-webkit-flex: 0 0 auto;
-		-ms-flex: 0 0 auto;
-		flex: 0 0 auto;
-		-webkit-box-align: center;
-		-webkit-align-items: center;
-		-ms-flex-align: center;
-		align-items: center;
+  .input-group-label {
+    padding: 0 12px;
+    text-align: center;
+    white-space: nowrap;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
 
-		&.show-password {
-			cursor: pointer;
+    &.show-password {
+      cursor: pointer;
 
-			i.fa {
-				&:hover { color: $light-white; }
-				&:focus { color: $off-white; }
-				&:active { color: $off-white; }
-			}
-		}
+      i.fa {
+        &:hover { color: $light-white; }
+        &:focus { color: $off-white; }
+        &:active { color: $off-white; }
+      }
+    }
 
-		&.with-background {
-			background: $dark-grey-2;
-			color: $light-white;
-			font-size: 12px;
+    &.with-background {
+      background: $dark-grey-2;
+      color: $light-white;
+      font-size: 12px;
 
-			&:first-child { border: none; border-right: 1px solid $input-border-color; }
-			&:last-child { border: none; border-left: 1px solid $input-border-color; }
-		}
-	}
-
+      &:first-child { border: none; border-right: 1px solid $input-border-color; }
+      &:last-child { border: none; border-left: 1px solid $input-border-color; }
+    }
+  }
 
 }
 
 .input-icon {
-	position: absolute;
-	top: 11px;
-	right: 14px;
+  position: absolute;
+  top: 11px;
+  right: 14px;
 
-	&.error {
-		color: $red;
-	}
-	&.valid {
-		color: $blue;
-	}
+  &.error {
+    color: $red;
+  }
+  &.valid {
+    color: $blue;
+  }
 }
 
 
