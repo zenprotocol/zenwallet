@@ -76,7 +76,6 @@ class ZenNode {
   onBlockchainLog = (chunk) => {
     const log = chunk.toString('utf8')
     this.logs = [...this.logs, log].slice(-100)
-    console.log(`[ZEN NODE]: Received ${log} bytes of data.`)
     this.webContents.send(IPC_BLOCKCHAIN_LOGS, log)
   }
   onZenNodeStderr = (chunk) => {

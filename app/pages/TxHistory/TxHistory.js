@@ -32,7 +32,13 @@ class TxHistory extends Component<Props> {
   }
 
   blockNumber(tx) {
-    return <CopyableTableCell string={String((this.props.networkStore.headers - tx.confirmations) + 1)} isBlock isReactTable />
+    return (
+      <CopyableTableCell
+        string={String((this.props.networkStore.headers - tx.confirmations) + 1)}
+        isBlock
+        isReactTable
+      />
+    )
   }
 
   getDisplayAmount(tx) {

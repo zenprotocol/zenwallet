@@ -115,7 +115,9 @@
       "node_modules",
       "app/node_modules"
     ],
-    "setupTestFrameworkScriptFile": "./test/jestSetup.js",
+    "setupFilesAfterEnv": [
+      "./test/jestSetup.js"
+    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
