@@ -101,8 +101,6 @@ app.on('ready', async () => {
     {
       label: 'Application',
       submenu: [
-        { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
-        { type: 'separator' },
         { label: 'Quit', accelerator: 'Command+Q', click() { app.quit() } },
       ],
     }, {
@@ -119,7 +117,13 @@ app.on('ready', async () => {
     },
   ]))
 
-  mainWindow.on('closed', () => { mainWindow = null })
+  mainWindow.on('closed', () => {
+    mainWindow = null
+    if (!isUiOnly) {
+      console.log('Gracefully shutting down the zen-node')
+      zenNode.node.kill()
+    }
+  })
 
   process.on('SIGINT', () => {
     console.log('******* [PROCESS SIGINT] *******')
@@ -131,6 +135,10 @@ app.on('ready', async () => {
 app.on('window-all-closed', () => {
   console.log('******* [window-all-closed] *******')
   console.log('Calling app.quit because (window-all-closed)')
+  if (!isUiOnly) {
+    console.log('Gracefully shutting down the zen-node')
+    zenNode.node.kill()
+  }
   app.quit()
 })
 
