@@ -24,17 +24,19 @@ import AmountInput from '../../components/AmountInput'
 import PasteButton from '../../components/PasteButton'
 import ResetButton from '../../components/ResetButton'
 import Copy from '../../components/Copy'
+import NetworkStore from '../../stores/networkStore'
 
 type Props = {
   sendTxStore: SendTxStore,
-  portfolioStore: PortfolioStore
+  portfolioStore: PortfolioStore,
+  networkStore: NetworkStore
 };
 
 type State = {
   isOfflineSent: boolean
 };
 
-@inject('portfolioStore', 'sendTxStore')
+@inject('portfolioStore', 'sendTxStore', 'networkStore')
 @observer
 class SendTx extends Component<Props, State> {
   state = {
@@ -68,7 +70,7 @@ class SendTx extends Component<Props, State> {
 
   get isToInvalid() {
     const { to } = this.props.sendTxStore
-    return to.length && !isValidAddress(to)
+    return to.length && !isValidAddress(to,this.props.networkStore.chainUnformatted)
   }
 
   renderAddressErrorMessage() {
@@ -168,7 +170,7 @@ class SendTx extends Component<Props, State> {
 
   get isToValid() {
     const { to } = this.props.sendTxStore
-    return (to.length > 0) && isValidAddress(to)
+    return (to.length > 0) && isValidAddress(to, this.props.networkStore.chainUnformatted)
   }
 
   get areAllFieldsValid() {
@@ -217,7 +219,7 @@ class SendTx extends Component<Props, State> {
                     autoFocus
                   />
                   <IsValidIcon
-                    isValid={isValidAddress(to)}
+                    isValid={isValidAddress(to, this.props.networkStore.chainUnformatted)}
                     className="input-icon"
                     hasColors
                     isHidden={!to}
