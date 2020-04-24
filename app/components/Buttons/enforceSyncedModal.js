@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import swal from 'sweetalert'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { observer } from 'mobx-react'
 
+import FontAwesomeIcon from '../../vendor/@fortawesome/react-fontawesome'
 import { networkStore } from '../../stores'
 import NetworkStore from '../../stores/networkStore'
 

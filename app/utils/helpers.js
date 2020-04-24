@@ -2,8 +2,7 @@
 
 import { Buffer } from 'buffer'
 
-import { Chain } from '@zen/zenjs'
-import { Data } from '@zen/zenjs/build/src/Components/Contracts/Data'
+import { Data, Chain } from '@zen/zenjs'
 import { Spend } from '@zen/zenjs/build/src/Consensus/Types/Spend'
 import { Payout, Recipient } from '@zen/zenjs/build/src/Consensus/Types/Payout'
 import { Ballot } from '@zen/zenjs/build/src/Consensus/Types/Ballot'
@@ -160,7 +159,6 @@ export const hashVoteData = (commitID: string, interval = 1, phase: "Contestant"
   .update(sha(Data.serialize(new Data.String(commitID)))).toString(), 'hex')
 
 export const payloadData = (address, messageBody, command) => {
-  console.log(messageBody)
   const data = {
     address,
     command,

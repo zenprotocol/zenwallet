@@ -193,8 +193,7 @@ class AuthorizedProtocolStore {
 
   async signMessage(message: Buffer, path: Wallet.Path, password) {
     const seedString = await postWalletMnemonicphrase(password)
-    const account = Wallet.fromMnemonic(seedString, this.networkStore.chainUnformatted === MAINNET ? 'main' : this.networkStore.chain.slice(0, -3), new Wallet.RemoteNodeWalletActions(this.networkStore.chainUnformatted === MAINNET ? 'https://remote-node.zp.io' : 'https://testnet-remote-node.zp.io'))
-    console.log(account)
+    const account = Wallet.fromMnemonic(seedString, this.networkStore.chain, new Wallet.RemoteNodeWalletActions(this.networkStore.chainUnformatted === MAINNET ? 'https://remote-node.zp.io' : 'https://testnet-remote-node.zp.io'))
     try {
       this.inprogress = true
       const response = account.signMessage(message, path)
