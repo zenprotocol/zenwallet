@@ -9,6 +9,7 @@ import { Hash } from '@zen/zenjs/build/src/Consensus/Types/Hash'
 import { Allocation } from '@zen/zenjs/build/src/Consensus/Types/Allocation'
 import { Ballot } from '@zen/zenjs/build/src/Consensus/Types/Ballot'
 import { ContractId } from '@zen/zenjs/build/src/Consensus/Types/ContractId'
+import { Wallet } from '@zen/zenjs'
 import Address from '@zen/zenjs/build/src/Components/Wallet/Address'
 
 import { MAINNET, ZEN_TO_KALAPA_RATIO } from '../constants/constants'
@@ -34,10 +35,10 @@ import {
   getCandidates,
   getCgp,
   getCgpPopularBallotsFromExplorer,
-  getCgpVotesFromExplorer,
   getContractHistory,
   getContractTXHistory,
   getUtxo,
+  postWalletMnemonicphrase,
 } from '../services/api-service'
 
 class CGPStore {
@@ -195,14 +196,14 @@ class CGPStore {
   @computed
   get contractIdCgp() {
     return this.networkStore.chainUnformatted === MAINNET ?
-      '00000000e2e56687e040718fa75210195a2ecbed6d5b2f9d53431b8ce3cba57588191b6a' :
+      '00000000cdaa2a511cd2e1d07555b00314d1be40a649d3b6f419eb1e4e7a8e63240a36d1' :
       '00000000eac6c58bed912ff310df9f6960e8ed5c28aac83b8a98964224bab1e06c779b93'
   }
 
   @computed
   get contractIdVote() {
     return this.networkStore.chainUnformatted === MAINNET ?
-      '00000000abbf8805a203197e4ad548e4eaa2b16f683c013e31d316f387ecf7adc65b3fb2' :
+      '000000006ea5457ed23e3e13f31fe4cfd46c200587f2e4cc22df30ac77790f6d2c15cc12' :
       '00000000e89738718a802a7d217941882efe8e585e20b20901391bc37af25fac2f22c8ab'
   }
 
@@ -233,12 +234,7 @@ class CGPStore {
     return Promise.all([
       this.fetchCgp(),
       this.fetchAssets(),
-      this.fetchPrevIntervalVoteCount(),
-      (() => {
-        if (this.popularBallots.items.length === 0) {
-          return this.fetchPopularBallots()
-        }
-      })(),
+      this.fetchPopularBallots(),
     ])
   }
 
@@ -269,34 +265,6 @@ class CGPStore {
       this.cgpCurrentZPBalance = format(get(balanceZP, '00'))
       this.cgpCurrentBalance = balanceZP
     })
-  }
-
-  @action
-  async fetchPrevIntervalVoteCount() {
-    if (this.currentInterval > 1) {
-      const [responsePayout, responseAllocation] = await Promise.all([
-        getCgpVotesFromExplorer({
-          chain: this.networkStore.chain,
-          interval: this.currentInterval - 1,
-          type: 'payout',
-        }),
-        getCgpVotesFromExplorer({
-          chain: this.networkStore.chain,
-          interval: this.currentInterval - 1,
-          type: 'allocation',
-        }),
-        getCgpVotesFromExplorer({
-          chain: this.networkStore.chain,
-          interval: this.currentInterval - 1,
-          type: 'nomination',
-        }),
-      ])
-      runInAction(() => {
-        if (responsePayout.success && responseAllocation.success) {
-          this.prevIntervalTxs = responsePayout.data.count + responseAllocation.data.count
-        }
-      })
-    }
   }
 
   @action
@@ -446,9 +414,7 @@ class CGPStore {
   @action
   async fetchCandidates() {
     if (
-      this.fetching.candidates ||
-      (this.candidates.items.length &&
-        this.candidates.items.length >= this.candidates.count)
+      this.fetching.candidates
     ) {
       return
     }
@@ -465,7 +431,6 @@ class CGPStore {
       runInAction(() => {
         this.candidates.count = response.length
         this.candidates.items.replace(data)
-        this.candidatesCurrentAmount += 10
       })
     } catch (e) {
       console.error(e)
@@ -529,7 +494,7 @@ class CGPStore {
 
   @computed
   get nominationBlock() {
-    return this.snapshotBlock + 10 / 2
+    return this.snapshotBlock + this.votingIntervalLength / 2
   }
 
   @computed
@@ -775,21 +740,20 @@ class CGPStore {
     const phaseSer = Data.serialize(new Data.String(phase))
     const messageToCompute = interval.toString().concat(phaseSer).concat(ballotSerialized)
     const message = Hash.compute(messageToCompute).bytes
+    const seedString = await postWalletMnemonicphrase(pass)
     await this.publicAddressStore.getKeys(pass)
-    const arrayPromise = toJS(this.publicAddressStore.publicKeys).map(async item => {
+    const arrayPromise = toJS(this.publicAddressStore.publicKeys).map(item => {
       const { publicKey, path } = item
-      const signature = await this.authorizedProtocolStore.signMessage(
-        message,
-        path,
-        pass,
-      )
+      const account = Wallet.fromMnemonic(seedString, this.networkStore.chain, new Wallet.RemoteNodeWalletActions(this.networkStore.chainUnformatted === MAINNET ? 'https://remote-node.zp.io' : 'https://testnet-remote-node.zp.io'))
+      const signature = account.signMessage(message, path)
       return [publicKey, new Data.Signature(signature)]
     })
     const data = await Promise.all(arrayPromise)
-      .then(signatures => new Data.Dictionary([
-        [stringBallot, new Data.String(ballot)],
-        ['Signature', new Data.Dictionary(signatures)],
-      ]))
+      .then(signatures =>
+        new Data.Dictionary([
+          [stringBallot, new Data.String(ballot)],
+          ['Signature', new Data.Dictionary(signatures)],
+        ]))
       .catch(error => console.log(error))
     await this.runContractStore.run(
       pass,

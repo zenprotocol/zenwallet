@@ -18,7 +18,7 @@ export const zenBalanceDisplay = (kalapas, fixed = ZENP_MAX_DECIMALS) =>
 export const zenDisplay = (zen, fixed = ZENP_MAX_DECIMALS) =>
   numberWithCommas(
     minimumDecimalPoints(
-      zen.toFixed(fixed),
+      (zen || 0).toFixed(fixed),
       2,
     ),
   )

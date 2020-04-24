@@ -58,7 +58,7 @@ class InfoBoxes extends Component {
         <BoxLabel
           title={allAssetsString}
           firstLine="CGP Current Allocation / CGP Balance"
-          secondLine={`${cgpCurrentAllocationZP} ZP / ${zenDisplay(cgpCurrentZPBalance, 2)} ZP`}
+          secondLine={`${cgpCurrentAllocationZP} ZP / ${zenDisplay(cgpCurrentZPBalance || 0, 2)} ZP`}
           className="magnify"
         />
       </Flexbox>

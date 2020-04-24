@@ -209,7 +209,7 @@ function getInitialNet() {
 function doesZenNodeVersionRequiredWipe() {
   let latestZenNodeVersionRequiringWipe = '1.0.0'
   if (getInitialNet() === 'test') {
-    latestZenNodeVersionRequiringWipe = '1.0.0'
+    latestZenNodeVersionRequiringWipe = '1.0.1'
   }
   // first time user installs a version of the wallet with this flag feature,
   // or when user resets his local DB for any reason, we use the mocked version 0.0.0
