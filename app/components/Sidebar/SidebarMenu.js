@@ -1,21 +1,14 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { NavLink } from 'react-router-dom'
 import { Online } from 'react-detect-offline'
 
 import routes from '../../constants/routes'
-import NetworkStore from '../../stores/networkStore'
-import { MAINNET } from '../../constants/constants'
 
-type Props = {
-  networkStore: NetworkStore
-};
 
-@inject('networkStore')
 @observer
 class SidebarMenu extends Component<Props> {
   render() {
-    const { networkStore } = this.props
     return (
       <div className="menu">
         <ul>
@@ -26,7 +19,7 @@ class SidebarMenu extends Component<Props> {
           <Online><li> <NavLink to={routes.ACTIVE_CONTRACTS} activeClassName="active">Active Contracts</NavLink></li></Online>
           <li> <NavLink to={routes.SAVED_CONTRACTS} activeClassName="active">Saved Contracts</NavLink></li>
           <li> <NavLink to={routes.AUTHORIZED_PROTOCOL} activeClassName="active">Community Vote</NavLink></li>
-          {networkStore.chain !== MAINNET && <li> <NavLink to={routes.CGP} activeClassName="active">Common goods pool</NavLink></li>}
+          <li> <NavLink to={routes.CGP} activeClassName="active">Common goods pool</NavLink></li>
           <Online><li> <NavLink to={routes.BLOCKCHAIN_LOGS} activeClassName="active">Blockchain Logs</NavLink></li></Online>
           <li> <NavLink to={routes.SETTINGS} activeClassName="active">Settings</NavLink></li>
         </ul>
