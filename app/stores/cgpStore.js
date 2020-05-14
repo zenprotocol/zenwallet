@@ -230,8 +230,8 @@ class CGPStore {
 
   @action.bound
   async fetch() {
-    await this.fetchCandidates()
     return Promise.all([
+      this.fetchCandidates(),
       this.fetchCgp(),
       this.fetchAssets(),
       this.fetchPopularBallots(),
@@ -386,9 +386,7 @@ class CGPStore {
   @action
   async fetchPopularBallots() {
     if (
-      this.fetching.popularBallots ||
-      (this.popularBallots.items.length &&
-        this.popularBallots.items.length >= this.popularBallots.count)
+      this.fetching.popularBallots
     ) {
       return
     }
@@ -400,6 +398,7 @@ class CGPStore {
       page: 0,
       currentInterval: this.currentInterval,
       type: this.isNomination ? 'nomination' : 'payout',
+      isNomination: this.isNomination,
     })
     runInAction(() => {
       if (response.success) {
@@ -772,6 +771,7 @@ class CGPStore {
         // start polling for the vote
         this.payoutVoteFetchStatus.fetching = true
         this.fetchPayoutVotePollManager.initPolling()
+        this.resetPayout()
         runInAction(() => {
           this.statusPayout = { status: 'success' }
         })
@@ -787,12 +787,13 @@ class CGPStore {
     if (this.payoutValid) {
       try {
         const stringNomination = 'Nomination'
-        const payout =
+        const nomination =
           toPayout(this.networkStore.chainUnformatted, this.address, this.assetAmountsPure)
-        this.submitBallot(stringNomination, payout, confirmedPassword)
+        this.submitBallot(stringNomination, nomination, confirmedPassword)
         // start polling for the vote
         this.nominationVoteFetchStatus.fetching = true
         this.fetchNominationVotePollManager.initPolling()
+        this.resetPayout()
         runInAction(() => {
           this.statusNomination = { status: 'success' }
         })
