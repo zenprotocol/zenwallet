@@ -108,15 +108,15 @@ class BallotsTable extends Component<Props> {
       </tr>
     )
   }
+
   render() {
     const {
-      fetchPopularBallots, popularBallots, fetchCandidates,
+      fetchPopularBallots, popularBallots, increasePopularBallotCount,
       candidates, isNomination, nominationVoted, payoutVoted,
       snapshotBalanceAcc,
     } = this.props.cgpStore
     const voted = isNomination ? nominationVoted : payoutVoted
     const shouldShow = !voted && snapshotBalanceAcc !== 0
-    const fetch = isNomination ? fetchPopularBallots : fetchCandidates
     let ballot: { count: number, items: []} = { count: 0, items: [] }
     if (isNomination) {
       ballot = popularBallots
@@ -128,6 +128,11 @@ class BallotsTable extends Component<Props> {
         count: candidates.count,
         items: candidates.items.map(x => ({ ballot: x.ballot, zpAmount: j[x.ballot] || 0 })),
       }
+    }
+    const fetchMore = () => {
+      increasePopularBallotCount()
+      // no need to wait for it
+      fetchPopularBallots().catch()
     }
     return (
       <div>
@@ -144,8 +149,8 @@ class BallotsTable extends Component<Props> {
             <tbody>{this.renderRows()}</tbody>
           </table>
         </Flexbox>
-        {ballot.count > 0 && ballot.items.length < ballot.count && (
-          <button className="btn-link" onClick={fetch.bind(this.props.cgpStore)}>
+        {isNomination && ballot.count > 0 && ballot.items.length < ballot.count && (
+          <button className="btn-link" onClick={fetchMore}>
             Load more
           </button>
         )}

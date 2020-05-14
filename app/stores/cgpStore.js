@@ -403,10 +403,14 @@ class CGPStore {
       if (response.success) {
         this.popularBallots.count = response.data.count
         this.popularBallots.items.replace(response.data.items)
-        this.popularBallotsCurrentAmount += 10
       }
       this.fetching.popularBallots = false
     })
+  }
+
+  @action
+  increasePopularBallotCount() {
+    this.popularBallotsCurrentAmount += 10
   }
 
   @action

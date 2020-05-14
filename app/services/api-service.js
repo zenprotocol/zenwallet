@@ -81,11 +81,12 @@ export async function getCgpPopularBallotsFromExplorer({
   isNomination,
 } = {}) {
   const part = isNomination ? 'results' : 'ballots'
+  const parms = isNomination ? {
+    page,
+    pageSize,
+  } : {}
   const response = await getBE(chain).get(`api/cgp/${part}/${type}?interval=${currentInterval}`, {
-    params: {
-      page,
-      pageSize,
-    },
+    parms,
   })
   return response.data
 }
