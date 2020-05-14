@@ -382,7 +382,7 @@ class CGPStore {
     }
   }
 
-  @action
+  @action.bound
   async fetchPopularBallots() {
     if (
       this.fetching.popularBallots
@@ -505,14 +505,6 @@ class CGPStore {
       && this.networkStore.headers < this.nominationBlock
   }
 
-  @computed
-  get isPayoutBlock() {
-    const interval = (this.networkStore.headers + 1) % this.intervalLength
-    if (this.networkStore.chain !== MAINNET) {
-      return interval === 10
-    }
-    return interval === 100
-  }
 
   @computed
   get allocationZpMin() {
