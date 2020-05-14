@@ -77,7 +77,7 @@ class RunContractStore {
   @action
   toggleSign = () => {
     if (isEmpty(this.sign)) {
-      this.sign = 'm/44\'/258\'/0\'/3/0'
+      this.sign = 'm/44\'/258\'/0\'/0/0'
       return true
     }
     this.sign = ''

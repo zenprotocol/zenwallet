@@ -8,6 +8,7 @@ const initialState = getInitialState()
 
 class NetworkStore {
   @observable chain = initialState.chain
+  @observable chainUnformatted = this.unformatChainResult(initialState.chain)
   @observable blocks = initialState.blocks
   @observable headers = initialState.headers
   @observable difficulty = initialState.difficulty
@@ -38,7 +39,7 @@ class NetworkStore {
         // since the API returns 'main' for mainnet but 'testnet' for testnet, we
         // normalize the value we save on this.chain, for consistency in the UI
         this.chain = this.formatChainResult(result.chain)
-        this.chainUnformatted = result.chain
+        this.chainUnformatted = this.unformatChainResult(result.chain)
         this.blocks = result.blocks
         this.headers = result.headers
         this.difficulty = result.difficulty
@@ -119,6 +120,11 @@ class NetworkStore {
     if (chainResult === 'testnet') {
       return TESTNET
     }
+  }
+
+  unformatChainResult(chainResult) {
+    if (chainResult === 'testnet') return 'test'
+    return chainResult
   }
 }
 
