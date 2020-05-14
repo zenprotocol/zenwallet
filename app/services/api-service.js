@@ -55,29 +55,7 @@ export async function getCgpHistory({ interval } = {}) {
   return response.data
 }
 
-export async function getLastAllocation(chain, currentInterval: number) {
-  const response = await getBE(chain).get(`/api/cgp/relevant?interval=${currentInterval - 1}`)
-  return response.data
-}
-
-export async function getCgpVotesFromExplorer({
-  chain,
-  type,
-  interval,
-  page = 0,
-  pageSize = 1,
-} = {}) {
-  const response = await getBE(chain).get(`api/cgp/votes/${type}`, {
-    params: {
-      interval,
-      page,
-      pageSize,
-    },
-  })
-  return response.data
-}
-
-export async function getCgpResultsFromExplorer({
+export async function getCgpNominationResultsFromExplorer({
   chain,
   type,
   interval,
@@ -94,23 +72,16 @@ export async function getCgpResultsFromExplorer({
   return response.data
 }
 
-export async function getCgpParticipatedZpFromExplorer({ chain, type, interval } = {}) {
-  const response = await getBE(chain).get(`api/cgp/participatedZp/${type}`, {
-    params: {
-      interval,
-    },
-  })
-  return response.data
-}
-
 export async function getCgpPopularBallotsFromExplorer({
   chain,
   page = 0,
   pageSize = 5,
   currentInterval,
   type,
+  isNomination,
 } = {}) {
-  const response = await getBE(chain).get(`api/cgp/ballots/${type}?interval=${currentInterval}`, {
+  const part = isNomination ? 'results' : 'ballots'
+  const response = await getBE(chain).get(`api/cgp/${part}/${type}?interval=${currentInterval}`, {
     params: {
       page,
       pageSize,
@@ -119,25 +90,6 @@ export async function getCgpPopularBallotsFromExplorer({
   return response.data
 }
 
-export async function getCgpVotesCount(chain, interval) {
-  const [responsePayout, responseAllocation] = await Promise.all([
-    getBE(chain).get('api/cgp/votes/payout', {
-      params: {
-        interval,
-        page: 0,
-        pageSize: 1,
-      },
-    }),
-    getBE(chain).get('api/cgp/votes/allocation', {
-      params: {
-        interval,
-        page: 0,
-        pageSize: 1,
-      },
-    }),
-  ])
-  return responsePayout.data.data.count + responseAllocation.data.data.count
-}
 
 export async function getCurrentInterval(chain) {
   const response = await getBE(chain).get('api/votes/relevant')

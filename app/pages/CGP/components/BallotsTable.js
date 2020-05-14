@@ -3,20 +3,24 @@ import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import cx from 'classnames'
-import { toJS } from 'mobx'
+import { action, toJS } from 'mobx'
 
 import FontAwesomeIcon from '../../../vendor/@fortawesome/react-fontawesome'
 import CgpStore from '../../../stores/cgpStore'
+import NetworkStore from '../../../stores/networkStore'
 import { truncateString, numberWithCommas } from '../../../utils/helpers'
 import { protectedModals } from '../../../components/Buttons/ProtectedButton'
+import enforceSyncedModal from '../../../components/Buttons/enforceSyncedModal'
 
 import voteOnceModal from './voteOnceModal'
 
+
 type Props = {
-  cgpStore: CgpStore
+  cgpStore: CgpStore,
+  networkStore: NetworkStore
 };
 
-@inject('cgpStore')
+@inject('cgpStore', 'networkStore')
 @observer
 class BallotsTable extends Component<Props> {
   ballotIdClickHandler = e => {
@@ -24,6 +28,12 @@ class BallotsTable extends Component<Props> {
   }
   submitVote = async (ballot) => {
     this.props.cgpStore.updateBallotId(ballot)
+    if (this.props.networkStore.isSyncing) {
+      const canContinue = await enforceSyncedModal()
+      if (!canContinue) {
+        return
+      }
+    }
     const confirmedVoteOnce = await voteOnceModal()
     if (!confirmedVoteOnce) return
     // prevent enter from closing the new swal HACK
@@ -107,14 +117,18 @@ class BallotsTable extends Component<Props> {
     const voted = isNomination ? nominationVoted : payoutVoted
     const shouldShow = !voted && snapshotBalanceAcc !== 0
     const fetch = isNomination ? fetchPopularBallots : fetchCandidates
-    const j = {}
-    toJS(popularBallots).items
-      .forEach((x) => { j[x.ballot] = x.zpAmount })
-    const aggregatedCandidate = {
-      count: candidates.count,
-      items: candidates.items.map(x => ({ ballot: x.ballot, zpAmount: j[x.ballot] || 0 })),
+    let ballot: { count: number, items: []} = { count: 0, items: [] }
+    if (isNomination) {
+      ballot = popularBallots
+    } else {
+      const j = {}
+      toJS(popularBallots).items
+        .forEach((x) => { j[x.ballot] = x.zpAmount })
+      ballot = {
+        count: candidates.count,
+        items: candidates.items.map(x => ({ ballot: x.ballot, zpAmount: j[x.ballot] || 0 })),
+      }
     }
-    const ballot = isNomination ? popularBallots : aggregatedCandidate
     return (
       <div>
         <Flexbox>

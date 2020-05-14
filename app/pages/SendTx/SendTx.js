@@ -70,7 +70,7 @@ class SendTx extends Component<Props, State> {
 
   get isToInvalid() {
     const { to } = this.props.sendTxStore
-    return to.length && !isValidAddress(to,this.props.networkStore.chainUnformatted)
+    return to.length && !isValidAddress(to, this.props.networkStore.chainUnformatted)
   }
 
   renderAddressErrorMessage() {
