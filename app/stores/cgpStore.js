@@ -195,14 +195,14 @@ class CGPStore {
 
   @computed
   get contractIdCgp() {
-    return this.networkStore.chainUnformatted === MAINNET ?
+    return this.networkStore.chain === MAINNET ?
       '00000000cdaa2a511cd2e1d07555b00314d1be40a649d3b6f419eb1e4e7a8e63240a36d1' :
       '00000000eac6c58bed912ff310df9f6960e8ed5c28aac83b8a98964224bab1e06c779b93'
   }
 
   @computed
   get contractIdVote() {
-    return this.networkStore.chainUnformatted === MAINNET ?
+    return this.networkStore.chain === MAINNET ?
       '000000006ea5457ed23e3e13f31fe4cfd46c200587f2e4cc22df30ac77790f6d2c15cc12' :
       '00000000e89738718a802a7d217941882efe8e585e20b20901391bc37af25fac2f22c8ab'
   }
@@ -240,15 +240,13 @@ class CGPStore {
 
   @action
   async fetchCgp() {
-    const [cgpCurrent] = await Promise.all([
-      getCgp(),
-    ])
+    const cgpCurrent = await getCgp()
     runInAction(() => {
       this.cgpCurrentAllocation = cgpCurrent.allocation
       this.cgpCurrentPayout = cgpCurrent.payout
     })
     const contractUTxo = await getUtxo(
-      this.networkStore.chainUnformatted,
+      this.networkStore.chain,
       this.addressCGP,
     )
     const balanceZP = reduce(contractUTxo, (balance, pointedOutput) => {
@@ -268,16 +266,10 @@ class CGPStore {
   }
 
   @action
-  async getVote(command, snapshotBlock) {
+  async getVote(contractTxs, command, snapshotBlock) {
     const internalTx = this.txHistoryStore.transactions.map(t => t.txHash)
-    const transactions = await getContractHistory(
-      this.networkStore.chain,
-      this.contractIdVote,
-      0,
-      10000000,
-    )
-    if (isEmpty(this.txHistoryStore.transactions) || isEmpty(transactions)) return []
-    const tx = transactions
+    if (isEmpty(this.txHistoryStore.transactions) || isEmpty(contractTxs)) return []
+    const tx = contractTxs
       .filter(t => t.command === command
         && this.networkStore.headers - t.confirmations >= Number(snapshotBlock))
       .map(t => t.txHash)
@@ -286,16 +278,16 @@ class CGPStore {
   }
 
   async voted(command, snapshotBlock) {
-    const votes = await this.getVote(command, snapshotBlock)
-    const vote = votes[0]
-    if (isEmpty(vote)) return
-    const transactions = await getContractHistory(
+    const contractTxs = await getContractHistory(
       this.networkStore.chain,
       this.contractIdVote,
       0,
       10000000,
     )
-    const tx = transactions.find(t => t.txHash === vote)
+    const votes = await this.getVote(contractTxs, command, snapshotBlock)
+    const vote = votes[0]
+    if (isEmpty(vote)) return
+    const tx = contractTxs.find(t => t.txHash === vote)
     if (!tx) return
     const serialized = tx.messageBody.dict.find(txs => txs[0] === command)[1].string
     switch (command) {
@@ -433,8 +425,8 @@ class CGPStore {
       })
     } catch (e) {
       console.error(e)
-      this.fetching.candidates = false
     }
+    this.fetching.candidates = false
   }
 
   @computed
@@ -505,7 +497,7 @@ class CGPStore {
   @computed
   get isPayoutBlock() {
     const interval = (this.networkStore.headers + 1) % this.intervalLength
-    if (this.networkStore.chainUnformatted !== MAINNET) {
+    if (this.networkStore.chain !== MAINNET) {
       return interval === 10
     }
     return interval === 100
@@ -743,7 +735,7 @@ class CGPStore {
     await this.publicAddressStore.getKeys(pass)
     const arrayPromise = toJS(this.publicAddressStore.publicKeys).map(item => {
       const { publicKey, path } = item
-      const account = Wallet.fromMnemonic(seedString, this.networkStore.chain, new Wallet.RemoteNodeWalletActions(this.networkStore.chainUnformatted === MAINNET ? 'https://remote-node.zp.io' : 'https://testnet-remote-node.zp.io'))
+      const account = Wallet.fromMnemonic(seedString, this.networkStore.chainUnformatted, new Wallet.RemoteNodeWalletActions(this.networkStore.chain === MAINNET ? 'https://remote-node.zp.io' : 'https://testnet-remote-node.zp.io'))
       const signature = account.signMessage(message, path)
       return [publicKey, new Data.Signature(signature)]
     })

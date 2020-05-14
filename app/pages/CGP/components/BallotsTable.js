@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import Flexbox from 'flexbox-react'
 import cx from 'classnames'
-import { action, toJS } from 'mobx'
+import { toJS } from 'mobx'
 
 import FontAwesomeIcon from '../../../vendor/@fortawesome/react-fontawesome'
 import CgpStore from '../../../stores/cgpStore'
