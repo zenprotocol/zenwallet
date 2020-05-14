@@ -184,13 +184,21 @@ class CGPStore {
     timeoutInterval: 2500,
   })
 
+  fetchPollManagerBallots = new PollManager({
+    name: 'Popular Ballot',
+    fnToPoll: this.fetchPopularBallots,
+    timeoutInterval: 10000,
+  })
+
   @action
   initPolling() {
     this.fetchPollManager.initPolling()
+    this.fetchPollManagerBallots.initPolling()
   }
   @action
   stopPolling() {
     this.fetchPollManager.stopPolling()
+    this.fetchPollManagerBallots.stopPolling()
   }
 
   @computed
@@ -234,7 +242,6 @@ class CGPStore {
       this.fetchCandidates(),
       this.fetchCgp(),
       this.fetchAssets(),
-      this.fetchPopularBallots(),
     ])
   }
 
