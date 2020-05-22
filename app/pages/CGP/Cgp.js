@@ -10,11 +10,10 @@ import FontAwesomeIcon from '../../vendor/@fortawesome/react-fontawesome'
 import { formatDisplay, getPayoutRecord, truncateString } from '../../utils/helpers'
 import Layout from '../../components/Layout'
 import Loading from '../../components/Loading'
-// import IsValidIcon from '../../components/IsValidIcon'
 import { protectedModals } from '../../components/Buttons/ProtectedButton'
 import enforceSyncedModal from '../../components/Buttons/enforceSyncedModal'
 import FormResponseMessage from '../../components/FormResponseMessage'
-import { zenBalanceDisplay } from '../../utils/zenUtils'
+import { kalapasToZen, toDisplay } from '../../utils/zenUtils'
 import ExternalLink from '../../components/ExternalLink'
 import CopyableTableCell from '../../components/CopyableTableCell'
 import { MAINNET } from '../../constants'
@@ -543,13 +542,13 @@ function SuccessResponse({
           </p>}
           {!isPayout && !isNomination &&
             <p>
-              You voted for {vote} Zp with a vote weight of {zenBalanceDisplay(balance)} ZP.
+              You voted for {vote} Zp with a vote weight of {toDisplay((kalapasToZen(balance)))} ZP.
             </p>
           }
           <span className="devider" />
           <p>
             To see the ongoing results please visit the
-            <ExternalLink link={getBeLink(currentInterval, isNomination, type)}>
+            <ExternalLink link={getBeLink(`${chain}net`, currentInterval, isNomination, type)}>
               {' '}<span className="underline">Block Explorer</span>
             </ExternalLink>
             .

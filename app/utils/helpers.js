@@ -18,8 +18,7 @@ import { ZEN_ASSET_NAME, ZEN_ASSET_HASH } from '../constants'
 
 import {
   isZenAsset,
-  kalapasToZen,
-  zenBalanceDisplay, zenKalapasBalanceDisplay,
+  kalapasToZen, toDisplay,
   zenToKalapas,
 } from './zenUtils'
 
@@ -42,7 +41,7 @@ export const format = (balance) =>
 
 export const formatDisplay = (balance) =>
   (balance >= 1 ?
-    zenBalanceDisplay(balance, 4) : zenBalanceDisplay(balance))
+    toDisplay(kalapasToZen(balance), 2) : toDisplay(balance, 2))
 
 export const truncateString = (string: ?string, start = 6, end = 6) => {
   if (string) {
@@ -183,7 +182,7 @@ export const getPayoutRecord = (chain, pastBallotId) => {
   )
   const assets = spends ? spends.map(spend => {
     const { asset, amount } = spend
-    return `Asset: ${isZenAsset(asset.asset) ? 'ZP' : truncateString(asset.asset)}, Amount: ${amount >= zenToKalapas(1) ? formatDisplay(amount) : zenKalapasBalanceDisplay(amount)} \n`
+    return `Asset: ${isZenAsset(asset.asset) ? 'ZP' : truncateString(asset.asset)}, Amount: ${amount >= zenToKalapas(1) ? formatDisplay(amount) : toDisplay(amount)} \n`
   }) : ''
   return { address, assets }
 }

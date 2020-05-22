@@ -26,8 +26,7 @@ import {
 } from '../utils/helpers'
 import {
   kalapasToZen,
-  zenBalanceDisplay,
-  zenKalapasBalanceDisplay,
+  toDisplay,
   zenToKalapas,
 } from '../utils/zenUtils'
 import PollManager from '../utils/PollManager'
@@ -446,7 +445,7 @@ class CGPStore {
       ...asset,
       name: this.portfolioStore.getAssetName(asset.asset),
       balance: kalapasToZen(asset.balance),
-      balanceDisplay: zenBalanceDisplay(asset.balance),
+      balanceDisplay: toDisplay(asset.balance),
     }))
   }
 
@@ -648,7 +647,7 @@ class CGPStore {
           return {
             asset: asset.asset,
             amount: amount > ZEN_TO_KALAPA_RATIO ?
-              kalapasToZen(amount) : zenKalapasBalanceDisplay(amount),
+              kalapasToZen(amount) : toDisplay(kalapasToZen(amount)),
             id: this.getUniqueId(), // needed for the ui
           }
         })

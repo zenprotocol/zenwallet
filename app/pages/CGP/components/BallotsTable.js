@@ -8,12 +8,12 @@ import { toJS } from 'mobx'
 import FontAwesomeIcon from '../../../vendor/@fortawesome/react-fontawesome'
 import CgpStore from '../../../stores/cgpStore'
 import NetworkStore from '../../../stores/networkStore'
-import { truncateString, numberWithCommas } from '../../../utils/helpers'
+import { truncateString } from '../../../utils/helpers'
 import { protectedModals } from '../../../components/Buttons/ProtectedButton'
 import enforceSyncedModal from '../../../components/Buttons/enforceSyncedModal'
+import { toDisplay } from '../../../utils/zenUtils'
 
 import voteOnceModal from './voteOnceModal'
-
 
 type Props = {
   cgpStore: CgpStore,
@@ -75,7 +75,7 @@ class BallotsTable extends Component<Props> {
           <td className="ballot-id">
             <div title={ballot.ballot}>{truncateString(ballot.ballot)}</div>
           </td>
-          <td className="zp-voted">{numberWithCommas(Number(ballot.zpAmount).toFixed(2))}</td>
+          <td className="zp-voted">{toDisplay(ballot.zpAmount, 2)}</td>
           {shouldShow &&
           <td className="align-right buttons">
             <button
