@@ -150,7 +150,7 @@ class PayoutForm extends Component {
                   disabled={!isNomination}
                 />
                 <IsValidIcon
-                  isValid={isValidAddress(address)}
+                  isValid={isValidAddress(address, this.props.networkStore.chainUnformatted)}
                   className="input-icon"
                   hasColors
                   isHidden={!address}

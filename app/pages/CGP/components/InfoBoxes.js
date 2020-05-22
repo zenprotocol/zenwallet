@@ -7,7 +7,7 @@ import Flexbox from 'flexbox-react'
 import { inject, observer } from 'mobx-react'
 
 import BoxLabel from '../../../components/BoxLabel'
-import { zenBalanceDisplay, zenDisplay } from '../../../utils/zenUtils'
+import { kalapasToZen, toDisplay } from '../../../utils/zenUtils'
 import ProgressBar from '../../../components/ProgressBar/ProgressBar'
 
 @inject('cgpStore', 'networkStore', 'portfolioStore')
@@ -45,20 +45,20 @@ class InfoBoxes extends Component {
         {isVotingInterval || isNomination ? (
           <BoxLabel
             firstLine="Vote Weight at Snapshot Block"
-            secondLine={`${zenBalanceDisplay(this.props.cgpStore.snapshotBalanceAcc, 2)} ZP`}
+            secondLine={`${toDisplay(kalapasToZen(this.props.cgpStore.snapshotBalanceAcc), 2)} ZP`}
             className="magnify"
           />
         ) : (
           <BoxLabel
             firstLine="Potential Vote Weight"
-            secondLine={`${zenDisplay(this.props.portfolioStore.zen ? this.props.portfolioStore.zen.balance : 0, 2)} ZP`}
+            secondLine={`${toDisplay(this.props.portfolioStore.zen ? this.props.portfolioStore.zen.balance : 0, 2)} ZP`}
             className="magnify"
           />
         )}
         <BoxLabel
           title={allAssetsString}
           firstLine="CGP Current Allocation / CGP Balance"
-          secondLine={`${cgpCurrentAllocationZP} ZP / ${zenDisplay(cgpCurrentZPBalance || 0, 2)} ZP`}
+          secondLine={`${cgpCurrentAllocationZP} ZP / ${toDisplay(cgpCurrentZPBalance || 0, 2)} ZP`}
           className="magnify"
         />
       </Flexbox>
