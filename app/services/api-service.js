@@ -216,7 +216,7 @@ export async function postRawTransaction(tx: Transaction & Password): Promise<st
   return response.data
 }
 
-type DeployContractPayload = { code: string, numberOfBlocks: number } & Password;
+type DeployContractPayload = { code: string, numberOfBlocks: number, rlimit: number } & Password;
 type NewContract = { address: Address, contractId: string };
 
 export async function postDeployContract(data: DeployContractPayload): Promise<NewContract> {
