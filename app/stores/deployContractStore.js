@@ -34,6 +34,7 @@ class DeployContractStore {
     const data = {
       code: this.code,
       numberOfBlocks: this.blocksAmount,
+      rlimit: 2723280,
       password,
     }
     try {
