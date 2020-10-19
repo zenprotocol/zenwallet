@@ -135,7 +135,7 @@ class CGP extends Component {
         hide={!allocationVoted}
         vote={pastAllocation}
         balance={snapshotBalanceAcc}
-        currentInterval={this.props.cgpStore.currentInterval}
+        currentInterval={this.props.cgpStore.currentExplorerInterval}
         chain={this.props.networkStore.chainUnformatted}
       />
     )
@@ -151,7 +151,7 @@ class CGP extends Component {
         vote={pastBallotId}
         balance={snapshotBalanceAcc}
         chain={this.props.networkStore.chainUnformatted}
-        currentInterval={this.props.cgpStore.currentInterval}
+        currentInterval={this.props.cgpStore.currentExplorerInterval}
       />
     )
   }
@@ -166,7 +166,7 @@ class CGP extends Component {
         balance={snapshotBalanceAcc}
         chain={this.props.networkStore.chainUnformatted}
         isNomination
-        currentInterval={this.props.cgpStore.currentInterval}
+        currentInterval={this.props.cgpStore.currentExplorerInterval}
       />
     )
   }
@@ -380,7 +380,7 @@ class CGP extends Component {
                 </span>
               )}
               showLink
-              currentInterval={this.props.cgpStore.currentInterval}
+              currentInterval={this.props.cgpStore.currentExplorerInterval}
             />
           </section>
         </Flexbox>
@@ -431,7 +431,7 @@ class CGP extends Component {
                 snapshot will be taken before the first phase.
                 Visit the
 
-                <ExternalLink link={`https://${link}zp.io/cgp/${this.props.cgpStore.currentInterval}`} >
+                <ExternalLink link={`https://${link}zp.io/cgp/${this.props.cgpStore.currentExplorerInterval}`} >
                   {' '}<span className="underline">Block Explorer</span>
                 </ExternalLink>
                 .
@@ -452,7 +452,7 @@ class CGP extends Component {
                   Your vote weight will consist of your total ZP at the snapshot block.
                 </span>
               )}
-              currentInterval={this.props.cgpStore.currentInterval - 1}
+              currentInterval={this.props.cgpStore.currentExplorerInterval - 1}
 
             />
             )}

@@ -484,6 +484,12 @@ class CGPStore {
   }
 
   @computed
+  get currentExplorerInterval() {
+    return this.networkStore.chain === MAINNET ?
+      this.currentInterval - 24 : this.currentInterval - 1413
+  }
+
+  @computed
   get snapshotBlock() {
     return (this.currentInterval - 1) * this.intervalLength + this.intervalLength * 0.9
   }
