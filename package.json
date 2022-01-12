@@ -212,7 +212,7 @@
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.11",
     "lowdb": "^1.0.0",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "mobx": "^4.1.1",
     "mobx-react": "^5.0.0",
     "moment": "^2.22.0",
