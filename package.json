@@ -171,7 +171,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.1.4",
     "mobx-react-devtools": "^5.0.1",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "react-test-renderer": "^16.2.0",
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
